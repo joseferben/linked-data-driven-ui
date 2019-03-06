@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jerben/metu-sustainability.svg?branch=master)](https://travis-ci.org/jerben/metu-sustainability)
+[![Build Status](https://travis-ci.org/jerben/linked-data-driven-ui.svg?branch=master)](https://travis-ci.org/jerben/metu-sustainability)
 
 ### Contribution
 
