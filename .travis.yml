@@ -8,11 +8,15 @@ script:
   - bibtex article || true
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
+  - ls
 deploy:
   provider: releases
   api_key:
     secure: q35rnX2Oh9suzzBTo45TE7xuRKml5PRTCsCn+mF+i6tgOPL/kW85gs1PsHatCni2DDTD+mAzgIDAlgK3kl3EOZ5CfByekyQNLTagF3MD4lBV1uMVvuaA0A6Q0WQi+VTvpVXoSXw/hsw4VdQpX8wqgPx40tm10dm7VkNPshlkA0S3D3AIJruSjmqs1pyJWlORXCGgGU1bLULTa2/NhF0G/AGlITWAufV6NWcGHjbRQ8jNY5nyK5FkTm5mihs8KxPpylVnCMX4H5E0XPOYWrLZyn3kywGP7NSfxQjQ2OswdTsG3gMmX5hIfncsqKOke+Wdzw5eHPPIs6tmt487b2m91n7FtXTwRpslVxaSer5JowqXHYZ90TZYMxLwKxtq2fVP3fb9mDvoBh+S44AyxpGRgAprL4SiEHkqaC7Y0g/1uOCa2UZUZ6DYqKeu0bosOugkwqEkfo24tcO6JyoiW/iOQJAznH0ILwnM4mec840pzMetFh2dW0OG55uQmmRGJVHgA+wCZ/Py7z0JBDELNKx6gZPoMC1IgIUs7Sc5qN3coi15lH8RqPwpcLFAGgTExaJnxk5Ji3S/uDTWeVtp8S9jKGPn6JEGi4yukPs/9ol5K/92QRo2KZ88lf/dqjrU0GeF9RRvxt/fLJWJo5kcT7mUkXu9QyLmg8qdghnR7gG49E0=
-  file: thesis/thesis.pdf
+  file:
+    - "thesis/thesis.pdf"
+    - "./thesis/thesis.pdf"
+    - "thesis.pdf"
   skip_cleanup: true
   on:
     repo: jerben/linked-data-driven-ui
