@@ -17,4 +17,5 @@ deploy:
   on:
     repo: jerben/linked-data-driven-ui
 notifications:
-  email: true
+  email:
+    on_success: never
