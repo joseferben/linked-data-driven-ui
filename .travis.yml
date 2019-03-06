@@ -5,7 +5,7 @@ before_install:
 script:
   - cd thesis
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
-  - bibtex article || true
+  - bibtex thesis || true
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
 deploy:
