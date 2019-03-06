@@ -53,7 +53,7 @@
             citecolor=[RGB]{74,144,226},
             urlcolor=[RGB]{74,144,226},
             breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+\urlstyle{same} 
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\nameref*{#1} (\ref*{#1})}}
 
 % images
@@ -86,9 +86,6 @@
 
 % headers
 \usepackage{titlesec}
-% \titlespacing*{\section}{0pt}{1em}{0pt}
-% \titlespacing*{\subsection}{0pt}{1em}{0pt}
-% \titlespacing*{\subsubsection}{0pt}{1em}{0pt}
 
 \begin{document}
 
@@ -100,13 +97,12 @@
           \newpage
 \end{abstract}
 
-\include{motivation}
-\include{economy}
-\include{ecology}
-\include{society}
-\include{results}
+\include{introduction}
+\include{background}
+\include{contributions}
+\include{evaluation}
+\include{conclusions}
 
 \bibliography{citations}
-
 
 \end{document}
