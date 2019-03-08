@@ -5,8 +5,7 @@ before_install:
     texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended texlive-bibtex-extra
   - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
   - sudo apt-get install -y nodejs
-  - sudo add-apt-repository ppa:webupd8team/java
-  - sudo apt update && sudo apt install oracle-java8-installer && sudo apt install oracle-java8-set-default
+  - sudo apt install openjdk-8-jdk
 script:
   - cd thesis
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
