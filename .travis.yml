@@ -30,8 +30,10 @@ deploy:
     access_key_id: AKIAJHC7NGJXXSVIHW4A
     secret_access_key:
       secure: fDY+qsasC8FUf/kC96t3mJ7XgE7yC1lJxdEs9XDhh61McgzsmCU6F/FY/o0EfNSmBP/Hu4/htUIAG4hgEHQmMWrCL8YBYDepwSvjRq9lbmVV0WuEKowmToYLdF2UF26uPigsiyC3uKbuic9MC8x5amhHwUFc9XLxoSsavS6MpVibQlT6xyTvaPXrX5UZlBlN2IMvDrGNfUhSQm266Hy8Izxqc13K+1grq1GkuEbvknYUffSt8s/4lLGV1dNAqOe9yCz2gv4Ju2VDiW5Ffnq6bPL5DFFjv+H8Aj3ipWVpGtQLTIoRFHZg7AGEKf/IfOv2d8L1qa/XiaBmNOPEz2maJbpXLXbozu53xAvKX6S2wHWPl9njnVtNJut890qjtA/qQAN3f7C8Igj81hnTOUZwspclbACq5thtUYR8E5omBY/of5PXnIjZ3H+06VexHKco4E9AoERr7Bo9NRYYG7+9kgM/kLfokbHIV3MswSp/b/dYb5byDpDLVLJYsxa3anavIkc0Sw+MdgeGjs0fT/fm2z+r6Sv3tGq4cQZmUGvtzIGXptdGKPenUfwThgqrTX45w/Z2sxY0ODYVda/q7/AOOYpm0zeMwpmYBGP3x3L5eEWVi+Zlv1c06skv/5dlkG8qX/2b7A/Ao/CZfSwcp39UXwervV7h16ylpapA+s4tmGY=
-    bucket: lddui.erben.sh
-    local-dir: ui/public
+    bucket: s3://lddui.erben.sh
+    local_dir: ui/public
+    skip_cleanup: true
+    region: eu-central-1
     acl: public_read
     on:
       repo: jerben/linked-data-driven-ui
