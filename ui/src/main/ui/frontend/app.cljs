@@ -1,9 +1,10 @@
 (ns ui.frontend.app
-  (:require [reagent.core :as r]))
-
+  (:require [reagent.core :as r]
+            [ui.frontend.core.components :refer [play-ground]]))
 
 (defn app []
-  [:div "Hello World"])
+  (.pushState (.-history js/window) {} "" "playground")
+  [:div [play-ground]])
 
 (defn stop []
   (js/console.log "Stopping..."))
