@@ -33,6 +33,7 @@ deploy:
     bucket: lddui.erben.sh
     local-dir: ui/public
     skip_cleanup: true
+    region: eu-central-1
     acl: public_read
     on:
       repo: jerben/linked-data-driven-ui
