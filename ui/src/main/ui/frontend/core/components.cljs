@@ -23,6 +23,7 @@
       :display-name "json-editor"
       :reagent-render
       (fn []
+        (when-let [e (:editor @editor-state)] (.set e (:data @data-state)))
         [:div#json-editor {:style {:height "800px"}}])})))
 
 (defn data-explorer []
@@ -30,13 +31,13 @@
    [:h3 "Data explorer"]
    [json-editor]])
 
-(defn canvas [d]
+(defn canvas [d render]
   [:div
-   [:h3 "Rendered data"]
-   [:div d]])
+   [:h3 "Rendered tata"]
+   [:div [render d]]])
 
 (def split-item-style {:width "50%" :padding "0.5em" :min-height "1000px"})
-(defn play-ground []
+(defn play-ground [render]
   [:div {:style {:display "flex"}}
    [:div {:style split-item-style} [data-explorer]]
-   [:div {:style split-item-style} [canvas (:data @data-state)]]])
+   [:div {:style split-item-style} [canvas (:data @data-state) render]]])
