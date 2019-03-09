@@ -1,5 +1,6 @@
 (ns ui.frontend.core.components
   (:require [reagent.core :as r]
+            [ui.frontend.core.state :refer [data-state]]
             ["jsoneditor" :as JsonEditor]))
 
 (declare play-ground)
@@ -8,12 +9,17 @@
 (declare json-editor)
 
 (defn json-editor []
-  (let [state (r/atom {})]
+  (let [editor-state (r/atom {})]
     (r/create-class
      {:component-did-mount
-      (fn [] (swap! state assoc :editor
-                   (JsonEditor. (.getElementById js/document "json-editor")
-                                (clj->js {:mode "code" }))))
+      (fn []
+        (swap! editor-state assoc :editor
+               (JsonEditor. (.getElementById js/document "json-editor")
+                            (clj->js {:mode "code" :modes ["code" "text" "tree"]
+                                      :onChangeText (fn [json]
+                                                      (js/console.log (str "Updating state: " json))
+                                                      (swap! data-state assoc :data json)
+                                                      )}))))
       :display-name "json-editor"
       :reagent-render
       (fn []
@@ -24,11 +30,13 @@
    [:h3 "Data explorer"]
    [json-editor]])
 
-(defn canvas []
-  [:h3 "Rendered data"])
+(defn canvas [d]
+  [:div
+   [:h3 "Rendered data"]
+   [:div d]])
 
 (def split-item-style {:width "50%" :padding "0.5em" :min-height "1000px"})
 (defn play-ground []
   [:div {:style {:display "flex"}}
    [:div {:style split-item-style} [data-explorer]]
-   [:div {:style split-item-style} [canvas]]])
+   [:div {:style split-item-style} [canvas (:data @data-state)]]])
