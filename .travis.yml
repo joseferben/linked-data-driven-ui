@@ -27,13 +27,12 @@ deploy:
     on:
       repo: jerben/linked-data-driven-ui
   - provider: s3
-    access_key_id: AKIAJHC7NGJXXSVIHW4A
+    access_key_id: AKIAIPWMNPYQY7LBRZ2Q
     secret_access_key:
-      secure: fDY+qsasC8FUf/kC96t3mJ7XgE7yC1lJxdEs9XDhh61McgzsmCU6F/FY/o0EfNSmBP/Hu4/htUIAG4hgEHQmMWrCL8YBYDepwSvjRq9lbmVV0WuEKowmToYLdF2UF26uPigsiyC3uKbuic9MC8x5amhHwUFc9XLxoSsavS6MpVibQlT6xyTvaPXrX5UZlBlN2IMvDrGNfUhSQm266Hy8Izxqc13K+1grq1GkuEbvknYUffSt8s/4lLGV1dNAqOe9yCz2gv4Ju2VDiW5Ffnq6bPL5DFFjv+H8Aj3ipWVpGtQLTIoRFHZg7AGEKf/IfOv2d8L1qa/XiaBmNOPEz2maJbpXLXbozu53xAvKX6S2wHWPl9njnVtNJut890qjtA/qQAN3f7C8Igj81hnTOUZwspclbACq5thtUYR8E5omBY/of5PXnIjZ3H+06VexHKco4E9AoERr7Bo9NRYYG7+9kgM/kLfokbHIV3MswSp/b/dYb5byDpDLVLJYsxa3anavIkc0Sw+MdgeGjs0fT/fm2z+r6Sv3tGq4cQZmUGvtzIGXptdGKPenUfwThgqrTX45w/Z2sxY0ODYVda/q7/AOOYpm0zeMwpmYBGP3x3L5eEWVi+Zlv1c06skv/5dlkG8qX/2b7A/Ao/CZfSwcp39UXwervV7h16ylpapA+s4tmGY=
+      secure: QIT4mKb7O6ZfPOnk+3iKastJJzlRij2JJbrRLO5EohGKvHUZTRh2aupcZkIIx6D58qFIl8c08Y9C/t6XFo0Pp61lfjdDX4wAFpDeMXjXgGVx8Fx24WNfo00hcuW53JP/xT8PfWt7VNypQ1UUyja0nuSPGxX2xXGsrP4aKgOLqf5JWAaofbTQUwGNB4XLuZb881BRNYmpUCKa7uF9BdAaCuDXDUhopa4UHrcWi6UFYVf1iYi7H0RRGfTjC3NdX/FcPnlNDLCzA7cL7tLjanBaO2oIkDLtN3W8oHtOialOjIZgfivfcoP1Q1hjeyK5v3QYjdEkBxzKnmiJECNJFnfs+LC8b+uhHFteYqhLMbzwSnAOdTGuOEAcA4PdkuBlHVGYv/0gfd9upXVpOm/vRlvvTASOsBEj1xYuLsQcSK8LUoULkruAdD0kvyGL44tacU3qNJZaI/7/xLQcb/cj3AhqwdjmRsVhD6UEcHSdqzYLkf6aeJ+6SBHqPJA7igUeKCY5wMklZ7ysP36PrBROtAYFkmjzSqw8lWkCsp2qzGLWjQyU19p9da+Um7j5T6c21dm7HIeCX9nxpYa0WPsKc2J8rHLiV7Xyz89+qhfb9UkZmKx8Sr+GeVGATNF/YrIj/dLw85pcle1vVjl5iINS6Qaa/guy2yWiNPL8Wu4TCtixzfk=
     bucket: lddui.erben.sh
-    local_dir: ui/public
+    local-dir: ui/public
     skip_cleanup: true
-    region: eu-central-1
     acl: public_read
     on:
       repo: jerben/linked-data-driven-ui
