@@ -2,18 +2,17 @@
   (:require [reagent.core :as r]
             [shadow.resource :as rc]
             [ui.frontend.core.components :refer [play-ground]]
-            [ui.frontend.core.state :refer [data-state]]
+            [ui.frontend.core.state :as s]
             [ui.frontend.core.renderer :refer [render]]))
 
-(defonce renderers (atom {:default render}))
-
 (defn init! []
-  (let [use-cases (.parse js/JSON (rc/inline "./use-cases.json"))]
-    (.pushState (.-history js/window) {} "" "playground")
-    (swap! data-state assoc :data use-cases)))
+  (.pushState (.-history js/window) {} "" "playground")
+  (s/register-renderer :default render))
 
 (defn app []
-  [:div [play-ground (:default @renderers)]])
+  [:div [play-ground
+         render
+         (js->clj (.parse js/JSON (rc/inline "./use-cases.json")) :keywordize-keys true)]])
 
 (defn stop []
   (js/console.log "Stopping..."))

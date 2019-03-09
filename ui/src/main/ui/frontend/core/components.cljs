@@ -1,6 +1,6 @@
 (ns ui.frontend.core.components
   (:require [reagent.core :as r]
-            [ui.frontend.core.state :refer [data-state]]
+            [ui.frontend.core.state :as s]
             ["jsoneditor" :as JsonEditor]))
 
 (declare play-ground)
@@ -8,36 +8,43 @@
 (declare canvas)
 (declare json-editor)
 
-(defn json-editor []
+(def editor-config
+  {:mode "code" :modes ["code" "text" "tree"]
+   :onChangeText s/store!})
+
+(defn json-editor [init-json]
   (let [editor-state (r/atom {})]
     (r/create-class
      {:component-did-mount
       (fn []
+        (print "component did mount")
         (swap! editor-state assoc :editor
-               (JsonEditor. (.getElementById js/document "json-editor")
-                            (clj->js {:mode "code" :modes ["code" "text" "tree"]
-                                      :onChangeText (fn [json]
-                                                      (js/console.log (str "Updating state: " json))
-                                                      (swap! data-state assoc :data json)
-                                                      )}))))
+               (JsonEditor.
+                (.getElementById js/document "json-editor")
+                (clj->js editor-config))))
       :display-name "json-editor"
       :reagent-render
-      (fn []
-        (when-let [e (:editor @editor-state)] (.set e (:data @data-state)))
+      (fn [init-json]
+        (when-let [e (:editor @editor-state)] (do (.set e init-json) (print init-json)))
         [:div#json-editor {:style {:height "800px"}}])})))
 
-(defn data-explorer []
+(def foo (r/atom nil))
+(defn left-split [d]
   [:div
    [:h3 "Data explorer"]
-   [json-editor]])
+   [:div {:style {:margin-bottom "0.5em"}}
+    [:label {:for "data-select"} "Choose a data set: "]
+    [:select#data-select {:on-change #(reset! foo (-> % .-target .-value keyword d))}
+     (map (fn [k] [:option {:value k :key k} k]) (keys d))]]
+   [json-editor (clj->js @foo)]])
 
-(defn canvas [d render]
+(defn right-split [render d]
   [:div
-   [:h3 "Rendered tata"]
+   [:h3 "Rendered data"]
    [:div [render d]]])
 
 (def split-item-style {:width "50%" :padding "0.5em" :min-height "1000px"})
-(defn play-ground [render]
+(defn play-ground [render init-state]
   [:div {:style {:display "flex"}}
-   [:div {:style split-item-style} [data-explorer]]
-   [:div {:style split-item-style} [canvas (:data @data-state) render]]])
+   [:div {:style split-item-style} [left-split init-state]]
+   [:div {:style split-item-style} [right-split render (s/fetch!)]]])

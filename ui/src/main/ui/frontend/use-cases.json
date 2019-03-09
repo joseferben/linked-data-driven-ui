@@ -1,6 +1,10 @@
-[
-  {
-    "name": "Home automation control app",
-    "data": {}
+{
+  "home-automation": {
+    "title": "Home automation control app",
+    "data": { "foo": "bar" }
+  },
+  "issue-board": {
+    "title": "Next trello with AI on the blockchain",
+    "data": { "hey": "hey" }
   }
-]
+}
