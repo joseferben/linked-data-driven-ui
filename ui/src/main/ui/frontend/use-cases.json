@@ -1,7 +1,62 @@
 {
   "home-automation": {
     "title": "Home automation control app",
-    "data": { "foo": "bar" }
+    "data": [
+      {
+        "@context": "https://schema.org/Apartment",
+        "numberOfRooms": 8,
+        "petsAllowed": false,
+        "hasMap": {
+          "@context": "https://schema.org/URL",
+          "image": "https://lddui.erben.sh/images/floor_plan.jpg"
+        }
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Old Kitchen"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Later Kitchen"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Roof"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "West Parlor"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "East Parlor"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Bedroom A"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Bedroom B"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Bedroom C"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Bedroom D"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Memorial Room"
+      },
+      {
+        "@context": "https://schema.org/Room",
+        "amenityFeature": "Bath"
+      },
+      { "@context": "https://schema.org/Room", "amenityFeature": "Dining room" }
+    ]
   },
   "issue-board": {
     "title": "Next trello with AI on the blockchain",
