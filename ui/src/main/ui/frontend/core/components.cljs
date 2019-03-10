@@ -1,6 +1,6 @@
 (ns ui.frontend.core.components
   (:require [reagent.core :as r]
-            [ui.frontend.core.state :as s]
+            [ui.frontend.core.db :as db]
             ["jsoneditor" :as JsonEditor]))
 
 (declare play-ground)
@@ -10,10 +10,10 @@
 
 (def editor-config
   {:mode "code" :modes ["code" "text" "tree"]
-   :onChangeText s/store!})
+   :onChangeText db/store-data-to-render!})
 
 (defn json-editor [init-json]
-  (let [editor-state (r/atom {})]
+  (let [editor-state (r/atom {:editor nil})]
     (r/create-class
      {:component-did-mount
       (fn []
@@ -25,26 +25,26 @@
       :display-name "json-editor"
       :reagent-render
       (fn [init-json]
-        (when-let [e (:editor @editor-state)] (do (.set e init-json) (print init-json)))
+        (when-let [e (:editor @editor-state)] (.set (:editor @editor-state) init-json))
         [:div#json-editor {:style {:height "800px"}}])})))
 
-(def foo (r/atom nil))
-(defn left-split [d]
+(defn left-split []
   [:div
    [:h3 "Data explorer"]
    [:div {:style {:margin-bottom "0.5em"}}
     [:label {:for "data-select"} "Choose a data set: "]
-    [:select#data-select {:on-change #(reset! foo (-> % .-target .-value keyword d))}
-     (map (fn [k] [:option {:value k :key k} k]) (keys d))]]
-   [json-editor (clj->js @foo)]])
+    [:select#data-select {:on-change #(do (swap! db/state assoc :selected-use-case-key (-> % .-target .-value keyword))
+                                          (reset! db/data-to-render (db/fetch-selected-use-case)))}
+     (map (fn [k] [:option {:value k :key k} k]) (keys (:use-cases @db/state)))]]
+   [json-editor (db/fetch-selected-use-case)]])
 
-(defn right-split [render d]
+(defn right-split [render]
   [:div
    [:h3 "Rendered data"]
-   [:div [render d]]])
+   [:div [render (db/fetch-data-to-render)]]])
 
 (def split-item-style {:width "50%" :padding "0.5em" :min-height "1000px"})
-(defn play-ground [render init-state]
+(defn play-ground [render]
   [:div {:style {:display "flex"}}
-   [:div {:style split-item-style} [left-split init-state]]
-   [:div {:style split-item-style} [right-split render (s/fetch!)]]])
+   [:div {:style split-item-style} [left-split]]
+   [:div {:style split-item-style} [right-split render]]])
