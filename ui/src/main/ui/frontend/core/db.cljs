@@ -22,7 +22,7 @@
          (js/console.warn "Invalid JSON provided, skipping state update"))))
 
 (defn fetch-selected-use-case []
-  (clj->js (get-in @state [:use-cases (:selected-use-case-key @state)])))
+  (clj->js (get-in @state [:use-cases (:selected-use-case-key @state) :data])))
 
 (defn fetch-data-to-render []
   (clj->js @data-to-render))
