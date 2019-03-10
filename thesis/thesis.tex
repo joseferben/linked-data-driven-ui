@@ -83,19 +83,23 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-
 % headers
 \usepackage{titlesec}
 
 \begin{document}
+\selectlanguage{english}
 
 \maketitle\thispagestyle{empty}\newpage
 
-\selectlanguage{english}
 \begin{abstract}
   \input{abstract}
-          \newpage
+  \newpage
 \end{abstract}
+
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
 
 \include{introduction}
 \include{background}
