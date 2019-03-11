@@ -3,59 +3,91 @@
     "title": "Home automation control app",
     "data": [
       {
-        "@context": "https://schema.org/Apartment",
+        "@context": {
+          "@vocab": "https://schema.org/",
+          "belongsTo": { "@type": "@id" }
+        },
+        "@id": "https://lddui.erben.sh/examples/apartments/1",
+        "@type": "Apartment",
         "numberOfRooms": 8,
         "petsAllowed": false,
         "hasMap": {
-          "@context": "https://schema.org/URL",
+          "@type": "URL",
           "image": "https://lddui.erben.sh/images/floor_plan.jpg"
         }
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Old Kitchen"
+        "@id": "https://lddui.erben.sh/examples/rooms/1",
+        "@type": "Room",
+        "amenityFeature": "Old Kitchen",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Later Kitchen"
+        "@id": "https://lddui.erben.sh/examples/rooms/2",
+        "@type": "Room",
+        "amenityFeature": "Later Kitchen",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Roof"
+        "@id": "https://lddui.erben.sh/examples/rooms/3",
+        "@type": "Room",
+        "amenityFeature": "Roof",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "West Parlor"
+        "@id": "https://lddui.erben.sh/examples/rooms/4",
+        "@type": "Room",
+        "amenityFeature": "West Parlor",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "East Parlor"
+        "@id": "https://lddui.erben.sh/examples/rooms/5",
+        "@type": "Room",
+        "amenityFeature": "East Parlor",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Bedroom A"
+        "@id": "https://lddui.erben.sh/examples/rooms/6",
+        "@type": "Room",
+        "amenityFeature": "Bedroom A",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Bedroom B"
+        "@id": "https://lddui.erben.sh/examples/rooms/7",
+        "@type": "Room",
+        "amenityFeature": "Bedroom B",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Bedroom C"
+        "@id": "https://lddui.erben.sh/examples/rooms/8",
+        "@type": "Room",
+        "amenityFeature": "Bedroom C",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Bedroom D"
+        "@id": "https://lddui.erben.sh/examples/rooms/9",
+        "@type": "Room",
+        "amenityFeature": "Bedroom D",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Memorial Room"
+        "@id": "https://lddui.erben.sh/examples/rooms/10",
+        "@type": "Room",
+        "amenityFeature": "Memorial Room",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
       {
-        "@context": "https://schema.org/Room",
-        "amenityFeature": "Bath"
+        "@id": "https://lddui.erben.sh/examples/rooms/11",
+        "@type": "Room",
+        "amenityFeature": "Bath",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       },
-      { "@context": "https://schema.org/Room", "amenityFeature": "Dining room" }
+      {
+        "@id": "https://lddui.erben.sh/examples/rooms/12",
+        "@type": "Room",
+        "amenityFeature": "Dining room",
+        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
+      }
     ]
   },
   "issue-board": {
