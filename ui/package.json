@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "shadow-cljs watch frontend",
-    "release": "shadow-cljs release frontend"
+    "release": "shadow-cljs release frontend",
+    "test": "shadow-cljs compile test && node out/node-tests.js"
   },
   "devDependencies": {
     "shadow-cljs": "2.8.15"
@@ -12,6 +13,7 @@
   "dependencies": {
     "create-react-class": "^15.6.3",
     "jsoneditor": "^5.30.0",
+    "jsonld": "^1.5.4",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   }

@@ -10,7 +10,7 @@
         "@id": "https://lddui.erben.sh/examples/apartments/1",
         "@type": "Apartment",
         "numberOfRooms": 8,
-        "petsAllowed": false,
+        "http://recipes.payswarm.com/?p=10554petsAllowed": false,
         "hasMap": {
           "@type": "URL",
           "image": "https://lddui.erben.sh/images/floor_plan.jpg"

@@ -4,7 +4,8 @@
   "src/main"
   "src/test"]
 
- :dependencies [[reagent "0.8.1" :exclusions [cljsjs/react cljsjs/react-dom]]]
+ :dependencies [[reagent "0.8.1" :exclusions [cljsjs/react cljsjs/react-dom]]
+                [org.clojure/core.async "0.4.490"]]
 
  :builds
  {:frontend
@@ -15,4 +16,8 @@
     :after-load ui.frontend.app/start
     :http-root "public"
     :http-port 8080}
-   }}}
+   }
+  :test
+  {:target :node-test
+   :output-to "out/node-tests.js"
+   :ns-regexp "-spec$"}}}
