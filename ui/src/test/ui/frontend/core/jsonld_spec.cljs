@@ -15,25 +15,19 @@
               "homepage" {"@id" "http://schema.org/url" "@type" "@id"}
               "image" {"@id" "http://schema.org/image" "@type" "@id"}})
 
-(def compacted {
-  "@context" {
-    "name" "http://schema.org/name"
-    "homepage" {
-      "@id" "http://schema.org/url"
-      "@type" "@id"
-    },
-    "image" {
-      "@id" "http://schema.org/image"
-      "@type" "@id"
-    }
-  },
-  "image" "http://manu.sporny.org/images/manu.png"
-  "name" "Manu Sporny"
-  "homepage" "http://manu.sporny.org/"
-})
+(def compacted {"@context" {"name" "http://schema.org/name"
+                            "homepage" {"@id" "http://schema.org/url"
+                                        "@type" "@id"},
+                            "image" {"@id" "http://schema.org/image"
+                                     "@type" "@id"}},
+                "image" "http://manu.sporny.org/images/manu.png"
+                "name" "Manu Sporny"
+                "homepage" "http://manu.sporny.org/"})
 
 (deftest compact
-  (async done
-         (go
-           (is (= compacted (<! (j/compact doc context))))
-           (done))))
+  (async done (go (is (= compacted (<! (j/compact doc context))))
+                  (done))))
+
+(deftest expand
+  (async done (go (is (= doc (<! (j/expand compacted))))
+                  (done))))
