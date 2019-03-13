@@ -17,3 +17,5 @@
         (.then (fn [expanded] (a/put! c (js->clj expanded)))
                (fn [err] (js/console.error err))))
     c))
+
+(defn foo [] (print "heyy"))

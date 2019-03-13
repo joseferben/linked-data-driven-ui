@@ -1,5 +1,8 @@
 (ns ui.frontend.core.components
   (:require [reagent.core :as r]
+            [clojure.core.async :refer-macros [go]]
+            [clojure.core.async :as a]
+            [ui.frontend.core.jsonld :refer [expand]]
             [ui.frontend.core.db :as db]
             ["jsoneditor" :as JsonEditor]))
 
@@ -17,7 +20,6 @@
     (r/create-class
      {:component-did-mount
       (fn []
-        (print "component did mount")
         (swap! editor-state assoc :editor
                (JsonEditor.
                 (.getElementById js/document "json-editor")
@@ -28,6 +30,19 @@
         (when-let [e (:editor @editor-state)] (.set (:editor @editor-state) init-json))
         [:div#json-editor {:style {:height "800px"}}])})))
 
+(defn expanded-data []
+  (let [state (r/atom nil)]
+    (r/create-class
+     {:component-did-mount
+      (fn [] (go (reset! state (expand {"foo" "hey"}
+                               ;;(.stringify js/JSON (db/fetch-data-to-render) nil 2)
+))))
+      :display-name "expanded-data"
+      :reagent-render
+      (fn []
+        [:textarea {:read-only true :style {:width "100%" :height "800px"}
+                    :value @state}])})))
+
 (defn left-split []
   [:div
    [:h3 "Data explorer"]
@@ -36,7 +51,9 @@
     [:select#data-select {:on-change #(do (swap! db/state assoc :selected-use-case-key (-> % .-target .-value keyword))
                                           (reset! db/data-to-render (db/fetch-selected-use-case)))}
      (map (fn [k] [:option {:value k :key k} k]) (keys (:use-cases @db/state)))]]
-   [json-editor (db/fetch-selected-use-case)]])
+   [json-editor (db/fetch-selected-use-case)]
+   [:h4 "Expanded data"]
+   [expanded-data]])
 
 (defn right-split [render]
   [:div
