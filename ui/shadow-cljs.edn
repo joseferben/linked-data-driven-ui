@@ -15,9 +15,13 @@
    {:before-load ui.frontend.app/stop
     :after-load ui.frontend.app/start
     :http-root "public"
-    :http-port 8080}
-   }
+    :http-port 8080}}
   :test
+  {:target :node-test
+   :autorun true
+   :output-to "out/node-tests.js"
+   :ns-regexp "-spec$"}
+  :testci
   {:target :node-test
    :output-to "out/node-tests.js"
    :ns-regexp "-spec$"}}}

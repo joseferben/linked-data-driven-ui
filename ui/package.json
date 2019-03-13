@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "shadow-cljs watch frontend",
     "release": "shadow-cljs release frontend",
-    "test": "shadow-cljs compile test && node out/node-tests.js"
+    "test:ci": "shadow-cljs compile testci && node out/node-tests.js",
+    "test": "shadow-cljs watch test"
   },
   "devDependencies": {
     "shadow-cljs": "2.8.15"
