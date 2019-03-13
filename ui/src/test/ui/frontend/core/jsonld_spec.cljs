@@ -24,10 +24,14 @@
                 "name" "Manu Sporny"
                 "homepage" "http://manu.sporny.org/"})
 
+(def expanded [{"http://schema.org/name" [{"@value" "Manu Sporny"}]
+                "http://schema.org/url" [{"@id" "http://manu.sporny.org/"}]
+                "http://schema.org/image" [{"@id" "http://manu.sporny.org/images/manu.png"}]}])
+
 (deftest compact
   (async done (go (is (= compacted (<! (j/compact doc context))))
                   (done))))
 
 (deftest expand
-  (async done (go (is (= doc (<! (j/expand compacted))))
+  (async done (go (is (= expanded (<! (j/expand compacted))))
                   (done))))
