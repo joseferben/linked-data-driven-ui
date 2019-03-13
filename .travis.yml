@@ -13,7 +13,7 @@ script:
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
   - cd ../ui
-  - npm test && npm i && npm run release
+  - npm i && npm test && npm run release
   - cd ..
 notifications:
   email:
