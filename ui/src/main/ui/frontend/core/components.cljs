@@ -35,6 +35,7 @@
     (r/create-class
      {:component-did-mount
       (fn [] (go (reset! state (expand {"foo" "hey"}
+                                      ;; FIXME why doesn't the expand import work?
                                ;;(.stringify js/JSON (db/fetch-data-to-render) nil 2)
 ))))
       :display-name "expanded-data"
@@ -48,8 +49,9 @@
    [:h3 "Data explorer"]
    [:div {:style {:margin-bottom "0.5em"}}
     [:label {:for "data-select"} "Choose a data set: "]
-    [:select#data-select {:on-change #(do (swap! db/state assoc :selected-use-case-key (-> % .-target .-value keyword))
-                                          (reset! db/data-to-render (db/fetch-selected-use-case)))}
+    [:select#data-select
+     {:on-change #(do (swap! db/state assoc :selected-use-case-key (-> % .-target .-value keyword))
+                      (reset! db/data-to-render (db/fetch-selected-use-case)))}
      (map (fn [k] [:option {:value k :key k} k]) (keys (:use-cases @db/state)))]]
    [json-editor (db/fetch-selected-use-case)]
    [:h4 "Expanded data"]
