@@ -1,5 +1,7 @@
 (ns ui.frontend.core.db
-  (:require [reagent.core :as r]))
+  (:require
+   [ui.frontend.core.jsonld :refer [expand]]
+   [reagent.core :as r]))
 
 (defonce data-to-render (r/atom {}))
 
@@ -9,8 +11,10 @@
                         :selected-renderer-key :default}))
 
 (defn init-db! [use-cases]
-  (try (swap! state assoc :use-cases (js->clj (.parse js/JSON use-cases) :keywordize-keys true))
-       (reset! data-to-render (get-in @state [:use-cases (:selected-use-case-key @state)]))
+  (try (swap! state assoc :use-cases
+              (js->clj (.parse js/JSON use-cases) :keywordize-keys true))
+       (reset! data-to-render (get-in @state
+                                      [:use-cases (:selected-use-case-key @state)]))
        (js/console.log (str "Initialized database"))
        (catch :default e
          (js/console.warn "Invalid JSON provided, skipping state update"))))

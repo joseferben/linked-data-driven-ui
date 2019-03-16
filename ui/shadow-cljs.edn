@@ -10,6 +10,7 @@
  :builds
  {:frontend
   {:target :browser
+   :prepend "window.process = {version: '10.0.0'}"
    :modules {:main {:init-fn ui.frontend.app/init}}
    :devtools
    {:before-load ui.frontend.app/stop

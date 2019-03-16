@@ -1,7 +1,8 @@
 (ns ui.frontend.core.jsonld
-  (:require ["jsonld" :as jsonld]
-            [clojure.core.async :refer-macros [go]]
-            [clojure.core.async :as a]))
+  (:require
+   [clojure.core.async :refer-macros [go]]
+   [clojure.core.async :as a]
+   ["jsonld/dist/jsonld" :as jsonld]))
 
 (defn compact [doc ctx]
   (let [c (a/chan)]
@@ -15,7 +16,7 @@
   (let [c (a/chan)]
     (-> (.expand jsonld (clj->js compacted))
         (.then (fn [expanded] (a/put! c (js->clj expanded)))
-               (fn [err] (js/console.error err))))
+               (fn [err] (js/console.error
+                          (str "Failed to expand json ld object: "
+                               (.-message err))))))
     c))
-
-(defn foo [] (print "heyy"))
