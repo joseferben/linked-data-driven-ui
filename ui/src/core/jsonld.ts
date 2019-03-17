@@ -28,7 +28,9 @@ const customLoader = (url: any, callback: any) => {
 
 jsonld.documentLoader = customLoader;
 
-const frame = (data: any, frame?: any, opts?: object): Promise<object> => {
+export type PreProcessedData = { "@context": object | object[], "@graph": object[] };
+
+export const frame = (data: any, frame?: any, opts?: object): Promise<PreProcessedData> => {
   const frameToUse = frame ? frame : {
     "@context": data["@context"],
     "@type": "Apartment"
@@ -44,7 +46,4 @@ const frame = (data: any, frame?: any, opts?: object): Promise<object> => {
     .catch((err: any) => {
       console.error("Failed to expand data: " + err.message);
     });
-
 }
-
-export { jsonld, frame };

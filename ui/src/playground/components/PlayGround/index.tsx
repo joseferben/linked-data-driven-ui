@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { JsonEditor } from "../JsonEditor";
 import { LdRenderer } from "../../../core/components/LdRenderer";
 import { useCases, compacted } from "../../db";
-import { jsonld, frame } from "../../../core/jsonld";
+import { frame } from "../../../core/jsonld";
 
 const DataExplorer = observer(() => {
   const handleChange = (evt: any) => {
@@ -38,7 +38,7 @@ const DataExplorer = observer(() => {
 });
 
 const PreprocessedData = ({ data }: { data: any }) => {
-  const [expandedData, setState] = useState({});
+  const [framed, setState] = useState({ "@context": {}, "@graph": [{}] });
 
   useEffect(() => {
     frame(data).then(res => {
@@ -52,20 +52,20 @@ const PreprocessedData = ({ data }: { data: any }) => {
       <textarea
         style={{ height: "600px", width: "100%" }}
         readOnly
-        value={JSON.stringify(expandedData, null, 2)}
+        value={JSON.stringify(framed, null, 2)}
       />
     </div>
   );
 };
 
 const RenderedData = ({ data }: { data: any }) => {
-  const [expandedData, setState] = useState({});
+  const [framed, setState] = useState({ "@context": {}, "@graph": [{}] });
 
   useEffect(() => {
     frame(data).then(res => setState(res));
   }, [data]);
 
-  return <LdRenderer data={expandedData} />;
+  return <LdRenderer data={framed} />;
 };
 
 export const PlayGround = observer(() => {
