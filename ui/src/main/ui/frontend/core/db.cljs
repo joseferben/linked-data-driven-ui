@@ -1,6 +1,5 @@
 (ns ui.frontend.core.db
   (:require
-   [ui.frontend.core.jsonld :refer [expand]]
    [reagent.core :as r]))
 
 (defonce data-to-render (r/atom {}))

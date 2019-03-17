@@ -1,5 +1,6 @@
 (ns ui.frontend.core.components
   (:require [reagent.core :as r]
+            [ui.frontend.core.jsonld :refer [expand]]
             [ui.frontend.core.db :as db]
             [clojure.core.async :refer-macros [go]]
             [clojure.core.async :as a]
@@ -33,7 +34,7 @@
 (defn expanded-data [to-render]
   (let [state (r/atom "Loading...")]
     (fn [to-render]
-      (go (reset! state (.stringify js/JSON to-render nil 2)))
+      (go (reset! state (.stringify js/JSON (clj->js (<! (expand to-render))) nil 2)))
       [:textarea {:read-only true :style {:width "100%" :height "800px"}
                   :value @state}])))
 
@@ -48,8 +49,7 @@
                       (reset! db/data-to-render (db/fetch-selected-use-case)))}
      (map (fn [k] [:option {:value k :key k} k]) (keys (:use-cases @db/state)))]]
    [json-editor (db/fetch-selected-use-case)]
-   [:h4 "Expanded data"]
-   [expanded-data (clj->js @db/data-to-render)]])
+   [:h4 "Expanded data"] [expanded-data (db/fetch-data-to-render)]])
 
 (defn right-split [render]
   [:div
