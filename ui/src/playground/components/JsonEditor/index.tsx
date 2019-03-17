@@ -17,7 +17,7 @@ export const JsonEditor = (props: any) => {
           const parsed = JSON.parse(json);
           props.compacted.data = parsed;
         } catch (e) {
-          console.warn("Invalid json");
+          console.warn("Can not parse invalid JSON");
         }
       }
     };
@@ -27,5 +27,5 @@ export const JsonEditor = (props: any) => {
       editor.destroy();
     };
   }, [content]);
-  return <div id="json-editor" style={{ height: "800px" }} />;
+  return <div id="json-editor" style={{ height: "600px" }} />;
 };
