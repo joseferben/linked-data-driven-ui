@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import "jsoneditor/dist/jsoneditor.min.css";
 import jsoneditor, { JSONEditorOptions } from "jsoneditor";
-import { AppState } from "../../types";
 
-export type JsonEditorProps = { content: object; state: AppState };
-
-export const JsonEditor = ({ content: content = {} } = {}) => {
+export const JsonEditor = (props: any) => {
+  const content = props.content;
   useEffect(() => {
     const container = document.getElementById("json-editor");
     if (container == null) {
@@ -15,8 +13,12 @@ export const JsonEditor = ({ content: content = {} } = {}) => {
       mode: "code",
       modes: ["code", "text", "tree"],
       onChangeText: (json: any) => {
-        // TODO update appstate here
-        console.log(json);
+        try {
+          const parsed = JSON.parse(json);
+          props.compacted.data = parsed;
+        } catch (e) {
+          console.warn("Invalid json");
+        }
       }
     };
     const editor = new jsoneditor(container, opts);

@@ -1,2 +1,2 @@
 type UseCase = { title: string, data: object };
-export type AppState = { content: any, selectedUseCase: string, useCases: { [key: string]: UseCase } }
+export type AppState = { selectedUseCase: string, data: { [key: string]: UseCase } }

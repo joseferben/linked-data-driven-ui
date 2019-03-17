@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { observable } from "mobx";
 import { observer } from "mobx-react";
 import * as jsonld from "jsonld";
 
 import { JsonEditor } from "../JsonEditor";
 import { LdRenderer } from "../../../core/components/LdRenderer";
-import { AppState } from "../../types";
-import useCases from "../../use-cases.json";
+import { useCases, compacted } from "../../db";
 
-const LeftSplit = observer(({ state }: { state: AppState }) => {
+const LeftSplit = observer(() => {
   const handleChange = (evt: any) => {
     const {
       target: { value }
     } = evt;
-    state.selectedUseCase = value;
+    useCases.selectedUseCase = value;
+    compacted.data = useCases.data[value].data;
   };
   return (
     <div>
@@ -21,7 +20,7 @@ const LeftSplit = observer(({ state }: { state: AppState }) => {
       <div style={{ marginBottom: "0.5em" }}>
         <label htmlFor="data-select">Choose data set: </label>
         <select id="data-select" onChange={handleChange}>
-          {Object.keys(state.useCases).map(key => {
+          {Object.keys(useCases.data).map(key => {
             return (
               <option value={key} key={key}>
                 {key}
@@ -29,39 +28,49 @@ const LeftSplit = observer(({ state }: { state: AppState }) => {
             );
           })}
         </select>
-        <JsonEditor content={state.useCases[state.selectedUseCase].data} />
+        <JsonEditor
+          content={useCases.data[useCases.selectedUseCase].data}
+          compacted={compacted}
+        />
       </div>
     </div>
   );
 });
 
-const RightSplit = ({ state }: { state: AppState }) => {
+const Renderer = (compacted: any) => {
   const [expandedData, setState] = useState({});
+
   useEffect(() => {
-    jsonld.expand(state.content).then((expanded: any) => setState(expanded));
-  }, [state]);
+    jsonld
+      .expand(compacted.data)
+      .then((expanded: any) => {
+        setState(expanded);
+      })
+      .catch((err: any) => {
+        console.error("Failed to expand data: " + err.message);
+      });
+  }, [compacted]);
+
+  return <LdRenderer data={expandedData} />;
+};
+
+const RightSplit = observer(() => {
   return (
     <div>
       <h3>Data renderer</h3>
-      <LdRenderer linkedData={expandedData} />
+      <Renderer data={compacted.data} />
     </div>
   );
-};
-
-const appState: AppState = observable({
-  content: {},
-  selectedUseCase: "home-automation",
-  useCases: useCases
 });
 
 export const PlayGround = () => {
   return (
     <div style={{ display: "flex" }}>
       <div style={{ width: "50%", padding: "0.5em", minHeight: "1000px" }}>
-        <LeftSplit state={appState} />
+        <LeftSplit />
       </div>
       <div style={{ width: "50%", padding: "0.5em", minHeight: "1000px" }}>
-        <RightSplit state={appState} />
+        <RightSplit />
       </div>
     </div>
   );
