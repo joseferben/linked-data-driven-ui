@@ -21,6 +21,9 @@ export const JsonEditor = ({ content: content = {} } = {}) => {
     };
     const editor = new jsoneditor(container, opts);
     editor.set(content);
-  });
+    return () => {
+      editor.destroy();
+    };
+  }, [content]);
   return <div id="json-editor" style={{ height: "800px" }} />;
 };

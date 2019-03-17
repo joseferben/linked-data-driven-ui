@@ -17,7 +17,7 @@ const LeftSplit = observer(({ state }: { state: AppState }) => {
   };
   return (
     <div>
-      <h3> "Data explorer" </h3>
+      <h3>Data explorer</h3>
       <div style={{ marginBottom: "0.5em" }}>
         <label htmlFor="data-select">Choose data set: </label>
         <select id="data-select" onChange={handleChange}>
@@ -29,7 +29,7 @@ const LeftSplit = observer(({ state }: { state: AppState }) => {
             );
           })}
         </select>
-        <JsonEditor content={state.content} />
+        <JsonEditor content={state.useCases[state.selectedUseCase].data} />
       </div>
     </div>
   );
@@ -42,7 +42,7 @@ const RightSplit = ({ state }: { state: AppState }) => {
   }, [state]);
   return (
     <div>
-      <h3> "Data renderer" </h3>
+      <h3>Data renderer</h3>
       <LdRenderer linkedData={expandedData} />
     </div>
   );
@@ -50,7 +50,7 @@ const RightSplit = ({ state }: { state: AppState }) => {
 
 const appState: AppState = observable({
   content: {},
-  selectedUseCase: "",
+  selectedUseCase: "home-automation",
   useCases: useCases
 });
 
