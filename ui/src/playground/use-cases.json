@@ -1,94 +1,105 @@
 {
   "home-automation": {
     "title": "Home automation control app",
-    "data": [
-      {
-        "@context": {
-          "@vocab": "https://schema.org/",
-          "belongsTo": { "@type": "@id" }
-        },
-        "@id": "https://lddui.erben.sh/examples/apartments/1",
-        "@type": "Apartment",
-        "numberOfRooms": 8,
-        "petsAllowed": false,
-        "hasMap": {
-          "@type": "URL",
-          "image": "https://lddui.erben.sh/images/floor_plan.jpg"
+    "data": {
+      "@context": "http://schema.org",
+      "@id": "https://api.example.com/examples/apartments/1",
+      "@type": "Apartment",
+      "numberOfRooms": 8,
+      "petsAllowed": false,
+      "hasMap": {
+        "@type": "URL",
+        "image": "https://api.example.com/images/floor_plan.jpg"
+      },
+      "containsSpace": {
+        "@context": "http://www.w3.org/ns/hydra/context.jsonld",
+        "@id": "https://api.example.com/examples/apartments/1/rooms",
+        "@type": "Collection",
+        "totalItems": "42",
+        "member": [
+          {
+            "@id": "https://api.example.com/examples/rooms/1",
+            "@type": "Room",
+            "amenityFeature": "Old Kitchen",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/2",
+            "@type": "Room",
+            "amenityFeature": "Later Kitchen",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/3",
+            "@type": "Room",
+            "amenityFeature": "Roof",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/4",
+            "@type": "Room",
+            "amenityFeature": "West Parlor",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/5",
+            "@type": "Room",
+            "amenityFeature": "East Parlor",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/6",
+            "@type": "Room",
+            "amenityFeature": "Bedroom A",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/7",
+            "@type": "Room",
+            "amenityFeature": "Bedroom B",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/8",
+            "@type": "Room",
+            "amenityFeature": "Bedroom C",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/9",
+            "@type": "Room",
+            "amenityFeature": "Bedroom D",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/10",
+            "@type": "Room",
+            "amenityFeature": "Memorial Room",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/11",
+            "@type": "Room",
+            "amenityFeature": "Bath",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          },
+          {
+            "@id": "https://api.example.com/examples/rooms/12",
+            "@type": "Room",
+            "amenityFeature": "Dining room",
+            "belongsTo": "https://api.example.com/examples/apartments/1"
+          }
+        ],
+        "view": {
+          "@id": "https://api.example.com/examples/apartments/1/rooms?page=2",
+          "@type": "PartialCollectionView",
+          "first": "/apartments/1/rooms?page=1",
+          "previous": "/apartments/1/rooms?page=1",
+          "next": "/apartments/1/rooms?page=3",
+          "last": "/apartments/1/rooms?page=10"
         }
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/1",
-        "@type": "Room",
-        "amenityFeature": "Old Kitchen",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/2",
-        "@type": "Room",
-        "amenityFeature": "Later Kitchen",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/3",
-        "@type": "Room",
-        "amenityFeature": "Roof",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/4",
-        "@type": "Room",
-        "amenityFeature": "West Parlor",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/5",
-        "@type": "Room",
-        "amenityFeature": "East Parlor",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/6",
-        "@type": "Room",
-        "amenityFeature": "Bedroom A",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/7",
-        "@type": "Room",
-        "amenityFeature": "Bedroom B",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/8",
-        "@type": "Room",
-        "amenityFeature": "Bedroom C",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/9",
-        "@type": "Room",
-        "amenityFeature": "Bedroom D",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/10",
-        "@type": "Room",
-        "amenityFeature": "Memorial Room",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/11",
-        "@type": "Room",
-        "amenityFeature": "Bath",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/examples/rooms/12",
-        "@type": "Room",
-        "amenityFeature": "Dining room",
-        "belongsTo": "https://lddui.erben.sh/examples/apartments/1"
       }
-    ]
+    }
   },
   "issue-board": {
     "title": "Next trello with AI on the blockchain",
@@ -105,6 +116,51 @@
       "image": "http://manu.sporny.org/images/manu.png",
       "name": "Manu Sporny",
       "homepage": "http://manu.sporny.org/"
+    }
+  },
+  "breadcrumb": {
+    "title": "Breadcrumb navigation",
+    "data": {
+      "@context": "http://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@id": "https://example.com/books",
+            "name": "Books",
+            "image": "http://example.com/images/icon-book.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@id": "https://example.com/books/authors",
+            "name": "Authors",
+            "image": "http://example.com/images/icon-author.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@id": "https://example.com/books/authors/annleckie",
+            "name": "Ann Leckie",
+            "image": "http://example.com/images/author-leckie-ann.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@id": "https://example.com/books/authors/ancillaryjustice",
+            "name": "Ancillary Justice",
+            "image": "http://example.com/images/cover-ancillary-justice.png"
+          }
+        }
+      ]
     }
   }
 }

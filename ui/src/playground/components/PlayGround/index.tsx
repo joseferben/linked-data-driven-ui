@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
-import * as jsonld from "jsonld";
 
 import { JsonEditor } from "../JsonEditor";
 import { LdRenderer } from "../../../core/components/LdRenderer";
 import { useCases, compacted } from "../../db";
+import jsonld from "../../../core/jsonld";
 
 const DataExplorer = observer(() => {
   const handleChange = (evt: any) => {
