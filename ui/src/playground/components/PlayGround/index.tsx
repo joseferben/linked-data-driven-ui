@@ -41,8 +41,10 @@ const PreprocessedData = ({ data }: { data: any }) => {
   const [expandedData, setState] = useState({});
 
   useEffect(() => {
-    frame(data).then(res => setState(res));
-  }, [compacted]);
+    frame(data).then(res => {
+      setState(res);
+    });
+  }, [data]);
 
   return (
     <div>
@@ -61,7 +63,7 @@ const RenderedData = ({ data }: { data: any }) => {
 
   useEffect(() => {
     frame(data).then(res => setState(res));
-  }, [compacted]);
+  }, [data]);
 
   return <LdRenderer data={expandedData} />;
 };
