@@ -37,12 +37,38 @@ const DataExplorer = observer(() => {
   );
 });
 
-const Renderer = (compacted: any) => {
+const ExpandedData = ({ data: compacted }: { data: any }) => {
   const [expandedData, setState] = useState({});
 
   useEffect(() => {
     jsonld
-      .expand(compacted.data)
+      .expand(compacted)
+      .then((expanded: any) => {
+        setState(expanded);
+      })
+      .catch((err: any) => {
+        console.error("Failed to expand data: " + err.message);
+      });
+  }, [compacted]);
+
+  return (
+    <div>
+      <h3>Expanded data</h3>
+      <textarea
+        style={{ height: "600px", width: "100%" }}
+        readOnly
+        value={JSON.stringify(expandedData, null, 2)}
+      />
+    </div>
+  );
+};
+
+const RenderedData = ({ data: compacted }: { data: any }) => {
+  const [expandedData, setState] = useState({});
+
+  useEffect(() => {
+    jsonld
+      .expand(compacted)
       .then((expanded: any) => {
         setState(expanded);
       })
@@ -54,48 +80,7 @@ const Renderer = (compacted: any) => {
   return <LdRenderer data={expandedData} />;
 };
 
-const Expander = (compacted: any) => {
-  const [expandedData, setState] = useState({});
-
-  useEffect(() => {
-    jsonld
-      .expand(compacted.data)
-      .then((expanded: any) => {
-        setState(expanded);
-      })
-      .catch((err: any) => {
-        console.error("Failed to expand data: " + err.message);
-      });
-  }, [compacted]);
-
-  return (
-    <textarea
-      style={{ height: "600px", width: "100%" }}
-      readOnly
-      value={JSON.stringify(expandedData, null, 2)}
-    />
-  );
-};
-
-const ExpandedData = observer(() => {
-  return (
-    <div>
-      <h3>Expanded data</h3>
-      <Expander data={compacted.data} />
-    </div>
-  );
-});
-
-const RenderedData = observer(() => {
-  return (
-    <div>
-      <h3>Renderer</h3>
-      <Renderer data={compacted.data} />
-    </div>
-  );
-});
-
-export const PlayGround = () => {
+export const PlayGround = observer(() => {
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -103,14 +88,14 @@ export const PlayGround = () => {
           <DataExplorer />
         </div>
         <div style={{ width: "50%", padding: "0.5em", minHeight: "600px" }}>
-          <ExpandedData />
+          <ExpandedData data={compacted.data} />
         </div>
       </div>
       <div>
         <div style={{ width: "100%", padding: "0.5em" }}>
-          <RenderedData />
+          <RenderedData data={compacted.data} />
         </div>
       </div>
     </div>
   );
-};
+});
