@@ -1,0 +1,33 @@
+Cool URL don't change
+
+Write about history: SOAP, WSDL, Rails
+
+How could the next web framework look like? (Framework for information systems really)
+
+Why JSON? Devs like it, easy to parse and most langs support it natively
+-> Introduce JSON as data type (what kind of data is supported)
+
+JSON-LD is a serialization format for Linked Data based on JSON.
+
+Base vocabulary: Things, containment relation and PartialCollectionView
+
+JSON [RFC8259] is a lightweight, language-independent data interchange format. It is easy to parse and easy to generate. However, it is difficult to integrate JSON from different sources as the data may contain keys that conflict with other data sources. Furthermore, JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web. Let's start by looking at an example that we will be using for the rest of this section: 
+https://w3c.github.io/json-ld-syntax/#basic-concepts
+
+Linked data: open world assumption, OOP: closed-world assumption
+
+Assumption: we retrieve framed data
+
+Custom renderer is of form:
+{ fn: props => <html/>, frame: {...}} where the framing heavily influences how the data is being represented
+The default frame is just 
+
+{
+  "@context": [
+    "http://schema.org",
+    "http://www.w3.org/ns/hydra/context.jsonld"
+  ]
+}
+
+Reverse framing can be used: "within": {"@reverse": "contains"}
+

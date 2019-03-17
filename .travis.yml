@@ -5,7 +5,6 @@ before_install:
     texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended texlive-bibtex-extra
   - curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
   - sudo apt-get install -y nodejs
-  - sudo apt install openjdk-8-jdk
 script:
   - cd thesis
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
@@ -13,7 +12,7 @@ script:
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
   - pdflatex -interaction=nonstopmode -halt-on-error thesis.tex
   - cd ../ui
-  - npm i && npm run test:ci && npm run release
+  - npm i && npm run build
   - cd ..
 notifications:
   email:
@@ -31,7 +30,7 @@ deploy:
     secret_access_key:
       secure: QIT4mKb7O6ZfPOnk+3iKastJJzlRij2JJbrRLO5EohGKvHUZTRh2aupcZkIIx6D58qFIl8c08Y9C/t6XFo0Pp61lfjdDX4wAFpDeMXjXgGVx8Fx24WNfo00hcuW53JP/xT8PfWt7VNypQ1UUyja0nuSPGxX2xXGsrP4aKgOLqf5JWAaofbTQUwGNB4XLuZb881BRNYmpUCKa7uF9BdAaCuDXDUhopa4UHrcWi6UFYVf1iYi7H0RRGfTjC3NdX/FcPnlNDLCzA7cL7tLjanBaO2oIkDLtN3W8oHtOialOjIZgfivfcoP1Q1hjeyK5v3QYjdEkBxzKnmiJECNJFnfs+LC8b+uhHFteYqhLMbzwSnAOdTGuOEAcA4PdkuBlHVGYv/0gfd9upXVpOm/vRlvvTASOsBEj1xYuLsQcSK8LUoULkruAdD0kvyGL44tacU3qNJZaI/7/xLQcb/cj3AhqwdjmRsVhD6UEcHSdqzYLkf6aeJ+6SBHqPJA7igUeKCY5wMklZ7ysP36PrBROtAYFkmjzSqw8lWkCsp2qzGLWjQyU19p9da+Um7j5T6c21dm7HIeCX9nxpYa0WPsKc2J8rHLiV7Xyz89+qhfb9UkZmKx8Sr+GeVGATNF/YrIj/dLw85pcle1vVjl5iINS6Qaa/guy2yWiNPL8Wu4TCtixzfk=
     bucket: lddui.erben.sh
-    local-dir: ui/public
+    local-dir: ui/build
     skip_cleanup: true
     region: eu-central-1
     acl: public_read
