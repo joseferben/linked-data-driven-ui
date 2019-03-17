@@ -1,0 +1,85 @@
+{
+  "@context": [
+    "http://schema.org",
+    "http://www.w3.org/ns/hydra/context.jsonld"
+  ],
+  "@id": "https://api.example.com/apartments/1",
+  "@type": ["Apartment", "PartialCollectionView"],
+  "numberOfRooms": 8,
+  "petsAllowed": false,
+  "hasMap": {
+    "@type": "URL",
+    "image": "https://api.example.com/images/floor_plan.jpg"
+  },
+  "totalItems": "42",
+  "member": [
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/1",
+      "@type": "Room",
+      "amenityFeature": "Old Kitchen"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/2",
+      "@type": "Room",
+      "amenityFeature": "Later Kitchen"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/3",
+      "@type": "Room",
+      "amenityFeature": "Roof"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/4",
+      "@type": "Room",
+      "amenityFeature": "West Parlor"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/5",
+      "@type": "Room",
+      "amenityFeature": "East Parlor"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/6",
+      "@type": "Room",
+      "amenityFeature": "Bedroom A"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/7",
+      "@type": "Room",
+      "amenityFeature": "Bedroom B"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/8",
+      "@type": "Room",
+      "amenityFeature": "Bedroom C"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/9",
+      "@type": "Room",
+      "amenityFeature": "Bedroom D"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/10",
+      "@type": "Room",
+      "amenityFeature": "Memorial Room"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/11",
+      "@type": "Room",
+      "amenityFeature": "Bath"
+    },
+    {
+      "@id": "https://api.example.com/apartments/1/rooms/12",
+      "@type": "Room",
+      "amenityFeature": "Dining room"
+    }
+  ],
+  "view": {
+    "@id": "https://api.example.com/apartments/1/rooms?page=2",
+    "@type": "PartialCollectionView",
+    "first": "/apartments/1/rooms?page=1",
+    "previous": "/apartments/1/rooms?page=1",
+    "next": "/apartments/1/rooms?page=3",
+    "last": "/apartments/1/rooms?page=10"
+  }
+}

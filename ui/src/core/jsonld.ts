@@ -28,4 +28,23 @@ const customLoader = (url: any, callback: any) => {
 
 jsonld.documentLoader = customLoader;
 
-export default jsonld;
+const frame = (data: any, frame?: any, opts?: object): Promise<object> => {
+  const frameToUse = frame ? frame : {
+    "@context": data["@context"],
+    "@type": "Apartment"
+  };
+  // { explicit: true } use that to only get selection
+  const optsToUse = opts ? opts : { embed: true }
+  return jsonld
+    .frame(
+      data,
+      frameToUse,
+      optsToUse
+    )
+    .catch((err: any) => {
+      console.error("Failed to expand data: " + err.message);
+    });
+
+}
+
+export { jsonld, frame };

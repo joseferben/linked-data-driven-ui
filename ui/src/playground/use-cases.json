@@ -2,103 +2,108 @@
   "home-automation": {
     "title": "Home automation control app",
     "data": {
-      "@context": "http://schema.org",
-      "@id": "https://api.example.com/examples/apartments/1",
-      "@type": "Apartment",
-      "numberOfRooms": 8,
-      "petsAllowed": false,
-      "hasMap": {
-        "@type": "URL",
-        "image": "https://api.example.com/images/floor_plan.jpg"
-      },
-      "containsSpace": {
-        "@context": "http://www.w3.org/ns/hydra/context.jsonld",
-        "@id": "https://api.example.com/examples/apartments/1/rooms",
-        "@type": "Collection",
-        "totalItems": "42",
-        "member": [
-          {
-            "@id": "https://api.example.com/examples/rooms/1",
-            "@type": "Room",
-            "amenityFeature": "Old Kitchen",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/2",
-            "@type": "Room",
-            "amenityFeature": "Later Kitchen",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/3",
-            "@type": "Room",
-            "amenityFeature": "Roof",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/4",
-            "@type": "Room",
-            "amenityFeature": "West Parlor",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/5",
-            "@type": "Room",
-            "amenityFeature": "East Parlor",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/6",
-            "@type": "Room",
-            "amenityFeature": "Bedroom A",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/7",
-            "@type": "Room",
-            "amenityFeature": "Bedroom B",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/8",
-            "@type": "Room",
-            "amenityFeature": "Bedroom C",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/9",
-            "@type": "Room",
-            "amenityFeature": "Bedroom D",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/10",
-            "@type": "Room",
-            "amenityFeature": "Memorial Room",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/11",
-            "@type": "Room",
-            "amenityFeature": "Bath",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          },
-          {
-            "@id": "https://api.example.com/examples/rooms/12",
-            "@type": "Room",
-            "amenityFeature": "Dining room",
-            "belongsTo": "https://api.example.com/examples/apartments/1"
-          }
-        ],
-        "view": {
-          "@id": "https://api.example.com/examples/apartments/1/rooms?page=2",
-          "@type": "PartialCollectionView",
-          "first": "/apartments/1/rooms?page=1",
-          "previous": "/apartments/1/rooms?page=1",
-          "next": "/apartments/1/rooms?page=3",
-          "last": "/apartments/1/rooms?page=10"
+      "@context": [
+        "http://schema.org",
+        "http://www.w3.org/ns/hydra/context.jsonld"
+      ],
+      "@graph": [
+        {
+          "id": "_:b0",
+          "type": "URL",
+          "image": "https://api.example.com/images/floor_plan.jpg"
+        },
+        {
+          "id": "https://api.example.com/apartments/1",
+          "type": ["Apartment", "PartialCollectionView"],
+          "hasMap": "_:b0",
+          "numberOfRooms": 8,
+          "petsAllowed": false,
+          "member": [
+            "https://api.example.com/apartments/1/rooms/1",
+            "https://api.example.com/apartments/1/rooms/2",
+            "https://api.example.com/apartments/1/rooms/3",
+            "https://api.example.com/apartments/1/rooms/4",
+            "https://api.example.com/apartments/1/rooms/5",
+            "https://api.example.com/apartments/1/rooms/6",
+            "https://api.example.com/apartments/1/rooms/7",
+            "https://api.example.com/apartments/1/rooms/8",
+            "https://api.example.com/apartments/1/rooms/9",
+            "https://api.example.com/apartments/1/rooms/10",
+            "https://api.example.com/apartments/1/rooms/11",
+            "https://api.example.com/apartments/1/rooms/12"
+          ],
+          "totalItems": "42",
+          "view": "https://api.example.com/apartments/1/rooms?page=2"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/1",
+          "type": "Room",
+          "amenityFeature": "Old Kitchen"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/10",
+          "type": "Room",
+          "amenityFeature": "Memorial Room"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/11",
+          "type": "Room",
+          "amenityFeature": "Bath"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/12",
+          "type": "Room",
+          "amenityFeature": "Dining room"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/2",
+          "type": "Room",
+          "amenityFeature": "Later Kitchen"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/3",
+          "type": "Room",
+          "amenityFeature": "Roof"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/4",
+          "type": "Room",
+          "amenityFeature": "West Parlor"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/5",
+          "type": "Room",
+          "amenityFeature": "East Parlor"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/6",
+          "type": "Room",
+          "amenityFeature": "Bedroom A"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/7",
+          "type": "Room",
+          "amenityFeature": "Bedroom B"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/8",
+          "type": "Room",
+          "amenityFeature": "Bedroom C"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms/9",
+          "type": "Room",
+          "amenityFeature": "Bedroom D"
+        },
+        {
+          "id": "https://api.example.com/apartments/1/rooms?page=2",
+          "type": "PartialCollectionView",
+          "first": "../apartments/1/rooms?page=1",
+          "last": "../apartments/1/rooms?page=10",
+          "next": "../apartments/1/rooms?page=3",
+          "previous": "../apartments/1/rooms?page=1"
         }
-      }
+      ]
     }
   },
   "issue-board": {

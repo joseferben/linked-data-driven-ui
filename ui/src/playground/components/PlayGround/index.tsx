@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { JsonEditor } from "../JsonEditor";
 import { LdRenderer } from "../../../core/components/LdRenderer";
 import { useCases, compacted } from "../../db";
-import jsonld from "../../../core/jsonld";
+import { jsonld, frame } from "../../../core/jsonld";
 
 const DataExplorer = observer(() => {
   const handleChange = (evt: any) => {
@@ -37,23 +37,16 @@ const DataExplorer = observer(() => {
   );
 });
 
-const ExpandedData = ({ data: compacted }: { data: any }) => {
+const PreprocessedData = ({ data }: { data: any }) => {
   const [expandedData, setState] = useState({});
 
   useEffect(() => {
-    jsonld
-      .expand(compacted)
-      .then((expanded: any) => {
-        setState(expanded);
-      })
-      .catch((err: any) => {
-        console.error("Failed to expand data: " + err.message);
-      });
+    frame(data).then(res => setState(res));
   }, [compacted]);
 
   return (
     <div>
-      <h3>Expanded data</h3>
+      <h3>Preprocessed data</h3>
       <textarea
         style={{ height: "600px", width: "100%" }}
         readOnly
@@ -63,18 +56,11 @@ const ExpandedData = ({ data: compacted }: { data: any }) => {
   );
 };
 
-const RenderedData = ({ data: compacted }: { data: any }) => {
+const RenderedData = ({ data }: { data: any }) => {
   const [expandedData, setState] = useState({});
 
   useEffect(() => {
-    jsonld
-      .expand(compacted)
-      .then((expanded: any) => {
-        setState(expanded);
-      })
-      .catch((err: any) => {
-        console.error("Failed to expand data: " + err.message);
-      });
+    frame(data).then(res => setState(res));
   }, [compacted]);
 
   return <LdRenderer data={expandedData} />;
@@ -88,7 +74,7 @@ export const PlayGround = observer(() => {
           <DataExplorer />
         </div>
         <div style={{ width: "50%", padding: "0.5em", minHeight: "600px" }}>
-          <ExpandedData data={compacted.data} />
+          <PreprocessedData data={compacted.data} />
         </div>
       </div>
       <div>
