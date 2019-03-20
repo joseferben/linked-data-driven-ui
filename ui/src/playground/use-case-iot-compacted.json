@@ -1,37 +1,37 @@
 {
   "@context": [
     "http://www.w3.org/ns/hydra/context.jsonld",
-    "http://schema.org"
+    "http://schema.org",
+    {
+      "@base": "https://api.example.com/"
+    }
   ],
-  "@id": "https://api.example.com/apartments/1",
-  "@type": ["Apartment", "PartialCollectionView"],
-  "numberOfRooms": 8,
-  "petsAllowed": false,
+  "id": "apartments/1",
+  "type": ["Apartment", "PartialCollectionView"],
   "hasMap": {
-    "@type": "URL",
-    "image": "https://api.example.com/images/floor_plan.jpg"
+    "type": "URL",
+    "image": "floorplan.jpg"
   },
-  "totalItems": "42",
   "member": [
     {
-      "@id": "/rooms/1",
-      "@type": ["Room", "Collection"],
+      "id": "apartments/1/rooms/3",
+      "type": ["Room", "Collection"],
       "amenityFeature": "Kitchen",
       "member": [
         {
-          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
-          "@type": "Thermometer",
+          "id": "apartments/1/rooms/1/thermometer/1",
+          "type": "Thermometer",
           "temperature": {
-            "@type": "QuantitativeValue",
+            "type": "QuantitativeValue",
             "unitText": "°C",
             "value": 23
           }
         },
         {
-          "@id": "https://api.example.com/apartments/1/rooms/1/thermostat",
-          "@type": "Thermostat",
+          "id": "apartments/1/rooms/1/thermostat/1",
+          "type": "Thermostat",
           "temperature": {
-            "@type": "QuantitativeValue",
+            "type": "QuantitativeValue",
             "unitText": "°C",
             "value": 23
           }
@@ -39,64 +39,62 @@
       ]
     },
     {
-      "@id": "/rooms/2",
-      "@type": "Room",
+      "id": "apartments/1/rooms/3",
+      "type": "Room",
       "amenityFeature": "Laundry Storage"
     },
     {
-      "@id": "https://api.example.com/apartments/1/rooms/3",
-      "@type": "Room",
+      "id": "apartments/1/rooms/3",
+      "type": "Room",
       "amenityFeature": "1/2 Bath"
     },
     {
-      "@id": "https://api.example.com/apartments/1/rooms/4",
-      "@type": "Room",
+      "id": "apartments/1/rooms/4",
+      "type": "Room",
       "amenityFeature": "Formal Living"
     },
     {
-      "@id": "https://api.example.com/apartments/1/rooms/5",
-      "@type": ["Room", "Collection"],
+      "id": "apartments/1/rooms/5",
+      "type": ["Room", "Collection"],
       "amenityFeature": "Entrance",
-      "member": [
-        {
-          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
-          "@type": "Thermometer",
-          "temperature": {
-            "@type": "QuantitativeValue",
-            "unitText": "°C",
-            "value": 22.2
-          }
+      "member": {
+        "id": "apartments/1/rooms/5/thermometer/1",
+        "type": "Thermometer",
+        "temperature": {
+          "type": "QuantitativeValue",
+          "unitText": "°C",
+          "value": 22.2
         }
-      ]
+      }
     },
     {
-      "@id": "https://api.example.com/apartments/1/rooms/6",
-      "@type": ["Room", "Collection"],
+      "id": "apartments/1/rooms/6",
+      "type": ["Room", "Collection"],
       "amenityFeature": "Family",
       "member": [
         {
-          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
-          "@type": "Thermometer",
+          "id": "apartments/1/rooms/6/thermometer/1",
+          "type": "Thermometer",
           "temperature": {
-            "@type": "QuantitativeValue",
+            "type": "QuantitativeValue",
             "unitText": "°C",
             "value": 22.2
           }
         },
         {
-          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
-          "@type": "Thermometer",
+          "id": "apartments/1/rooms/6/thermometer/1",
+          "type": "Thermometer",
           "temperature": {
-            "@type": "QuantitativeValue",
+            "type": "QuantitativeValue",
             "unitText": "°C",
             "value": 22.3
           }
         },
         {
-          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
-          "@type": "Thermometer",
+          "id": "apartments/1/rooms/6/thermometer/1",
+          "type": "Thermometer",
           "temperature": {
-            "@type": "QuantitativeValue",
+            "type": "QuantitativeValue",
             "unitText": "°C",
             "value": 22.8
           }
@@ -104,12 +102,15 @@
       ]
     }
   ],
+  "numberOfRooms": 8,
+  "petsAllowed": false,
+  "totalItems": "42",
   "view": {
-    "@id": "https://api.example.com/apartments/1/rooms?page=2",
-    "@type": "PartialCollectionView",
-    "first": "/apartments/1/rooms?page=1",
-    "previous": "/apartments/1/rooms?page=1",
-    "next": "/apartments/1/rooms?page=3",
-    "last": "/apartments/1/rooms?page=10"
+    "id": "apartments/1/rooms?page=2",
+    "type": "PartialCollectionView",
+    "first": "apartments/1/rooms?page=1",
+    "last": "apartments/1/rooms?page=10",
+    "next": "apartments/1/rooms?page=3",
+    "previous": "apartments/1/rooms?page=1"
   }
 }
