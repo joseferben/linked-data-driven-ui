@@ -1,7 +1,7 @@
 {
   "@context": [
-    "http://schema.org",
-    "http://www.w3.org/ns/hydra/context.jsonld"
+    "http://www.w3.org/ns/hydra/context.jsonld",
+    "http://schema.org"
   ],
   "@id": "https://api.example.com/apartments/1",
   "@type": ["Apartment", "PartialCollectionView"],
@@ -14,64 +14,94 @@
   "totalItems": "42",
   "member": [
     {
-      "@id": "https://api.example.com/apartments/1/rooms/1",
-      "@type": "Room",
-      "amenityFeature": "Old Kitchen"
+      "@id": "/rooms/1",
+      "@type": ["Room", "Collection"],
+      "amenityFeature": "Kitchen",
+      "member": [
+        {
+          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
+          "@type": "Thermometer",
+          "temperature": {
+            "@type": "QuantitativeValue",
+            "unitText": "°C",
+            "value": 23
+          }
+        },
+        {
+          "@id": "https://api.example.com/apartments/1/rooms/1/thermostat",
+          "@type": "Thermostat",
+          "temperature": {
+            "@type": "QuantitativeValue",
+            "unitText": "°C",
+            "value": 23
+          }
+        }
+      ]
     },
     {
-      "@id": "https://api.example.com/apartments/1/rooms/2",
+      "@id": "/rooms/2",
       "@type": "Room",
-      "amenityFeature": "Later Kitchen"
+      "amenityFeature": "Laundry Storage"
     },
     {
       "@id": "https://api.example.com/apartments/1/rooms/3",
       "@type": "Room",
-      "amenityFeature": "Roof"
+      "amenityFeature": "1/2 Bath"
     },
     {
       "@id": "https://api.example.com/apartments/1/rooms/4",
       "@type": "Room",
-      "amenityFeature": "West Parlor"
+      "amenityFeature": "Formal Living"
     },
     {
       "@id": "https://api.example.com/apartments/1/rooms/5",
-      "@type": "Room",
-      "amenityFeature": "East Parlor"
+      "@type": ["Room", "Collection"],
+      "amenityFeature": "Entrance",
+      "member": [
+        {
+          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
+          "@type": "Thermometer",
+          "temperature": {
+            "@type": "QuantitativeValue",
+            "unitText": "°C",
+            "value": 22.2
+          }
+        }
+      ]
     },
     {
       "@id": "https://api.example.com/apartments/1/rooms/6",
-      "@type": "Room",
-      "amenityFeature": "Bedroom A"
-    },
-    {
-      "@id": "https://api.example.com/apartments/1/rooms/7",
-      "@type": "Room",
-      "amenityFeature": "Bedroom B"
-    },
-    {
-      "@id": "https://api.example.com/apartments/1/rooms/8",
-      "@type": "Room",
-      "amenityFeature": "Bedroom C"
-    },
-    {
-      "@id": "https://api.example.com/apartments/1/rooms/9",
-      "@type": "Room",
-      "amenityFeature": "Bedroom D"
-    },
-    {
-      "@id": "https://api.example.com/apartments/1/rooms/10",
-      "@type": "Room",
-      "amenityFeature": "Memorial Room"
-    },
-    {
-      "@id": "https://api.example.com/apartments/1/rooms/11",
-      "@type": "Room",
-      "amenityFeature": "Bath"
-    },
-    {
-      "@id": "https://api.example.com/apartments/1/rooms/12",
-      "@type": "Room",
-      "amenityFeature": "Dining room"
+      "@type": ["Room", "Collection"],
+      "amenityFeature": "Family",
+      "member": [
+        {
+          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
+          "@type": "Thermometer",
+          "temperature": {
+            "@type": "QuantitativeValue",
+            "unitText": "°C",
+            "value": 22.2
+          }
+        },
+        {
+          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
+          "@type": "Thermometer",
+          "temperature": {
+            "@type": "QuantitativeValue",
+            "unitText": "°C",
+            "value": 22.3
+          }
+        },
+        {
+          "@id": "https://api.example.com/apartments/1/rooms/1/thermometer",
+          "@type": "Thermometer",
+          "temperature": {
+            "@type": "QuantitativeValue",
+            "unitText": "°C",
+            "value": 22.8
+          }
+        }
+      ]
     }
   ],
   "view": {

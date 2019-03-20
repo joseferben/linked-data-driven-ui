@@ -1,0 +1,19 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/hydra/context.jsonld",
+    "http://schema.org"
+  ],
+  "@type": "Apartment",
+  "@explicit": true,
+  "member": {
+    "@type": "Room",
+    "@explicit": true,
+    "member": {
+      "@type": "Thermometer",
+      "@explicit": true,
+      "temperature": {
+        "@type": "QuantitativeValue"
+      }
+    }
+  }
+}
