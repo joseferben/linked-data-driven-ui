@@ -31,3 +31,8 @@ The default frame is just
 
 Reverse framing can be used: "within": {"@reverse": "contains"}
 
+this approach vs GraphQL:
+- works without breaking existing tooling
+- works across systems and across company boundaries
+- incremental adaption possible
+- simpler query model: collections have own queries, data can be shaped

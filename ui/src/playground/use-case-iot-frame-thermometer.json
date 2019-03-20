@@ -1,0 +1,8 @@
+{
+  "@context": [
+    "http://www.w3.org/ns/hydra/context.jsonld",
+    "http://schema.org"
+  ],
+  "@type": "Thermometer",
+  "@explicit": true
+}
