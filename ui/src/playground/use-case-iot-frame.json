@@ -1,7 +1,10 @@
 {
   "@context": [
     "http://www.w3.org/ns/hydra/context.jsonld",
-    "http://schema.org"
+    "http://schema.org",
+    {
+      "@base": "https://api.example.com/"
+    }
   ],
   "@type": "Apartment",
   "@explicit": true,
@@ -9,7 +12,7 @@
     "@type": "Room",
     "@explicit": true,
     "member": {
-      "@type": "Thermometer",
+      "@type": ["Thermometer", "Thermostat"],
       "@explicit": true,
       "temperature": {
         "@type": "QuantitativeValue"

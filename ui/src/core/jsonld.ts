@@ -1,6 +1,7 @@
 import * as jsonld from "jsonld";
-import schemaOrgContext from "./schemaorgcontext.json";
-import hydraContext from "./hydracontext.json";
+import schemaOrgContext from "./context-cache/schemaorgcontext.json";
+import hydraContext from "./context-cache/hydracontext.json";
+import { PreProcessedData } from "./types";
 
 const CONTEXTS: { [key: string]: any } = {
   "http://schema.org": {
@@ -28,8 +29,6 @@ const customLoader = (url: any, callback: any) => {
 
 jsonld.documentLoader = customLoader;
 
-export type PreProcessedData = { "@context": object | object[], "@graph": object[] };
-
 export const frame = (data: any, frame?: any, opts?: object): Promise<PreProcessedData> => {
   const frameToUse = frame ? frame : {
     "@context": data["@context"],
@@ -42,6 +41,16 @@ export const frame = (data: any, frame?: any, opts?: object): Promise<PreProcess
       data,
       frameToUse,
       optsToUse
+    )
+    .catch((err: any) => {
+      console.error("Failed to frame data: " + err.message);
+    });
+}
+
+export const expand = (data: any): Promise<[any]> => {
+  return jsonld
+    .expand(
+      data
     )
     .catch((err: any) => {
       console.error("Failed to expand data: " + err.message);

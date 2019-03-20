@@ -36,3 +36,10 @@ this approach vs GraphQL:
 - works across systems and across company boundaries
 - incremental adaption possible
 - simpler query model: collections have own queries, data can be shaped
+
+1. show network of systems
+2. each system has to understand data of each other
+3. with JSON-LD you just have to understand JSON-LD
+
+expanded version: good for machines
+compacted version: good for programmers

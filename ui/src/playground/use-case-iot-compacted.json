@@ -1,37 +1,37 @@
 {
   "@context": [
-    "http://www.w3.org/ns/hydra/context.jsonld",
     "http://schema.org",
+    "http://www.w3.org/ns/hydra/context.jsonld",
     {
-      "@base": "https://api.example.com/"
+      "@base": "https://api.example.com/apartments/1"
     }
   ],
-  "id": "apartments/1",
-  "type": ["Apartment", "PartialCollectionView"],
+  "@id": "",
+  "@type": ["Apartment", "Collection", "Thing"],
   "hasMap": {
-    "type": "URL",
-    "image": "floorplan.jpg"
+    "@type": "URL",
+    "image": "/floorplan.jpg"
   },
   "member": [
     {
-      "id": "apartments/1/rooms/3",
-      "type": ["Room", "Collection"],
+      "@id": "/rooms/3",
+      "@type": ["Room", "Collection"],
       "amenityFeature": "Kitchen",
       "member": [
         {
-          "id": "apartments/1/rooms/1/thermometer/1",
-          "type": "Thermometer",
+          "@id": "/rooms/1/thermometer/1",
+          "@type": "Thermometer",
           "temperature": {
-            "type": "QuantitativeValue",
+            "@type": "QuantitativeValue",
             "unitText": "°C",
             "value": 23
           }
         },
         {
-          "id": "apartments/1/rooms/1/thermostat/1",
-          "type": "Thermostat",
+          "@id": "/rooms/1/thermostat/1",
+          "@type": "Thermostat",
           "temperature": {
-            "type": "QuantitativeValue",
+            "@type": "QuantitativeValue",
             "unitText": "°C",
             "value": 23
           }
@@ -39,62 +39,62 @@
       ]
     },
     {
-      "id": "apartments/1/rooms/3",
-      "type": "Room",
+      "@id": "/rooms/3",
+      "@type": "Room",
       "amenityFeature": "Laundry Storage"
     },
     {
-      "id": "apartments/1/rooms/3",
-      "type": "Room",
+      "@id": "/rooms/3",
+      "@type": "Room",
       "amenityFeature": "1/2 Bath"
     },
     {
-      "id": "apartments/1/rooms/4",
-      "type": "Room",
+      "@id": "/rooms/4",
+      "@type": "Room",
       "amenityFeature": "Formal Living"
     },
     {
-      "id": "apartments/1/rooms/5",
-      "type": ["Room", "Collection"],
+      "@id": "/rooms/5",
+      "@type": ["Room", "Collection"],
       "amenityFeature": "Entrance",
       "member": {
-        "id": "apartments/1/rooms/5/thermometer/1",
-        "type": "Thermometer",
+        "@id": "/rooms/5/thermometer/1",
+        "@type": "Thermometer",
         "temperature": {
-          "type": "QuantitativeValue",
+          "@type": "QuantitativeValue",
           "unitText": "°C",
           "value": 22.2
         }
       }
     },
     {
-      "id": "apartments/1/rooms/6",
-      "type": ["Room", "Collection"],
+      "@id": "/rooms/6",
+      "@type": ["Room", "Collection"],
       "amenityFeature": "Family",
       "member": [
         {
-          "id": "apartments/1/rooms/6/thermometer/1",
-          "type": "Thermometer",
+          "@id": "/rooms/6/thermometer/1",
+          "@type": "Thermometer",
           "temperature": {
-            "type": "QuantitativeValue",
+            "@type": "QuantitativeValue",
             "unitText": "°C",
             "value": 22.2
           }
         },
         {
-          "id": "apartments/1/rooms/6/thermometer/1",
-          "type": "Thermometer",
+          "@id": "/rooms/6/thermometer/1",
+          "@type": "Thermometer",
           "temperature": {
-            "type": "QuantitativeValue",
+            "@type": "QuantitativeValue",
             "unitText": "°C",
             "value": 22.3
           }
         },
         {
-          "id": "apartments/1/rooms/6/thermometer/1",
-          "type": "Thermometer",
+          "@id": "/rooms/6/thermometer/1",
+          "@type": "Thermometer",
           "temperature": {
-            "type": "QuantitativeValue",
+            "@type": "QuantitativeValue",
             "unitText": "°C",
             "value": 22.8
           }
@@ -106,11 +106,11 @@
   "petsAllowed": false,
   "totalItems": "42",
   "view": {
-    "id": "apartments/1/rooms?page=2",
-    "type": "PartialCollectionView",
-    "first": "apartments/1/rooms?page=1",
-    "last": "apartments/1/rooms?page=10",
-    "next": "apartments/1/rooms?page=3",
-    "previous": "apartments/1/rooms?page=1"
+    "@id": "/rooms?page=2",
+    "@type": "PartialCollectionView",
+    "first": "/rooms?page=1",
+    "last": "/rooms?page=10",
+    "next": "/rooms?page=3",
+    "previous": "/rooms?page=1"
   }
 }
