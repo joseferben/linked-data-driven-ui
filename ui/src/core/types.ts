@@ -1,3 +1,13 @@
-type ComponentRenderer = { "@type": string, fn: (data: any) => JSX.Element }
-export type Renderer = { name: string, frame: object, componentRenderers: ComponentRenderer[] }
-export type PreProcessedData = { "@context": object | object[], "@graph": object[] };
+export type ComponentRenderer = {
+  readonly "@type": string,
+  readonly fn: (data: any) => JSX.Element
+}
+export type Renderer = {
+  readonly name: string,
+  readonly frame: object,
+  readonly componentRenderers: ComponentRenderer[]
+}
+export type PreProcessedData = {
+  readonly "@context": object | object[],
+  readonly "@graph": object[]
+};

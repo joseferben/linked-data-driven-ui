@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
+import { Maybe } from "tsmonad";
 
 import { JsonEditor } from "../JsonEditor";
 import { render } from "../../../core/rendering";
-import { state, toRender } from "../../db";
+import { state, toRender, selectedRenderer } from "../../db";
 import { frame, expand } from "../../../core/jsonld";
+import { Renderer } from "../../../core/types";
 
 const DataExplorer = observer(() => {
   const handleChange = (evt: any) => {
@@ -18,7 +20,9 @@ const DataExplorer = observer(() => {
     <div>
       <h3>Data explorer</h3>
       <div style={{ marginBottom: "0.5em" }}>
-        <label htmlFor="data-select">Choose server response data: </label>
+        <label htmlFor="data-select">
+          Choose compacted server response data:{" "}
+        </label>
         <select id="data-select" onChange={handleChange}>
           {state.useCases.map(useCase => {
             return (
@@ -56,10 +60,10 @@ const RendererSelector = observer(() => {
       <div style={{ marginBottom: "0.5em" }}>
         <label htmlFor="data-select">Choose renderer: </label>
         <select id="data-select" onChange={handleChange}>
-          {Object.keys(state.renderers).map(key => {
+          {state.renderers.map(r => {
             return (
-              <option value={key} key={key}>
-                {key}
+              <option value={r.name} key={r.name}>
+                {r.name}
               </option>
             );
           })}
@@ -101,17 +105,29 @@ const FramedData = ({ data }: { data: any }) => {
   );
 };
 
-const Canvas = ({ data }: { data: any }) => {
-  const [expanded, setState] = useState({});
+const Canvas = ({
+  data,
+  renderer
+}: {
+  data: any;
+  renderer: Maybe<Renderer>;
+}) => {
+  const [expanded, setState] = useState([{}]);
 
   useEffect(() => {
-    expand(data).then(res => setState(res));
-  }, [data]);
+    expand(data).then(res => {
+      setState(res);
+    });
+  }, [data, renderer]);
 
-  return render(expanded);
+  return renderer.caseOf({
+    just: r => render(expanded, r),
+    nothing: () => null
+  });
 };
 
 export const PlayGround = observer(() => {
+  const renderer = selectedRenderer(state);
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -127,7 +143,7 @@ export const PlayGround = observer(() => {
       </div>
       <div>
         <div style={{ width: "100%", padding: "0.5em" }}>
-          <Canvas data={toRender.data} />
+          <Canvas data={toRender.data} renderer={renderer} />
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 export const Thing = ({ data }: { data: any }) => {
-  const keys = Object.keys(data);
+  const keys = Object.keys(data || {});
   return (
     <div>
       {keys.map(k => (

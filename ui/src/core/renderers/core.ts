@@ -2,7 +2,6 @@ import { Thing } from "../components/Thing";
 import { Collection } from "../components/Collection";
 import { Renderer } from "../types";
 
-// TODO use it in the render() function
 const renderer: Renderer = {
   name: "core",
   frame: (context: any) => ({ "@context": context, "@type": "Thing" }),

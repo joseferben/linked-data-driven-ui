@@ -1,0 +1,222 @@
+[
+  {
+    "http://schema.org/hasMap": [
+      {
+        "http://schema.org/image": [
+          {
+            "@id": "https://api.example.com/floorplan.jpg"
+          }
+        ],
+        "@type": ["http://schema.org/URL"]
+      }
+    ],
+    "@id": "https://api.example.com/apartments/1",
+    "http://www.w3.org/ns/hydra/core#member": [
+      {
+        "http://schema.org/amenityFeature": [
+          {
+            "@value": "Kitchen"
+          },
+          {
+            "@value": "Laundry Storage"
+          },
+          {
+            "@value": "1/2 Bath"
+          }
+        ],
+        "@id": "https://api.example.com/rooms/3",
+        "http://www.w3.org/ns/hydra/core#member": [
+          {
+            "@id": "https://api.example.com/rooms/1/thermometer/1",
+            "http://schema.org/temperature": [
+              {
+                "@type": ["http://schema.org/QuantitativeValue"],
+                "http://schema.org/unitText": [
+                  {
+                    "@value": "°C"
+                  }
+                ],
+                "http://schema.org/value": [
+                  {
+                    "@value": 23
+                  }
+                ]
+              }
+            ],
+            "@type": ["http://schema.org/Thermometer"]
+          },
+          {
+            "@id": "https://api.example.com/rooms/1/thermostat/1",
+            "http://schema.org/temperature": [
+              {
+                "@type": ["http://schema.org/QuantitativeValue"],
+                "http://schema.org/unitText": [
+                  {
+                    "@value": "°C"
+                  }
+                ],
+                "http://schema.org/value": [
+                  {
+                    "@value": 23
+                  }
+                ]
+              }
+            ],
+            "@type": ["http://schema.org/Thermostat"]
+          }
+        ],
+        "@type": [
+          "http://schema.org/Room",
+          "http://www.w3.org/ns/hydra/core#Collection"
+        ]
+      },
+      {
+        "http://schema.org/amenityFeature": [
+          {
+            "@value": "Formal Living"
+          }
+        ],
+        "@id": "https://api.example.com/rooms/4",
+        "@type": ["http://schema.org/Room"]
+      },
+      {
+        "http://schema.org/amenityFeature": [
+          {
+            "@value": "Entrance"
+          }
+        ],
+        "@id": "https://api.example.com/rooms/5",
+        "http://www.w3.org/ns/hydra/core#member": [
+          {
+            "@id": "https://api.example.com/rooms/5/thermometer/1",
+            "http://schema.org/temperature": [
+              {
+                "@type": ["http://schema.org/QuantitativeValue"],
+                "http://schema.org/unitText": [
+                  {
+                    "@value": "°C"
+                  }
+                ],
+                "http://schema.org/value": [
+                  {
+                    "@value": 22.2
+                  }
+                ]
+              }
+            ],
+            "@type": ["http://schema.org/Thermometer"]
+          }
+        ],
+        "@type": [
+          "http://schema.org/Room",
+          "http://www.w3.org/ns/hydra/core#Collection"
+        ]
+      },
+      {
+        "http://schema.org/amenityFeature": [
+          {
+            "@value": "Family"
+          }
+        ],
+        "@id": "https://api.example.com/rooms/6",
+        "http://www.w3.org/ns/hydra/core#member": [
+          {
+            "@id": "https://api.example.com/rooms/6/thermometer/1",
+            "http://schema.org/temperature": [
+              {
+                "@type": ["http://schema.org/QuantitativeValue"],
+                "http://schema.org/unitText": [
+                  {
+                    "@value": "°C"
+                  }
+                ],
+                "http://schema.org/value": [
+                  {
+                    "@value": 22.2
+                  }
+                ]
+              },
+              {
+                "@type": ["http://schema.org/QuantitativeValue"],
+                "http://schema.org/unitText": [
+                  {
+                    "@value": "°C"
+                  }
+                ],
+                "http://schema.org/value": [
+                  {
+                    "@value": 22.3
+                  }
+                ]
+              },
+              {
+                "@type": ["http://schema.org/QuantitativeValue"],
+                "http://schema.org/unitText": [
+                  {
+                    "@value": "°C"
+                  }
+                ],
+                "http://schema.org/value": [
+                  {
+                    "@value": 22.8
+                  }
+                ]
+              }
+            ],
+            "@type": ["http://schema.org/Thermometer"]
+          }
+        ],
+        "@type": [
+          "http://schema.org/Room",
+          "http://www.w3.org/ns/hydra/core#Collection"
+        ]
+      }
+    ],
+    "http://schema.org/numberOfRooms": [
+      {
+        "@value": 8
+      }
+    ],
+    "http://schema.org/petsAllowed": [
+      {
+        "@value": false
+      }
+    ],
+    "http://www.w3.org/ns/hydra/core#totalItems": [
+      {
+        "@value": "42"
+      }
+    ],
+    "@type": [
+      "http://schema.org/Apartment",
+      "http://www.w3.org/ns/hydra/core#Collection",
+      "http://schema.org/Thing"
+    ],
+    "http://www.w3.org/ns/hydra/core#view": [
+      {
+        "http://www.w3.org/ns/hydra/core#first": [
+          {
+            "@id": "https://api.example.com/rooms?page=1"
+          }
+        ],
+        "@id": "https://api.example.com/rooms?page=2",
+        "http://www.w3.org/ns/hydra/core#last": [
+          {
+            "@id": "https://api.example.com/rooms?page=10"
+          }
+        ],
+        "http://www.w3.org/ns/hydra/core#next": [
+          {
+            "@id": "https://api.example.com/rooms?page=3"
+          }
+        ],
+        "http://www.w3.org/ns/hydra/core#previous": [
+          {
+            "@id": "https://api.example.com/rooms?page=1"
+          }
+        ],
+        "@type": ["http://www.w3.org/ns/hydra/core#PartialCollectionView"]
+      }
+    ]
+  }
+]

@@ -29,7 +29,11 @@ const customLoader = (url: any, callback: any) => {
 
 jsonld.documentLoader = customLoader;
 
-export const frame = (data: any, frame?: any, opts?: object): Promise<PreProcessedData> => {
+export const frame = (
+  data: any,
+  frame?: any,
+  opts?: object
+): Promise<PreProcessedData> => {
   const frameToUse = frame ? frame : {
     "@context": data["@context"],
     "@type": "Apartment"
@@ -47,7 +51,9 @@ export const frame = (data: any, frame?: any, opts?: object): Promise<PreProcess
     });
 }
 
-export const expand = (data: any): Promise<[any]> => {
+export const expand = (
+  data: any
+): Promise<object[]> => {
   return jsonld
     .expand(
       data
