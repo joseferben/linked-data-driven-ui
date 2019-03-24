@@ -1,44 +1,15 @@
 import React from "react";
-import { Maybe } from "tsmonad";
-import { Renderer } from "./types";
-import coreRenderer from "./renderers/core";
+import { RenderContext } from "./types";
 
-/* export const applicableRenderer = (renderer: Renderer, types: string[]) => {
- *   return Maybe.maybe(
- *     renderer.componentRenderers.find(renderer =>
- *       types.includes(renderer["@type"])
- *     )
- *   ).valueOr(coreRenderer.componentRenderers[0]);
- * };
- *  */
-const renderTree = (data: object[]) => {
-  return data.map((o: any) => {
-    const isLeaf = !Object.keys(o).some(k => Array.isArray(o[k]));
-    if (isLeaf) {
-      const items = Object.keys(o).map(k => (
-        <div>
-          <span>k</span> <span>o[k]</span>
-        </div>
-      ));
-      return <div style={{ borderColor: "red" }}> {items} </div>;
-    } else {
-      return Object.keys(o).map(k => {
-        const itemVal = Array.isArray(o[k]) ? renderTree(o[k]) : o[k];
-        return (
-          <div>
-            <span>k</span> <span>{itemVal}</span>
-          </div>
-        );
-      });
-    }
-  });
-};
-
-const leaf = (k: string | number, v: any, key?: string | number) => {
+const leaf = (k: string | number, v: any, ctx: RenderContext) => {
+  // TODO render @id as link and @value normally
+  const style = ctx.debugging
+    ? { border: "1px solid red", margin: "3px 3px 3px 3px" }
+    : {};
   return (
-    <div key={key} style={{ border: "1px solid red" }}>
+    <div key={k} style={style}>
       <span>{k}</span>
-      <span> {v}</span>
+      <span>{v}</span>
     </div>
   );
 };
@@ -46,32 +17,34 @@ const leaf = (k: string | number, v: any, key?: string | number) => {
 const node = (
   k: string | number,
   obj: any[],
-  renderer: Renderer,
+  ctx: RenderContext,
   key?: string | number
 ) => {
+  const style = ctx.debugging
+    ? { border: "1px solid blue", padding: "5px 0 5px 10px" }
+    : {};
   return (
-    <div
-      key={key}
-      style={{ border: "1px solid blue", padding: "5px 0 5px 10px" }}
-    >
+    <div key={key} style={style}>
       <span>{k}</span>
-      {render(obj, renderer, k)}
+      {render(obj, ctx, k)}
     </div>
   );
 };
 
 export const render = (
   data: object[],
-  renderer: Renderer,
+  ctx: RenderContext,
   key?: string | number
 ) => {
   const res = data.map((o: any) => {
     const keys = Object.keys(o).filter(k => k !== "@type");
     return keys.map((k: string, idx: number) => {
       if (Array.isArray(o[k])) {
-        return node(k, o[k], renderer, idx);
+        return node(k, o[k], ctx, idx);
+        // TODO look ahead and render only foo: bar
+        // strip away host from parent key
       } else if (k === "@value" || k === "@id") {
-        return leaf(k, o[k], key);
+        return leaf(k, o[k], ctx);
       } else {
         console.error(k);
         console.error(o[k]);

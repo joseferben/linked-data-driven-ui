@@ -121,7 +121,7 @@ const Canvas = ({
   }, [data, renderer]);
 
   return renderer.caseOf({
-    just: r => render(expanded, r),
+    just: r => render(expanded, { debugging: true, renderer: r }),
     nothing: () => null
   });
 };

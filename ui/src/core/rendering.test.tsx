@@ -1,5 +1,5 @@
 import React from "react";
-import { render, prettyDOM } from "react-testing-library";
+import { render } from "react-testing-library";
 import "jest-dom/extend-expect";
 
 import { render as r } from "./rendering";
@@ -7,40 +7,13 @@ import { Renderer } from "./types";
 
 import IotExpanded from "../playground/use-case-iot-expanded.json";
 
-const thingRenderer = (props: any) => {
-  return <span />;
-};
-
-const collectionRenderer = (props: any) => {
-  return <span />;
-};
-
-const thingCollectionRenderer = (props: any) => {
-  return <span />;
-};
-
-// TODO move to core render config and import
-const coreRenderer: Renderer = {
-  name: "core",
+const testRenderer: Renderer = {
+  name: "test",
   frame: (context: any) => ({ "@context": context, "@type": "Thing" }),
-  componentRenderers: [
-    {
-      "@type": [
-        "http://schema.org/Thing",
-        "http://www.w3.org/ns/hydra/core#Collection"
-      ],
-      fn: (data: any) => collectionRenderer(data)
-    },
-    {
-      "@type": "http://www.w3.org/ns/hydra/core#Collection",
-      fn: (data: any) => collectionRenderer(data)
-    },
-    {
-      "@type": "http://schema.org/Thing",
-      fn: (data: any) => thingRenderer(data)
-    }
-  ]
+  componentRenderers: []
 };
+
+const testCtx = { renderer: testRenderer, debugging: false };
 
 const renderHtml = (jsx: JSX.Element) => {
   return render(jsx).container.cloneNode(true);
@@ -48,14 +21,14 @@ const renderHtml = (jsx: JSX.Element) => {
 
 describe("rendering with coreRenderer", () => {
   it("empty data", () => {
-    const actual = renderHtml(r([], coreRenderer));
+    const actual = renderHtml(r([], testCtx));
     const expected = renderHtml(<div />);
     expect(actual).toEqual(expected);
   });
 
   it("single data without @type", () => {
     const data = [{ "http://example/foo": [{ "@value": "bar" }] }];
-    const actual = renderHtml(r(data, coreRenderer));
+    const actual = renderHtml(r(data, testCtx));
     const expected = renderHtml(
       <div>
         <div>
@@ -77,7 +50,7 @@ describe("rendering with coreRenderer", () => {
       { "http://example/foo": [{ "@value": "bar" }] },
       { "http://example/baz": [{ "@value": 42 }] }
     ];
-    const actual = renderHtml(r(data, coreRenderer));
+    const actual = renderHtml(r(data, testCtx));
     const expected = renderHtml(
       <div>
         <div>
@@ -111,7 +84,7 @@ describe("rendering with coreRenderer", () => {
         "http://example/baz": [{ "@value": 42 }]
       }
     ];
-    const actual = renderHtml(r(data, coreRenderer));
+    const actual = renderHtml(r(data, testCtx));
     const expected = renderHtml(
       <div>
         <div>
@@ -145,7 +118,7 @@ describe("rendering with coreRenderer", () => {
         "http://example/baz": [{ "@value": 42 }]
       }
     ];
-    const actual = renderHtml(r(data, coreRenderer));
+    const actual = renderHtml(r(data, testCtx));
     const expected = renderHtml(
       <div>
         <div>
@@ -180,7 +153,7 @@ describe("rendering with coreRenderer", () => {
         "http://www.w3.org/ns/hydra/core#member": []
       }
     ];
-    const actual = renderHtml(r(data, coreRenderer));
+    const actual = renderHtml(r(data, testCtx));
     const expected = renderHtml(
       <div>
         <div>
@@ -221,7 +194,7 @@ describe("rendering with coreRenderer", () => {
         ]
       }
     ];
-    const actual = renderHtml(r(data, coreRenderer));
+    const actual = renderHtml(r(data, testCtx));
     const expected = renderHtml(
       <div>
         <div>
@@ -262,6 +235,6 @@ describe("rendering with coreRenderer", () => {
   });
 
   it("iot data", () => {
-    expect(renderHtml(r(IotExpanded, coreRenderer))).toBeTruthy();
+    expect(renderHtml(r(IotExpanded, testCtx))).toBeTruthy();
   });
 });
