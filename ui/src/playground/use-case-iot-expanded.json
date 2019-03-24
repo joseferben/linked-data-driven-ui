@@ -16,15 +16,9 @@
         "http://schema.org/amenityFeature": [
           {
             "@value": "Kitchen"
-          },
-          {
-            "@value": "Laundry Storage"
-          },
-          {
-            "@value": "1/2 Bath"
           }
         ],
-        "@id": "https://api.example.com/rooms/3",
+        "@id": "https://api.example.com/rooms/1",
         "http://www.w3.org/ns/hydra/core#member": [
           {
             "@id": "https://api.example.com/rooms/1/thermometer/1",
@@ -69,6 +63,24 @@
           "http://schema.org/Room",
           "http://www.w3.org/ns/hydra/core#Collection"
         ]
+      },
+      {
+        "http://schema.org/amenityFeature": [
+          {
+            "@value": "Laundry Storage"
+          }
+        ],
+        "@id": "https://api.example.com/rooms/2",
+        "@type": ["http://schema.org/Room"]
+      },
+      {
+        "http://schema.org/amenityFeature": [
+          {
+            "@value": "1/2 Bath"
+          }
+        ],
+        "@id": "https://api.example.com/rooms/3",
+        "@type": ["http://schema.org/Room"]
       },
       {
         "http://schema.org/amenityFeature": [

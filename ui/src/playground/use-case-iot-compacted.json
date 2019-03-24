@@ -14,7 +14,7 @@
   },
   "member": [
     {
-      "@id": "/rooms/3",
+      "@id": "/rooms/1",
       "@type": ["Room", "Collection"],
       "amenityFeature": "Kitchen",
       "member": [
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "@id": "/rooms/3",
+      "@id": "/rooms/2",
       "@type": "Room",
       "amenityFeature": "Laundry Storage"
     },
