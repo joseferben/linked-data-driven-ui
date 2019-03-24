@@ -34,21 +34,50 @@ const renderTree = (data: object[]) => {
   });
 };
 
-export const render = (data: object[], renderer: Renderer) => {
+const leaf = (k: string | number, v: any, key?: string | number) => {
+  return (
+    <div key={key} style={{ border: "1px solid red" }}>
+      <span>{k}</span>
+      <span> {v}</span>
+    </div>
+  );
+};
+
+const node = (
+  k: string | number,
+  obj: any[],
+  renderer: Renderer,
+  key?: string | number
+) => {
+  return (
+    <div
+      key={key}
+      style={{ border: "1px solid blue", padding: "5px 0 5px 10px" }}
+    >
+      <span>{k}</span>
+      {render(obj, renderer, k)}
+    </div>
+  );
+};
+
+export const render = (
+  data: object[],
+  renderer: Renderer,
+  key?: string | number
+) => {
   const res = data.map((o: any) => {
     const keys = Object.keys(o).filter(k => k !== "@type");
-    return keys.map(k => {
-      return (
-        <div key={k}>
-          <span>{k}</span>
-          <span>{o[k]}</span>
-        </div>
-      );
+    return keys.map((k: string, idx: number) => {
+      if (Array.isArray(o[k])) {
+        return node(k, o[k], renderer, idx);
+      } else if (k === "@value" || k === "@id") {
+        return leaf(k, o[k], key);
+      } else {
+        console.error(k);
+        console.error(o[k]);
+        throw new Error("Unexpected key value pair encountered");
+      }
     });
   });
-  return <div>{res}</div>;
-  /* const toRender: any = data[0];
-   * const dataTypes = toRender["@type"] || [];
-   * const componentRenderer = applicableRenderer(renderer, dataTypes);
-   * return componentRenderer.fn({ data: toRender }); */
+  return <div key={key}>{res}</div>;
 };

@@ -5,6 +5,8 @@ import "jest-dom/extend-expect";
 import { render as r } from "./rendering";
 import { Renderer } from "./types";
 
+import IotExpanded from "../playground/use-case-iot-expanded.json";
+
 const thingRenderer = (props: any) => {
   return <span />;
 };
@@ -51,71 +53,215 @@ describe("rendering with coreRenderer", () => {
     expect(actual).toEqual(expected);
   });
 
-  it("some data without @type", () => {
-    const data = [{ foo: "bar", baz: 42 }];
+  it("single data without @type", () => {
+    const data = [{ "http://example/foo": [{ "@value": "bar" }] }];
     const actual = renderHtml(r(data, coreRenderer));
     const expected = renderHtml(
       <div>
         <div>
-          <span>foo</span>
-          <span>bar</span>
-        </div>
-        <div>
-          <span>baz</span>
-          <span>42</span>
+          <span>http://example/foo</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>bar</span>
+            </div>
+          </div>
         </div>
       </div>
     );
     expect(actual).toEqual(expected);
   });
 
-  it("a Thing", () => {
-    const data = [{ "@type": "http://schema.org/Thing", foo: "bar", baz: 42 }];
+  it("data without @type", () => {
+    const data = [
+      { "http://example/foo": [{ "@value": "bar" }] },
+      { "http://example/baz": [{ "@value": 42 }] }
+    ];
     const actual = renderHtml(r(data, coreRenderer));
     const expected = renderHtml(
       <div>
         <div>
-          <span>foo</span>
-          <span>bar</span>
+          <span>http://example/foo</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>bar</span>
+            </div>
+          </div>
         </div>
         <div>
-          <span>baz</span>
-          <span>42</span>
+          <span>http://example/baz</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>42</span>
+            </div>
+          </div>
         </div>
       </div>
     );
     expect(actual).toEqual(expected);
   });
-});
 
-describe("get applicable renderer", () => {
-  const thingRenderer = () => <div />;
-  const collectionRenderer = () => <div />;
-  const collectionThingRenderer = () => <div />;
-
-  const renderer: Renderer = {
-    name: "core",
-    frame: (context: any) => ({ "@context": context, "@type": "Thing" }),
-    componentRenderers: [
-      {
-        "@type": [
-          "http://schema.org/Thing",
-          "http://www.w3.org/ns/hydra/core#Collection"
-        ],
-        fn: collectionThingRenderer
-      },
-      {
-        "@type": "http://www.w3.org/ns/hydra/core#Collection",
-        fn: collectionRenderer
-      },
+  it("data with @type Thing", () => {
+    const data = [
       {
         "@type": "http://schema.org/Thing",
-        fn: thingRenderer
+        "http://example/foo": [{ "@value": "bar" }],
+        "http://example/baz": [{ "@value": 42 }]
       }
-    ]
-  };
+    ];
+    const actual = renderHtml(r(data, coreRenderer));
+    const expected = renderHtml(
+      <div>
+        <div>
+          <span>http://example/foo</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>bar</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>http://example/baz</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>42</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    expect(actual).toEqual(expected);
+  });
 
-  it("with no @type", () => {
-    //
+  it("data with @type [Thing]", () => {
+    const data = [
+      {
+        "@type": ["http://schema.org/Thing"],
+        "http://example/foo": [{ "@value": "bar" }],
+        "http://example/baz": [{ "@value": 42 }]
+      }
+    ];
+    const actual = renderHtml(r(data, coreRenderer));
+    const expected = renderHtml(
+      <div>
+        <div>
+          <span>http://example/foo</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>bar</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>http://example/baz</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>42</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    expect(actual).toEqual(expected);
+  });
+
+  it("data representing empty a hydra collection ", () => {
+    const data = [
+      {
+        "@type": "http://www.w3.org/ns/hydra/core#Collection",
+        "http://example/foo": [{ "@value": "bar" }],
+        "http://example/baz": [{ "@value": 42 }],
+        "http://www.w3.org/ns/hydra/core#member": []
+      }
+    ];
+    const actual = renderHtml(r(data, coreRenderer));
+    const expected = renderHtml(
+      <div>
+        <div>
+          <span>http://example/foo</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>bar</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>http://example/baz</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>42</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>http://www.w3.org/ns/hydra/core#member</span>
+          <div />
+        </div>
+      </div>
+    );
+    expect(actual).toEqual(expected);
+  });
+
+  it("data representing hydra collection ", () => {
+    const data = [
+      {
+        "@type": "http://www.w3.org/ns/hydra/core#Collection",
+        "http://example/foo": [{ "@value": "bar" }],
+        "http://example/baz": [{ "@value": 42 }],
+        "http://www.w3.org/ns/hydra/core#member": [
+          { "http://example/hey": [{ "@value": "ho" }] }
+        ]
+      }
+    ];
+    const actual = renderHtml(r(data, coreRenderer));
+    const expected = renderHtml(
+      <div>
+        <div>
+          <span>http://example/foo</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>bar</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>http://example/baz</span>
+          <div>
+            <div>
+              <span>@value</span>
+              <span>42</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span>http://www.w3.org/ns/hydra/core#member</span>
+          <div>
+            <div>
+              <span>http://example/hey</span>
+              <div>
+                <div>
+                  <span>@value</span>
+                  <span>ho</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    expect(actual).toEqual(expected);
+  });
+
+  it("iot data", () => {
+    expect(renderHtml(r(IotExpanded, coreRenderer))).toBeTruthy();
   });
 });
