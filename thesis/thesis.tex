@@ -6,10 +6,8 @@
 \usepackage[a4paper,top=38mm,right=16mm,bottom=24mm,left=25mm,head=35mm,foot=15mm]{geometry}
 \usepackage[comma]{natbib}
 \bibliographystyle{agsm}
-
-% language
 \usepackage[english]{babel}
-
+ 
 % font
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -101,6 +99,8 @@
   \tableofcontents
 }
 
+\glsaddall
+\printglossary[title=Glossary]
 \include{introduction}
 \include{background}
 \include{contributions}
@@ -109,5 +109,7 @@
 \include{futurework}
 
 \bibliography{citations}
+\include{glossary}
 
+\printglossaries
 \end{document}

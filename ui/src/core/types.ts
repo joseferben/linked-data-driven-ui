@@ -1,5 +1,5 @@
 export type ComponentRenderer = {
-  readonly active: (obj: any) => boolean;
+  readonly isActive: (obj: any) => boolean;
   readonly fn: (data: any) => JSX.Element;
 };
 export type Renderer = {

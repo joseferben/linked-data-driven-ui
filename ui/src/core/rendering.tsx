@@ -26,16 +26,12 @@ const node = (
   return (
     <div key={key} style={style}>
       <span>{k}</span>
-      {render(obj, ctx, k)}
+      {tree(obj, ctx, k)}
     </div>
   );
 };
 
-export const render = (
-  data: object[],
-  ctx: RenderContext,
-  key?: string | number
-) => {
+const tree = (data: object[], ctx: RenderContext, key?: string | number) => {
   const res = data.map((o: any) => {
     const keys = Object.keys(o).filter(k => k !== "@type");
     return keys.map((k: string, idx: number) => {
@@ -53,4 +49,12 @@ export const render = (
     });
   });
   return <div key={key}>{res}</div>;
+};
+
+export const render = (
+  data: object[],
+  ctx: RenderContext,
+  key?: string | number
+) => {
+  return tree(data, ctx, key);
 };
