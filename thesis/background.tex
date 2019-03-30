@@ -26,17 +26,40 @@ To this day a lot of UIs are developed that way. Some parts are increasingly ren
 
 \subsection{Lack of context}\label{datahumanmachine}
 
-Picture following scenario: Two good friends meet. One of them says: \textit{Have you heard about Frank? He recently got married.} Chances are high the other one knows multiple people named \textbf{Frank}. Being a human, he is able to map the name \textbf{Frank} to the person the other one was referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people \textbf{both know}.
+Picture a scenario in everyday life where two good friends meet. One of them says: \textit{Have you heard about Frank? He recently got married.} Chances are high the other one knows multiple people named \textbf{Frank}. Being a human, he is able to map the name \textbf{Frank} to the person the other one is referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people \textbf{both know}.
 \par Exactly the same thing happens frequently in software development, especially in data exchange. A frontend developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
-\par What makes the life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data is has to understand. In traditional web UI development that context is hard coded into the client and the UI that the browser runs. The author believes that the majority of work done in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
+\par What makes the life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In traditional web UI development that context is hard coded into the client and the UI. The author believes that the majority of work done in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
 
+\subsection{Linked data}\label{linkeddata}
 
-\subsection{Linked data: attach meaning using context}\label{linkeddata}
+Linked data is a way of creating a web of machine interpretable data across different domains, systems and organizations. A person or a machine should be able to explore data by simply following links. In essence, the same expectations apply to make that web of data grow as to linked HTML documents: \citep{linkedatafourrules}
 
+\begin{enumerate}
+  \item Use URIs as names for things
+  \item Use HTTP URIs so that people can look up those names.
+  \item When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL)
+  \item Include links to other URIs, so that they can discover more things.
+\end{enumerate}
 
-TODO essence of web, RDF
+A machine looking at a piece of linked data follows the links and is able to unambiguously understand the data.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut congue nisl. Maecenas nec odio eget felis ultricies consequat. Vestibulum consequat orci eu augue sodales rhoncus. Sed tempor maximus nisl, in varius eros mollis tempus. Praesent condimentum nibh eros. Maecenas pulvinar massa ut lectus volutpat, ac mattis ligula laoreet. Duis cursus odio a quam ullamcorper, lacinia dignissim magna lobortis. Phasellus nec lectus sit amet elit convallis interdum. Ut at est risus.
+\lstset{language=XML}
+\begin{lstlisting}
+<rdf:Description about="#albert"
+ <fam:child rdf:Resource="#brian">
+  <fam:child rdf:Resource="#carol">
+  </rdf:Description>
+\end{lstlisting}
+
+\lstset{language=JSON}
+\begin{lstlisting}
+{
+  "name": "Myth of Sisyphus",
+  "author": "Albert Camus",
+  "location": "http://amazon.com/Myth-Sisyphus-Albert-Camus/dp/7500133340/",
+  "image": "http://ecx.images-amazon.com/images/I/61hJVrZgBBL.jpg"
+}
+\end{lstlisting}
 
 \subsubsection{JSON-LD}\label{jsonld}
 
