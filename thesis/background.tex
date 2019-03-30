@@ -89,52 +89,169 @@ JSON-LD is a serialization format for linked data and is based on JSON-LD. By us
 }
 \end{lstlisting}
 
-This can be understood by any machine without providing additional information. The key \lstinline{http://schema.org/name} can be looked up to determine the meaning of the value \lstinline{Manu Sporny}. JSON-LD supports the concept of a \textbf{context}. Following is the context of the example above:
-
-\newpage
-
-\lstset{language=JSON}
-\begin{lstlisting}[caption=Context of the example data at https://json-ld.org/contexts/person.jsonld, label=jsonlcontextexample]
-{
-  "@context": {
-    "name": "http://schema.org/name",
-    "image": {
-      "@id": "http://schema.org/image",
-      "@type": "@id"
-    },
-    "homepage": {
-      "@id": "http://schema.org/url",
-      "@type": "@id"
-    }
-  }
-}
-\end{lstlisting}
+This can be understood by any machine without providing additional information. The key \lstinline{http://schema.org/name} can be looked up to determine the meaning of the value \lstinline{Manu Sporny}. JSON-LD supports the concept of a \textbf{context}.
 
 The context is meta data that has to be provided together with the data. This makes it possible for a machine to attach meaning to it. Thanks to the context it is not required to have the keys as absolute URIs anymore. The data can be compacted and written as follows:
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=Compacted data of a person, label=jsonldcompacted]
 {
-  "@context": "https://json-ld.org/contexts/person.jsonld",
+  "@context": "http://schema.org",
   "name": "Manu Sporny",
-  "homepage": "http://manu.sporny.org/",
+  "url": "http://manu.sporny.org/",
   "image": "http://manu.sporny.org/images/manu.png"
 }
 \end{lstlisting}
 
-With the small addition of the reserved keyword \lstinline{@context} readability of JSON was restored while allowing machines to understand the data.
+With the small addition of the reserved keyword \lstinline{@context} readability of JSON was restored while allowing machines to understand the data. JSON-LD is 100\% compatible with JSON and therefore benefits of the vast amount of JSON tooling available.
+
+There are a few operations that can be executed on JSON-LD. Following are the three most important ones for this thesis:
 
 \subsubsection{Framing}\label{jsonldframing}
 
-TODO describe operation and what the goal is
+Framing is an operation that re-shapes the data. Input of the framing operation is data and a \textbf{frame}. The frame determines the new shape of the data.
+
+Consider following data of a library. The data is in the form of a normalized graph. The \lstinline{contains} relation represents edges between nodes, the items in the \lstinline{@graph} list are the graph nodes.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Data of a library as normalized graph]
+{
+  "@context": {
+    "@vocab": "http://example.org/",
+    "contains": {"@type": "@id"}
+  },
+  "@graph": [{
+    "@id": "http://example.org/library",
+    "@type": "Library",
+    "contains": "http://example.org/library/the-republic"
+  }, {
+    "@id": "http://example.org/library/the-republic",
+    "@type": "Book",
+    "creator": "Plato",
+    "title": "The Republic",
+    "contains": "http://example.org/library/the-republic#introduction"
+  }, {
+    "@id": "http://example.org/library/the-republic#introduction",
+    "@type": "Chapter",
+    "description": "An introductory chapter on The Republic.",
+    "title": "The Introduction"
+  }]
+}
+\end{lstlisting}
+
+Following frame determines the shape of the frame data:
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Frame for the framing operation]
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://example.org/"
+  },
+  "@type": "Library",
+  "contains": {
+    "@type": "Book",
+    "contains": {
+      "@type": "Chapter"
+    }
+  }
+}
+\end{lstlisting}
+
+The result of the framing operation is a tree:
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Framed data of a library]
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "http://example.org/"
+  },
+  "@id": "http://example.org/library",
+  "@type": "Library",
+  "contains": {
+    "@id": "http://example.org/library/the-republic",
+    "@type": "Book",
+    "contains": {
+      "@id": "http://example.org/library/the-republic#introduction",
+      "@type": "Chapter",
+      "description": "An introductory chapter on The Republic.",
+      "title": "The Introduction"
+    },
+    "creator": "Plato",
+    "title": "The Republic"
+  }
+}
+\end{lstlisting}
 
 \subsubsection{Compacting}\label{jsonldcompacting}
 
-TODO describe operation and what the goal is
+Compacting describes the operation of reducing verbosity in the JSON-LD data. Compacted data is meant to be read and understood by human developers. This is achieved by pulling out the context and explicitely define it using the \lstinline{@context} keyword.
 
-\subsubsection{Extending}\label{jsonldextending}
+Consider following input:
 
-TODO describe operation and what the goal is
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Verbose data of a person]
+{
+  "http://schema.org/name": "Manu Sporny",
+  "http://schema.org/url": {
+    "@id": "http://manu.sporny.org/"
+  },
+  "http://schema.org/image": {
+    "@id": "http://manu.sporny.org/images/manu.png"
+  }
+}
+\end{lstlisting}
+
+This data can be compacted by pulling out the \lstinline{@context}:
+
+\begin{lstlisting}[caption=Compacted and easy-to-read data of a person]
+{
+  "@context": "http://schema.org",
+  "name": "Manu Sporny",
+  "url": "http://manu.sporny.org/",
+  "image": "http://manu.sporny.org/images/manu.png"
+}
+\end{lstlisting}
+
+\subsubsection{Expanding}\label{jsonldextending}
+
+Expanded data serves the opposite goal of compacting data. While compacted data is easy to read for humans, extended data is easy to process for machines.
+
+Expanding the following compacted data
+
+\begin{lstlisting}[caption=Compacted and easy-to-read data of a person]
+{
+  "@context": "http://schema.org",
+  "name": "Manu Sporny",
+  "url": "http://manu.sporny.org/",
+  "image": "http://manu.sporny.org/images/manu.png"
+}
+\end{lstlisting}
+
+results in following expanded data:
+
+\begin{lstlisting}[caption=Expanded data of a person that is easy to process for machines]
+[
+  {
+    "http://schema.org/image": [
+      {
+        "@id": "http://manu.sporny.org/images/manu.png"
+      }
+    ],
+    "http://schema.org/name": [
+      {
+        "@value": "Manu Sporny"
+      }
+    ],
+    "http://schema.org/url": [
+      {
+        "@id": "http://manu.sporny.org/"
+      }
+    ]
+  }
+]
+\end{lstlisting}
 
 \subsection{Hypermedia vocabulary}
 
