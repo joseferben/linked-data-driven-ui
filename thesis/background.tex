@@ -41,41 +41,94 @@ Linked data is a way of creating a web of machine interpretable data across diff
   \item Include links to other URIs, so that they can discover more things.
 \end{enumerate}
 
-A machine looking at a piece of linked data follows the links and is able to unambiguously understand the data.
+A machine looking at a piece of linked data follows the links and is able to unambiguously understand the data. This is equivalent of traversing a graph since linked data is effectively a giant graph. There are multiple serialization formats in the family of specifications called Resource Description Framework (RDF) \citep{rdfspecification}.
 
-TODO small example using RDF
+An RDF file describing a Smith family could live at \lstinline{http://example.org/smith} and have following content:
 
 \lstset{language=XML}
-\begin{lstlisting}
+\begin{lstlisting}[caption= Simple example of a person as RDF, label=rdfexample]
 <rdf:Description about="#albert"
  <fam:child rdf:Resource="#brian">
   <fam:child rdf:Resource="#carol">
   </rdf:Description>
 \end{lstlisting}
 
+Information about the grandparent Albert can be obtained by loading the data at \\ \lstinline{http://example.org/smith#albert}. Albert's child Brian can be accessed at \\  \lstinline{http://example.org/smith#brian} and Brian's child Carol at \lstinline{http://example.org/smith#carol}.
+
 \subsection{JSON-LD}\label{jsonld}
 
-TODO valid JSON, only @id and @context, network effect, tooling, check spec
+In web development the main format for data exchange now is JSON \citep{jsonformat}. It is easy to parse and to generate and many languages provide first-class support for it.
+
+However, JSON is difficult to integrate from different sources as the data may contain keys that conflict with other data sources. JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web \citep{jsonldbasicconcepts}.
+
+Consider following JSON snippet:
 
 \lstset{language=JSON}
-\begin{lstlisting}
+\begin{lstlisting}[caption=Data of a person in the JSON format, label=jsonexample]
 {
-  "name": "Myth of Sisyphus",
-  "author": "Albert Camus",
-  "location": "http://amazon.com/Myth-Sisyphus-Albert-Camus/dp/7500133340/",
-  "image": "http://ecx.images-amazon.com/images/I/61hJVrZgBBL.jpg"
+  "name": "Manu Sporny",
+  "homepage": "http://manu.sporny.org/",
+  "image": "http://manu.sporny.org/images/manu.png"
 }
 \end{lstlisting}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut congue nisl. Maecenas nec odio eget felis ultricies consequat. Vestibulum consequat orci eu augue sodales rhoncus. Sed tempor maximus nisl, in varius eros mollis tempus. Praesent condimentum nibh eros. Maecenas pulvinar massa ut lectus volutpat, ac mattis ligula laoreet. Duis cursus odio a quam ullamcorper, lacinia dignissim magna lobortis. Phasellus nec lectus sit amet elit convallis interdum. Ut at est risus.
+It's obvious to humans that the data is about a person whose name is \textit{Manu Sporny} and that the homepage property contains the URL of that person's homepage. A machine doesn't have such an intuitive understanding and sometimes, even for humans, it is difficult to resolve ambiguities in such representations. This problem can be solved by using unambiguous identifiers to denote the different concepts instead of tokens such as \textbf{name} or \textbf{homepage} \citep{jsonldbasicconcepts}.
 
-Curabitur finibus laoreet mauris at molestie. Nunc arcu est, vulputate sit amet tempus vitae, sagittis in elit. Vestibulum ac pretium justo, vehicula vestibulum lacus. Pellentesque varius mattis aliquet. Vestibulum a lacus placerat, faucibus neque sed, hendrerit ante. Etiam id suscipit odio. Vivamus porta sollicitudin metus, in pulvinar lorem maximus et. Pellentesque eget sodales lacus, et convallis augue. Fusce porta leo et posuere cursus.
+JSON-LD is a serialization format for linked data and is based on JSON-LD. By using the popular schema.org vocabulary the example \ref{jsonexample} can be written as follows:
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Data of a person in the JSON-LD format, label=jsonldexample]
+{
+  "http://schema.org/name": "Manu Sporny",
+  "http://schema.org/url": {
+    "@id": "http://manu.sporny.org/"
+  },
+  "http://schema.org/image": {
+    "@id": "http://manu.sporny.org/images/manu.png"
+  }
+}
+\end{lstlisting}
+
+This can be understood by any machine without providing additional information. The key \lstinline{http://schema.org/name} can be looked up to determine the meaning of the value \lstinline{Manu Sporny}. JSON-LD supports the concept of a \textbf{context}. Following is the context of the example above:
+
+\newpage
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Context of the example data at https://json-ld.org/contexts/person.jsonld, label=jsonlcontextexample]
+{
+  "@context": {
+    "name": "http://schema.org/name",
+    "image": {
+      "@id": "http://schema.org/image",
+      "@type": "@id"
+    },
+    "homepage": {
+      "@id": "http://schema.org/url",
+      "@type": "@id"
+    }
+  }
+}
+\end{lstlisting}
+
+The context is meta data that has to be provided together with the data. This makes it possible for a machine to attach meaning to it. Thanks to the context it is not required to have the keys as absolute URIs anymore. The data can be compacted and written as follows:
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Compacted data of a person, label=jsonldcompacted]
+{
+  "@context": "https://json-ld.org/contexts/person.jsonld",
+  "name": "Manu Sporny",
+  "homepage": "http://manu.sporny.org/",
+  "image": "http://manu.sporny.org/images/manu.png"
+}
+\end{lstlisting}
+
+With the small addition of the reserved keyword \lstinline{@context} readability of JSON was restored while allowing machines to understand the data.
 
 \subsubsection{Framing}\label{jsonldframing}
 
 TODO describe operation and what the goal is
 
-\subsubsection{Compacting}\label{jsonldextending}
+\subsubsection{Compacting}\label{jsonldcompacting}
 
 TODO describe operation and what the goal is
 
