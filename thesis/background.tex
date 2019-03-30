@@ -24,7 +24,7 @@ To this day a lot of UIs are developed that way. Some parts are increasingly ren
 \\ There are efforts like Swagger or OpenAPI to formalize and standardize documentation of HTTP APIs. Often documentation can be generated to a certain extent, so the overhead to keep the up-to-date is small. Documentation helps \textbf{humans} (frontend team) to understand the data and to develop a client that consumes the documented API in an efficient and effective way.
 \\ Nevertheless, data coming from the server has to be understood by human frontend developers. That interpretation of the meaning of the incoming data is hard coded into the client and the UI. This causes strong coupling of the client to the data and therefore to the server. The client can not be re-used in some other \textbf{context}.
 
-\subsection{Lack of context}\label{datahumanmachine}
+\subsubsection{Lack of context}\label{datahumanmachine}
 
 Picture a scenario in everyday life where two good friends meet. One of them says: \textit{Have you heard about Frank? He recently got married.} Chances are high the other one knows multiple people named \textbf{Frank}. Being a human, he is able to map the name \textbf{Frank} to the person the other one is referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people \textbf{both know}.
 \par Exactly the same thing happens frequently in software development, especially in data exchange. A frontend developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
@@ -43,6 +43,8 @@ Linked data is a way of creating a web of machine interpretable data across diff
 
 A machine looking at a piece of linked data follows the links and is able to unambiguously understand the data.
 
+TODO small example using RDF
+
 \lstset{language=XML}
 \begin{lstlisting}
 <rdf:Description about="#albert"
@@ -50,6 +52,10 @@ A machine looking at a piece of linked data follows the links and is able to una
   <fam:child rdf:Resource="#carol">
   </rdf:Description>
 \end{lstlisting}
+
+\subsection{JSON-LD}\label{jsonld}
+
+TODO valid JSON, only @id and @context, network effect, tooling, check spec
 
 \lstset{language=JSON}
 \begin{lstlisting}
@@ -61,13 +67,21 @@ A machine looking at a piece of linked data follows the links and is able to una
 }
 \end{lstlisting}
 
-\subsubsection{JSON-LD}\label{jsonld}
-
-TODO valid JSON, only @id and @context, network effect, tooling, check spec
-
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut congue nisl. Maecenas nec odio eget felis ultricies consequat. Vestibulum consequat orci eu augue sodales rhoncus. Sed tempor maximus nisl, in varius eros mollis tempus. Praesent condimentum nibh eros. Maecenas pulvinar massa ut lectus volutpat, ac mattis ligula laoreet. Duis cursus odio a quam ullamcorper, lacinia dignissim magna lobortis. Phasellus nec lectus sit amet elit convallis interdum. Ut at est risus.
 
 Curabitur finibus laoreet mauris at molestie. Nunc arcu est, vulputate sit amet tempus vitae, sagittis in elit. Vestibulum ac pretium justo, vehicula vestibulum lacus. Pellentesque varius mattis aliquet. Vestibulum a lacus placerat, faucibus neque sed, hendrerit ante. Etiam id suscipit odio. Vivamus porta sollicitudin metus, in pulvinar lorem maximus et. Pellentesque eget sodales lacus, et convallis augue. Fusce porta leo et posuere cursus.
+
+\subsubsection{Framing}\label{jsonldframing}
+
+TODO describe operation and what the goal is
+
+\subsubsection{Compacting}\label{jsonldextending}
+
+TODO describe operation and what the goal is
+
+\subsubsection{Extending}\label{jsonldextending}
+
+TODO describe operation and what the goal is
 
 \subsection{Hypermedia vocabulary}
 
@@ -90,3 +104,10 @@ TODO check spec
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut congue nisl. Maecenas nec odio eget felis ultricies consequat. Vestibulum consequat orci eu augue sodales rhoncus. Sed tempor maximus nisl, in varius eros mollis tempus. Praesent condimentum nibh eros. Maecenas pulvinar massa ut lectus volutpat, ac mattis ligula laoreet. Duis cursus odio a quam ullamcorper, lacinia dignissim magna lobortis. Phasellus nec lectus sit amet elit convallis interdum. Ut at est risus.
 
 Curabitur finibus laoreet mauris at molestie. Nunc arcu est, vulputate sit amet tempus vitae, sagittis in elit. Vestibulum ac pretium justo, vehicula vestibulum lacus. Pellentesque varius mattis aliquet. Vestibulum a lacus placerat, faucibus neque sed, hendrerit ante. Etiam id suscipit odio. Vivamus porta sollicitudin metus, in pulvinar lorem maximus et. Pellentesque eget sodales lacus, et convallis augue. Fusce porta leo et posuere cursus.
+
+\subsection{Existing solutions and tools}
+
+\subsubsection{GraphQL}
+\subsubsection{Rails with ActiveAdmin}
+\subsubsection{Hyperfiddle}
+\subsubsection{Fulcro}
