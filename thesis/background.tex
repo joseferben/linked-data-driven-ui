@@ -205,6 +205,7 @@ Consider following input:
 
 This data can be compacted by pulling out the \lstinline{@context}:
 
+\lstset{language=JSON}
 \begin{lstlisting}[caption=Compacted and easy-to-read data of a person]
 {
   "@context": "http://schema.org",
@@ -220,6 +221,7 @@ Expanded data serves the opposite goal of compacting data. While compacted data 
 
 Expanding the following compacted data
 
+\lstset{language=JSON}
 \begin{lstlisting}[caption=Compacted and easy-to-read data of a person]
 {
   "@context": "http://schema.org",
@@ -231,6 +233,7 @@ Expanding the following compacted data
 
 results in following expanded data:
 
+\lstset{language=JSON}
 \begin{lstlisting}[caption=Expanded data of a person that is easy to process for machines]
 [
   {
@@ -253,15 +256,53 @@ results in following expanded data:
 ]
 \end{lstlisting}
 
-\subsection{Hypermedia vocabulary}
+\subsection{Vocabulary}
 
-JSON-LD is essentially a linked data serialization format that plays well with JSON. In order to be useful there has to be some kind of vocabulary.
-
-There are two major vocabularies making use of JSON-LD:
+JSON-LD is essentially a linked data serialization format that plays well with JSON tooling. Creating linked data means creating a vocabulary that other might use by linking to it. A lot of vocabularies those exist and two of them are particularly interesting for this thesis.
 
 \subsubsection{Schema.org}
 
-TODO by big companies, ontology for useful things in web development
+Schema.org is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond \citep{welcomeschemaorg}. Companies like Google, Microsoft, Pinterest and Yandex are using it in their tools and products.
+
+Their main goal is to provide a shared vocabulary that web developers can refer to. It is often used in the context of search engine optimization by helping crawlers understand websites.
+
+Schema.org is a hierarchy of \lstinline{Things} that have an implicit \textbf{is a} relationship. This is similar to sub typing through inheritance in many object-oriented programming languages. Following is a small subset of the Schema.org hierarchy:
+
+\Tree [.Thing [.Person Patient ] [.AchieveAction WinAction LoseAction ] [.Place [.Accomodation Apartment [.Room HotelRoom ] ] ] ]
+
+The advantage of using such a vocabulary becomes obvious when looking at an example.The type \lstinline{Person} has a property \lstinline{address}. \lstinline{Address} can be of type \lstinline{http://schema.org/Text} or \lstinline{http://schema.org/PostalAddress}.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=A person with an address of type Text]
+{
+  "@context": "http://schema.org",
+  "givenName": "Walter",
+  "familyName": "White",
+  "address": "3828 Piermont Dr NE Albuquerque, NM 87111, USA"
+}
+\end{lstlisting}
+
+A machine receiving that data knows that this is a person and understands his name, but it can not understand his address. There is additional context needed that describes the schema used in the \lstinline{address} property.
+
+The data of the same person where the address is of type \lstinline{http://schema.org/PostalAddress} can be processed unambiguously by any machine that understands linked data.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=A person with an address of type PostalAddress]
+{
+  "@context": "http://schema.org",
+  "givenName": "Walter",
+  "familyName": "White",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Albuquerque",
+    "addressRegion": "NM",
+    "postalCode": "87111",
+    "streetAddress": "3828 Piermont Dr NE Albuquerque"
+  },
+}
+\end{lstlisting}
+
+The \lstinline{streetAddress} is still stringly typed. A system running at a package distribution center could route packages correctly to some local distribution center or postal office by looking at \lstinline{addressRegion} and \lstinline{addressLocality}.
 
 \subsubsection{Hydra}
 
