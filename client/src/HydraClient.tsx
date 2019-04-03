@@ -26,13 +26,15 @@ function HydraConsole(props: any) {
     }
   });
 
-  client.loadResource("https://wikibus-data-test.gear.host/").then(res => {
-    console.log("From https://wikibus-data-test.gear.host/:");
-    console.log(res);
-    for (let r of res) {
-      console.log(r.id);
-    }
-  });
+  client
+    .loadResource("https://demo.api-platform.com/index.jsonld")
+    .then(res => {
+      console.log("From https://demo.api-platform.com/index.jsonld:");
+      console.log(res);
+      for (let r of res) {
+        console.log(r.id);
+      }
+    });
   return (
     <Container style={{ marginTop: "3em" }}>
       <Header as="h1">Hydra console</Header>
@@ -42,9 +44,8 @@ function HydraConsole(props: any) {
         </Grid.Column>
       </Grid>
       <Grid columns={1} stackable>
-        <Grid.Column>
-          <HydraRenderer />
-        </Grid.Column>
+        <HydraRenderer />
+        <Grid.Column />
       </Grid>
     </Container>
   );
