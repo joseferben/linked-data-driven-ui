@@ -6,11 +6,12 @@
     "build-ts": "tsc",
     "start": "yarn run serve",
     "serve": "node dist/index.js",
-    "watch-node": "nodemon dist/index.js",
+    "watch-node": "NODE_ENV=development nodemon dist/index.js",
     "watch-ts": "tsc -w"
   },
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4"
   },
   "devDependencies": {
