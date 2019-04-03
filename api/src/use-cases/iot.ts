@@ -119,8 +119,7 @@ const apartments = [
     },
     containsPlace: rooms,
     numberOfRooms: 6,
-    petsAllowed: false,
-    totalItems: "42"
+    petsAllowed: false
   }
 ];
 
@@ -136,8 +135,8 @@ const contexts: { [key: string]: any } = {
         "@id": "hydra:EntryPoint/rooms",
         "@type": "@id"
       },
-      thermostats: {
-        "@id": "hydra:EntryPoint/thermostats",
+      thermometers: {
+        "@id": "hydra:EntryPoint/thermometers",
         "@type": "@id"
       }
     }
@@ -161,7 +160,7 @@ iot.get("/", jsonLdSetter, (_, res) => {
     "@type": "EntryPoint",
     apartments: `${b}/apartments`,
     rooms: `${b}/rooms`,
-    thermostats: `${b}/thermostats`
+    thermometers: `${b}/thermometers`
   });
 });
 
@@ -184,8 +183,8 @@ iot.get("/contexts/entry-point", jsonLdSetter, (_, res) => {
         "@id": "hydra:EntryPoint/rooms",
         "@type": "@id"
       },
-      thermostats: {
-        "@id": "hydra:EntryPoint/thermostats",
+      thermometers: {
+        "@id": "hydra:EntryPoint/thermometers",
         "@type": "@id"
       }
     }
@@ -224,6 +223,7 @@ iot.get("/apartments", jsonLdSetter, (req, res) =>
     "@context": `${b}/contexts/Apartment`,
     "@id": `${b}/apartments`,
     "@type": "Collection",
+    totalItems: 1,
     member: [{ "@id": `${b}/apartments/0` }]
   })
 );
@@ -231,8 +231,9 @@ iot.get("/apartments", jsonLdSetter, (req, res) =>
 iot.get("/rooms", jsonLdSetter, (req, res) => {
   res.send({
     "@context": `${b}/contexts/Room`,
-    "@id": `${b}/apartments`,
+    "@id": `${b}/rooms`,
     "@type": "Collection",
+    totalItems: 6,
     member: rooms
   });
 });
@@ -240,8 +241,9 @@ iot.get("/rooms", jsonLdSetter, (req, res) => {
 iot.get("/thermometers", jsonLdSetter, (req, res) => {
   res.send({
     "@context": `${b}/contexts/Thermometer`,
-    "@id": `${b}/apartments`,
+    "@id": `${b}/thermometers`,
     "@type": "Collection",
+    totalItems: 6,
     member: thermometers
   });
 });

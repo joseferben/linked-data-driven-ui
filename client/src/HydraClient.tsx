@@ -12,43 +12,70 @@ import {
   Image,
   Menu,
   Segment,
-  Input
+  Input,
+  Dimmer,
+  Loader
 } from "semantic-ui-react";
 
 import HydraRenderer from "./components/HydraRenderer";
 
-function HydraConsole(props: any) {
-  client.loadResource("http://localhost:3000/iot").then(res => {
-    console.log("From http://localhost:3000/iot:");
-    console.log(res);
-    for (let r of res) {
-      console.log(r.id);
-    }
-  });
-
-  client
-    .loadResource("https://demo.api-platform.com/index.jsonld")
-    .then(res => {
-      console.log("From https://demo.api-platform.com/index.jsonld:");
-      console.log(res);
-      for (let r of res) {
-        console.log(r.id);
-      }
+function isDefined<T>(a: T | null | undefined): a is T {
+  return a !== null && a !== undefined;
+}
+class HydraConsole extends React.Component {
+  state = {
+    resources: null
+  };
+  componentDidMount() {
+    client.loadResource("http://localhost:3000/iot").then(res => {
+      console.log("From http://localhost:3000/iot:");
+      Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
+        res => {
+          const resources = res.map(resource => resource.root);
+          this.setState({ resources });
+        }
+      );
     });
-  return (
-    <Container style={{ marginTop: "3em" }}>
-      <Header as="h1">Hydra console</Header>
-      <Grid columns={1} stackable>
-        <Grid.Column>
-          <Input fluid label="http://" placeholder="hydra-api.com/entrypoint" />
-        </Grid.Column>
-      </Grid>
-      <Grid columns={1} stackable>
-        <HydraRenderer />
-        <Grid.Column />
-      </Grid>
-    </Container>
-  );
+  }
+
+  render() {
+    const {
+      state: { resources }
+    } = this;
+    console.log(this.state);
+    return (
+      <Container style={{ marginTop: "3em" }}>
+        <Header as="h1">Hydra console</Header>
+        <Grid>
+          <Grid.Column width={4}>
+            <Menu pointing secondary vertical>
+              {isDefined(resources) ? (
+                (resources || []).map(r => (
+                  <Menu.Item
+                    key={r["@id"]}
+                    name={(r["@id"] || "").split("/").pop()}
+                  />
+                ))
+              ) : (
+                <Dimmer active inverted>
+                  <Loader />
+                </Dimmer>
+              )}
+            </Menu>
+          </Grid.Column>
+          <Grid.Column width={12}>
+            <Input
+              fluid
+              label="http://"
+              placeholder="hydra-api.com/entrypoint"
+            />
+            <Divider />
+            <HydraRenderer />
+          </Grid.Column>
+        </Grid>
+      </Container>
+    );
+  }
 }
 
-export default withRouter(HydraConsole);
+export default HydraConsole;
