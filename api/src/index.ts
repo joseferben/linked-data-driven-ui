@@ -3,65 +3,164 @@ const app = express();
 
 const context = {
   "@context": [
-    "http://schema.org/",
-    "http://www.w3.org/ns/hydra/context.jsonld"
+    "http://schema.org",
+    "http://www.w3.org/ns/hydra/context.jsonld",
+    {
+      "@base": "https://lddui.erben.sh/iot"
+    }
   ]
 };
 
-app.get("/iot/", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments", (req, res) =>
-  res.json({
+const rooms = [
+  {
+    "@id": "/apartments/1/rooms/1",
+    "@type": ["Room", "Collection"],
+    amenityFeature: "Kitchen",
+    member: [
+      {
+        "@id": "/apartments/1/rooms/1/thermometer/1",
+        "@type": "Thermometer",
+        temperature: {
+          "@type": "QuantitativeValue",
+          unitText: "°C",
+          value: 23
+        }
+      },
+      {
+        "@id": "/apartments/1/rooms/1/thermostat/1",
+        "@type": "Thermostat",
+        temperature: {
+          "@type": "QuantitativeValue",
+          unitText: "°C",
+          value: 23
+        }
+      }
+    ]
+  },
+  {
+    "@id": "/apartments/1/rooms/2",
+    "@type": "Room",
+    amenityFeature: "Laundry Storage"
+  },
+  {
+    "@id": "/apartments/1/rooms/3",
+    "@type": "Room",
+    amenityFeature: "1/2 Bath"
+  },
+  {
+    "@id": "/apartments/1/rooms/4",
+    "@type": "Room",
+    amenityFeature: "Formal Living"
+  },
+  {
+    "@id": "/apartments/1/rooms/5",
+    "@type": ["Room", "Collection"],
+    amenityFeature: "Entrance",
+    member: {
+      "@id": "/apartments/1/rooms/5/thermometer/1",
+      "@type": "Thermometer",
+      temperature: {
+        "@type": "QuantitativeValue",
+        unitText: "°C",
+        value: 22.2
+      }
+    }
+  },
+  {
+    "@id": "/apartments/1/rooms/6",
+    "@type": ["Room", "Collection"],
+    amenityFeature: "Family",
+    member: [
+      {
+        "@id": "/apartments/1/rooms/6/thermometer/1",
+        "@type": "Thermometer",
+        temperature: {
+          "@type": "QuantitativeValue",
+          unitText: "°C",
+          value: 22.2
+        }
+      },
+      {
+        "@id": "/apartments/1/rooms/6/thermometer/1",
+        "@type": "Thermometer",
+        temperature: {
+          "@type": "QuantitativeValue",
+          unitText: "°C",
+          value: 22.3
+        }
+      },
+      {
+        "@id": "/apartments/1/rooms/6/thermometer/1",
+        "@type": "Thermometer",
+        temperature: {
+          "@type": "QuantitativeValue",
+          unitText: "°C",
+          value: 22.8
+        }
+      }
+    ]
+  }
+];
+
+const apartments = [
+  {
     "@context": context,
-    "@id": "https://lddui.erben.sh/apartments",
+    "@id": "/apartments/1",
     "@type": ["Apartment", "Collection"],
     hasMap: {
       "@type": "URL",
-      image: "https://lddui.erben.sh/apartments/assets/floorplan.jpg"
+      image: "/floorplan.jpg"
     },
-    member: [
-      {
-        "@id": "https://lddui.erben.sh/apartments/rooms/1"
-      },
-      {
-        "@id": "https://lddui.erben.sh/apartments/rooms/2"
-      },
-      {
-        "@id": "https://lddui.erben.sh/apartments/rooms/3"
-      },
-      {
-        "@id": "https://lddui.erben.sh/apartments/rooms/4"
-      },
-      {
-        "@id": "https://lddui.erben.sh/apartments/rooms/5"
-      },
-      {
-        "@id": "https://lddui.erben.sh/apartments/rooms/6"
-      }
-    ]
+    member: rooms,
+    numberOfRooms: 6,
+    petsAllowed: false,
+    totalItems: "42"
+  }
+];
+
+const iot = express.Router();
+
+iot.get("/apartments", (req, res) =>
+  res.json({
+    "@context": context,
+    "@id": "/apartments",
+    "@type": "Collection",
+    member: { "@id": "/apartments/1" }
   })
 );
 
-app.get("/iot/apartments/1", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms/1", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms/1/thermometers", (req, res) =>
-  res.send("Hello World!")
+iot.get("/apartments/1", (req, res) => {
+  res.json(apartments[0]);
+});
+iot.get("/apartments/1/rooms/1", (req, res) => res.json(rooms[0]));
+iot.get("/apartments/1/rooms/1/thermometers/1", (req, res) =>
+  res.json({
+    "@id": "/apartments/1/rooms/1/thermometer/1",
+    "@type": "Thermometer",
+    temperature: {
+      "@type": "QuantitativeValue",
+      unitText: "°C",
+      value: 23
+    }
+  })
 );
-app.get("/iot/apartments/1/rooms/1/thermometers/1", (req, res) =>
-  res.send("Hello World!")
+iot.get("/apartments/1/rooms/1/thermostats/1", (req, res) =>
+  res.json({
+    "@id": "/apartments/1/rooms/1/thermostat/1",
+    "@type": "Thermostat",
+    temperature: {
+      "@type": "QuantitativeValue",
+      unitText: "°C",
+      value: 23
+    }
+  })
 );
-app.get("/iot/apartments/1/rooms/1/thermostats", (req, res) =>
-  res.send("Hello World!")
-);
-app.get("/iot/apartments/1/rooms/1/thermostats/1", (req, res) =>
-  res.send("Hello World!")
-);
-app.get("/iot/apartments/1/rooms/2", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms/3", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms/4", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms/5", (req, res) => res.send("Hello World!"));
-app.get("/iot/apartments/1/rooms/6", (req, res) => res.send("Hello World!"));
+iot.get("/apartments/1/rooms/2", (req, res) => res.json(rooms[1]));
+iot.get("/apartments/1/rooms/3", (req, res) => res.json(rooms[2]));
+iot.get("/apartments/1/rooms/4", (req, res) => res.json(rooms[3]));
+iot.get("/apartments/1/rooms/5", (req, res) => res.json(rooms[4]));
+iot.get("/apartments/1/rooms/6", (req, res) => res.json(rooms[5]));
 
-app.get("/", (req, res) => res.send("Hello World!"));
+app.use("/iot", iot);
 
 app.listen(3000, () => console.log("Example app listening on port 3000!"));
