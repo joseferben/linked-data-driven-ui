@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
     "@types/jest": "24.0.11",
     "@types/node": "11.13.0",
     "@types/react": "16.8.10",
     "@types/react-dom": "16.8.3",
     "alcaeus": "^0.5.0",
-    "material-ui-tree": "^1.0.12",
     "mobx": "^5.9.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
+    "react-virtualized": "^9.21.0",
+    "react-virtualized-tree": "^3.2.1",
+    "semantic-ui-react": "^0.86.0",
     "typescript": "3.4.1"
   },
   "scripts": {
