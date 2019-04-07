@@ -7,62 +7,69 @@ const b = `${baseUrl}/iot`;
 const thermometers = [
   {
     "@id": `${b}/thermometers/0`,
-    "@type": ["Thermometer", "Place"],
-    temperature: {
-      "@type": "QuantitativeValue",
-      unitText: "°C",
-      value: 23.0
+    "@type": "https://schema.org/Place",
+    additionalProperty: {
+      "@id": `${b}/thermometers/0/temp`,
+      "@type": "https://schema.org/PropertyValue",
+      name: "Temperature",
+      value: "23.0"
     },
     containedInPlace: `${b}/rooms/0`
   },
   {
     "@id": `${b}/thermometers/1`,
-    "@type": "Thermometer",
-    temperature: {
-      "@type": "QuantitativeValue",
-      unitText: "°C",
-      value: 23.5
+    "@type": "https://schema.org/Place",
+    additionalProperty: {
+      "@id": `${b}/thermometers/1/temp`,
+      "@type": "https://schema.org/PropertyValue",
+      name: "Temperature",
+      value: "22.2"
     },
     containedInPlace: `${b}/rooms/1`
   },
   {
     "@id": `${b}/thermometers/2`,
-    "@type": "Thermometer",
-    temperature: {
-      "@type": "QuantitativeValue",
-      unitText: "°C",
-      value: 23.1
+    "@type": "https://schema.org/Place",
+    additionalProperty: {
+      "@id": `${b}/thermometers/2/temp`,
+      "@type": "https://schema.org/PropertyValue",
+      name: "Temperature",
+      value: "22.8"
     },
     containedInPlace: `${b}/rooms/2`
   },
   {
     "@id": `${b}/thermometers/3`,
-    "@type": "Thermometer",
-    temperature: {
-      "@type": "QuantitativeValue",
-      unitText: "°C",
-      value: 22.0
+    "@type": "https://schema.org/Place",
+    additionalProperty: {
+      "@id": `${b}/thermometers/3/temp`,
+      "@type": "https://schema.org/PropertyValue",
+      name: "Temperature",
+      value: "23.1"
     },
     containedInPlace: `${b}/rooms/3`
   },
   {
     "@id": `${b}/thermometers/4`,
-    "@type": "Thermometer",
-    temperature: {
-      "@type": "QuantitativeValue",
-      unitText: "°C",
-      value: 23.5
+    "@type": "https://schema.org/Place",
+    additionalProperty: {
+      "@id": `${b}/thermometers/4/temp`,
+      "@type": "https://schema.org/PropertyValue",
+      name: "Temperature",
+      value: "23.5"
     },
     containedInPlace: `${b}/rooms/5`
   },
   {
     "@id": `${b}/thermometers/5`,
-    "@type": "Thermometer",
-    temperature: {
-      "@type": "QuantitativeValue",
-      unitText: "°C",
-      value: 24.1
+    "@type": "https://schema.org/Place",
+    additionalProperty: {
+      "@id": `${b}/thermometers/5/temp`,
+      "@type": "https://schema.org/PropertyValue",
+      name: "Temperature",
+      value: "21.8"
     },
+
     containedInPlace: `${b}/rooms/5`
   }
 ];
@@ -70,39 +77,39 @@ const thermometers = [
 const rooms = [
   {
     "@id": `${b}/rooms/0`,
-    "@type": "https//schema.org/Room",
+    "@type": "https://schema.org/Room",
     amenityFeature: "Kitchen",
     containsPlace: [thermometers[0], thermometers[1], thermometers[2]],
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/1`,
-    "@type": "https//schema.org/Room",
+    "@type": "https://schema.org/Room",
     amenityFeature: "Laundry Storage",
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/2`,
-    "@type": "https//schema.org/Room",
+    "@type": "https://schema.org/Room",
     amenityFeature: "1/2 Bath",
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/3`,
-    "@type": "https//schema.org/Room",
+    "@type": "https://schema.org/Room",
     amenityFeature: "Formal Living",
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/4`,
-    "@type": "https//schema.org/Room",
+    "@type": "https://schema.org/Room",
     amenityFeature: "Entrance",
     containsPlace: [thermometers[3]],
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/5`,
-    "@type": "https//schema.org/Room",
+    "@type": "https://schema.org/Room",
     amenityFeature: "Family",
     containsPlace: [thermometers[4], thermometers[5]],
     containedInPlace: `${b}/apartments/0`
@@ -141,7 +148,7 @@ const contexts: { [key: string]: any } = {
       }
     }
   },
-  Apartment: {
+  iot: {
     "@context": [
       "http://www.w3.org/ns/hydra/context.jsonld",
       {
@@ -151,21 +158,13 @@ const contexts: { [key: string]: any } = {
         numberOfRooms: "https://schema.org/numberOfRooms",
         petsAllowed: "https://schema.org/petsAllowed",
         amenityFeature: "https://schema.org/amenityFeature",
-        containedInPlace: "https://schema.org/containedInPlace"
+        containedInPlace: "https://schema.org/containedInPlace",
+        additionalProperty: "https://schema.org/additionalProperty",
+        name: "https://schema.org/name",
+        value: "https://schema.org/value"
       }
     ]
-  },
-  Room: {
-    "@context": [
-      "http://www.w3.org/ns/hydra/context.jsonld",
-      {
-        amenityFeature: "https://schema.org/amenityFeature",
-        containsPlace: "https://schema.org/containsPlace",
-        containedInPlace: "https://schema.org/containedInPlace"
-      }
-    ]
-  },
-  Thermometer: { "@context": "http://www.w3.org/ns/hydra/context.jsonld" }
+  }
 };
 
 const iot = express.Router();
@@ -186,14 +185,7 @@ iot.get("/", jsonLdSetter, (_, res) => {
   });
 });
 
-iot.get("/contexts/:id", jsonLdSetter, (req, res) => {
-  const {
-    params: { id }
-  } = req;
-  res.send(contexts[id]);
-});
-
-iot.get("/contexts/entry-point", jsonLdSetter, (_, res) => {
+iot.get("/contexts/EntryPoint", jsonLdSetter, (_, res) => {
   res.send({
     "@context": {
       hydra: "http://www.w3.org/ns/hydra/core#",
@@ -211,6 +203,10 @@ iot.get("/contexts/entry-point", jsonLdSetter, (_, res) => {
       }
     }
   });
+});
+
+iot.get("/contexts/:id", jsonLdSetter, (req, res) => {
+  res.send(contexts.iot);
 });
 
 iot.get("/apartments/0", jsonLdSetter, (req, res) => {
@@ -238,6 +234,11 @@ iot.get("/thermometers/:id", jsonLdSetter, (req, res) => {
     "@context": `${b}/contexts/Thermometer`,
     ...thermometers[id]
   });
+});
+
+iot.get("/thermometers/:id/temp", jsonLdSetter, (req, res) => {
+  //TODO
+  res.send({});
 });
 
 iot.get("/apartments", jsonLdSetter, (req, res) =>

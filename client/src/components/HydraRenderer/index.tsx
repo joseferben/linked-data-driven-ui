@@ -7,27 +7,64 @@ import { Hydra as client, Resource } from "alcaeus";
 import Tree, { renderers } from "react-virtualized-tree";
 import { Nodes } from "./sampleTree";
 
-const HydraNodeRenderer = (obj: { node: { name: string }; children: [] }) => {
-  return <span>{obj.node.name}</span>;
+type Node = {
+  id: string;
+  name: string;
+  data: { [index: string]: any };
+  state: { expanded: boolean };
+  children: Node[];
 };
 
-const NodeNameRenderer = ({
-  node: { name },
-  children
-}: {
-  node: { name: string };
+const HydraNodeRenderer = (obj: {
+  onChange: Function;
+  node: { name: string; data: any };
   children: [];
-}) => (
-  <span>
-    {name}
-    {children}
-  </span>
-);
+}) => {
+  const properties = Object.keys(obj.node.data || {}).map(k => (
+    <div key={k}>
+      <span style={{ color: "red" }}>{k}</span>
+      <span>{JSON.stringify(obj.node.data[k])}</span>
+    </div>
+  ));
+  return (
+    <div>
+      <div>{obj.node.name}</div>
+      {properties}
+    </div>
+  );
+};
+
+const resourceToTree = (resource: any): Node => {
+  const keys = Object.keys(resource || {});
+  return keys.reduce(
+    (acc, k) => {
+      if (typeof resource[k] === "object" && Array.isArray(resource[k])) {
+        acc.children = [
+          ...resource[k].map((r: any) => resourceToTree(r)),
+          ...acc.children
+        ];
+      } else if (typeof resource[k] === "object") {
+        acc.children = [resourceToTree(resource[k]), ...acc.children];
+      } else {
+        acc.data[k] = resource[k];
+      }
+      return acc;
+    },
+    {
+      id: resource.id,
+      name: resource.id,
+      data: {},
+      state: { expanded: true },
+      children: []
+    } as Node
+  );
+};
 
 class HydraRenderer extends React.Component {
   state = {
-    nodes: Nodes,
-    selectedRenderers: [HydraNodeRenderer]
+    nodes: [],
+    selectedRenderers: [HydraNodeRenderer],
+    resource: null
   };
 
   renderNodeDisplay = (display: any, props: any, children = []) =>
@@ -51,9 +88,15 @@ class HydraRenderer extends React.Component {
     this.setState({ nodes });
   };
 
+  componentDidMount() {
+    client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
+      this.setState({ nodes: [resourceToTree(res.root)] });
+    });
+  }
+
   render() {
     return (
-      <div style={{ height: 200 }}>
+      <div style={{ height: 2000 }}>
         <Tree nodes={this.state.nodes} onChange={this.handleChange}>
           {({ style, ...p }) => (
             <div style={style}>

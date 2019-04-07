@@ -37,16 +37,6 @@ class HydraConsole extends React.Component {
         }
       );
     });
-
-    client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
-      console.log("From http://localhost:3000/iot/apartments/0:");
-      Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
-        res => {
-          const resources = res.map(resource => resource.root);
-          console.log(resources[0]);
-        }
-      );
-    });
   }
 
   render() {
