@@ -5,58 +5,32 @@ import "material-icons/css/material-icons.css";
 import { Hydra as client } from "alcaeus";
 
 import Tree, { renderers } from "react-virtualized-tree";
-import { Nodes } from "./sampleTree";
-
-type Node = {
-  id: string;
-  name: string;
-  data: { [index: string]: any };
-  state: { expanded: boolean };
-  children: Node[];
-};
-
-type RenderableNode = {
-  onChange: Function;
-  node: { name: string; data: { [index: string]: number | string | boolean } };
-  children: [];
-};
-
-const GenericLinkedDataRenderer = (obj: RenderableNode) => {
-  const properties = Object.keys(obj.node.data || {})
-    .filter(k => k !== "relation")
-    .map(k => (
-      <div key={k}>
-        <span style={{ color: "red" }}>{k}</span>
-        <span>{obj.node.data[k]}</span>
-      </div>
-    ));
-  return (
-    <div>
-      <div>
-        <span style={{ color: "blue" }}>{obj.node.data.relation}</span>
-      </div>
-      <div>{obj.node.name}</div>
-      {properties}
-      {obj.children}
-    </div>
-  );
-};
+import { Node } from "./types";
+import { GenericLinkedData } from "./renderers/GenericLinkedData";
 
 const resourceToTree = (resource: any): Node => {
   const keys = Object.keys(resource || {});
   return keys.reduce(
     (acc, k) => {
       const value = resource[k];
-      if (typeof value === "object" && Array.isArray(resource[k])) {
-        acc.children = [
-          ...value.map((r: any) => resourceToTree({ relation: k, ...r })),
-          ...acc.children
-        ];
+      if (typeof value === "object" && Array.isArray(value)) {
+        const relationNode = {
+          id: `${resource.id || resource["@id"]}/${k}`,
+          name: k,
+          data: {},
+          state: { expanded: true },
+          children: value.map((r: any) => resourceToTree(r))
+        };
+        acc.children = [relationNode, ...acc.children];
       } else if (typeof value === "object") {
-        acc.children = [
-          resourceToTree({ relation: k, ...value }),
-          ...acc.children
-        ];
+        const relationNode = {
+          id: `${resource.id || resource["@id"]}/${k}`,
+          name: k,
+          data: {},
+          state: { expanded: true },
+          children: [resourceToTree(value)]
+        };
+        acc.children = [relationNode, ...acc.children];
       } else {
         acc.data[k] = value;
       }
@@ -75,7 +49,7 @@ const resourceToTree = (resource: any): Node => {
 class HydraRenderer extends React.Component {
   state = {
     nodes: [],
-    selectedRenderers: [GenericLinkedDataRenderer, renderers.Expandable],
+    selectedRenderers: [GenericLinkedData, renderers.Expandable],
     resource: null
   };
 
@@ -109,7 +83,7 @@ class HydraRenderer extends React.Component {
 
   render() {
     return (
-      <div style={{ height: 2000 }}>
+      <div style={{ height: 800 }}>
         <Tree nodes={this.state.nodes} onChange={this.handleChange}>
           {({ style, ...p }) => (
             <div style={style}>
