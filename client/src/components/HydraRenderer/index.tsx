@@ -2,7 +2,7 @@ import React from "react";
 import "react-virtualized/styles.css";
 import "react-virtualized-tree/lib/main.css";
 import "material-icons/css/material-icons.css";
-import { Hydra as client, Resource } from "alcaeus";
+import { Hydra as client } from "alcaeus";
 
 import Tree, { renderers } from "react-virtualized-tree";
 import { Nodes } from "./sampleTree";
@@ -15,21 +15,29 @@ type Node = {
   children: Node[];
 };
 
-const HydraNodeRenderer = (obj: {
+type RenderableNode = {
   onChange: Function;
-  node: { name: string; data: any };
+  node: { name: string; data: { [index: string]: number | string | boolean } };
   children: [];
-}) => {
-  const properties = Object.keys(obj.node.data || {}).map(k => (
-    <div key={k}>
-      <span style={{ color: "red" }}>{k}</span>
-      <span>{JSON.stringify(obj.node.data[k])}</span>
-    </div>
-  ));
+};
+
+const GenericLinkedDataRenderer = (obj: RenderableNode) => {
+  const properties = Object.keys(obj.node.data || {})
+    .filter(k => k !== "relation")
+    .map(k => (
+      <div key={k}>
+        <span style={{ color: "red" }}>{k}</span>
+        <span>{obj.node.data[k]}</span>
+      </div>
+    ));
   return (
     <div>
+      <div>
+        <span style={{ color: "blue" }}>{obj.node.data.relation}</span>
+      </div>
       <div>{obj.node.name}</div>
       {properties}
+      {obj.children}
     </div>
   );
 };
@@ -38,20 +46,24 @@ const resourceToTree = (resource: any): Node => {
   const keys = Object.keys(resource || {});
   return keys.reduce(
     (acc, k) => {
-      if (typeof resource[k] === "object" && Array.isArray(resource[k])) {
+      const value = resource[k];
+      if (typeof value === "object" && Array.isArray(resource[k])) {
         acc.children = [
-          ...resource[k].map((r: any) => resourceToTree(r)),
+          ...value.map((r: any) => resourceToTree({ relation: k, ...r })),
           ...acc.children
         ];
-      } else if (typeof resource[k] === "object") {
-        acc.children = [resourceToTree(resource[k]), ...acc.children];
+      } else if (typeof value === "object") {
+        acc.children = [
+          resourceToTree({ relation: k, ...value }),
+          ...acc.children
+        ];
       } else {
-        acc.data[k] = resource[k];
+        acc.data[k] = value;
       }
       return acc;
     },
     {
-      id: resource.id,
+      id: resource.id || resource["@id"],
       name: resource.id,
       data: {},
       state: { expanded: true },
@@ -63,7 +75,7 @@ const resourceToTree = (resource: any): Node => {
 class HydraRenderer extends React.Component {
   state = {
     nodes: [],
-    selectedRenderers: [HydraNodeRenderer],
+    selectedRenderers: [GenericLinkedDataRenderer, renderers.Expandable],
     resource: null
   };
 
@@ -91,6 +103,7 @@ class HydraRenderer extends React.Component {
   componentDidMount() {
     client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
       this.setState({ nodes: [resourceToTree(res.root)] });
+      console.log(this.state.nodes);
     });
   }
 
