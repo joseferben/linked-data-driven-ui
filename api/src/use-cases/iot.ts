@@ -70,39 +70,39 @@ const thermometers = [
 const rooms = [
   {
     "@id": `${b}/rooms/0`,
-    "@type": "Room",
+    "@type": "https//schema.org/Room",
     amenityFeature: "Kitchen",
     containsPlace: [thermometers[0], thermometers[1], thermometers[2]],
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/1`,
-    "@type": "Room",
+    "@type": "https//schema.org/Room",
     amenityFeature: "Laundry Storage",
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/2`,
-    "@type": "Room",
+    "@type": "https//schema.org/Room",
     amenityFeature: "1/2 Bath",
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/3`,
-    "@type": "Room",
+    "@type": "https//schema.org/Room",
     amenityFeature: "Formal Living",
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/4`,
-    "@type": "Room",
+    "@type": "https//schema.org/Room",
     amenityFeature: "Entrance",
     containsPlace: [thermometers[3]],
     containedInPlace: `${b}/apartments/0`
   },
   {
     "@id": `${b}/rooms/5`,
-    "@type": "Room",
+    "@type": "https//schema.org/Room",
     amenityFeature: "Family",
     containsPlace: [thermometers[4], thermometers[5]],
     containedInPlace: `${b}/apartments/0`
@@ -112,10 +112,10 @@ const rooms = [
 const apartments = [
   {
     "@id": `${b}/apartments/0`,
-    "@type": "Apartment",
+    "@type": "https://schema.org/Apartment",
     hasMap: {
-      "@type": "URL",
-      image: `${b}/floorplan.jpg`
+      "@type": "https://schema.org/URL",
+      "@id": `${b}/floorplan.jpg`
     },
     containsPlace: rooms,
     numberOfRooms: 6,
@@ -141,8 +141,30 @@ const contexts: { [key: string]: any } = {
       }
     }
   },
-  Apartment: { "@context": "http://www.w3.org/ns/hydra/context.jsonld" },
-  Room: { "@context": "http://www.w3.org/ns/hydra/context.jsonld" },
+  Apartment: {
+    "@context": [
+      "http://www.w3.org/ns/hydra/context.jsonld",
+      {
+        containsPlace: "https://schema.org/containsPlace",
+        hasMap: "https://schema.org/hasMap",
+        image: "https://schema.org/image",
+        numberOfRooms: "https://schema.org/numberOfRooms",
+        petsAllowed: "https://schema.org/petsAllowed",
+        amenityFeature: "https://schema.org/amenityFeature",
+        containedInPlace: "https://schema.org/containedInPlace"
+      }
+    ]
+  },
+  Room: {
+    "@context": [
+      "http://www.w3.org/ns/hydra/context.jsonld",
+      {
+        amenityFeature: "https://schema.org/amenityFeature",
+        containsPlace: "https://schema.org/containsPlace",
+        containedInPlace: "https://schema.org/containedInPlace"
+      }
+    ]
+  },
   Thermometer: { "@context": "http://www.w3.org/ns/hydra/context.jsonld" }
 };
 

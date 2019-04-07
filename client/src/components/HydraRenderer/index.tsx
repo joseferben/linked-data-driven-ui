@@ -2,9 +2,14 @@ import React from "react";
 import "react-virtualized/styles.css";
 import "react-virtualized-tree/lib/main.css";
 import "material-icons/css/material-icons.css";
+import { Hydra as client, Resource } from "alcaeus";
 
 import Tree, { renderers } from "react-virtualized-tree";
 import { Nodes } from "./sampleTree";
+
+const HydraNodeRenderer = (obj: { node: { name: string }; children: [] }) => {
+  return <span>{obj.node.name}</span>;
+};
 
 const NodeNameRenderer = ({
   node: { name },
@@ -22,7 +27,7 @@ const NodeNameRenderer = ({
 class HydraRenderer extends React.Component {
   state = {
     nodes: Nodes,
-    selectedRenderers: [NodeNameRenderer]
+    selectedRenderers: [HydraNodeRenderer]
   };
 
   renderNodeDisplay = (display: any, props: any, children = []) =>

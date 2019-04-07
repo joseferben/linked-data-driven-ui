@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Hydra as client } from "alcaeus";
-import { withRouter } from "react-router";
+import { observable } from "mobx";
 
 import {
   Button,
@@ -22,6 +22,7 @@ import HydraRenderer from "./components/HydraRenderer";
 function isDefined<T>(a: T | null | undefined): a is T {
   return a !== null && a !== undefined;
 }
+
 class HydraConsole extends React.Component {
   state = {
     resources: null
@@ -36,13 +37,22 @@ class HydraConsole extends React.Component {
         }
       );
     });
+
+    client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
+      console.log("From http://localhost:3000/iot/apartments/0:");
+      Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
+        res => {
+          const resources = res.map(resource => resource.root);
+          console.log(resources[0]);
+        }
+      );
+    });
   }
 
   render() {
     const {
       state: { resources }
     } = this;
-    console.log(this.state);
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
