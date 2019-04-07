@@ -8,13 +8,14 @@ import Tree, { renderers } from "react-virtualized-tree";
 import { Node } from "./types";
 import { GenericLinkedData } from "./renderers/GenericLinkedData";
 import { Temperature } from "./renderers/Temperature";
+import { Thermometer } from "./renderers/Thermometer";
 
 const resourceToTree = (resource: any): Node => {
   const keys = Object.keys(resource || {});
   return keys.reduce(
     (acc, k) => {
       const value = resource[k];
-      if (typeof value === "object" && Array.isArray(value)) {
+      if (typeof value === "object" && Array.isArray(value) && k !== "@type") {
         const relationNode = {
           id: `${resource.id || resource["@id"]}/${k}`,
           name: k,
@@ -23,7 +24,7 @@ const resourceToTree = (resource: any): Node => {
           children: value.map((r: any) => resourceToTree(r))
         };
         acc.children = [relationNode, ...acc.children];
-      } else if (typeof value === "object") {
+      } else if (typeof value === "object" && k !== "@type") {
         const relationNode = {
           id: `${resource.id || resource["@id"]}/${k}`,
           name: k,
@@ -50,7 +51,12 @@ const resourceToTree = (resource: any): Node => {
 class HydraRenderer extends React.Component {
   state = {
     nodes: [],
-    selectedRenderers: [Temperature, GenericLinkedData, renderers.Expandable],
+    selectedRenderers: [
+      Temperature,
+      Thermometer,
+      GenericLinkedData,
+      renderers.Expandable
+    ],
     resource: null
   };
 

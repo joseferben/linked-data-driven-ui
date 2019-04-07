@@ -7,7 +7,7 @@ const b = `${baseUrl}/iot`;
 const thermometers = [
   {
     "@id": `${b}/thermometers/0`,
-    "@type": "https://schema.org/Place",
+    "@type": ["Thermometer", "https://schema.org/Place"],
     additionalProperty: {
       "@id": `${b}/thermometers/0/temp`,
       "@type": "https://schema.org/PropertyValue",
@@ -18,7 +18,7 @@ const thermometers = [
   },
   {
     "@id": `${b}/thermometers/1`,
-    "@type": "https://schema.org/Place",
+    "@type": ["Thermometer", "https://schema.org/Place"],
     additionalProperty: {
       "@id": `${b}/thermometers/1/temp`,
       "@type": "https://schema.org/PropertyValue",
@@ -29,7 +29,7 @@ const thermometers = [
   },
   {
     "@id": `${b}/thermometers/2`,
-    "@type": "https://schema.org/Place",
+    "@type": ["Thermometer", "https://schema.org/Place"],
     additionalProperty: {
       "@id": `${b}/thermometers/2/temp`,
       "@type": "https://schema.org/PropertyValue",
@@ -40,7 +40,7 @@ const thermometers = [
   },
   {
     "@id": `${b}/thermometers/3`,
-    "@type": "https://schema.org/Place",
+    "@type": ["Thermometer", "https://schema.org/Place"],
     additionalProperty: {
       "@id": `${b}/thermometers/3/temp`,
       "@type": "https://schema.org/PropertyValue",
@@ -51,7 +51,7 @@ const thermometers = [
   },
   {
     "@id": `${b}/thermometers/4`,
-    "@type": "https://schema.org/Place",
+    "@type": ["Thermometer", "https://schema.org/Place"],
     additionalProperty: {
       "@id": `${b}/thermometers/4/temp`,
       "@type": "https://schema.org/PropertyValue",
@@ -62,7 +62,7 @@ const thermometers = [
   },
   {
     "@id": `${b}/thermometers/5`,
-    "@type": "https://schema.org/Place",
+    "@type": ["Thermometer", "https://schema.org/Place"],
     additionalProperty: {
       "@id": `${b}/thermometers/5/temp`,
       "@type": "https://schema.org/PropertyValue",

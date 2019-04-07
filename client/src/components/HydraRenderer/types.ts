@@ -14,5 +14,5 @@ export type RenderableNode = {
     name: string;
     data: { [index: string]: string };
   };
-  children: [];
+  children: any;
 };
