@@ -7,6 +7,7 @@ import { Hydra as client } from "alcaeus";
 import Tree, { renderers } from "react-virtualized-tree";
 import { Node } from "./types";
 import { GenericLinkedData } from "./renderers/GenericLinkedData";
+import { Temperature } from "./renderers/Temperature";
 
 const resourceToTree = (resource: any): Node => {
   const keys = Object.keys(resource || {});
@@ -49,7 +50,7 @@ const resourceToTree = (resource: any): Node => {
 class HydraRenderer extends React.Component {
   state = {
     nodes: [],
-    selectedRenderers: [GenericLinkedData, renderers.Expandable],
+    selectedRenderers: [Temperature, GenericLinkedData, renderers.Expandable],
     resource: null
   };
 
@@ -77,7 +78,6 @@ class HydraRenderer extends React.Component {
   componentDidMount() {
     client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
       this.setState({ nodes: [resourceToTree(res.root)] });
-      console.log(this.state.nodes);
     });
   }
 

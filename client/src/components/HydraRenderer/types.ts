@@ -12,7 +12,7 @@ export type RenderableNode = {
   node: {
     id: string;
     name: string;
-    data: { [index: string]: number | string | boolean };
+    data: { [index: string]: string };
   };
   children: [];
 };
