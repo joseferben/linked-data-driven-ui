@@ -12,8 +12,6 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
-    "react-virtualized": "^9.21.0",
-    "react-virtualized-tree": "^3.2.1",
     "semantic-ui-react": "^0.86.0",
     "typescript": "3.4.1"
   },

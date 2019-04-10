@@ -1,5 +1,5 @@
 import React from "react";
-import { IHydraResource, HydraResource } from "alcaeus/types/Resources";
+import { HydraResource } from "alcaeus/types/Resources";
 
 export class GenericLinkedData extends React.Component<
   { resource: any; renderer: (resource: HydraResource) => JSX.Element },
@@ -14,22 +14,19 @@ export class GenericLinkedData extends React.Component<
       if (typeof value === "object" && Array.isArray(value) && k !== "@type") {
         return value.map(child => (
           <div key={child.id}>
-            <span style={{ color: "blue" }}>{k}:</span>
-            {renderer(child)}
+            <span style={{ color: "blue" }}>{k}:</span> {renderer(child)}
           </div>
         ));
       } else if (typeof value === "object" && k !== "@type") {
         return (
           <div key={k}>
-            <span style={{ color: "blue" }}>{k}:</span>
-            {renderer(value)}
+            <span style={{ color: "blue" }}>{k}:</span> {renderer(value)}
           </div>
         );
       } else {
         return (
           <div key={k}>
-            <span style={{ color: "red" }}>{k}:</span>
-            <span>{value}</span>
+            <span style={{ color: "red" }}>{k}:</span> <span>{value}</span>
           </div>
         );
       }

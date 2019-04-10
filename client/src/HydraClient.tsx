@@ -18,6 +18,8 @@ import {
 import HydraRenderer from "./components/HydraRenderer";
 import { isDefined } from "./utils";
 
+class RendererSelection extends React.Component {}
+
 class HydraConsole extends React.Component {
   state = {
     resources: null
@@ -57,6 +59,7 @@ class HydraConsole extends React.Component {
                 </Dimmer>
               )}
             </Menu>
+            <Divider />
           </Grid.Column>
           <Grid.Column width={12}>
             <Input

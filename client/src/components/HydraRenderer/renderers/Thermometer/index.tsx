@@ -1,28 +1,29 @@
 import React from "react";
-import { RenderableNode } from "../../types";
 
-export class Thermometer extends React.Component<RenderableNode, {}> {
-  componentDidMount() {
-    this.props.measure();
-  }
-
+export class Thermometer extends React.Component<
+  { resource: any; renderer: (resource: any) => JSX.Element },
+  {}
+> {
   render() {
-    const obj = this.props;
-    let comp = <div>{obj.children}</div>;
-    const type = obj.node.data["@type"];
-    if (obj.node.name === "https://schema.org/additionalProperty") {
-      return <div>{obj.children.props.children}</div>;
-    }
-    if (
-      Array.isArray(type) &&
-      type.map(t => t.split("/").includes("Thermometer"))
-    ) {
-      comp = (
+    const { resource, renderer } = this.props;
+    const data = resource["https://schema.org/additionalProperty"];
+    const location = resource["https://schema.org/containedInPlace"];
+    return (
+      <div style={{ marginLeft: "20px" }}>
         <div>
-          <span>Thermometer ID: {obj.node.id.split("/").pop()}</span>
+          <span>Thermometer ID:</span>{" "}
+          <span>{resource["@id"].split("/").pop()}</span>
         </div>
-      );
-    }
-    return comp;
+        <div>
+          <span>Location:</span> <a href="#">{location}</a>
+        </div>
+        <div>
+          <span>Measurement Data:</span>
+          <div style={{ marginLeft: "20px" }}>
+            <span>{renderer(data)}</span>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
