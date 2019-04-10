@@ -15,10 +15,11 @@ import {
   Loader
 } from "semantic-ui-react";
 
-import HydraRenderer from "./components/HydraRenderer";
-import { isDefined } from "./utils";
+import { observable } from "mobx";
 
-class RendererSelection extends React.Component {}
+import HydraRenderer from "./components/HydraRenderer";
+import { RendererSelection } from "./components/RendererSelection";
+import { isDefined } from "./utils";
 
 class HydraConsole extends React.Component {
   state = {
@@ -40,6 +41,11 @@ class HydraConsole extends React.Component {
     const {
       state: { resources }
     } = this;
+    const renderers = [
+      { id: "foo", name: "Foo", comp: null, type: "" },
+      { id: "bar", name: "Bar", comp: null, type: "" },
+      { id: "baz", name: "Baz", comp: null, type: "" }
+    ];
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
@@ -60,6 +66,7 @@ class HydraConsole extends React.Component {
               )}
             </Menu>
             <Divider />
+            <RendererSelection renderers={renderers} />
           </Grid.Column>
           <Grid.Column width={12}>
             <Input
