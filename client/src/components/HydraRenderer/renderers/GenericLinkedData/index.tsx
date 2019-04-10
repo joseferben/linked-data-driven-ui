@@ -12,18 +12,14 @@ export class GenericLinkedData extends React.Component<{ resource: any }, {}> {
         return value.map(child => (
           <div key={child.id}>
             <span style={{ color: "blue" }}>{k}:</span>
-            <div style={{ marginLeft: "20px" }}>
-              <GenericLinkedData resource={child} />
-            </div>
+            <GenericLinkedData resource={child} />
           </div>
         ));
       } else if (typeof value === "object" && k !== "@type") {
         return (
           <div key={k}>
             <span style={{ color: "blue" }}>{k}:</span>
-            <div style={{ marginLeft: "20px" }}>
-              <GenericLinkedData resource={value} />
-            </div>
+            <GenericLinkedData resource={value} />
           </div>
         );
       } else {
@@ -36,6 +32,6 @@ export class GenericLinkedData extends React.Component<{ resource: any }, {}> {
       }
     });
 
-    return <div>{comp}</div>;
+    return <div style={{ marginLeft: "20px" }}>{comp}</div>;
   }
 }
