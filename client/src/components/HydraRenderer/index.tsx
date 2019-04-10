@@ -3,13 +3,14 @@ import "react-virtualized/styles.css";
 import "react-virtualized-tree/lib/main.css";
 import "material-icons/css/material-icons.css";
 import { Hydra as client } from "alcaeus";
-import { IHydraResource } from "alcaeus/types/Resources";
+import { IHydraResource, HydraResource } from "alcaeus/types/Resources";
 
 import Tree, { renderers } from "react-virtualized-tree";
 import { Node } from "./types";
 import { GenericLinkedData } from "./renderers/GenericLinkedData";
 import { Temperature } from "./renderers/Temperature";
 import { Thermometer } from "./renderers/Thermometer";
+import { isDefined } from "../../utils";
 
 const resourceToTree = (resource: any): Node => {
   const keys = Object.keys(resource || {});
@@ -49,6 +50,14 @@ const resourceToTree = (resource: any): Node => {
   );
 };
 
+const renderer = (resource: HydraResource) => {
+  if (resource.types.includes("https://schema.org/PropertyValue")) {
+    return <Temperature renderer={renderer} resource={resource} />;
+  } else {
+    return <GenericLinkedData renderer={renderer} resource={resource} />;
+  }
+};
+
 class HydraRenderer extends React.Component {
   state = {
     nodes: [],
@@ -62,9 +71,13 @@ class HydraRenderer extends React.Component {
       this.setState({ nodes: [resourceToTree(res.root)], resource: res.root });
     });
   }
-
   render() {
-    return <GenericLinkedData resource={this.state.resource} />;
+    const { resource } = this.state;
+    let comp = <div>Loading...</div>;
+    if (resource) {
+      comp = renderer(resource);
+    }
+    return comp;
   }
 }
 

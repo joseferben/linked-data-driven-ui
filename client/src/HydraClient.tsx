@@ -16,10 +16,7 @@ import {
 } from "semantic-ui-react";
 
 import HydraRenderer from "./components/HydraRenderer";
-
-function isDefined<T>(a: T | null | undefined): a is T {
-  return a !== null && a !== undefined;
-}
+import { isDefined } from "./utils";
 
 class HydraConsole extends React.Component {
   state = {

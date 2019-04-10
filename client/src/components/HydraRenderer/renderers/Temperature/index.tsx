@@ -1,30 +1,26 @@
 import React from "react";
-import { RenderableNode } from "../../types";
+import { IHydraResource, HydraResource } from "alcaeus/types/Resources";
 
-export class Temperature extends React.Component<RenderableNode, {}> {
-  componentDidMount() {
-    this.props.measure();
-  }
-
+export class Temperature extends React.Component<
+  { resource: any; renderer: (resource: HydraResource) => JSX.Element },
+  {}
+> {
   render() {
-    const obj = this.props;
-    let comp = <div>{obj.children}</div>;
-    if (obj.node.data["@type"] === "https://schema.org/PropertyValue") {
-      const temperature = parseFloat(obj.node.data["https://schema.org/value"]);
-      const icon =
-        temperature > 22.8 ? (
-          <i className="sun icon" />
-        ) : (
-          <i className="snowflake icon" />
-        );
-      comp = (
-        <div>
-          <span>
-            Temperature: {obj.node.data["https://schema.org/value"]}° {icon}
-          </span>
-        </div>
+    const { resource } = this.props;
+    const temperature = parseFloat(resource["https://schema.org/value"]);
+    const icon =
+      temperature > 22.8 ? (
+        <i className="sun icon" />
+      ) : (
+        <i className="snowflake icon" />
       );
-    }
+    const comp = (
+      <div>
+        <span>
+          Temperature: {resource["https://schema.org/value"]}° {icon}
+        </span>
+      </div>
+    );
     return comp;
   }
 }
