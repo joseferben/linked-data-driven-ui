@@ -3,6 +3,7 @@ import "react-virtualized/styles.css";
 import "react-virtualized-tree/lib/main.css";
 import "material-icons/css/material-icons.css";
 import { Hydra as client } from "alcaeus";
+import { IHydraResource } from "alcaeus/types/Resources";
 
 import Tree, { renderers } from "react-virtualized-tree";
 import { Node } from "./types";
@@ -51,54 +52,19 @@ const resourceToTree = (resource: any): Node => {
 class HydraRenderer extends React.Component {
   state = {
     nodes: [],
-    selectedRenderers: [
-      Temperature,
-      Thermometer,
-      GenericLinkedData,
-      renderers.Expandable
-    ],
+    selectedRenderers: [GenericLinkedData],
+    availableRenderers: [Temperature, Thermometer],
     resource: null
-  };
-
-  renderNodeDisplay = (display: any, props: any, children = []) =>
-    React.createElement(display, props, children);
-
-  createNodeRenderer = (nodeDisplay: any, props: any): any => {
-    const [nextNode, ...remainingNodes] = nodeDisplay;
-
-    if (remainingNodes.length === 0) {
-      return this.renderNodeDisplay(nextNode, props);
-    }
-
-    return this.renderNodeDisplay(
-      nextNode,
-      props,
-      this.createNodeRenderer(remainingNodes, props)
-    );
-  };
-
-  handleChange = (nodes: any) => {
-    this.setState({ nodes });
   };
 
   componentDidMount() {
     client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
-      this.setState({ nodes: [resourceToTree(res.root)] });
+      this.setState({ nodes: [resourceToTree(res.root)], resource: res.root });
     });
   }
 
   render() {
-    return (
-      <div style={{ height: 800 }}>
-        <Tree nodes={this.state.nodes} onChange={this.handleChange}>
-          {({ style, ...p }) => (
-            <div style={style}>
-              {this.createNodeRenderer(this.state.selectedRenderers, p)}
-            </div>
-          )}
-        </Tree>
-      </div>
-    );
+    return <GenericLinkedData resource={this.state.resource} />;
   }
 }
 

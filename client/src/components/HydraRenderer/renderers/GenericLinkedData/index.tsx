@@ -1,30 +1,41 @@
 import React from "react";
-import { RenderableNode } from "../../types";
+import { IHydraResource } from "alcaeus/types/Resources";
 
-export class GenericLinkedData extends React.Component<RenderableNode, {}> {
-  componentDidMount() {
-    this.props.measure();
-  }
-
+export class GenericLinkedData extends React.Component<{ resource: any }, {}> {
   render() {
-    const obj = this.props;
-    const properties = Object.keys(obj.node.data || {})
-      .filter(k => k !== "relation")
-      .map(k => (
-        <div key={k}>
-          <span style={{ color: "red" }}>{k}</span>
-          <span>{obj.node.data[k]}</span>
-        </div>
-      ));
-    return (
-      <div>
-        <div>
-          <span style={{ color: "blue" }}>{obj.node.data.relation}</span>
-        </div>
-        <div>{obj.node.name}</div>
-        {properties}
-        {obj.children}
-      </div>
-    );
+    const { resource } = this.props;
+    const keys = Object.keys(resource || {});
+
+    const comp = keys.map(k => {
+      const value = resource[k];
+      if (typeof value === "object" && Array.isArray(value) && k !== "@type") {
+        return value.map(child => (
+          <div key={child.id}>
+            <span style={{ color: "blue" }}>{k}:</span>
+            <div style={{ marginLeft: "20px" }}>
+              <GenericLinkedData resource={child} />
+            </div>
+          </div>
+        ));
+      } else if (typeof value === "object" && k !== "@type") {
+        return (
+          <div key={k}>
+            <span style={{ color: "blue" }}>{k}:</span>
+            <div style={{ marginLeft: "20px" }}>
+              <GenericLinkedData resource={value} />
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div key={k}>
+            <span style={{ color: "red" }}>{k}:</span>
+            <span>{value}</span>
+          </div>
+        );
+      }
+    });
+
+    return <div>{comp}</div>;
   }
 }
