@@ -1,5 +1,6 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Renderer } from "../HydraRenderer/types";
 
 const move = (
   source: any,
@@ -40,13 +41,11 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
   return result;
 };
 
-type renderer = { id: string; name: string; comp: any; type: string };
-
 export class RendererSelection extends React.Component<
-  { renderers: renderer[] },
+  { renderers: any; selectRenderer: (renderers: Renderer[]) => any },
   {}
 > {
-  state: { items: renderer[]; selected: renderer[]; [index: string]: any } = {
+  state: { items: Renderer[]; selected: Renderer[]; [index: string]: any } = {
     items: this.props.renderers,
     selected: []
   };
@@ -86,6 +85,7 @@ export class RendererSelection extends React.Component<
         destination
       );
 
+      this.props.selectRenderer(result.droppable2);
       this.setState({
         items: result.droppable,
         selected: result.droppable2

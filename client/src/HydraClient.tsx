@@ -15,16 +15,20 @@ import {
   Loader
 } from "semantic-ui-react";
 
-import { observable } from "mobx";
-
 import HydraRenderer from "./components/HydraRenderer";
 import { RendererSelection } from "./components/RendererSelection";
 import { isDefined } from "./utils";
 
+import { GenericLinkedData } from "./components/HydraRenderer/renderers/GenericLinkedData";
+import { Temperature } from "./components/HydraRenderer/renderers/Temperature";
+import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
+
 class HydraConsole extends React.Component {
   state = {
-    resources: null
+    resources: null,
+    selected: []
   };
+
   componentDidMount() {
     client.loadResource("http://localhost:3000/iot").then(res => {
       console.log("From http://localhost:3000/iot:");
@@ -37,14 +41,33 @@ class HydraConsole extends React.Component {
     });
   }
 
+  selectRenderers(renderers: any) {
+    this.setState({ selected: renderers });
+  }
+
   render() {
     const {
       state: { resources }
     } = this;
     const renderers = [
-      { id: "foo", name: "Foo", comp: null, type: "" },
-      { id: "bar", name: "Bar", comp: null, type: "" },
-      { id: "baz", name: "Baz", comp: null, type: "" }
+      {
+        id: "generic",
+        name: "Generic Linked Data",
+        comp: GenericLinkedData,
+        type: "*"
+      },
+      {
+        id: "temperature",
+        name: "Temperature",
+        comp: Temperature,
+        type: "https://schema.org/PropertyValue"
+      },
+      {
+        id: "thermometer",
+        name: "Thermometer",
+        comp: Thermometer,
+        type: "http://localhost:3000/iot/apartments/Thermometer"
+      }
     ];
     return (
       <Container style={{ marginTop: "3em" }}>
@@ -66,7 +89,10 @@ class HydraConsole extends React.Component {
               )}
             </Menu>
             <Divider />
-            <RendererSelection renderers={renderers} />
+            <RendererSelection
+              renderers={renderers}
+              selectRenderer={this.selectRenderers.bind(this)}
+            />
           </Grid.Column>
           <Grid.Column width={12}>
             <Input
@@ -75,7 +101,7 @@ class HydraConsole extends React.Component {
               placeholder="hydra-api.com/entrypoint"
             />
             <Divider />
-            <HydraRenderer />
+            <HydraRenderer selectedRenderers={this.state.selected} />
           </Grid.Column>
         </Grid>
       </Container>

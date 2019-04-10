@@ -1,31 +1,38 @@
 import React from "react";
 import { Hydra as client } from "alcaeus";
 
+import { Renderer } from "./types";
 import { GenericLinkedData } from "./renderers/GenericLinkedData";
 import { Temperature } from "./renderers/Temperature";
 import { Thermometer } from "./renderers/Thermometer";
 
-const renderer = (resource: any) => {
-  if (
-    resource.types &&
-    resource.types.includes("https://schema.org/PropertyValue")
-  ) {
-    return <Temperature renderer={renderer} resource={resource} />;
-  } else if (
-    resource.types &&
-    resource.types.includes("http://localhost:3000/iot/apartments/Thermometer")
-  ) {
-    return <Thermometer renderer={renderer} resource={resource} />;
+const doRender = (availableRenderers: Renderer[]) => (
+  resource: any
+): JSX.Element => {
+  if (resource.types) {
+    const renderer = availableRenderers.find(r =>
+      resource.types.includes(r.type)
+    );
+    if (renderer) {
+      const Comp = renderer.comp;
+      return (
+        <Comp renderer={doRender(availableRenderers)} resource={resource} />
+      );
+    }
   }
-  {
-    return <GenericLinkedData renderer={renderer} resource={resource} />;
-  }
+  return (
+    <GenericLinkedData
+      renderer={doRender(availableRenderers)}
+      resource={resource}
+    />
+  );
 };
 
-class HydraRenderer extends React.Component {
+class HydraRenderer extends React.Component<
+  { selectedRenderers: Renderer[] },
+  {}
+> {
   state = {
-    selectedRenderers: [GenericLinkedData],
-    availableRenderers: [Temperature, Thermometer],
     resource: null
   };
 
@@ -38,7 +45,7 @@ class HydraRenderer extends React.Component {
     const { resource } = this.state;
     let comp = <div>Loading...</div>;
     if (resource) {
-      comp = renderer(resource);
+      comp = doRender(this.props.selectedRenderers)(resource);
     }
     return comp;
   }
