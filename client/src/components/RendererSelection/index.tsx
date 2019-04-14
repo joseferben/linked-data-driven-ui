@@ -128,7 +128,7 @@ export class RendererSelection extends React.Component<
         <Droppable droppableId="droppable2">
           {provided => (
             <div ref={provided.innerRef}>
-              <Segment style={{ minHeight: "100px" }}>
+              <Segment style={{ minHeight: "150px" }}>
                 <Header as="h3" dividing>
                   Active renderers
                 </Header>

@@ -83,8 +83,8 @@ const rooms = [
     containedInPlace: `${b}/apartments/0`,
     geo: {
       "@type": "https://schema.org/GeoCoordinates",
-      longitude: 4,
-      latitude: 7
+      longitude: 3,
+      latitude: 4
     }
   },
   {
@@ -95,7 +95,7 @@ const rooms = [
     geo: {
       "@type": "https://schema.org/GeoCoordinates",
       longitude: 2,
-      latitude: 12
+      latitude: 11
     }
   },
   {
@@ -106,7 +106,7 @@ const rooms = [
     geo: {
       "@type": "https://schema.org/GeoCoordinates",
       longitude: 5,
-      latitude: 14
+      latitude: 13
     }
   },
   {
@@ -117,7 +117,7 @@ const rooms = [
     geo: {
       "@type": "https://schema.org/GeoCoordinates",
       longitude: 12,
-      latitude: 9
+      latitude: 7
     }
   },
   {
@@ -128,8 +128,8 @@ const rooms = [
     containedInPlace: `${b}/apartments/0`,
     geo: {
       "@type": "https://schema.org/GeoCoordinates",
-      longitude: 9,
-      latitude: 14
+      longitude: 8,
+      latitude: 11
     }
   },
   {
@@ -140,8 +140,8 @@ const rooms = [
     containedInPlace: `${b}/apartments/0`,
     geo: {
       "@type": "https://schema.org/GeoCoordinates",
-      longitude: 15,
-      latitude: 13
+      longitude: 13,
+      latitude: 11
     }
   }
 ];

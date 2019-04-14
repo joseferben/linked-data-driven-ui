@@ -20,6 +20,7 @@ import { GenericLinkedData } from "./components/HydraRenderer/renderers/GenericL
 import { Temperature } from "./components/HydraRenderer/renderers/Temperature";
 import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
 import { Apartment } from "./components/HydraRenderer/renderers/Apartment";
+import { Room } from "./components/HydraRenderer/renderers/Room";
 
 const baseRenderer = {
   id: "generic",
@@ -45,6 +46,12 @@ const renderers = [
     name: "Apartment",
     comp: Apartment,
     type: "https://schema.org/Apartment"
+  },
+  {
+    id: "room",
+    name: "Room",
+    comp: Room,
+    type: "https://schema.org/Room"
   }
 ];
 
@@ -52,7 +59,7 @@ class HydraConsole extends React.Component {
   state = {
     resources: null,
     resource: null,
-    selected: [renderers[2]]
+    selected: []
   };
 
   componentDidMount() {
