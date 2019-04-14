@@ -22,6 +22,7 @@ import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
 import { Apartment } from "./components/HydraRenderer/renderers/Apartment";
 import { Room } from "./components/HydraRenderer/renderers/Room";
 import { BoldFont } from "./components/HydraRenderer/renderers/BoldFont";
+import { GenericTable } from "./components/HydraRenderer/renderers/GenericTable";
 
 const baseRenderer = {
   id: "generic",
@@ -54,6 +55,13 @@ const renderers = [
     comp: Room,
     type: "https://schema.org/Room"
   },
+  {
+    id: "genericTable",
+    name: "GenericTable",
+    comp: GenericTable,
+    type: "http://www.w3.org/ns/hydra/core#Collection"
+  },
+
   {
     id: "boldFont",
     name: "BoldFont",
