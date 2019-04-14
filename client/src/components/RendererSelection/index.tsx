@@ -21,6 +21,7 @@ const move = (
 
   return result;
 };
+
 const getItemStyle = (isDragging: any, draggableStyle: any) => ({
   userSelect: "none",
   padding: "5px",
@@ -128,7 +129,7 @@ export class RendererSelection extends React.Component<
         <Droppable droppableId="droppable2">
           {provided => (
             <div ref={provided.innerRef}>
-              <Segment style={{ minHeight: "150px" }}>
+              <Segment style={{ minHeight: "250px" }}>
                 <Header as="h3" dividing>
                   Active renderers
                 </Header>

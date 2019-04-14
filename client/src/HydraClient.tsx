@@ -64,7 +64,7 @@ const renderers = [
 
 class HydraConsole extends React.Component {
   state = {
-    resources: null,
+    rootResources: null,
     resource: null,
     selected: []
   };
@@ -79,7 +79,7 @@ class HydraConsole extends React.Component {
       Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
         res => {
           const resources = res.map(resource => resource.root);
-          this.setState({ resources });
+          this.setState({ rootResources: resources });
         }
       );
     });
@@ -91,16 +91,16 @@ class HydraConsole extends React.Component {
 
   render() {
     const {
-      state: { resources, resource, selected }
+      state: { rootResources, resource, selected }
     } = this;
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
         <Grid>
           <Grid.Column width={4}>
-            <Menu pointing secondary vertical>
-              {isDefined(resources) ? (
-                (resources || []).map(r => (
+            <Menu vertical>
+              {isDefined(rootResources) ? (
+                (rootResources || []).map(r => (
                   <Menu.Item
                     key={r["@id"]}
                     name={(r["@id"] || "").split("/").pop()}
