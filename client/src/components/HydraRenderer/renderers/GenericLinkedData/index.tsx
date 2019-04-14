@@ -24,9 +24,15 @@ export class GenericLinkedData extends React.Component<
           </div>
         );
       } else {
+        const val =
+          k === "@id" ? (
+            <a href={"#" + value}>{value}</a>
+          ) : (
+            <span>{value}</span>
+          );
         return (
           <div key={k}>
-            <span style={{ color: "red" }}>{k}:</span> <span>{value}</span>
+            <span style={{ color: "red" }}>{k}:</span> {val}
           </div>
         );
       }

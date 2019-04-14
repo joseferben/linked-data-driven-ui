@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Hydra as client } from "alcaeus";
 
 import {
@@ -64,15 +64,31 @@ const renderers = [
 
 class HydraConsole extends React.Component {
   state = {
+    url: "",
     rootResources: null,
     resource: null,
     selected: []
   };
 
+  handleKeyPress(evt: any) {
+    if (evt.key == "Enter") {
+      client.loadResource(this.state.url).then(res => {
+        console.log(res.root);
+      });
+    }
+  }
+
+  handleOnChange(evt: any) {
+    this.setState({ url: evt.target.value });
+  }
+
   componentDidMount() {
-    client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
-      this.setState({ resource: res.root });
-    });
+    window.onhashchange = () => {
+      this.setState({ url: location.hash.split("#")[1] });
+      client.loadResource(this.state.url).then(res => {
+        this.setState({ resource: res.root });
+      });
+    };
 
     client.loadResource("http://localhost:3000/iot").then(res => {
       console.log("From http://localhost:3000/iot:");
@@ -91,7 +107,7 @@ class HydraConsole extends React.Component {
 
   render() {
     const {
-      state: { rootResources, resource, selected }
+      state: { rootResources, resource, selected, url }
     } = this;
     return (
       <Container style={{ marginTop: "3em" }}>
@@ -102,6 +118,7 @@ class HydraConsole extends React.Component {
               {isDefined(rootResources) ? (
                 (rootResources || []).map(r => (
                   <Menu.Item
+                    href={"#" + r["@id"]}
                     key={r["@id"]}
                     name={(r["@id"] || "").split("/").pop()}
                   />
@@ -122,8 +139,10 @@ class HydraConsole extends React.Component {
           <Grid.Column width={12}>
             <Input
               fluid
-              label="http://"
-              placeholder="hydra-api.com/entrypoint"
+              placeholder="http://hydra-api.com/entrypoint"
+              value={url}
+              onKeyPress={this.handleKeyPress.bind(this)}
+              onChange={this.handleOnChange.bind(this)}
             />
             <Divider />
             <HydraRenderer
