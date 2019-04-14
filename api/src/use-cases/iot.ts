@@ -80,39 +80,69 @@ const rooms = [
     "@type": "https://schema.org/Room",
     amenityFeature: "Kitchen",
     containsPlace: [thermometers[0], thermometers[1], thermometers[2]],
-    containedInPlace: `${b}/apartments/0`
+    containedInPlace: `${b}/apartments/0`,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 4,
+      latitude: 7
+    }
   },
   {
     "@id": `${b}/rooms/1`,
     "@type": "https://schema.org/Room",
     amenityFeature: "Laundry Storage",
-    containedInPlace: `${b}/apartments/0`
+    containedInPlace: `${b}/apartments/0`,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 2,
+      latitude: 12
+    }
   },
   {
     "@id": `${b}/rooms/2`,
     "@type": "https://schema.org/Room",
     amenityFeature: "1/2 Bath",
-    containedInPlace: `${b}/apartments/0`
+    containedInPlace: `${b}/apartments/0`,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 5,
+      latitude: 14
+    }
   },
   {
     "@id": `${b}/rooms/3`,
     "@type": "https://schema.org/Room",
     amenityFeature: "Formal Living",
-    containedInPlace: `${b}/apartments/0`
+    containedInPlace: `${b}/apartments/0`,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 12,
+      latitude: 9
+    }
   },
   {
     "@id": `${b}/rooms/4`,
     "@type": "https://schema.org/Room",
     amenityFeature: "Entrance",
     containsPlace: [thermometers[3]],
-    containedInPlace: `${b}/apartments/0`
+    containedInPlace: `${b}/apartments/0`,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 9,
+      latitude: 14
+    }
   },
   {
     "@id": `${b}/rooms/5`,
     "@type": "https://schema.org/Room",
     amenityFeature: "Family",
     containsPlace: [thermometers[4], thermometers[5]],
-    containedInPlace: `${b}/apartments/0`
+    containedInPlace: `${b}/apartments/0`,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 15,
+      latitude: 13
+    }
   }
 ];
 
@@ -126,7 +156,12 @@ const apartments = [
     },
     containsPlace: rooms,
     numberOfRooms: 6,
-    petsAllowed: false
+    petsAllowed: false,
+    geo: {
+      "@type": "https://schema.org/GeoCoordinates",
+      longitude: 10,
+      latitude: 7
+    }
   }
 ];
 
@@ -161,7 +196,10 @@ const contexts: { [key: string]: any } = {
         containedInPlace: "https://schema.org/containedInPlace",
         additionalProperty: "https://schema.org/additionalProperty",
         name: "https://schema.org/name",
-        value: "https://schema.org/value"
+        value: "https://schema.org/value",
+        geo: "https://schema.org/GeoCoordinates",
+        longitude: "https://schema.org/longitude",
+        latitude: "https://schema.org/latitude"
       }
     ]
   }

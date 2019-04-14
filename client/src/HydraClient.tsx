@@ -2,14 +2,11 @@ import React from "react";
 import { Hydra as client } from "alcaeus";
 
 import {
-  Button,
   Container,
   Divider,
   Grid,
   Header,
-  Image,
   Menu,
-  Segment,
   Input,
   Dimmer,
   Loader
@@ -22,14 +19,47 @@ import { isDefined } from "./utils";
 import { GenericLinkedData } from "./components/HydraRenderer/renderers/GenericLinkedData";
 import { Temperature } from "./components/HydraRenderer/renderers/Temperature";
 import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
+import { Apartment } from "./components/HydraRenderer/renderers/Apartment";
+
+const baseRenderer = {
+  id: "generic",
+  name: "Generic Linked Data",
+  comp: GenericLinkedData,
+  type: "*"
+};
+const renderers = [
+  {
+    id: "temperature",
+    name: "Temperature",
+    comp: Temperature,
+    type: "https://schema.org/PropertyValue"
+  },
+  {
+    id: "thermometer",
+    name: "Thermometer",
+    comp: Thermometer,
+    type: "http://localhost:3000/iot/apartments/Thermometer"
+  },
+  {
+    id: "apartment",
+    name: "Apartment",
+    comp: Apartment,
+    type: "https://schema.org/Apartment"
+  }
+];
 
 class HydraConsole extends React.Component {
   state = {
     resources: null,
-    selected: []
+    resource: null,
+    selected: [renderers[2]]
   };
 
   componentDidMount() {
+    client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
+      this.setState({ resource: res.root });
+    });
+
     client.loadResource("http://localhost:3000/iot").then(res => {
       console.log("From http://localhost:3000/iot:");
       Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
@@ -47,28 +77,8 @@ class HydraConsole extends React.Component {
 
   render() {
     const {
-      state: { resources }
+      state: { resources, resource, selected }
     } = this;
-    const baseRenderer = {
-      id: "generic",
-      name: "Generic Linked Data",
-      comp: GenericLinkedData,
-      type: "*"
-    };
-    const renderers = [
-      {
-        id: "temperature",
-        name: "Temperature",
-        comp: Temperature,
-        type: "https://schema.org/PropertyValue"
-      },
-      {
-        id: "thermometer",
-        name: "Thermometer",
-        comp: Thermometer,
-        type: "http://localhost:3000/iot/apartments/Thermometer"
-      }
-    ];
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
@@ -102,7 +112,7 @@ class HydraConsole extends React.Component {
               placeholder="hydra-api.com/entrypoint"
             />
             <Divider />
-            <HydraRenderer selectedRenderers={this.state.selected} />
+            <HydraRenderer selectedRenderers={selected} resource={resource} />
           </Grid.Column>
         </Grid>
       </Container>

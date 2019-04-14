@@ -29,23 +29,14 @@ const doRender = (availableRenderers: Renderer[]) => (
 };
 
 class HydraRenderer extends React.Component<
-  { selectedRenderers: Renderer[] },
+  { selectedRenderers: Renderer[]; resource: any },
   {}
 > {
-  state = {
-    resource: null
-  };
-
-  componentDidMount() {
-    client.loadResource("http://localhost:3000/iot/apartments/0").then(res => {
-      this.setState({ resource: res.root });
-    });
-  }
   render() {
-    const { resource } = this.state;
+    const { selectedRenderers, resource } = this.props;
     let comp = <div>Loading...</div>;
     if (resource) {
-      comp = doRender(this.props.selectedRenderers)(resource);
+      comp = doRender(selectedRenderers)(resource);
     }
     return comp;
   }
