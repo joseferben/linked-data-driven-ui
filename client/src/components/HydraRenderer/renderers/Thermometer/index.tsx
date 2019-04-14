@@ -10,7 +10,7 @@ export class Thermometer extends React.Component<
     return (
       <div style={{ marginLeft: "20px" }}>
         <div>
-          <a href={resource["@id"]}>
+          <a href={"#" + resource["@id"]}>
             Thermometer ID: {resource["@id"].split("/").pop()}
           </a>
           <div style={{ marginLeft: "20px" }}>
