@@ -1,6 +1,7 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Renderer } from "../HydraRenderer/types";
+import { Label, Segment, Header, Divider } from "semantic-ui-react";
 
 const move = (
   source: any,
@@ -21,15 +22,9 @@ const move = (
   return result;
 };
 const getItemStyle = (isDragging: any, draggableStyle: any) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: "none",
   padding: "5px",
   margin: `0 0 5px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? "lightred" : "grey",
-
-  // styles we need to apply on draggables
   ...draggableStyle
 });
 
@@ -42,7 +37,11 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
 };
 
 export class RendererSelection extends React.Component<
-  { renderers: any; selectRenderer: (renderers: Renderer[]) => any },
+  {
+    baseRenderer: any;
+    renderers: any;
+    selectRenderer: (renderers: Renderer[]) => any;
+  },
   {}
 > {
   state: { items: Renderer[]; selected: Renderer[]; [index: string]: any } = {
@@ -93,59 +92,68 @@ export class RendererSelection extends React.Component<
     }
   };
   render() {
+    const { baseRenderer } = this.props;
     return (
       <DragDropContext onDragEnd={this.onDragEnd}>
         <Droppable droppableId="droppable">
           {provided => (
-            <div
-              ref={provided.innerRef}
-              style={{ backgroundColor: "lightblue", height: "200px" }}
-            >
-              {this.state.items.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.name}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+            <div ref={provided.innerRef}>
+              <Segment style={{ minHeight: "100px" }}>
+                <Header as="h3" dividing>
+                  Available renderers
+                </Header>
+                {this.state.items.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <Label>{item.name}</Label>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Segment>
             </div>
           )}
         </Droppable>
+        <Divider />
         <Droppable droppableId="droppable2">
           {provided => (
-            <div
-              ref={provided.innerRef}
-              style={{ backgroundColor: "lightgreen", height: "200px" }}
-            >
-              {this.state.selected.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {item.name}
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+            <div ref={provided.innerRef}>
+              <Segment style={{ minHeight: "100px" }}>
+                <Header as="h3" dividing>
+                  Active renderers
+                </Header>
+                <div style={getItemStyle(false, false)}>
+                  <Label color="teal">{baseRenderer.name}</Label>
+                </div>
+                {this.state.selected.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
+                      >
+                        <Label>{item.name}</Label>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </Segment>
             </div>
           )}
         </Droppable>

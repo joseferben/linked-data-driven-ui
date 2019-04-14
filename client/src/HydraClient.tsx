@@ -49,13 +49,13 @@ class HydraConsole extends React.Component {
     const {
       state: { resources }
     } = this;
+    const baseRenderer = {
+      id: "generic",
+      name: "Generic Linked Data",
+      comp: GenericLinkedData,
+      type: "*"
+    };
     const renderers = [
-      {
-        id: "generic",
-        name: "Generic Linked Data",
-        comp: GenericLinkedData,
-        type: "*"
-      },
       {
         id: "temperature",
         name: "Temperature",
@@ -92,6 +92,7 @@ class HydraConsole extends React.Component {
             <RendererSelection
               renderers={renderers}
               selectRenderer={this.selectRenderers.bind(this)}
+              baseRenderer={baseRenderer}
             />
           </Grid.Column>
           <Grid.Column width={12}>
