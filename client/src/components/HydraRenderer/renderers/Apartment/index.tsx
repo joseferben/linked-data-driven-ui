@@ -39,8 +39,8 @@ export class Apartment extends React.Component<
     const apartmentHeight = latitude * 2;
     const { "https://schema.org/containsPlace": rooms } = resource;
     return (
-      <div>
-        <img src={floorPlan} style={{ position: "absolute" }} />
+      <div style={{ position: "relative" }}>
+        <img src={floorPlan} style={{ background: "absolute" }} />
         {rooms.map((r: any) => {
           const [roomLongitude, roomLatitude] = coords(r);
           const xPos = (roomLongitude / apartmentWidth) * 100;
