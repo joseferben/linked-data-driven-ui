@@ -21,6 +21,7 @@ import { Temperature } from "./components/HydraRenderer/renderers/Temperature";
 import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
 import { Apartment } from "./components/HydraRenderer/renderers/Apartment";
 import { Room } from "./components/HydraRenderer/renderers/Room";
+import { BoldFont } from "./components/HydraRenderer/renderers/BoldFont";
 
 const baseRenderer = {
   id: "generic",
@@ -52,6 +53,12 @@ const renderers = [
     name: "Room",
     comp: Room,
     type: "https://schema.org/Room"
+  },
+  {
+    id: "boldFont",
+    name: "BoldFont",
+    comp: BoldFont,
+    type: "*"
   }
 ];
 
@@ -119,7 +126,11 @@ class HydraConsole extends React.Component {
               placeholder="hydra-api.com/entrypoint"
             />
             <Divider />
-            <HydraRenderer selectedRenderers={selected} resource={resource} />
+            <HydraRenderer
+              baseRenderer={baseRenderer}
+              selectedRenderers={selected}
+              resource={resource}
+            />
           </Grid.Column>
         </Grid>
       </Container>

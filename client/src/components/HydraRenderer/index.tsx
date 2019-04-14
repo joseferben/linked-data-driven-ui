@@ -1,39 +1,64 @@
 import React from "react";
-import { Hydra as client } from "alcaeus";
 
 import { Renderer } from "./types";
 import { GenericLinkedData } from "./renderers/GenericLinkedData";
-import { Temperature } from "./renderers/Temperature";
-import { Thermometer } from "./renderers/Thermometer";
+
+let appliedRenderers: { [index: string]: any } = {};
+
+const wasRendererApplied = (
+  renderer: Renderer | undefined,
+  appliedRenderers: any,
+  resource: any
+) => {
+  if (renderer === undefined) {
+    return false;
+  }
+  return Array.isArray(appliedRenderers[resource["@id"]])
+    ? appliedRenderers[resource["@id"]].includes(renderer.id)
+    : false;
+};
+
+const rememberAppliedRenderer = (resource: any, renderer: any) => {
+  if (Array.isArray(appliedRenderers[resource["@id"]])) {
+    appliedRenderers[resource["@id"]] = [
+      renderer.id,
+      ...appliedRenderers[resource["@id"]]
+    ];
+  } else {
+    appliedRenderers[resource["@id"]] = [renderer.id];
+  }
+};
 
 const doRender = (availableRenderers: Renderer[]) => (
   resource: any
 ): JSX.Element => {
-  if (resource.types) {
-    const renderer = availableRenderers.find(r =>
-      resource.types.includes(r.type)
+  const rendererToApply = availableRenderers.find(r => {
+    const canApplyRenderer =
+      !wasRendererApplied(r, appliedRenderers, resource) &&
+      ((resource.types && resource.types.includes(r.type)) || r.type === "*");
+    return canApplyRenderer;
+  });
+  if (rendererToApply) {
+    rememberAppliedRenderer(resource, rendererToApply);
+    const Comp = rendererToApply.comp;
+    return <Comp renderer={doRender(availableRenderers)} resource={resource} />;
+  } else {
+    return (
+      <GenericLinkedData
+        renderer={doRender(availableRenderers)}
+        resource={resource}
+      />
     );
-    if (renderer) {
-      const Comp = renderer.comp;
-      return (
-        <Comp renderer={doRender(availableRenderers)} resource={resource} />
-      );
-    }
   }
-  return (
-    <GenericLinkedData
-      renderer={doRender(availableRenderers)}
-      resource={resource}
-    />
-  );
 };
 
 class HydraRenderer extends React.Component<
-  { selectedRenderers: Renderer[]; resource: any },
+  { selectedRenderers: Renderer[]; resource: any; baseRenderer: any },
   {}
 > {
   render() {
-    const { selectedRenderers, resource } = this.props;
+    const { selectedRenderers, resource, baseRenderer } = this.props;
+    appliedRenderers = [];
     let comp = <div>Loading...</div>;
     if (resource) {
       comp = doRender(selectedRenderers)(resource);

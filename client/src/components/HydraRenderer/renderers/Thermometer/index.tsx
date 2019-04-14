@@ -7,18 +7,12 @@ export class Thermometer extends React.Component<
   render() {
     const { resource, renderer } = this.props;
     const data = resource["https://schema.org/additionalProperty"];
-    const location = resource["https://schema.org/containedInPlace"];
     return (
       <div style={{ marginLeft: "20px" }}>
         <div>
-          <span>Thermometer ID:</span>{" "}
-          <span>{resource["@id"].split("/").pop()}</span>
-        </div>
-        <div>
-          <span>Location:</span> <a href="#">{location}</a>
-        </div>
-        <div>
-          <span>Measurement Data:</span>
+          <a href={resource["@id"]}>
+            Thermometer ID: {resource["@id"].split("/").pop()}
+          </a>
           <div style={{ marginLeft: "20px" }}>
             <span>{renderer(data)}</span>
           </div>

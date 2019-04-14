@@ -1,4 +1,5 @@
 import React from "react";
+import { Segment } from "semantic-ui-react";
 
 export class Room extends React.Component<
   { resource: any; renderer: (resource: any) => JSX.Element },
@@ -13,8 +14,12 @@ export class Room extends React.Component<
       : [thermometers];
     return (
       <div>
-        <span>{name}</span>
-        {(toRender || []).map((t: any) => renderer(t))}
+        <Segment>
+          <span>{renderer({ Room: name })}</span>
+          {(toRender || []).map((t: any) => (
+            <span key={t["@id"]}>{renderer(t)}</span>
+          ))}
+        </Segment>
       </div>
     );
   }
