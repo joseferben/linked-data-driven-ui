@@ -1,0 +1,10 @@
+@startuml
+object Apartment
+object Room
+object Thermometer
+object Temperature
+
+Apartment "1" o.. "n" Room : contains
+Room "1" o.. "n" Thermometer : contains
+Thermometer "1" .. "1" Temperature : measures
+@enduml
