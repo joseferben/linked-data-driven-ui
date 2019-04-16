@@ -1,39 +1,49 @@
 \section{Main contributions}\label{contributions}
-
 This section describes the main contributions of this thesis towards reducing the accidental complexity and the cost of UI development.
 
 \subsection{Methods}\label{usecases}
+The following methods were chosen for the development of the UI framework.
+
+\subsubsection{Analysis of characteristics of user interfaces}
+For a system to be useful, it has to interact with its surroundings. These interactions happen through various interfaces, which are used by two types of users. The users are either other systems or human users.
+The interfaces for human users (user interfaces) have typical characteristics,
+Let's analyze the typical characteristics by observing their usage by human users.
+
+\subsubsection{Definition of major design goals}
+\subsubsection{Definition of a proof of concept of the UI framework}
+\subsubsection{Definition of development process}
+\subsubsection{Definition of real world use cases}
+\subsubsection{Implementation of proof of concept driven by use cases}
+\subsubsection{Evaluation of proof of concept}
+\subsubsection{Conclusion of approach to reduce accidental complexity}
 
 The usage of a UI by a user consists of either \textbf{reading} or \textbf{interacting}. In terms of systems we can call them \textbf{querying} or \textbf{interacting} respectively.
-I implement the proof-of-concept of the UI framework by incrementally implementing both capabilities.
-
 \begin{enumerate}
   \item Query: The user is able to retrieve information from the UI by looking at it
   \item Interacting: The user is able to interact with the UI
 \end{enumerate}
 
-The development of the UI framework is driven by these two capabilities.
+The development of the UI framework is driven by the implementation of these two capabilities.
 
-\subsection{Design goals}\label{basevocab}
-
+\subsection{Design goals}
 Following design goals should be met by the UI framework.
 
 \subsubsection{Play nicely with others}\label{usecases}
-
 The most important design goal is to play nicely with others. We achieve that by conforming to web standards and making use of existing and established tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
 
 JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
 
-\subsubsection{Upgrade path}\label{usecases}
-
+\subsubsection{Straightforward upgrade path}\label{usecases}
 By playing nicely with others, the UI framework is able to provide an upgrade path to already existing APIs.
 
 \subsubsection{Customizability}\label{usecases}
 
 \subsubsection{Developer ergonomics}\label{usecases}
 
-\subsection{Use Case 1: Apartment}\label{usecases}
+\subsection{Proof of concept}
+I define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
 
+\subsection{Use Case 1: Apartment}\label{usecases}
 For the user to be able to query data, the UI has to render it.
 
 The first use case describes a scenario in home automation. Several thermometers in several rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, and thermometers and temperatures in a sensible manner.
@@ -44,24 +54,37 @@ The first use case describes a scenario in home automation. Several thermometers
   \caption{\label{fig:my-label} Data model of the home automation use case.}
 \end{figure}
 
+\begin{table}
+\begin{center}
+\begin{tabular}{ |c|l| }
+ \hline
+ S01 & As landlord I want to have a list of all my apartments \\
+ S02 & As landlord I want to have a list of all rooms of an apartment \\
+ S03 & As landlord I want to have a list of all thermometers of room \\
+ S04 & As landlord I want to overview the measurement data of a thermometer \\
+ S05 & As UI developer I want to present all available data without spending any development time \\
+ S06 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+ \hline
+\end{tabular}
+\caption{User stories of a client that consumes a home automation API}
+\end{center}
+\end{table}
+
 \subsection{Use Case 2: Kanban Board}\label{usecases}
+The second use case covers the user interaction.
 
 \subsection{Base vocabulary}\label{basevocab}
-
 There are things and list of things. Base vocabulary is hydra.
 
-\subsection{Generic rendering}\label{genericrendering}
-
+\subsection{Data rendering}\label{genericrendering}
 There is linked data renderer, all the behavior is done by plugging in the custom renderer.
 
-\subsection{Pluggable domain rendering}\label{domainrendering}
-
+\subsubsection{Pluggable domain rendering}\label{domainrendering}
 TODO show tree of data and application of renderer step by step
 
 \subsection{User interaction}\label{interaction}
 
 \subsubsection{Task based computing}\label{interaction}
-
 TODO three types of operations:
 
 inline operations
