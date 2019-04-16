@@ -1,0 +1,10 @@
+@startuml
+object Board
+object Issue
+object Lane
+object Operation
+
+Board "1" o.. "n" Lane : has
+Lane "1" o.. "n" Issue : contains
+Issue "1" .. "1" Operation : has
+@enduml

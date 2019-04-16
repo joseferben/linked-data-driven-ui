@@ -4,7 +4,7 @@ The main contribution of this thesis is the theoretical foundation of a new appr
 \subsection{Methods}\label{usecases}
 We chose to follow a process including the following points in order to explore possible answers and solutions to the thesis.
 
-\subsubsection{Analysis of characteristics of user interfaces}
+\subsubsection{Conceptual analysis of user interfaces}
 Through observation of the typical usage patterns of user interfaces we can derive coarse business requirements of the UI framework. These serve as foundation for further requirements engineering.
 
 \subsubsection{Definition of major design goals}
@@ -25,13 +25,16 @@ The section defines the artifact that can be used to create UIs. The proof of co
 The proof of concept is a software artifact and is developed with respect to current engineering best practices.
 
 \subsubsection{Definition of real world use cases}
-By defining user roles that interact with the UI framework
+By defining real world applications for the UI framework, we discover user roles and user stories.
 
 \subsubsection{Implementation of proof of concept driven by use cases}
+The UI framework is developed incrementally use case by use case. The major design goals are respected.
+
 \subsubsection{Evaluation of proof of concept}
+
 \subsubsection{Conclusion of approach to reduce accidental complexity}
 
-\subsection{Analysis of characteristics of user interfaces}
+\subsection{Conceptual analysis of user interfaces}
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by two types of users. The users are either other systems or human users.
 The interfaces for human users (user interfaces) have typical characteristics,
 By observing the usage of a user interface by the user we can analyze the main characteristics. A typical scenario of UI usage is browsing a website. What does the user do while browsing a website? It is typically one of two things: he either reads or clicks.
@@ -71,13 +74,15 @@ The first use case describes a scenario in home automation. Several thermometers
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=100]
-    {diagrams/iot.png}}
-  \caption{\label{fig:my-label} Data model of the home automation use case.}
+    {images/iot.png}}
+  \caption{\label{fig:my-label} Data model of the kanban board use case.}
 \end{figure}
 
 \begin{table}
 \begin{center}
 \begin{tabular}{ |c|l| }
+ \hline
+ ID & Story title \\
  \hline
  S01 & As landlord I want to overview my apartments \\
  S02 & As landlord I want to overview all rooms of an apartment \\
@@ -92,16 +97,57 @@ The first use case describes a scenario in home automation. Several thermometers
 \end{table}
 
 \subsection{Use Case 2: Kanban Board}\label{usecases}
-The second use case covers the user interaction.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=100]
+    {images/kanban.png}}
+  \caption{\label{fig:my-label} Data model of the home automation use case.}
+\end{figure}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{ |c|l| }
+ \hline
+ ID & Story title \\
+ \hline
+ S01 & As landlord I want to overview my apartments \\
+ S02 & As landlord I want to overview all rooms of an apartment \\
+ S03 & As landlord I want to overview thermometers of room \\
+ S04 & As landlord I want to overview the measurement data of a thermometer \\
+ S05 & As UI developer I want to present all available data without spending any development time \\
+ S06 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+ \hline
+\end{tabular}
+\caption{User stories of a client that consumes a home automation API}
+\end{center}
+\end{table}
 
 \subsection{Base vocabulary}\label{basevocab}
 There are things and list of things. Base vocabulary is hydra.
 
 \subsection{Data rendering}\label{genericrendering}
-There is linked data renderer, all the behavior is done by plugging in the custom renderer.
+
+\subsubsection{Rendering of linked data}\label{linkeddatarendering}
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=380]
+    {images/ui-dev.png}}
+  \caption{\label{fig:my-label} Solely the server contains business logic.}
+\end{figure}
 
 \subsubsection{Pluggable domain rendering}\label{domainrendering}
-TODO show tree of data and application of renderer step by step
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=380]
+    {images/client-instances.png}}
+  \caption{\label{fig:my-label} The client is decoupled from any API and is able to consume different APIs.}
+\end{figure}
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=380]
+    {images/ui-dev-custom-renderer.png}}
+  \caption{\label{fig:my-label} Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still lose.}
+\end{figure}
 
 \subsection{User interaction}\label{interaction}
 
