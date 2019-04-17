@@ -70,7 +70,7 @@ function serializeIssue(issue: Issue, id: string | number) {
     "@type": "Issue",
     title: issue.title,
     status: issue.status,
-    memberOf: serializeProject(projects[issue.belongsTo], issue.belongsTo)
+    memberOf: { "@id": `${b}/projects/${issue.belongsTo}` }
   };
 }
 
