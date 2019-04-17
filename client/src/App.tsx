@@ -1,7 +1,7 @@
 import React from "react";
 
-import HydraConsole from "./HydraClient";
+import HydraEntry from "./HydraEntry";
 
-const App = () => <HydraConsole />;
+const App = () => <HydraEntry />;
 
 export default App;

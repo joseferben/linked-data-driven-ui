@@ -70,12 +70,13 @@ const renderers = [
   }
 ];
 
-class HydraConsole extends React.Component {
+class HydraConsole extends React.Component<{ entryPoint: string }, any> {
   state = {
     url: "",
     rootResources: null,
     resource: null,
-    selected: []
+    selected: [],
+    isLoading: false
   };
 
   handleKeyPress(evt: any) {
@@ -92,18 +93,22 @@ class HydraConsole extends React.Component {
 
   componentDidMount() {
     window.onhashchange = () => {
-      this.setState({ url: location.hash.split("#")[1] });
+      this.setState({ url: location.hash.split("#")[1] || "" });
+      this.setState({ isLoading: true });
       client.loadResource(this.state.url).then(res => {
         this.setState({ resource: res.root });
+        this.setState({ isLoading: false });
       });
     };
 
-    client.loadResource("http://localhost:3000/iot").then(res => {
-      console.log("From http://localhost:3000/iot:");
+    client.loadResource(this.props.entryPoint).then(res => {
+      console.log(this.props.entryPoint);
+      this.setState({ isLoading: true });
       Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
         res => {
           const resources = res.map(resource => resource.root);
           this.setState({ rootResources: resources });
+          this.setState({ isLoading: false });
         }
       );
     });
@@ -115,13 +120,23 @@ class HydraConsole extends React.Component {
 
   render() {
     const {
-      state: { rootResources, resource, selected, url }
+      state: { rootResources, resource, selected, url, isLoading }
     } = this;
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
+        <Input
+          loading={isLoading}
+          fluid
+          placeholder="http://hydra-api.com/entrypoint"
+          value={url}
+          onKeyPress={this.handleKeyPress.bind(this)}
+          onChange={this.handleOnChange.bind(this)}
+        />
+        <Divider />
         <Grid>
           <Grid.Column width={4}>
+            <Header as="h3">Hydra resources</Header>
             <Menu vertical>
               {isDefined(rootResources) ? (
                 (rootResources || []).map(r => (
@@ -145,14 +160,6 @@ class HydraConsole extends React.Component {
             />
           </Grid.Column>
           <Grid.Column width={12}>
-            <Input
-              fluid
-              placeholder="http://hydra-api.com/entrypoint"
-              value={url}
-              onKeyPress={this.handleKeyPress.bind(this)}
-              onChange={this.handleOnChange.bind(this)}
-            />
-            <Divider />
             <HydraRenderer
               baseRenderer={baseRenderer}
               selectedRenderers={selected}

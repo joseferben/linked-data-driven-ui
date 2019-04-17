@@ -57,9 +57,9 @@ class HydraRenderer extends React.Component<
   {}
 > {
   render() {
-    const { selectedRenderers, resource, baseRenderer } = this.props;
+    const { selectedRenderers, resource } = this.props;
     appliedRenderers = [];
-    let comp = <div>Loading...</div>;
+    let comp = <div>Select a Hydra resource to start.</div>;
     if (resource) {
       comp = doRender(selectedRenderers)(resource);
     }
