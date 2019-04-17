@@ -69,7 +69,6 @@ const thermometers = [
       name: "Temperature",
       value: "21.8"
     },
-
     containedInPlace: `${b}/rooms/5`
   }
 ];

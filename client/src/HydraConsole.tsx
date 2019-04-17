@@ -81,8 +81,9 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
 
   handleKeyPress(evt: any) {
     if (evt.key == "Enter") {
+      this.setState({ isLoading: true });
       client.loadResource(this.state.url).then(res => {
-        console.log(res.root);
+        this.setState({ isLoading: false });
       });
     }
   }
@@ -102,7 +103,6 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     };
 
     client.loadResource(this.props.entryPoint).then(res => {
-      console.log(this.props.entryPoint);
       this.setState({ isLoading: true });
       Promise.all(Array.from(res).map(r => client.loadResource(r.id))).then(
         res => {
@@ -122,6 +122,7 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     const {
       state: { rootResources, resource, selected, url, isLoading }
     } = this;
+    console.log(resource);
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
@@ -139,13 +140,15 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
             <Header as="h3">Hydra resources</Header>
             <Menu vertical>
               {isDefined(rootResources) ? (
-                (rootResources || []).map(r => (
-                  <Menu.Item
-                    href={"#" + r["@id"]}
-                    key={r["@id"]}
-                    name={(r["@id"] || "").split("/").pop()}
-                  />
-                ))
+                (rootResources || [])
+                  .filter(r => r !== null)
+                  .map(r => (
+                    <Menu.Item
+                      href={"#" + r["@id"]}
+                      key={r["@id"]}
+                      name={(r["@id"] || "").split("/").pop()}
+                    />
+                  ))
               ) : (
                 <Dimmer active inverted>
                   <Loader />
