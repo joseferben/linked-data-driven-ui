@@ -18,9 +18,12 @@ app.get("/", (_, res) => {
   res.json({ message: "This is not the hydra endpoint, try /iot" });
 });
 
-app.listen(3000, () => console.log("Example app listening on port 3000!"));
+const server = app.listen(3000, () =>
+  console.log("Example app listening on port 3000!")
+);
 
 process.on("SIGINT", () => {
   console.log("Bye bye!");
+  server.close();
   process.exit();
 });

@@ -22,7 +22,7 @@ import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
 import { Apartment } from "./components/HydraRenderer/renderers/Apartment";
 import { Room } from "./components/HydraRenderer/renderers/Room";
 import { BoldFont } from "./components/HydraRenderer/renderers/BoldFont";
-import { GenericTable } from "./components/HydraRenderer/renderers/GenericTable";
+import { Hydra } from "./components/HydraRenderer/renderers/Hydra";
 
 const baseRenderer = {
   id: "generic",
@@ -56,12 +56,11 @@ const renderers = [
     type: "https://schema.org/Room"
   },
   {
-    id: "genericTable",
-    name: "GenericTable",
-    comp: GenericTable,
+    id: "hydra",
+    name: "Hydra",
+    comp: Hydra,
     type: "http://www.w3.org/ns/hydra/core#Collection"
   },
-
   {
     id: "boldFont",
     name: "BoldFont",
@@ -83,6 +82,7 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     if (evt.key == "Enter") {
       this.setState({ isLoading: true });
       client.loadResource(this.state.url).then(res => {
+        this.setState({ resource: res.root });
         this.setState({ isLoading: false });
       });
     }
@@ -93,6 +93,11 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
   }
 
   componentDidMount() {
+    client.loadResource(location.hash.split("#")[1]).then(res => {
+      this.setState({ resource: res.root });
+      this.setState({ isLoading: false });
+    });
+
     window.onhashchange = () => {
       this.setState({ url: location.hash.split("#")[1] || "" });
       this.setState({ isLoading: true });
@@ -122,7 +127,6 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     const {
       state: { rootResources, resource, selected, url, isLoading }
     } = this;
-    console.log(resource);
     return (
       <Container style={{ marginTop: "3em" }}>
         <Header as="h1">Hydra console</Header>
