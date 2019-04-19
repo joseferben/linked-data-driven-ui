@@ -98,7 +98,9 @@ const contexts: { [key: string]: any } = {
         status: "https://schema.org/status",
         memberOf: "https://schema.org/memberOf"
       }
-    ]
+    ],
+    "@type": "ApiDocumentation",
+    supportedClass: [{ "@type": "Issue" }]
   }
 };
 

@@ -10,8 +10,8 @@ const isLink = (path: string) => {
   return path.includes("http://") || path.includes("https://");
 };
 
-const Method = (props: any) => {
-  const { method } = props;
+const Operation = (props: any) => {
+  const { method, handler } = props;
   const methods: { [index: string]: JSX.Element } = {
     DELETE: (
       <Button color="red" size="tiny">
@@ -37,8 +37,7 @@ const Row = (props: any) => {
         if (isLink(data[k])) {
           comp = <a href={"#" + data[k]}>{data[k]}</a>;
         } else if (k === HYDRA_OPERATIONS) {
-          comp = data[k].method;
-          comp = <Method method={data[k].method} />;
+          comp = <Operation method={data[k].method} />;
         } else {
           comp = data[k];
         }

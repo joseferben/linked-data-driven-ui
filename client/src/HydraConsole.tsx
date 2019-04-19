@@ -93,10 +93,12 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
   }
 
   componentDidMount() {
-    client.loadResource(location.hash.split("#")[1]).then(res => {
-      this.setState({ resource: res.root });
-      this.setState({ isLoading: false });
-    });
+    if (location.hash.split("#")[1]) {
+      client.loadResource(location.hash.split("#")[1]).then(res => {
+        this.setState({ resource: res.root });
+        this.setState({ isLoading: false });
+      });
+    }
 
     window.onhashchange = () => {
       this.setState({ url: location.hash.split("#")[1] || "" });
@@ -104,6 +106,7 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
       client.loadResource(this.state.url).then(res => {
         this.setState({ resource: res.root });
         this.setState({ isLoading: false });
+        console.log(res.root);
       });
     };
 

@@ -6,7 +6,7 @@ import HydraConsole from "./HydraConsole";
 export default class HydraEntry extends React.Component {
   state = {
     entryPoint: "http://localhost:3000/kanban",
-    entered: false
+    entered: true
   };
 
   handleKeyPress(evt: any) {
