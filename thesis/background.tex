@@ -31,9 +31,7 @@ The first applications appeared providing a user experience in the browser simil
 
 \subsection{Document Object Model}\label{documentobjectmodel}
 
-The Document Object Model (DOM) is a programming API for HTML and XML documents. It defines the logical structure of documents and the way a document is accessed and manipulated. \citep{dom} The DOM exposes an \textbf{imperative} API to the developer.
-
-We consider following HTML document:
+The Document Object Model (DOM) is a programming API for HTML and XML documents. It defines the logical structure of documents and the way a document is accessed and manipulated. \citep{domintro} \\ We consider following HTML document:
 
 \lstset{language=XML}
 \begin{lstlisting}[caption=HTML document of a table, label=htmloftable]
@@ -59,7 +57,9 @@ The DOM representation of that table looks as follows:
   \caption{\label{fig:my-label} The DOM is a tree data structure representing an HTML document.}
 \end{figure}
 
-This process of creating the DOM given a document with markup takes place in the browser during \textbf{rendering}.
+It is worth to note that the DOM API is an imperative. The developer has to tell the DOM how to achieve a certain transformation by providing a sequence of DOM operations. An example operation would be the removal of a node. Considering operations on the document as string, the DOM provides better developer ergonomics.
+
+This process of creating the DOM of a document we call \textbf{rendering}. This is not to be confused with the rendering taking place in a web browser. There the creation of the DOM is just one step of the whole rendering process.
 
 \subsection{UI web development today}\label{uidevelopmenttoday}
 
@@ -84,7 +84,6 @@ In 2013 Facebook released a library called React, which today is still one of th
 React encourages the thinking of UIs as a composition of \textbf{web components}. The UI developer doesn't touch the DOM manually and merely provides data to React. This is a declarative approach where the developer states \textbf{what} not \textbf{how} the UI should be rendered. \\
 Most importantly, React models the problem of UI rendering as function application. This insight leads to small re-usable components which has various benefits.
 
-
 \begin{figure}[!htb]
   \center{\includegraphics[width=250]
     {images/ui-imperative.png}}
@@ -99,9 +98,21 @@ Most importantly, React models the problem of UI rendering as function applicati
 
 The markup output of a component depends only on its data input. This allows to understand the change in the output when changing the input, the component is \textbf{easy to reason about}. It can be \textbf{tested easily in isolation} because there are no other dependencies than the data input. Analogous to function composition, such web components can be \textbf{composed} to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them usable in multiple contexts. That means a good code \textbf{reuse can be achieved}.
 
-\subsubsection{Templates vs. Component}
+\subsubsection{Templates vs. Components}
 
-TODO: Quote Riotjs
+The benefits of web components become apparent when we analyze UI development before web components took over. It was common to render markup dynamically on the server and send it over to the browser where some JavaScript is executed that enhances the rendered DOM. \\
+On the server typically some templating language. Templating languages resemble simple programming languages as they provide control structures and variables together with primitives to output markup. These templates are evaluated with some input data in a templating step. The output of that templating step is markup. Compared to components they have major drawbacks.
+
+Firstly, templating languages are a source of complexity. The final user of a website or the customer of a software project doesn't care about templating languages. This makes them a source of \textbf{Accidental Complexity}. They have often powerful primitives to filter collections, sort sequences or format dates. This makes them another language in the technology stack of a project that needs to be learned and understood. Questions like \textit{how does the evaluation of a template happen?} or \textit{how can I debug the evaluation} process may arise at some point during development. \\
+They are often used together with abstractions that hold business logic like \textbf{models}. There is a risk that business logic creeps into the templates which makes changes harder and more expensive.
+
+Secondly, templates separate things that conceptually belong together. The developers of React have famously stated:
+\begin{quote}
+\textit{Templates separate technologies, not concerns.}
+\end{quote}
+We consider the UI of an issue tracking system where an issue has a status that can be changed. \\ A component representing that issue contains the \textbf{markup}, the \textbf{styling} and the \textbf{business logic} to change its status. That component is self-contained, it can be used in isolation and in various contexts. \\
+A template on the other hand only takes care of creating markup. Relies on a model to provide the data and on a style sheet providing the styling.
+Separation of markup, styling and business logic is done in the name of \textbf{encapsulation}. None of these could exist on their own in a sensible way because they contribute to the same thing. There is a technological and conceptual dichotomy. The main contribution of components is the acknowledgment that the conceptual one is more important since the technological one can be solved with tooling. This is the reason why components provide a better level of encapsulation.
 
 \subsection{Richardson Maturity Model and HATEOAS}
 
