@@ -92,7 +92,11 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     this.setState({ url: evt.target.value });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    console.log(
+      await client.loadResource("http://localhost:3000/kanban/issues/1")
+    );
+
     if (location.hash.split("#")[1]) {
       client.loadResource(location.hash.split("#")[1]).then(res => {
         this.setState({ resource: res.root });
@@ -106,7 +110,6 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
       client.loadResource(this.state.url).then(res => {
         this.setState({ resource: res.root });
         this.setState({ isLoading: false });
-        console.log(res.root);
       });
     };
 

@@ -1,6 +1,7 @@
-import express from "express";
+import express, { Request, Response } from "express";
 
 import { baseUrl } from "../config";
+import { NextFunction } from "express-serve-static-core";
 
 const b = `${baseUrl}/kanban`;
 
@@ -50,10 +51,23 @@ const issues: { [key: string]: Issue } = {
   }
 };
 
-function jsonLdSetter(req: any, res: any, next: any) {
+function jsonldSetter(req: Request, res: Response, next: NextFunction) {
   res.set("Content-Type", "application/ld+json");
   next();
 }
+
+const docOf = (path: string) => (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.set("Access-Control-Expose-Headers", "Link");
+  res.set(
+    "Link",
+    `<${b}/doc/${path}>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"`
+  );
+  next();
+};
 
 function serializeProject(project: Project, id: string | number) {
   return {
@@ -104,7 +118,7 @@ const contexts: { [key: string]: any } = {
   }
 };
 
-kanban.get("/", jsonLdSetter, (_, res) => {
+kanban.get("/", docOf(""), jsonldSetter, (_, res) => {
   res.send({
     "@context": `${b}/contexts/EntryPoint`,
     "@id": b,
@@ -114,15 +128,38 @@ kanban.get("/", jsonLdSetter, (_, res) => {
   });
 });
 
-kanban.get("/contexts/EntryPoint", jsonLdSetter, (req, res) => {
+kanban.get("/doc", jsonldSetter, (req, res) => {
+  res.send({
+    "@context": `${b}/contexts/kanban`,
+    "@id": `${b}/doc`,
+    "@type": "ApiDocumentation",
+    title: "Kanban issue board",
+    description: "Kanban issue board showing projects with its issues",
+    entrypoint: `${b}/`,
+    supportedClass: []
+  });
+});
+
+kanban.get("/doc/Issue", jsonldSetter, (req, res) => {
+  res.send({
+    "@context": `${b}/contexts/kanban`,
+    "@id": `${b}/doc/Issue`,
+    "@type": "Class",
+    title: "Issue",
+    description: "Represents a unit of work that can be done.",
+    supportedOperation: [{ "@type": "Operation", method: "DELETE" }]
+  });
+});
+
+kanban.get("/contexts/EntryPoint", jsonldSetter, (req, res) => {
   res.send(contexts.EntryPoint);
 });
 
-kanban.get("/contexts/:id", jsonLdSetter, (req, res) => {
+kanban.get("/contexts/:id", jsonldSetter, (req, res) => {
   res.send(contexts.kanban);
 });
 
-kanban.get("/projects", jsonLdSetter, (req, res) => {
+kanban.get("/projects", jsonldSetter, (req, res) => {
   res.send({
     "@context": `${b}/contexts/Project`,
     "@id": `${b}/projects`,
@@ -132,7 +169,7 @@ kanban.get("/projects", jsonLdSetter, (req, res) => {
   });
 });
 
-kanban.get("/projects/:id", jsonLdSetter, (req, res) => {
+kanban.get("/projects/:id", jsonldSetter, (req, res) => {
   const {
     params: { id }
   } = req;
@@ -142,7 +179,7 @@ kanban.get("/projects/:id", jsonLdSetter, (req, res) => {
   });
 });
 
-kanban.get("/issues", jsonLdSetter, (req, res) => {
+kanban.get("/issues", jsonldSetter, (req, res) => {
   res.send({
     "@context": `${b}/contexts/Issue`,
     "@id": `${b}/issues`,
@@ -152,7 +189,7 @@ kanban.get("/issues", jsonLdSetter, (req, res) => {
   });
 });
 
-kanban.get("/issues/:id", jsonLdSetter, (req, res) => {
+kanban.get("/issues/:id", docOf("Issue"), jsonldSetter, (req, res) => {
   const {
     params: { id }
   } = req;
