@@ -93,9 +93,13 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
   }
 
   async componentDidMount() {
-    console.log(
-      await client.loadResource("http://localhost:3000/kanban/issues/1")
+    const doc = await client.loadDocumentation(
+      "http://localhost:3000/kanban/doc"
     );
+    console.log(
+      await doc.getOperations("http://localhost:3000/kanban/doc/Issue")
+    );
+    console.log(await client.loadResource("http://localhost:3000/kanban/doc/"));
 
     if (location.hash.split("#")[1]) {
       client.loadResource(location.hash.split("#")[1]).then(res => {

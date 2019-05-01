@@ -84,8 +84,7 @@ function serializeIssue(issue: Issue, id: string | number) {
     "@type": "Issue",
     title: issue.title,
     status: issue.status,
-    memberOf: { "@id": `${b}/projects/${issue.belongsTo}` },
-    operation: [{ "@type": "Operation", method: "DELETE" }]
+    memberOf: { "@id": `${b}/projects/${issue.belongsTo}` }
   };
 }
 
@@ -136,7 +135,15 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
     title: "Kanban issue board",
     description: "Kanban issue board showing projects with its issues",
     entrypoint: `${b}/`,
-    supportedClass: []
+    supportedClass: [
+      {
+        "@id": `${b}/doc/Issue`,
+        "@type": "Class",
+        title: "Issue",
+        description: "Represents a unit of work that can be done.",
+        supportedOperation: [{ "@type": "Operation", method: "DELETE" }]
+      }
+    ]
   });
 });
 
