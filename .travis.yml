@@ -2,10 +2,10 @@ language: node_js
 node_js:
   - "8"
 script:
-  - yarn install --cwd client
-  - yarn build --cwd client
-  - yarn install --cwd api
-  - yarn build --cwd api
+  - yarn --cwd client install
+  - yarn --cwd client install
+  - yarn --cwd api install
+  - yarn --cwd api build
 notifications:
   email:
     on_success: never
