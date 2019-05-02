@@ -111,9 +111,7 @@ const contexts: { [key: string]: any } = {
         status: "https://schema.org/status",
         memberOf: "https://schema.org/memberOf"
       }
-    ],
-    "@type": "ApiDocumentation",
-    supportedClass: [{ "@type": "Issue" }]
+    ]
   }
 };
 
@@ -137,24 +135,13 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
     entrypoint: `${b}/`,
     supportedClass: [
       {
-        "@id": `${b}/doc/Issue`,
+        "@id": `${b}/issues/Issue`,
         "@type": "Class",
         title: "Issue",
         description: "Represents a unit of work that can be done.",
         supportedOperation: [{ "@type": "Operation", method: "DELETE" }]
       }
     ]
-  });
-});
-
-kanban.get("/doc/Issue", jsonldSetter, (req, res) => {
-  res.send({
-    "@context": `${b}/contexts/kanban`,
-    "@id": `${b}/doc/Issue`,
-    "@type": "Class",
-    title: "Issue",
-    description: "Represents a unit of work that can be done.",
-    supportedOperation: [{ "@type": "Operation", method: "DELETE" }]
   });
 });
 
@@ -196,7 +183,7 @@ kanban.get("/issues", jsonldSetter, (req, res) => {
   });
 });
 
-kanban.get("/issues/:id", docOf("Issue"), jsonldSetter, (req, res) => {
+kanban.get("/issues/:id", docOf(""), jsonldSetter, (req, res) => {
   const {
     params: { id }
   } = req;
