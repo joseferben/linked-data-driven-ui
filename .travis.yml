@@ -3,9 +3,8 @@ node_js:
   - "8"
 script:
   - yarn --cwd client install
-  - yarn --cwd client install
+  - yarn --cwd client build
   - yarn --cwd api install
-  - yarn --cwd api build
 notifications:
   email:
     on_success: never
