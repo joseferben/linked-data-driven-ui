@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Label, Table } from "semantic-ui-react";
 import { HydraResource, SupportedOperation } from "alcaeus/types/Resources";
+import { refreshObservable } from "../../../../observable";
 
 const HYDRA_OPERATIONS = "http://www.w3.org/ns/hydra/core#operation";
 
@@ -22,20 +23,50 @@ const isLink = (path: string) => {
   return path.includes("http://") || path.includes("https://");
 };
 
-const Operations = (props: any) => {
-  const { operations } = props;
-  return operations.map((operation: Operation, idx: number) => {
+class OperationComp extends React.Component<{ operation: Operation }, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { loading: false };
+  }
+
+  render() {
+    const { operation } = this.props;
     if (operation.method === "DELETE") {
+      const deleteUrl = operation._resource.id;
+      const handleDelete = () => {
+        this.setState({ loading: true });
+        fetch(deleteUrl, { method: "DELETE" })
+          .then(() => {
+            return refreshObservable.refreshFn().then(() => {
+              this.setState({ loading: false });
+            });
+          })
+          .catch(reason => {
+            console.error(reason.message);
+            this.setState({ loading: false });
+          });
+      };
+
       return (
-        <Button key={idx} color="red" size="tiny">
+        <Button
+          loading={this.state.loading}
+          onClick={handleDelete}
+          color="red"
+          size="tiny"
+        >
           Delete
         </Button>
       );
     } else {
-      <Button key={idx} size="tiny">
-        Do
-      </Button>;
+      return <Button size="tiny">Do</Button>;
     }
+  }
+}
+
+const Operations = (props: any) => {
+  const { operations } = props;
+  return operations.map((operation: Operation, idx: number) => {
+    return <OperationComp operation={operation} key={idx} />;
   });
 };
 

@@ -54,7 +54,7 @@ const doRender = (availableRenderers: Renderer[]) => (
 
 class HydraRenderer extends React.Component<
   { selectedRenderers: Renderer[]; resource: any; baseRenderer: any },
-  {}
+  any
 > {
   render() {
     const { selectedRenderers, resource } = this.props;

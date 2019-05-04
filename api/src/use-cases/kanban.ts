@@ -189,4 +189,16 @@ kanban.get("/issues/:id", apiDocSetter, jsonldSetter, (req, res) => {
   });
 });
 
+kanban.delete("/issues/:id", jsonldSetter, (req, res) => {
+  const {
+    params: { id }
+  } = req;
+  try {
+    delete issues[id];
+    res.status(200).send({ message: "Successfully deleted issue" });
+  } catch (e) {
+    res.status(500).send({ message: "Failed to delete issue" });
+  }
+});
+
 export default kanban;

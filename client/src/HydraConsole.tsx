@@ -24,6 +24,8 @@ import { Room } from "./components/HydraRenderer/renderers/Room";
 import { BoldFont } from "./components/HydraRenderer/renderers/BoldFont";
 import { Hydra } from "./components/HydraRenderer/renderers/Hydra";
 
+import { refreshObservable } from "./observable";
+
 const baseRenderer = {
   id: "generic",
   name: "Generic Linked Data",
@@ -93,7 +95,21 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     this.setState({ url: evt.target.value });
   }
 
-  async componentDidMount() {
+  refresh(): Promise<boolean> {
+    if (location.hash.split("#")[1]) {
+      return client.loadResource(location.hash.split("#")[1]).then(res => {
+        this.setState({ resource: res.root });
+        return true;
+      });
+    }
+    return Promise.reject(
+      new Error("Can not refresh current URL, no URL found in current address")
+    );
+  }
+
+  componentDidMount() {
+    refreshObservable.refreshFn = this.refresh.bind(this);
+
     if (location.hash.split("#")[1]) {
       client.loadResource(location.hash.split("#")[1]).then(res => {
         this.setState({ resource: res.root });
