@@ -107,8 +107,12 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     refreshObservable.refreshFn = this.refresh.bind(this);
+
+    console.log(
+      await client.loadResource("http://localhost:3000/kanban/issues/0")
+    );
 
     if (location.hash.split("#")[1]) {
       client.loadResource(location.hash.split("#")[1]).then(res => {

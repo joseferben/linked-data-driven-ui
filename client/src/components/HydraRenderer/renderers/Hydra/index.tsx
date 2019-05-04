@@ -14,7 +14,7 @@ type Operation = {
   title: string;
   _resource: HydraResource;
   _supportedOperation: SupportedOperation;
-  invoke: () => Promise<any>;
+  invoke: (data?: any) => Promise<any>;
 };
 
 const isLink = (path: string) => {
@@ -30,28 +30,29 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
     this.state = { loading: false };
   }
 
+  handleInvoke(operation: Operation, data?: any) {
+    this.setState({ loading: true });
+    console.log(data);
+    operation
+      .invoke(JSON.stringify(data))
+      .then(() => {
+        return refreshObservable.refreshFn().then(() => {
+          this.setState({ loading: false });
+        });
+      })
+      .catch(reason => {
+        console.error(reason.message);
+        this.setState({ loading: false });
+      });
+  }
+
   render() {
     const { operation } = this.props;
     if (operation.method === "DELETE") {
-      const handleDelete = () => {
-        this.setState({ loading: true });
-        operation
-          .invoke()
-          .then(() => {
-            return refreshObservable.refreshFn().then(() => {
-              this.setState({ loading: false });
-            });
-          })
-          .catch(reason => {
-            console.error(reason.message);
-            this.setState({ loading: false });
-          });
-      };
-
       return (
         <Button
           loading={this.state.loading}
-          onClick={handleDelete}
+          onClick={() => this.handleInvoke.bind(this)(operation)}
           color="red"
           size="tiny"
         >
@@ -59,7 +60,20 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
         </Button>
       );
     } else {
-      return <Button size="tiny">Do</Button>;
+      return (
+        <Button
+          onClick={() =>
+            this.handleInvoke.bind(this)(operation, {
+              "@context": "http://localhost:3000/kanban/contexts/Issues",
+              "@id": `/issues/IssueStatusUpdate`,
+              status: "READY"
+            })
+          }
+          size="tiny"
+        >
+          {operation.title}
+        </Button>
+      );
     }
   }
 }

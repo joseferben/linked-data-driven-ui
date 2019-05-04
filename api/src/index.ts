@@ -2,12 +2,16 @@ import logger from "morgan";
 import express from "express";
 import cors from "cors";
 import iot from "./use-cases/iot";
+import bodyParser from "body-parser";
 import kanban from "./use-cases/kanban";
 
 const app = express();
 
 app.use(cors());
 app.use(logger("tiny"));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ type: "application/ld+json" }));
 
 app.use("/iot", iot);
 app.use("/iot", express.static("public"));

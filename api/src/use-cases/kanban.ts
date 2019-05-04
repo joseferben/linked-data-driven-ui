@@ -26,7 +26,7 @@ const projects: { [key: string]: Project } = {
 const issues: { [key: string]: Issue } = {
   "0": {
     title: "Setup initial continuous delivery pipeline",
-    status: IssueStatus.DONE,
+    status: IssueStatus.BACKLOG,
     belongsTo: "0"
   },
   "1": {
@@ -75,9 +75,20 @@ function serializeProject(project: Project, id: string | number) {
 }
 
 function serializeIssue(issue: Issue, id: string | number) {
+  const types = [`${b}/issues/Issue`];
+  if (issue.status === IssueStatus.BACKLOG) {
+    types.push(`${b}/issues/BacklogIssue`);
+  } else if (issue.status === IssueStatus.READY) {
+    types.push(`${b}/issues/ReadyIssue`);
+  } else if (issue.status === IssueStatus.IN_PROCESS) {
+    types.push(`${b}/issues/InProcessIssue`);
+  } else if (issue.status === IssueStatus.DONE) {
+    types.push(`${b}/issues/DoneIssue`);
+  }
+
   return {
     "@id": `${b}/issues/${id}`,
-    "@type": `${b}/issues/Issue`,
+    "@type": types,
     title: issue.title,
     status: issue.status,
     memberOf: { "@id": `${b}/projects/${issue.belongsTo}` }
@@ -131,11 +142,50 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
     entrypoint: `${b}/`,
     supportedClass: [
       {
+        "@id": `${b}/issues/IssueStatusUpdate`,
+        "@type": "Class",
+        title: "IssueStatusUpdate",
+        description: "Represents an update to the status of an issue.",
+        supportedProperty: [
+          {
+            title: "status",
+            property: {
+              "@id": `${b}/issues/IssueStatusUpdate/status`,
+              "@type": "rdf:Property"
+            }
+          }
+        ]
+      },
+      {
         "@id": `${b}/issues/Issue`,
         "@type": "Class",
         title: "Issue",
         description: "Represents a unit of work that can be done.",
         supportedOperation: [{ "@type": "Operation", method: "DELETE" }]
+      },
+      {
+        "@id": `${b}/issues/BacklogIssue`,
+        "@type": "Class",
+        title: "Issue in Backlog",
+        description: "An issue which is in the backlog.",
+        supportedOperation: [
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Plan",
+            expects: `${b}/issues/IssueStatusUpdate`,
+            returns: null
+          }
+        ]
+      },
+      {
+        "@id": `${b}/issues/ReadyIssue`,
+        "@type": "Class",
+        title: "Issue in Backlog",
+        description: "An issue which is ready and can be started.",
+        supportedOperation: [
+          { "@type": "Operation", method: "POST", label: "Start" }
+        ]
       }
     ]
   });
@@ -183,10 +233,14 @@ kanban.get("/issues/:id", apiDocSetter, jsonldSetter, (req, res) => {
   const {
     params: { id }
   } = req;
-  res.send({
-    "@context": `${b}/contexts/Issues`,
-    ...serializeIssue(issues[id], id)
-  });
+  if (issues[id]) {
+    res.send({
+      "@context": `${b}/contexts/Issues`,
+      ...serializeIssue(issues[id], id)
+    });
+  } else {
+    res.status(404).send({ message: "Issue not found" });
+  }
 });
 
 kanban.delete("/issues/:id", jsonldSetter, (req, res) => {
@@ -199,6 +253,15 @@ kanban.delete("/issues/:id", jsonldSetter, (req, res) => {
   } catch (e) {
     res.status(500).send({ message: "Failed to delete issue" });
   }
+});
+
+kanban.post("/issues/:id", jsonldSetter, (req: Request, res) => {
+  const {
+    params: { id },
+    body
+  } = req;
+  console.log(body);
+  res.send();
 });
 
 export default kanban;
