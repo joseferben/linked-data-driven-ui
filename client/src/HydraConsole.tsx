@@ -56,12 +56,6 @@ const renderers = [
     type: "https://schema.org/Room"
   },
   {
-    id: "hydra",
-    name: "Hydra",
-    comp: Hydra,
-    type: "http://www.w3.org/ns/hydra/core#Collection"
-  },
-  {
     id: "boldFont",
     name: "BoldFont",
     comp: BoldFont,
@@ -74,7 +68,14 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     url: "",
     rootResources: null,
     resource: null,
-    selected: [],
+    selected: [
+      {
+        id: "hydra",
+        name: "Hydra",
+        comp: Hydra,
+        type: "http://www.w3.org/ns/hydra/core#Collection"
+      }
+    ],
     isLoading: false
   };
 
@@ -93,10 +94,6 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
   }
 
   async componentDidMount() {
-    console.log(
-      await client.loadResource("http://localhost:3000/kanban/issues/1")
-    );
-
     if (location.hash.split("#")[1]) {
       client.loadResource(location.hash.split("#")[1]).then(res => {
         this.setState({ resource: res.root });

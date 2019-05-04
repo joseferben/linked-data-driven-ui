@@ -1,7 +1,19 @@
 import React from "react";
 import { Button, Label, Table } from "semantic-ui-react";
+import { HydraResource, SupportedOperation } from "alcaeus/types/Resources";
 
 const HYDRA_OPERATIONS = "http://www.w3.org/ns/hydra/core#operation";
+
+type Operation = {
+  method: "DELETE" | "POST" | "PUT";
+  description: string;
+  expects: any;
+  requiresInput: boolean;
+  returns: any;
+  title: string;
+  _resource: HydraResource;
+  _supportedOperation: SupportedOperation;
+};
 
 const isLink = (path: string) => {
   if (!path || typeof path !== "string") {
@@ -10,22 +22,21 @@ const isLink = (path: string) => {
   return path.includes("http://") || path.includes("https://");
 };
 
-const Operation = (props: any) => {
-  const { method, handler } = props;
-  const methods: { [index: string]: JSX.Element } = {
-    DELETE: (
-      <Button color="red" size="tiny">
-        Delete
-      </Button>
-    )
-  };
-  return methods[method] ? (
-    methods[method]
-  ) : (
-    <Button size="tiny" primary>
-      {method}
-    </Button>
-  );
+const Operations = (props: any) => {
+  const { operations } = props;
+  return operations.map((operation: Operation, idx: number) => {
+    if (operation.method === "DELETE") {
+      return (
+        <Button key={idx} color="red" size="tiny">
+          Delete
+        </Button>
+      );
+    } else {
+      <Button key={idx} size="tiny">
+        Do
+      </Button>;
+    }
+  });
 };
 
 const Row = (props: any) => {
@@ -36,13 +47,16 @@ const Row = (props: any) => {
         let comp;
         if (isLink(data[k])) {
           comp = <a href={"#" + data[k]}>{data[k]}</a>;
-        } else if (k === HYDRA_OPERATIONS) {
-          comp = <Operation method={data[k].method} />;
         } else {
           comp = data[k];
         }
         return <Table.Cell key={k}>{comp}</Table.Cell>;
       })}
+      {data.operations && data.operations.length > 0 ? (
+        <Table.Cell>
+          <Operations operations={data.operations} />
+        </Table.Cell>
+      ) : null}
     </Table.Row>
   );
 };
@@ -77,7 +91,7 @@ export class Hydra extends React.Component<
   {}
 > {
   render() {
-    const { resource, renderer } = this.props;
+    const { resource } = this.props;
     const {
       "http://www.w3.org/ns/hydra/core#member": memberElement = []
     } = resource;
@@ -90,7 +104,7 @@ export class Hydra extends React.Component<
         (typeof member[0][k] !== "object" && k !== "@type")
       );
     });
-    const labels = keysToLabels(keys);
+    const labels = [...keysToLabels(keys), "Operations"];
     return (
       <Table celled>
         <Table.Header>

@@ -56,15 +56,11 @@ function jsonldSetter(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-const docOf = (path: string) => (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const apiDocSetter = (req: Request, res: Response, next: NextFunction) => {
   res.set("Access-Control-Expose-Headers", "Link");
   res.set(
     "Link",
-    `<${b}/doc/${path}>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"`
+    `<${b}/doc>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"`
   );
   next();
 };
@@ -81,7 +77,7 @@ function serializeProject(project: Project, id: string | number) {
 function serializeIssue(issue: Issue, id: string | number) {
   return {
     "@id": `${b}/issues/${id}`,
-    "@type": "Issue",
+    "@type": `${b}/issues/Issue`,
     title: issue.title,
     status: issue.status,
     memberOf: { "@id": `${b}/projects/${issue.belongsTo}` }
@@ -115,7 +111,7 @@ const contexts: { [key: string]: any } = {
   }
 };
 
-kanban.get("/", docOf(""), jsonldSetter, (_, res) => {
+kanban.get("/", apiDocSetter, jsonldSetter, (_, res) => {
   res.send({
     "@context": `${b}/contexts/EntryPoint`,
     "@id": b,
@@ -173,7 +169,7 @@ kanban.get("/projects/:id", jsonldSetter, (req, res) => {
   });
 });
 
-kanban.get("/issues", jsonldSetter, (req, res) => {
+kanban.get("/issues", apiDocSetter, jsonldSetter, (req, res) => {
   res.send({
     "@context": `${b}/contexts/Issue`,
     "@id": `${b}/issues`,
@@ -183,7 +179,7 @@ kanban.get("/issues", jsonldSetter, (req, res) => {
   });
 });
 
-kanban.get("/issues/:id", docOf(""), jsonldSetter, (req, res) => {
+kanban.get("/issues/:id", apiDocSetter, jsonldSetter, (req, res) => {
   const {
     params: { id }
   } = req;
