@@ -14,6 +14,7 @@ type Operation = {
   title: string;
   _resource: HydraResource;
   _supportedOperation: SupportedOperation;
+  invoke: () => Promise<any>;
 };
 
 const isLink = (path: string) => {
@@ -32,10 +33,10 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
   render() {
     const { operation } = this.props;
     if (operation.method === "DELETE") {
-      const deleteUrl = operation._resource.id;
       const handleDelete = () => {
         this.setState({ loading: true });
-        fetch(deleteUrl, { method: "DELETE" })
+        operation
+          .invoke()
           .then(() => {
             return refreshObservable.refreshFn().then(() => {
               this.setState({ loading: false });
@@ -72,6 +73,12 @@ const Operations = (props: any) => {
 
 const Row = (props: any) => {
   const { data, keys } = props;
+  let hasOperations = false;
+  try {
+    hasOperations = data.operations != null;
+  } catch (e) {
+    hasOperations = false;
+  }
   return (
     <Table.Row>
       {keys.map((k: any) => {
@@ -83,7 +90,7 @@ const Row = (props: any) => {
         }
         return <Table.Cell key={k}>{comp}</Table.Cell>;
       })}
-      {data.operations && data.operations.length > 0 ? (
+      {hasOperations ? (
         <Table.Cell>
           <Operations operations={data.operations} />
         </Table.Cell>
