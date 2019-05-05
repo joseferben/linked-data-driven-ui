@@ -40,12 +40,25 @@ const getListStyle = (isDraggingOver: boolean) => ({
   height: "400px"
 });
 
-const removeIssue = (state: State, id: string) => {
+const removeIssue = (state: State, issueId: string) => {
   Object.keys(state.issues).map(status => {
     state.issues[status] = state.issues[status].filter(
-      issue => issue.id !== id
+      issue => issue.id !== issueId
     );
   });
+};
+
+const moveIssue = (state: State, droppableId: string, issueId: string) => {
+  const targetStatus = droppableId.split("-").pop();
+  const issue = {
+    ...Object.values(state.issues)
+      .reduce((a, b) => [...a, ...b], [])
+      .find(issue => issue.id === issueId)
+  } as Issue;
+  if (targetStatus) {
+    removeIssue(state, issueId);
+    state.issues[targetStatus] = [...state.issues[targetStatus], issue];
+  }
 };
 
 class IssueCard extends React.Component<{ issue: Issue }, any> {
@@ -70,9 +83,10 @@ class IssueCard extends React.Component<{ issue: Issue }, any> {
 
   render() {
     const { issue } = this.props;
-    const deleteOperation = issue.operations.find(
+    const deleteOperation = (issue.operations || []).find(
       o => o.method === "DELETE"
     ) as Operation | undefined;
+
     return (
       <Card>
         <Card.Content>
@@ -110,6 +124,7 @@ class StatusGroup extends React.Component<
 > {
   render() {
     const { status, issues = [], index } = this.props;
+    console.log(issues);
     return (
       <Droppable droppableId={`droppable-${status}`}>
         {(provided, snapshot) => (
@@ -169,8 +184,13 @@ export const Kanban = observer(
           <Grid.Row>
             <DragDropContext
               onDragEnd={evt => {
-                console.log("dropped issue");
-                console.log(evt);
+                if (evt.destination) {
+                  moveIssue(
+                    state,
+                    evt.destination.droppableId,
+                    evt.draggableId
+                  );
+                }
               }}
             >
               {statusList.map((status, index) => (
