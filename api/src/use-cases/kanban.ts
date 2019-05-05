@@ -8,7 +8,12 @@ const b = `${baseUrl}/kanban`;
 const kanban = express.Router();
 
 type Project = { name: string; issues: string[] };
-type Issue = { status: IssueStatus; title: string; belongsTo: string };
+type Issue = {
+  status: IssueStatus;
+  title: string;
+  belongsTo: string;
+  description: string;
+};
 enum IssueStatus {
   BACKLOG = "Backlog",
   READY = "Ready",
@@ -31,27 +36,32 @@ const projects: { [key: string]: Project } = {
 
 const issues: { [key: string]: Issue } = {
   "0": {
-    title: "Setup initial continuous delivery pipeline",
+    title: "Setup CD",
+    description: "Setup initial continuous delivery pipeline.",
     status: IssueStatus.BACKLOG,
     belongsTo: "0"
   },
   "1": {
-    title: "Create spike to estimate integration with existing HR tool",
+    title: "Integrate HR tool",
+    description: "Create spike to estimate integration with existing HR tool.",
     status: IssueStatus.IN_PROCESS,
     belongsTo: "0"
   },
   "2": {
-    title: "Evaluate orchestration tools",
+    title: "Container orchestration",
+    description: "Evaluate orchestration tools.",
     status: IssueStatus.IN_PROCESS,
     belongsTo: "0"
   },
   "3": {
-    title: "Implement data exporter for current accounting tool",
+    title: "Export accounting data",
+    description: "Implement data exporter for current accounting tool.",
     status: IssueStatus.READY,
     belongsTo: "0"
   },
   "4": {
-    title: "Develop concept for migration of accounting data",
+    title: "Migrate accounting data",
+    description: "Develop concept for migration of accounting data.",
     status: IssueStatus.DONE,
     belongsTo: "0"
   }
@@ -96,6 +106,7 @@ function serializeIssue(issue: Issue, id: string | number) {
     "@id": `${b}/issues/${id}`,
     "@type": types,
     title: issue.title,
+    description: issue.description,
     status: issue.status,
     memberOf: { "@id": `${b}/projects/${issue.belongsTo}` }
   };
@@ -121,6 +132,7 @@ const contexts: { [key: string]: any } = {
       {
         title: "https://schema.org/title",
         name: "https://schema.org/name",
+        description: "https://schema.org/description",
         status: "https://schema.org/status",
         memberOf: "https://schema.org/memberOf"
       }
