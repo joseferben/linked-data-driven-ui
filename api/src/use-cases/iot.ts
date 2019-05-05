@@ -1,5 +1,6 @@
 import express from "express";
 
+import { hydra } from "../hydra-context";
 import { baseUrl } from "../config";
 
 const b = `${baseUrl}/iot`;
@@ -166,25 +167,27 @@ const apartments = [
 
 const contexts: { [key: string]: any } = {
   EntryPoint: {
-    "@context": {
-      hydra: "http://www.w3.org/ns/hydra/core#",
-      apartments: {
-        "@id": "hydra:EntryPoint/apartments",
-        "@type": "@id"
-      },
-      rooms: {
-        "@id": "hydra:EntryPoint/rooms",
-        "@type": "@id"
-      },
-      thermometers: {
-        "@id": "hydra:EntryPoint/thermometers",
-        "@type": "@id"
+    "@context": [
+      hydra,
+      {
+        apartments: {
+          "@id": "hydra:EntryPoint/apartments",
+          "@type": "@id"
+        },
+        rooms: {
+          "@id": "hydra:EntryPoint/rooms",
+          "@type": "@id"
+        },
+        thermometers: {
+          "@id": "hydra:EntryPoint/thermometers",
+          "@type": "@id"
+        }
       }
-    }
+    ]
   },
   iot: {
     "@context": [
-      "http://www.w3.org/ns/hydra/context.jsonld",
+      hydra,
       {
         containsPlace: "https://schema.org/containsPlace",
         hasMap: "https://schema.org/hasMap",

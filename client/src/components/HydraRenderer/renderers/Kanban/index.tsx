@@ -21,7 +21,7 @@ type Issue = {
   "https://schema.org/status": string;
   "https://schema.org/title": string;
   "https://schema.org/description": string;
-  "https://schema.org/memberOf": HydraResource;
+  "https://schema.org/memberOf": any;
 } & HydraResource;
 
 type IssueByStatus = { [index: string]: Issue[] };
@@ -48,14 +48,26 @@ const removeIssue = (state: State, issueId: string) => {
   });
 };
 
+const targetStatusToOperation: { [index: string]: string } = {
+  Backlog: "IssueToReadyUpdate",
+  "In process": "IssueToInProcessUpdate",
+  Done: "IssueToDoneUpdate"
+};
+
 const moveIssue = (state: State, droppableId: string, issueId: string) => {
   const targetStatus = droppableId.split("-").pop();
-  const issue = {
-    ...Object.values(state.issues)
-      .reduce((a, b) => [...a, ...b], [])
-      .find(issue => issue.id === issueId)
-  } as Issue;
-  if (targetStatus) {
+  const issue = Object.values(state.issues)
+    .reduce((a, b) => [...a, ...b], [])
+    .find(issue => issue.id === issueId);
+  if (issue && targetStatus) {
+    const operation = issue.operations.find(
+      o =>
+        o.expects &&
+        o.expects.id.includes(targetStatusToOperation[targetStatus])
+    );
+    if (operation) {
+      operation.invoke(JSON.stringify(operation.expects));
+    }
     removeIssue(state, issueId);
     state.issues[targetStatus] = [...state.issues[targetStatus], issue];
   }
@@ -86,11 +98,11 @@ class IssueCard extends React.Component<{ issue: Issue }, any> {
     const deleteOperation = (issue.operations || []).find(
       o => o.method === "DELETE"
     ) as Operation | undefined;
-
     return (
       <Card>
         <Card.Content>
           <Card.Header>{issue["https://schema.org/title"]}</Card.Header>
+          <Card.Meta>Project: Accounting Tool</Card.Meta>
           <Card.Description>
             {issue["https://schema.org/description"]}
           </Card.Description>
@@ -124,32 +136,41 @@ class StatusGroup extends React.Component<
 > {
   render() {
     const { status, issues = [], index } = this.props;
-    console.log(issues);
     return (
-      <Droppable droppableId={`droppable-${status}`}>
+      <Droppable
+        droppableId={`droppable-${status}`}
+        isDropDisabled={status === "Backlog"}
+      >
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
-            {issues.map((issue, index) => (
-              <Draggable key={issue.id} draggableId={issue.id} index={index}>
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    style={getItemStyle(
-                      snapshot.isDragging,
-                      provided.draggableProps.style
-                    )}
-                  >
-                    <IssueCard issue={issue} />
-                  </div>
-                )}
-              </Draggable>
-            ))}
+            {issues.map((issue, index) => {
+              return (
+                <Draggable
+                  key={issue.id}
+                  draggableId={issue.id}
+                  index={index}
+                  isDragDisabled={status === "Done"}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+                      <IssueCard issue={issue} />
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
             {provided.placeholder}
           </div>
         )}

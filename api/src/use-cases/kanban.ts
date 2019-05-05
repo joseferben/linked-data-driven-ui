@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 
+import { hydra } from "../hydra-context";
 import { baseUrl } from "../config";
 import { NextFunction } from "express-serve-static-core";
 
@@ -114,21 +115,23 @@ function serializeIssue(issue: Issue, id: string | number) {
 
 const contexts: { [key: string]: any } = {
   EntryPoint: {
-    "@context": {
-      hydra: "http://www.w3.org/ns/hydra/core#",
-      projects: {
-        "@id": "hydra:EntryPoint/projects",
-        "@type": "@id"
-      },
-      issues: {
-        "@id": "hydra:EntryPoint/issues",
-        "@type": "@id"
+    "@context": [
+      hydra,
+      {
+        projects: {
+          "@id": "hydra:EntryPoint/projects",
+          "@type": "@id"
+        },
+        issues: {
+          "@id": "hydra:EntryPoint/issues",
+          "@type": "@id"
+        }
       }
-    }
+    ]
   },
   kanban: {
     "@context": [
-      "http://www.w3.org/ns/hydra/context.jsonld",
+      hydra,
       {
         title: "https://schema.org/title",
         name: "https://schema.org/name",
@@ -196,6 +199,20 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
             label: "Plan",
             expects: `${b}/issues/IssueToReadyUpdate`,
             returns: null
+          },
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Start",
+            expects: `${b}/issues/IssueToInProcessUpdate`,
+            returns: null
+          },
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Finish",
+            expects: `${b}/issues/IssueToDoneUpdate`,
+            returns: null
           }
         ]
       },
@@ -211,6 +228,13 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
             label: "Start",
             expects: `${b}/issues/IssueToInProcessUpdate`,
             returns: null
+          },
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Finish",
+            expects: `${b}/issues/IssueToDoneUpdate`,
+            returns: null
           }
         ]
       },
@@ -223,15 +247,15 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
           {
             "@type": "http://schema.org/UpdateAction",
             method: "POST",
-            label: "Finish",
-            expects: `${b}/issues/IssueToDoneUpdate`,
+            label: "Plan",
+            expects: `${b}/issues/IssueToReadyUpdate`,
             returns: null
           },
           {
             "@type": "http://schema.org/UpdateAction",
             method: "POST",
-            label: "Stop",
-            expects: `${b}/issues/IssueToReadyUpdate`,
+            label: "Finish",
+            expects: `${b}/issues/IssueToDoneUpdate`,
             returns: null
           }
         ]
