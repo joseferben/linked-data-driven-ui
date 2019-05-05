@@ -32,7 +32,6 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
 
   handleInvoke(operation: Operation, data?: any) {
     this.setState({ loading: true });
-    console.log(data);
     operation
       .invoke(JSON.stringify(data))
       .then(() => {
@@ -51,6 +50,7 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
     if (operation.method === "DELETE") {
       return (
         <Button
+          compact
           loading={this.state.loading}
           onClick={() => this.handleInvoke.bind(this)(operation)}
           color="red"
@@ -62,12 +62,10 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
     } else {
       return (
         <Button
+          compact
+          loading={this.state.loading}
           onClick={() =>
-            this.handleInvoke.bind(this)(operation, {
-              "@context": "http://localhost:3000/kanban/contexts/Issues",
-              "@id": `/issues/IssueStatusUpdate`,
-              status: "READY"
-            })
+            this.handleInvoke.bind(this)(operation, operation.expects)
           }
           size="tiny"
         >
@@ -80,9 +78,13 @@ class OperationComp extends React.Component<{ operation: Operation }, any> {
 
 const Operations = (props: any) => {
   const { operations } = props;
-  return operations.map((operation: Operation, idx: number) => {
-    return <OperationComp operation={operation} key={idx} />;
-  });
+  return (
+    <Button.Group vertical>
+      {operations.map((operation: Operation, idx: number) => {
+        return <OperationComp operation={operation} key={idx} />;
+      })}
+    </Button.Group>
+  );
 };
 
 const Row = (props: any) => {

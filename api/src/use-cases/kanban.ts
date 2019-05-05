@@ -16,6 +16,12 @@ enum IssueStatus {
   DONE = "Done"
 }
 
+const operationToStatus: { [index: string]: IssueStatus } = {
+  IssueToReadyUpdate: IssueStatus.READY,
+  IssueToInProcessUpdate: IssueStatus.IN_PROCESS,
+  IssueToDoneUpdate: IssueStatus.DONE
+};
+
 const projects: { [key: string]: Project } = {
   "0": {
     name: "Accounting tool for Company X",
@@ -142,19 +148,22 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
     entrypoint: `${b}/`,
     supportedClass: [
       {
-        "@id": `${b}/issues/IssueStatusUpdate`,
+        "@id": `${b}/issues/IssueToReadyUpdate`,
         "@type": "Class",
-        title: "IssueStatusUpdate",
-        description: "Represents an update to the status of an issue.",
-        supportedProperty: [
-          {
-            title: "status",
-            property: {
-              "@id": `${b}/issues/IssueStatusUpdate/status`,
-              "@type": "rdf:Property"
-            }
-          }
-        ]
+        title: "IssueToReadyUpdate",
+        description: "Sets issue to status ready."
+      },
+      {
+        "@id": `${b}/issues/IssueToInProcessUpdate`,
+        "@type": "Class",
+        title: "IssueToInProcessUpdate",
+        description: "Sets issue to status in process."
+      },
+      {
+        "@id": `${b}/issues/IssueToDoneUpdate`,
+        "@type": "Class",
+        title: "IssueToDoneUpdate",
+        description: "Sets issue to status done."
       },
       {
         "@id": `${b}/issues/Issue`,
@@ -173,7 +182,7 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
             "@type": "http://schema.org/UpdateAction",
             method: "POST",
             label: "Plan",
-            expects: `${b}/issues/IssueStatusUpdate`,
+            expects: `${b}/issues/IssueToReadyUpdate`,
             returns: null
           }
         ]
@@ -181,10 +190,38 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
       {
         "@id": `${b}/issues/ReadyIssue`,
         "@type": "Class",
-        title: "Issue in Backlog",
+        title: "Issue that is ready",
         description: "An issue which is ready and can be started.",
         supportedOperation: [
-          { "@type": "Operation", method: "POST", label: "Start" }
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Start",
+            expects: `${b}/issues/IssueToInProcessUpdate`,
+            returns: null
+          }
+        ]
+      },
+      {
+        "@id": `${b}/issues/InProcessIssue`,
+        "@type": "Class",
+        title: "Issue in process",
+        description: "An issue which is being worked on.",
+        supportedOperation: [
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Finish",
+            expects: `${b}/issues/IssueToDoneUpdate`,
+            returns: null
+          },
+          {
+            "@type": "http://schema.org/UpdateAction",
+            method: "POST",
+            label: "Stop",
+            expects: `${b}/issues/IssueToReadyUpdate`,
+            returns: null
+          }
         ]
       }
     ]
@@ -258,9 +295,12 @@ kanban.delete("/issues/:id", jsonldSetter, (req, res) => {
 kanban.post("/issues/:id", jsonldSetter, (req: Request, res) => {
   const {
     params: { id },
-    body
+    body: { "@id": statusOperationUrl }
   } = req;
-  console.log(body);
+  const statusOperation = statusOperationUrl.split("/").pop();
+  const targetStatus = operationToStatus[statusOperation];
+  issues[id].status = targetStatus;
+  console.log(`Issue with id ${id} update with ${targetStatus}`);
   res.send();
 });
 
