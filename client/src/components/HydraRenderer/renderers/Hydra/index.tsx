@@ -1,21 +1,9 @@
 import React from "react";
 import { Button, Label, Table } from "semantic-ui-react";
-import { HydraResource, SupportedOperation } from "alcaeus/types/Resources";
 import { refreshObservable } from "../../../../observable";
+import { Operation } from "../../types";
 
 const HYDRA_OPERATIONS = "http://www.w3.org/ns/hydra/core#operation";
-
-type Operation = {
-  method: "DELETE" | "POST" | "PUT";
-  description: string;
-  expects: any;
-  requiresInput: boolean;
-  returns: any;
-  title: string;
-  _resource: HydraResource;
-  _supportedOperation: SupportedOperation;
-  invoke: (data?: any) => Promise<any>;
-};
 
 const isLink = (path: string) => {
   if (!path || typeof path !== "string") {

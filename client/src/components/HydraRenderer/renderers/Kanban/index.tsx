@@ -3,6 +3,9 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { HydraResource } from "alcaeus/types/Resources";
 import { Grid, Card, Label, Divider, Button } from "semantic-ui-react";
 
+import { refreshObservable } from "../../../../observable";
+import { Operation } from "../../types";
+
 type Status = { name: string; color: "grey" | "orange" | "yellow" | "green" };
 const statusList: Status[] = [
   { name: "Backlog", color: "grey" },
@@ -16,7 +19,7 @@ type Issue = {
   "https://schema.org/title": string;
   "https://schema.org/description": string;
   "https://schema.org/memberOf": HydraResource;
-};
+} & HydraResource;
 type IssueByStatus = { [index: string]: Issue[] };
 
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -27,25 +30,56 @@ const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 
 const getListStyle = (isDraggingOver: boolean) => ({});
 
-const IssueCard = ({ issue }: { issue: Issue }) => {
-  return (
-    <Card>
-      <Card.Content>
-        <Card.Header>{issue["https://schema.org/title"]}</Card.Header>
-        <Card.Description>
-          {issue["https://schema.org/description"]}
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-        <div className="ui one buttons">
-          <Button basic color="red">
-            Delete
-          </Button>
-        </div>
-      </Card.Content>
-    </Card>
-  );
-};
+class IssueCard extends React.Component<{ issue: Issue }, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = { loading: false };
+  }
+
+  handleInvoke(operation: Operation, data?: any) {
+    this.setState({ loading: true });
+    operation
+      .invoke(JSON.stringify(data))
+      .then(() => {
+        return refreshObservable.refreshFn().then(() => {
+          this.setState({ loading: false });
+        });
+      })
+      .catch(reason => {
+        console.error(reason.message);
+        this.setState({ loading: false });
+      });
+  }
+
+  render() {
+    const { issue } = this.props;
+    const deleteOperation = issue.operations.find(o => o.method === "DELETE");
+    return (
+      <Card>
+        <Card.Content>
+          <Card.Header>{issue["https://schema.org/title"]}</Card.Header>
+          <Card.Description>
+            {issue["https://schema.org/description"]}
+          </Card.Description>
+        </Card.Content>
+        {deleteOperation ? (
+          <Card.Content extra>
+            <div className="ui one buttons">
+              <Button
+                basic
+                loading={this.state.loading}
+                onClick={() => this.handleInvoke.bind(this)(deleteOperation)}
+                color="red"
+              >
+                Delete
+              </Button>
+            </div>
+          </Card.Content>
+        ) : null}
+      </Card>
+    );
+  }
+}
 
 const StatusHeader = ({ status }: { status: Status }) => {
   return <Label color={status.color}>{status.name}</Label>;
@@ -56,7 +90,7 @@ class StatusGroup extends React.Component<
   any
 > {
   render() {
-    const { status, issues, index } = this.props;
+    const { status, issues = [], index } = this.props;
     return (
       <Droppable droppableId={`droppable-${index}`}>
         {(provided, snapshot) => (
