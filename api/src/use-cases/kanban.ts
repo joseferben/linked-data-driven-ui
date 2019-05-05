@@ -260,7 +260,7 @@ kanban.get("/issues", apiDocSetter, jsonldSetter, (req, res) => {
   res.send({
     "@context": `${b}/contexts/Issue`,
     "@id": `${b}/issues`,
-    "@type": "Collection",
+    "@type": ["Collection", `${b}/Kanban`],
     totalItems: issues.length,
     member: Object.keys(issues).map(k => serializeIssue(issues[k], k))
   });
@@ -297,11 +297,15 @@ kanban.post("/issues/:id", jsonldSetter, (req: Request, res) => {
     params: { id },
     body: { "@id": statusOperationUrl }
   } = req;
-  const statusOperation = statusOperationUrl.split("/").pop();
-  const targetStatus = operationToStatus[statusOperation];
-  issues[id].status = targetStatus;
-  console.log(`Issue with id ${id} update with ${targetStatus}`);
-  res.send();
+  try {
+    const statusOperation = statusOperationUrl.split("/").pop();
+    const targetStatus = operationToStatus[statusOperation];
+    issues[id].status = targetStatus;
+    console.log(`Issue with id ${id} update with ${targetStatus}`);
+    res.status(200).send({ message: "Successfully updated issue status" });
+  } catch (e) {
+    res.status(500).send({ message: "Failed to update issue status" });
+  }
 });
 
 export default kanban;

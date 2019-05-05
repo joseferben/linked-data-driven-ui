@@ -22,6 +22,7 @@ import { Thermometer } from "./components/HydraRenderer/renderers/Thermometer";
 import { Apartment } from "./components/HydraRenderer/renderers/Apartment";
 import { Room } from "./components/HydraRenderer/renderers/Room";
 import { BoldFont } from "./components/HydraRenderer/renderers/BoldFont";
+import { Kanban } from "./components/HydraRenderer/renderers/Kanban";
 import { Hydra } from "./components/HydraRenderer/renderers/Hydra";
 
 import { refreshObservable } from "./observable";
@@ -62,6 +63,12 @@ const renderers = [
     name: "BoldFont",
     comp: BoldFont,
     type: "*"
+  },
+  {
+    id: "hydra",
+    name: "Hydra",
+    comp: Hydra,
+    type: "http://www.w3.org/ns/hydra/core#Collection"
   }
 ];
 
@@ -72,10 +79,10 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     resource: null,
     selected: [
       {
-        id: "hydra",
-        name: "Hydra",
-        comp: Hydra,
-        type: "http://www.w3.org/ns/hydra/core#Collection"
+        id: "kanban",
+        name: "Kanban",
+        comp: Kanban,
+        type: "http://localhost:3000/kanban/Kanban"
       }
     ],
     isLoading: false
