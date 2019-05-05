@@ -49,7 +49,7 @@ const removeIssue = (state: State, issueId: string) => {
 };
 
 const targetStatusToOperation: { [index: string]: string } = {
-  Backlog: "IssueToReadyUpdate",
+  Ready: "IssueToReadyUpdate",
   "In process": "IssueToInProcessUpdate",
   Done: "IssueToDoneUpdate"
 };
@@ -69,7 +69,7 @@ const moveIssue = (state: State, droppableId: string, issueId: string) => {
       operation.invoke(JSON.stringify(operation.expects));
     }
     removeIssue(state, issueId);
-    state.issues[targetStatus] = [...state.issues[targetStatus], issue];
+    state.issues[targetStatus] = [...(state.issues[targetStatus] || []), issue];
   }
 };
 

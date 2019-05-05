@@ -69,12 +69,6 @@ const renderers = [
     name: "Hydra",
     comp: Hydra,
     type: "http://www.w3.org/ns/hydra/core#Collection"
-  },
-  {
-    id: "kanban",
-    name: "Kanban",
-    comp: Kanban,
-    type: "http://localhost:3000/kanban/Kanban"
   }
 ];
 
@@ -83,7 +77,14 @@ class HydraConsole extends React.Component<{ entryPoint: string }, any> {
     url: "",
     rootResources: null,
     resource: null,
-    selected: [],
+    selected: [
+      {
+        id: "kanban",
+        name: "Kanban",
+        comp: Kanban,
+        type: "http://localhost:3000/kanban/Kanban"
+      }
+    ],
     isLoading: false
   };
 
