@@ -1,10 +1,13 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { HydraResource } from "alcaeus/types/Resources";
+import { HydraResource, IOperation } from "alcaeus/types/Resources";
 import { Grid, Card, Label, Divider, Button } from "semantic-ui-react";
+import { observable, IObservableObject } from "mobx";
+import { observer } from "mobx-react";
 
 import { refreshObservable } from "../../../../observable";
 import { Operation } from "../../types";
+import HydraRenderer from "../..";
 
 type Status = { name: string; color: "grey" | "orange" | "yellow" | "green" };
 const statusList: Status[] = [
@@ -20,15 +23,30 @@ type Issue = {
   "https://schema.org/description": string;
   "https://schema.org/memberOf": HydraResource;
 } & HydraResource;
+
 type IssueByStatus = { [index: string]: Issue[] };
 
+type State = { issues: IssueByStatus } & IObservableObject;
+const state: State = observable({
+  issues: {}
+});
 const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   margin: "0 0 5px 0",
   userSelect: "none",
   ...draggableStyle
 });
 
-const getListStyle = (isDraggingOver: boolean) => ({});
+const getListStyle = (isDraggingOver: boolean) => ({
+  height: "400px"
+});
+
+const removeIssue = (state: State, id: string) => {
+  Object.keys(state.issues).map(status => {
+    state.issues[status] = state.issues[status].filter(
+      issue => issue.id !== id
+    );
+  });
+};
 
 class IssueCard extends React.Component<{ issue: Issue }, any> {
   constructor(props: any) {
@@ -37,13 +55,12 @@ class IssueCard extends React.Component<{ issue: Issue }, any> {
   }
 
   handleInvoke(operation: Operation, data?: any) {
+    removeIssue(state, operation._resource.id);
     this.setState({ loading: true });
     operation
       .invoke(JSON.stringify(data))
       .then(() => {
-        return refreshObservable.refreshFn().then(() => {
-          this.setState({ loading: false });
-        });
+        this.setState({ loading: false });
       })
       .catch(reason => {
         console.error(reason.message);
@@ -53,7 +70,9 @@ class IssueCard extends React.Component<{ issue: Issue }, any> {
 
   render() {
     const { issue } = this.props;
-    const deleteOperation = issue.operations.find(o => o.method === "DELETE");
+    const deleteOperation = issue.operations.find(
+      o => o.method === "DELETE"
+    ) as Operation | undefined;
     return (
       <Card>
         <Card.Content>
@@ -92,7 +111,7 @@ class StatusGroup extends React.Component<
   render() {
     const { status, issues = [], index } = this.props;
     return (
-      <Droppable droppableId={`droppable-${index}`}>
+      <Droppable droppableId={`droppable-${status}`}>
         {(provided, snapshot) => (
           <div
             {...provided.droppableProps}
@@ -124,47 +143,51 @@ class StatusGroup extends React.Component<
   }
 }
 
-export class Kanban extends React.Component<
-  { resource: any; renderer: (resource: any) => JSX.Element },
-  {}
-> {
-  render() {
-    const { resource, renderer } = this.props;
-    const issues = resource.members.reduce(
-      (res: IssueByStatus, issue: Issue) => {
-        const status = issue["https://schema.org/status"];
-        if (res[status]) {
-          res[status].push(issue);
-        } else {
-          res[status] = [issue];
-        }
-        return res;
-      },
-      {}
-    );
-    return (
-      <Grid columns={4}>
-        <Grid.Row>
-          <DragDropContext
-            onDragEnd={() => {
-              console.log("dropped issue");
-            }}
-          >
-            {statusList.map((status, index) => (
-              <Grid.Column key={status.name}>
-                <StatusHeader status={status} />
-                <Divider />
-
-                <StatusGroup
-                  index={index}
-                  status={status.name}
-                  issues={issues[status.name]}
-                />
-              </Grid.Column>
-            ))}
-          </DragDropContext>
-        </Grid.Row>
-      </Grid>
-    );
+export const Kanban = observer(
+  class extends React.Component<
+    { resource: any; renderer: (resource: any) => JSX.Element },
+    any
+  > {
+    componentDidMount() {
+      const { resource } = this.props;
+      state.issues = resource.members.reduce(
+        (res: IssueByStatus, issue: Issue) => {
+          const status = issue["https://schema.org/status"];
+          if (res[status]) {
+            res[status].push(issue);
+          } else {
+            res[status] = [issue];
+          }
+          return res;
+        },
+        {}
+      );
+    }
+    render() {
+      return (
+        <Grid columns={4}>
+          <Grid.Row>
+            <DragDropContext
+              onDragEnd={evt => {
+                console.log("dropped issue");
+                console.log(evt);
+              }}
+            >
+              {statusList.map((status, index) => (
+                <Grid.Column key={status.name}>
+                  <StatusHeader status={status} />
+                  <Divider />
+                  <StatusGroup
+                    index={index}
+                    status={status.name}
+                    issues={state.issues[status.name]}
+                  />
+                </Grid.Column>
+              ))}
+            </DragDropContext>
+          </Grid.Row>
+        </Grid>
+      );
+    }
   }
-}
+);

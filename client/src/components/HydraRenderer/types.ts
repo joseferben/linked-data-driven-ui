@@ -1,3 +1,5 @@
+import { HydraResource } from "alcaeus/types/Resources";
+
 export type Renderer = {
   id: string;
   name: string;
@@ -13,4 +15,5 @@ export type Operation = {
   returns: any;
   title: string;
   invoke: (data?: any) => Promise<any>;
+  _resource: HydraResource;
 };
