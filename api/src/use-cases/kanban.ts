@@ -210,7 +210,7 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
           {
             "@type": "http://schema.org/UpdateAction",
             method: "POST",
-            label: "Finish",
+            label: "Already Done",
             expects: `${b}/issues/IssueToDoneUpdate`,
             returns: null
           }
@@ -232,7 +232,7 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
           {
             "@type": "http://schema.org/UpdateAction",
             method: "POST",
-            label: "Finish",
+            label: "Already Done",
             expects: `${b}/issues/IssueToDoneUpdate`,
             returns: null
           }
@@ -247,7 +247,7 @@ kanban.get("/doc", jsonldSetter, (req, res) => {
           {
             "@type": "http://schema.org/UpdateAction",
             method: "POST",
-            label: "Plan",
+            label: "Stop",
             expects: `${b}/issues/IssueToReadyUpdate`,
             returns: null
           },

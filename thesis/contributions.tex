@@ -30,9 +30,10 @@ By defining real world applications for the UI framework, we discover user roles
 \subsubsection{Implementation of proof of concept driven by use cases}
 The UI framework is developed incrementally use case by use case. The major design goals are respected.
 
-\subsubsection{Evaluation of proof of concept}
+\subsubsection{Evaluation of design goals}
+We analyze the design goals and whether they have been met.
 
-\subsubsection{Conclusion of approach to reduce accidental complexity}
+\subsubsection{Conclusion of approach to reduce Accidental and Essential Complexity}
 
 \subsection{Conceptual analysis of user interfaces}
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by two types of users. The users are either other systems or human users.
@@ -50,25 +51,42 @@ The usage of a UI by a user consists of either \textbf{reading} or \textbf{inter
 The development of the UI framework is driven by the implementation of these two capabilities.
 
 \subsection{Design goals}
-Following design goals should be met by the UI framework.
+Following design goals should be met by the UI framework. For each design goal we discuss the goal itself and the reason behind it, how we intend to meet it and how it can be measured.
 
 \subsubsection{Play nicely with others}\label{usecases}
-The most important design goal is to play nicely with others. We achieve that by conforming to web standards and making use of existing and established tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
+The most important design goal is to play nicely with others. It is important to respect standards and keep compatibility with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
 
-JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
+We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
+
+This design goal can be quantified by analyzing each component of the UI framework and determine whether the technologies, protocols, languages and tools for that component are either formally standardized or a defacto standard.
 
 \subsubsection{Straightforward upgrade path}\label{usecases}
-By playing nicely with others, the UI framework is able to provide an upgrade path to already existing APIs.
+In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction at a minimum.
+
+This can be achieved by \textbf{extending} existing standards, keep breaking changes at a minimum and with good documentation. Playing nicely with others helps to reach this design goal as well.
+
+This design goal can be quantified by measuring or estimating the effort that needs to be spent to upgrade a conventional API to the suggested hypermedia API.
 
 \subsubsection{Customizability}\label{usecases}
+While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be drawn.
+
+We want to achieve this goal be allowing the UI developer to override the sane defaults. The UI developer can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
+
+This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework. By allowing the UI developer to consume the hypermedia API as conventional API this goal is met.
 
 \subsubsection{Developer ergonomics}\label{usecases}
+The UI developer should be able to use the UI framework with spending minimal effort on learning.
+
+This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community working on that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics.
+A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
+
+An established and widely adopted platform is Node and the NPM (Node Package Manager) ecosystem. This is the platform that we choose to develop the UI framework in.
 
 \subsection{Proof of concept}
 I define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
 
 \subsection{Use Case 1: Apartment}\label{usecases}
-For the user to be able to query data, the UI has to render it.
+For the user to be able to query data the UI has to render it.
 
 The first use case describes a scenario in home automation. Several thermometers in several rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, and thermometers and temperatures in a sensible manner.
 
@@ -118,6 +136,7 @@ The first use case describes a scenario in home automation. Several thermometers
  S06 & As project manager I want to remove issues \\
  S07 & As UI developer I want to present all available data without spending any development time \\
  S08 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+ S09 & As UI developer I want to expose all operations to the project manager without spending initial effort \\
  \hline
 \end{tabular}
 \caption{User stories of a simple software project management tool}
@@ -129,7 +148,6 @@ The first use case describes a scenario in home automation. Several thermometers
 \subsection{UI rendering}\label{genericrendering}
 
 This paragraph focuses on presentation of data by rendering UI components in the context of web development.
-
 
 \subsubsection{Rendering UIs using linked data}\label{linkeddatarendering}
 
