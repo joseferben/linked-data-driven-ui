@@ -1,16 +1,20 @@
 \section{Introduction}\label{introduction}
 
-This thesis explores the generation of user interfaces (UIs) for application programming interfaces (APIs) that fulfill certain criteria in the context of the World Wide Web. The main goal is to reduce the manual work required in UI development. With this thesis I propose practices and principles to reduce manual work and I implement a proof of concept framework to research the potential of UI generation.
+\begin{quotation}
+There is no single development, in either technology or management technique, which by itself promises even one order-of-magnitude improvement within a decade in productivity, reliability, in simplicity.
+\end{quotation}
+
+This is a quote of Frederick P. Brooks, Jr. from his work \textit{No Silver Bullet} \citep{nosilverbullet} where he analyses software complexity and difficulties in software decelopment. He breaks down software complexity and describes that reduction of software complexity is more feasible for some types than others.
+
+This thesis explores the generation of user interfaces (UIs) for application programming interfaces (APIs) that fulfill certain criteria in the context of the World Wide Web. The main goal is to reduce the manual work required in UI development. The goal of this thesis is to decrease costs of UI decelopment by reducing the involved complexity.
 
 \subsection{Context}\label{context}
-In order for information systems to be useful, they either have to interact with other systems or with users. Those systems are increasingly connected together and they exchange data without any human interaction. When it comes to human-computer interaction, UIs are implemented that often consume HTTP APIs which use the JSON data format \citep{jsonformat}. Those UIs are part of mobile, desktop or browser-only applications. End users interact with those client applications through UIs in order to carry out tasks.
+In order for information systems to be useful, they either have to interact with other systems or with users. Those systems are increasingly connected together and they exchange data without any human interaction. When it comes to human-computer interaction, UIs are implemented that consume HTTP APIs which use the JSON data format \citep{jsonformat}. Those UIs are part of mobile, desktop or browser-only applications. End users interact with those applications through UIs in order to carry out tasks.
 
 \subsection{Problem}\label{problem}
-The contemporary way of implementing those UIs involves a lot of manual work. JSON is a very popular data format for infromation systems in web development. While humans can often infer the meaning of a piece of JSON data, it is not trivial for machines to do so. Specific knowledge about the JSON data is needed for a machine to understand the meaning of JSON data. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitely, encoded into the applications which contain the UIs. This knowledge is required by a machine to understand the data coming from such an API, it gives the data its \textbf{semantics}. These client applications are strongly coupled to specific APIs and can not be re-used. Instead, new client applications are written each for the end user and for the administrator. New client applications are written for each new project that has its own new data model.
+The contemporary way of implementing those UIs involves a lot of manual work. JSON is a very popular format for data exchange between information systems in web development. While humans can often infer the meaning of a piece of JSON data, it is not trivial for machines to do so. Specific knowledge about the JSON data is needed for a machine to understand the meaning of JSON data. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitely, encoded into the application which contain the UI. This knowledge is required to understand the data coming from such an API, it gives the data its \textbf{semantics}. These client applications are strongly coupled to specific APIs and can not be re-used. Instead, client applications written from scratch to work the slightly different APIs which often share the same or similar data models.
 
 Current approaches fail to exploit the architecture of the World Wide Web and they completely ignore the possibilities offered by \textbf{linked data}.
-
-TODO task based computing
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=450]
@@ -18,11 +22,9 @@ TODO task based computing
   \caption{\label{fig:my-label} A part of the business logic is hard coded into the client.}
 \end{figure}
 
-
 \subsection{Strategy}\label{strategy}
-The main goal of this thesis is to reduce the amount of manual work by leveraging linked data and the interaction model of task-based computing.
-This thesis provides a set of practices, technological building blocks and a proof of concept tool to generate UIs for APIs that conform to a certain specificaction. It build on-top of existing research, work and tools. There is a useful set of building blocks that have not been put together yet in a way, so that it solves the problem of UI generation. The UI framework should work with existing APIs after only slight adjustment. It should provide sane defaults and it should be extensible by developers.
+The main goal of this thesis is to identify complexities in UI and web development and suggest an approach to reduce them.
+The approach aims to minimize the manual work by leveraging linked data, the declarative concept of web components, the interaction model of task-based computing and by suggesting a hypermedia API.
 
-This thesis brings together linked data, existing hyermedia vocabularies and web component-style rendering. The development of the UI framework is done in three iterations, each one solving one artificial UI use-case.
-
-TODO split between rendering (query) and interactions (command)
+The expected results and artifacts consist of a proof-of-concept of a UI framework, a HTTP hypermedia vocabulary based on linked data, an interaction model influenced by task-based computing and the implementation of two use cases that showcase the usage of the UI framework. \\
+Furthermore, we evaluate the UI framework in terms of its effect on software complexity. By reducing the complexity we aim to reduce the overall cost and effort in UI and web development.
