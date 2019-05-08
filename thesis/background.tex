@@ -492,9 +492,23 @@ The \lstinline{streetAddress} is still stringly typed. A system running at a pac
 
 \href{http://www.hydra-cg.com/}{Hydra} is a lightweight vocabulary to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients.\citep{hydasprecs}
 
-\subsection{Landscape of solutions and tools}
+The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
+\paragraph{Discoverability} Discoverability is given by the RESTful nature of a hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by sending requests to the server, there is no additional documentation needed. All paths and resources that are interesting to the client he can reach.
 
+\paragraph{Self documentation}
+A hypermedia API documents itself by providing meta data along the actual data. There is no need for other documentation tools because the hypermedia vocabulary provides primitives for built-in documentation.
+Hypermedia APIs can use the same data model for generating built-in documentations as the actual API uses. These documentations are more likely be up-to-date and the maintenance cost is low due to automation.
+
+Hydra supports both discoverability and self-documentation. On top of that topics like collections, partial views, pagination, operations, string templates, input validation and error propagation have been considered.
+
+\paragraph{Collections, partial views and pagination}
+In the world of Hydra there are conceptually only things and lists of things. A further nesting doesn't exist and it is not possible a list of lists of things.
+Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view} on a collection. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
+
+\paragraph{Operations}
+Hydra exposes operations
+\subsection{Contemporary solutions and tools}
+\subsubsection{SOAP}
 \subsubsection{GraphQL}
 \subsubsection{Rails with ActiveAdmin}
 \subsubsection{Hyperfiddle}
-\subsubsection{Fulcro}

@@ -4,10 +4,48 @@ The main contribution of this thesis is the theoretical foundation of a new appr
 \subsection{Methods}\label{usecases}
 We chose to follow a process including the following points in order to explore possible answers and solutions to the thesis.
 
-\subsubsection{Conceptual analysis of user interfaces}
-Through observation of the typical usage patterns of user interfaces we can derive coarse business requirements of the UI framework. These serve as foundation for further requirements engineering.
+\paragraph{Use of scores}
+In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
 
-\subsubsection{Definition of major design goals}
+\begin{table}[]
+  \begin{center}
+    \begin{tabular}{|c|l|}
+      \hline
+      Score & Effect on goal \\
+      \hline
+      0 & Goal not met \\
+      1 & Slight improvement towards goal \\
+      2 & Goal mostly met \\
+      3 & Goal completely fulfilled \\
+      \hline
+    \end{tabular}
+    \caption{Scores to evaluate whether goals have been met}
+  \end{center}
+\end{table}
+
+\begin{table}[]
+  \begin{center}
+    \begin{tabular}{|c|l|}
+      \hline
+      Score & Effect on complexity \\
+      \hline
+      -3 & Massive increase in complexity \\
+      -2 & Increase in complexity \\
+      -1 & Slight increase in complexity \\
+      0 & No change in complexity \\
+      1 & Slight decrease in complexity \\
+      2 & Decrease in complexity \\
+      3 & Massive decrease in complexity \\
+      \hline
+    \end{tabular}
+    \caption{Scores to gauge the change in complexity}
+  \end{center}
+\end{table}
+
+\paragraph{Conceptual analysis of user interfaces}
+Through analysis of the typical usage patterns of user interfaces we can derive coarse business requirements of the UI framework. These serve as foundation for further requirements engineering.
+
+\paragraph{Definition of major design goals}
 Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those. This includes analysis of:
 
 \begin{enumerate}
@@ -18,22 +56,27 @@ Major design goals of the UI framework are directly influenced by non-functional
 
 By following what tools in \textbf{2} did right and avoiding the mistakes of tools in \textbf{3}, we define a set of design goals that the proof of concept should adhere to.
 
-\subsubsection{Definition of the proof of concept}
+\paragraph{Definition of the proof of concept}
 The section defines the artifact that can be used to create UIs. The proof of concept should demonstrate the viability of the thesis.
 
-\subsubsection{Definition of the development process}
+\paragraph{Definition of the development process}
 The proof of concept is a software artifact and is developed with respect to current engineering best practices.
 
-\subsubsection{Definition of real world use cases}
+\paragraph{Definition of real world use cases}
 By defining real world applications for the UI framework, we discover user roles and user stories.
 
-\subsubsection{Implementation of proof of concept driven by use cases}
+\paragraph{Implementation of proof of concept driven by use cases}
 The UI framework is developed incrementally use case by use case. The major design goals are respected.
 
-\subsubsection{Evaluation of design goals}
-We analyze the design goals and whether they have been met.
+\paragraph{Evaluation of design goals}
+We analyze the design goals and whether they have been met. The design goals are not equally important, so they get a weight assigned. We assess each design goal qualitatively and assign a score between 0 and 3.
 
-\subsubsection{Conclusion of approach to reduce Accidental and Essential Complexity}
+The mean of all scores is calculated to asses whether the design goals have been met.
+
+\paragraph{Conclusion of approach to reduce Accidental and Essential Complexity}
+We break up software complexity into more specific types of complexities. Software complexity comprises Essential Complexity and Accidental Complexity according to Brooks. Essential Complexity has several causes on its own.
+
+After identifying types of complexity, we asses how the UI framework affects them by assigning a score between -3 and 3.
 
 \subsection{Conceptual analysis of user interfaces}
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by two types of users. The users are either other systems or human users.
@@ -97,22 +140,28 @@ The first use case describes a scenario in home automation. Several thermometers
 \end{figure}
 
 \begin{table}
-\begin{center}
-\begin{tabular}{ |c|l| }
- \hline
- ID & Story title \\
- \hline
- S01 & As landlord I want to overview my apartments \\
- S02 & As landlord I want to overview all rooms of an apartment \\
- S03 & As landlord I want to overview thermometers of room \\
- S04 & As landlord I want to overview the measurement data of a thermometer \\
- S05 & As UI developer I want to present all available data without spending any development time \\
- S06 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
- \hline
-\end{tabular}
-\caption{User stories of a client that consumes a home automation API}
-\end{center}
+  \begin{center}
+    \begin{tabular}{ |c|l| }
+      \hline
+      ID & Story title \\
+      \hline
+      S01 & As landlord I want to overview my apartments \\
+      S02 & As landlord I want to overview all rooms of an apartment \\
+      S03 & As landlord I want to overview thermometers of room \\
+      S04 & As landlord I want to overview the measurement data of a thermometer \\
+      S05 & As UI developer I want to present all available data without spending any development time \\
+      S06 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+      \hline
+    \end{tabular}
+    \caption{User stories of a client that consumes a home automation API}
+  \end{center}
 \end{table}
+
+\subsubsection{Base hypermedia vocabulary}\label{basevocab}
+\subsubsection{UI rendering}\label{genericrendering}
+This paragraph focuses on presentation of data by rendering UI components in the context of web development.
+\subsubsection{Leveraging linked data for UI rendering}\label{linkeddatarendering}
+\subsubsection{From JSON-LD to domain rendering}\label{domainrendering}
 
 \subsection{Use Case 2: Kanban Board}\label{usecases}
 
@@ -123,41 +172,31 @@ The first use case describes a scenario in home automation. Several thermometers
 \end{figure}
 
 \begin{table}
-\begin{center}
-\begin{tabular}{ |c|l| }
- \hline
- ID & Story title \\
- \hline
- S01 & As project manager I want to overview all projects \\
- S02 & As project manager I want to overview all issues of a project \\
- S03 & As project manager I want to see the status of an issue \\
- S04 & As project manager I want to change the status of an issue \\
- S05 & As project manager I want to create new issues \\
- S06 & As project manager I want to remove issues \\
- S07 & As UI developer I want to present all available data without spending any development time \\
- S08 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
- S09 & As UI developer I want to expose all operations to the project manager without spending initial effort \\
- \hline
-\end{tabular}
-\caption{User stories of a simple software project management tool}
-\end{center}
+  \begin{center}
+    \begin{tabular}{ |c|l| }
+      \hline
+      ID & Story title \\
+      \hline
+      S01 & As project manager I want to overview all projects \\
+      S02 & As project manager I want to overview all issues of a project \\
+      S03 & As project manager I want to see the status of an issue \\
+      S04 & As project manager I want to change the status of an issue \\
+      S05 & As project manager I want to create new issues \\
+      S06 & As project manager I want to remove issues \\
+      S07 & As UI developer I want to present all available data without spending any development time \\
+      S08 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+      S09 & As UI developer I want to expose all operations to the project manager without spending initial effort \\
+      \hline
+    \end{tabular}
+    \caption{User stories of a simple software project management tool}
+  \end{center}
 \end{table}
-
-\subsection{Base hypermedia vocabulary}\label{basevocab}
-
-\subsection{UI rendering}\label{genericrendering}
-
-This paragraph focuses on presentation of data by rendering UI components in the context of web development.
-
-\subsubsection{Rendering UIs using linked data}\label{linkeddatarendering}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
     {images/ui-dev.png}}
   \caption{\label{fig:my-label} Solely the server contains business logic.}
 \end{figure}
-
-\subsubsection{Pluggable domain rendering}\label{domainrendering}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
@@ -171,9 +210,10 @@ This paragraph focuses on presentation of data by rendering UI components in the
   \caption{\label{fig:my-label} Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still lose.}
 \end{figure}
 
-\subsection{User interaction}\label{interaction}
-
 \subsubsection{Task based computing}\label{interaction}
+
+\subsubsection{User interaction}\label{interaction}
+
 TODO three types of operations:
 
 inline operations
