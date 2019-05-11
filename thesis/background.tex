@@ -114,7 +114,7 @@ We consider the UI of an issue tracking system where an issue has a status that 
 A template on the other hand only takes care of creating markup. Relies on a model to provide the data and on a style sheet providing the styling.
 Separation of markup, styling and business logic is done in the name of \textbf{encapsulation}. None of these could exist on their own in a sensible way because they contribute to the same thing. There is a technological and conceptual dichotomy. The main contribution of components is the acknowledgment that the conceptual one is more important since the technological one can be solved with tooling. This is the reason why components provide a better level of encapsulation.
 
-\subsection{Richardson Maturity Model}
+\subsection{Richardson Maturity Model}\label{richardsonmaturitymodel}
 
 The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily. \citep{rmmfowler} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
 
@@ -490,7 +490,7 @@ The \lstinline{streetAddress} is still stringly typed. A system running at a pac
 
 \subsubsection{Hydra}
 
-\href{http://www.hydra-cg.com/}{Hydra} is a lightweight vocabulary to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients.\citep{hydasprecs}
+\href{http://www.hydra-cg.com/}{Hydra} is a lightweight vocabulary to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydasprecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
 
 The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
 \paragraph{Discoverability} Discoverability is given by the RESTful nature of a hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by sending requests to the server, there is no additional documentation needed. All paths and resources that are interesting to the client he can reach.
@@ -499,16 +499,51 @@ The two major benefits of APIs supporting hypermedia are \textbf{discoverability
 A hypermedia API documents itself by providing meta data along the actual data. There is no need for other documentation tools because the hypermedia vocabulary provides primitives for built-in documentation.
 Hypermedia APIs can use the same data model for generating built-in documentations as the actual API uses. These documentations are more likely be up-to-date and the maintenance cost is low due to automation.
 
-Hydra supports both discoverability and self-documentation. On top of that topics like collections, partial views, pagination, operations, string templates, input validation and error propagation have been considered.
+Every Hydra resource has a documentation attached to it. By default the response contains the \textbf{Link} header of the URL to the documentation.
 
 \paragraph{Collections, partial views and pagination}
 In the world of Hydra there are conceptually only things and lists of things. A further nesting doesn't exist and it is not possible a list of lists of things.
 Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view} on a collection. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
 
 \paragraph{Operations}
-Hydra exposes operations
+In order to interact with the server a client has to know which operations the server supports. Hydra supports this concept by exposing all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with a Hydra API without any prior knowledge.
+
 \subsection{Contemporary solutions and tools}
-\subsubsection{SOAP}
+In this section we discuss solutions and tools that claim to reduce complexity and enhance efficiency in software development and especially in UI development. \\ For each tool we discuss its benefit and analyze how it can be used to reduce decrease development costs.
+
 \subsubsection{GraphQL}
+GraphQL is a query language for APIs and a set of tools to fulfill those queries \citep{graphql}. It provides a way to define the data model as graph that can be queried and mutated. There is a growing ecosystem consisting of tools for implementing GraphQL servers and GraphQL clients.
+
+\lstset{language=GraphQL}
+\begin{lstlisting}[caption=Simple data model in the GraphQL data description language.]
+type Project {
+  name: String
+  tagline: String
+  contributors: [User]
+}
+\end{lstlisting}
+\lstset{language=GraphQL}
+\begin{lstlisting}[caption=Example of a GraphQL query to fetch the tagline of a certain project.]
+{
+  project(name: "GraphQL") {
+    tagline
+  }
+}
+\end{lstlisting}
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Response of the GraphQL server in JSON.]
+{
+  "project": {
+    "tagline": "A query language for APIs"
+  }
+}\end{lstlisting}
+
+GraphQL mitigates the problem of over and under fetching. The client tells the server the structure of the data it expects by defining which parts are interesting. The server takes of denormalization and send the client exactly the data it requested. \\ This makes GraphQL very popular for mobile app development where the bandwidth is often limited. Another benefit of this approach is that the data model and the usage of the data by the client is decoupled. The client doesn't have to do any processing or additional fetches, which is beneficial on mobile devices.
+GraphQL provides a way of self-documentation through introspection. Developers are able to use the same query mechanisms for data and for documentation meta data, which makes exploration of such an API trivial. This requires additional tooling that for instance queries the valid fields of an entity to suggest field names to a developer that is writing the query.
+
+However, GraphQL completely disregards existing HTTP and JSON tooling. As mentioned in section \ref{richardsonmaturitymodel}, Level 1 introduces HTTP resources. GraphQL ignores this step and builds on top of Level 0 by merely using HTTP as transport system. This renders HTTP caching useless and tools that assume JSON as data exchange format require additional effort to work with GraphQL. \\ The introduction of a new language requires syntax highlighting in editors. \\ In order to make use of self-documentation the GraphQL editor has to query the GraphQL schema that has to be provided by the server and kept up-to-date.
+
+The adoption of GraphQL is not a small commitment. Since it doesn't build on top of existing standards and tools there is no upgrade path from an existing RESTful API. If an organization, a department or a team decides to adopt GraphQL and to use it over REST, it can speed up UI and client development and it can decrease maintenance costs. However GraphQL can only be used in that context as \textbf{it doesn't play well with others}. This could lead to isolated GraphQL servers where the data exchange with non-GraphQL servers suffers from friction.
+
 \subsubsection{Rails with ActiveAdmin}
 \subsubsection{Hyperfiddle}
