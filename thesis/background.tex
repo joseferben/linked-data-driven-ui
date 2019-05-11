@@ -511,6 +511,12 @@ In order to interact with the server a client has to know which operations the s
 \subsection{Contemporary solutions and tools}
 In this section we discuss solutions and tools that claim to reduce complexity and enhance efficiency in software development and especially in UI development. \\ For each tool we discuss its benefit and analyze how it can be used to reduce decrease development costs.
 
+\subsubsection{SOAP}
+SOAP Version 1.2 (SOAP) is a lightweight protocol intended for exchanging structured information in a decentralized, distributed environment. It uses XML technologies to define an extensible messaging framework providing a message construct that can be exchanged over a variety of underlying protocols. The framework has been designed to be independent of any particular programming model and other implementation specific semantics \citep{soap}. \\ It is popular in large enterprises because it works well in a distributed setting and it has certain security and safety mechanisms built in. In general web development REST with JSON has superseded SOAP because it brings less complexity and is more flexible.
+
+In order to work with SOAP one has to use XML, which is harder to parse, generate and read than JSON. In contrast to XML, JSON provides no means to attach meta data. \\
+Because REST is more of an architectural style than an architecture, there are multiple ways to achieve do certain things.
+
 \subsubsection{GraphQL}
 GraphQL is a query language for APIs and a set of tools to fulfill those queries \citep{graphql}. It provides a way to define the data model as graph that can be queried and mutated. There is a growing ecosystem consisting of tools for implementing GraphQL servers and GraphQL clients.
 
