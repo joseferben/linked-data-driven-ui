@@ -548,11 +548,10 @@ The adoption of GraphQL is not a small commitment. Since it doesn't build on top
 Additionally GraphQL provides no means to a generic client to build operations. This makes it unusable as hypermedia technology.
 
 \subsubsection{Rails with ActiveAdmin}
-Ruby on Rails is a web framework that emerged in the 2000s and influenced the way web applications are built today. Rails allows rapid application development by following a Convention over Configuration philosophy. This makes Rails a strongly opinionated framework that guides development by providing \textbf{sane but overrideable defaults}.
+Ruby on Rails is a web framework that emerged in the 2000s and influenced the way web applications are built today \citep{rubyonrails}. Rails allows rapid application development by following a Convention over Configuration philosophy. This makes Rails a strongly opinionated framework that guides development by providing \textbf{sane but overrideable defaults}.
 
 ActiveAdmin is an add-on for Rails that comprises a DSL to define admin UIs. The main use case of ActiveAdmin is the creation of applications for administrators. These UIs don't have the strict esthetic requirements that customer facing ones have. They just to expose all necessary operations of an application so that administrators can fulfill their duties. \\ ActiveAdmin directly leverages the data model of a Rails application and it knows the Rails conventions. The use of a UI specific DSL and the fact that ActiveAdmin knows the domain model allow UI developers to quickly bootstrap applications for administrators.
 
 The strong coupling to Rails is its major weakness. While ActiveAdmin reduces UI development costs immensely, it does so in that small world. The assumptions it makes about the server prevents it to support distributed data models in an idiomatic way. As soon as there are multiple Rails instances contributing to one data model, ActiveAdmin is no longer useful.
 
 Being an add-on to Rails ActiveAdmin doesn't not work outside of the Rails ecosystem.
-\subsubsection{Hyperfiddle}
