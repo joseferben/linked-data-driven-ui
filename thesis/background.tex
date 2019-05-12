@@ -2,7 +2,7 @@
 
 This section discusses the problems with the process of developing UIs today. It also provides the theoretical backgroung by highlighting the main building blocks of the UI framework.
 
-\subsection{Accidental and Essential Complexity}\label{history}
+\subsection{Accidental and Essential Complexity}
 
 According to Brooks there are two types of complexity: accidental complexity and essential complexity. \citep{nosilverbullet}
 In software engineering, \textbf{essential complexity} is complexity that comes from the domain problem that we want to solve. It is inherent to the problem that the customer cares about and its solution delivers business value. \textbf{Accidental complexity} is complexity that is caused by everything else. Compilers, distributed systems and databases are all examples for accidental complexity. In fact even programming languages and computers are often accidental complexity since they are not essential to the customer's problem.
@@ -52,7 +52,7 @@ The Document Object Model (DOM) is a programming API for HTML and XML documents.
 The DOM representation of that table looks as follows:
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=250]
+  \center{\includegraphics[width=250pt]
     {images/dom.png}}
   \caption{The DOM is a tree data structure representing an HTML document.}
 \end{figure}
@@ -85,13 +85,13 @@ React encourages the thinking of UIs as a composition of \textbf{web components}
 Most importantly, React models the problem of UI rendering as function application. This insight leads to small re-usable components which has various benefits.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=250]
+  \center{\includegraphics[width=250pt]
     {images/ui-imperative.png}}
   \caption{Imperative development: Developer works directly with DOM.}
 \end{figure}
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380]
+  \center{\includegraphics[width=380pt]
     {images/ui-declarative.png}}
   \caption{Declarative development: Developer provides data and React takes care of the DOM.}
 \end{figure}
@@ -116,13 +116,12 @@ Separation of markup, styling and business logic is done in the name of \textbf{
 
 \subsection{Richardson Maturity Model}\label{richardsonmaturitymodel}
 
-The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily. \citep{rmmfowler} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
+The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily. \citep{richardsonmaturitymodel} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=350]
+  \center{\includegraphics[width=350pt]
     {images/rmm.png}}
-  \caption{Steps towards REST.}
-  \captionsource{https://martinfowler.com/articles/richardsonMaturityModel.html}
+  \caption{Steps towards REST. (Source: https://martinfowler.com/articles/richardsonMaturityModel.html)}
 \end{figure}
 
 The Richardson Maturity Model describes steps towards REST starting from HTTP. We go through the levels starting with level 0 by looking at an example of a system that allows us to book appointments with our doctor.
@@ -166,7 +165,7 @@ Host: royalhope.nhs.uk
 
 \subsubsection{Level 3: Hypermedia Controls}
 
-The final level introduces something that you often hear referred to under the ugly acronym of HATEOAS (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list open slots to knowing what to do to book an appointment. \citep{rmm}
+The final level introduces something that you often hear referred to under the ugly acronym of HATEOAS (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list open slots to knowing what to do to book an appointment. \citep{richardsonmaturitymodel}
 
 We begin with the known request to get the list of open slots:
 
@@ -202,10 +201,9 @@ Still, there is ambiguity and the client (we) need some prior knowledge on how t
 This thesis describes Level 4.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380]
+  \center{\includegraphics[width=380pt]
     {images/rmm-next.png}}
-  \caption{From REST to UI.}
-  \captionsource{https://martinfowler.com/articles/richardsonMaturityModel.html}
+  \caption{From REST to UI. (Source: https://martinfowler.com/articles/richardsonMaturityModel.html)}
 \end{figure}
 
 \subsection{Linked data}\label{linkeddata}
@@ -297,10 +295,10 @@ The main point of his criticism is that the Semantic Web working group neglects 
 \paragraph{Technology}
 The second point is criticism on the technological decisions mainly about RDF. RDF has no native support for lists it didn't have support for graphs for a long time. One of the goals was to remain compatible to RDF with JSON-LD, so that data can be serialized and deserialized from and to each other. \citep{semanticwebrevisited}
 
-\subsubsection{JSON-LD Operations}\label{jsonldframing}
+\subsubsection{JSON-LD Operations}
 There are a few operations that can be executed on JSON-LD. Following are the three most important ones for this thesis.
 
-\paragraph{Framing}\label{jsonldframing}
+\paragraph{Framing}
 
 Framing is an operation that re-shapes the data. Input of the framing operation is data and a \textbf{frame}. The frame determines the new shape of the data.
 
@@ -462,7 +460,7 @@ Their main goal is to provide a shared vocabulary that web developers can refer 
 Schema.org is a hierarchy of \lstinline{Things} that have an implicit \textbf{is a} relationship. This is similar to sub typing through inheritance in many object-oriented programming languages. Following is a small subset of the Schema.org hierarchy:
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380]
+  \center{\includegraphics[width=380pt]
     {images/schemaorg.png}}
   \caption{\label{fig:schemaorg} Subset of the Schema.org ontology where child-parent relation describes an \textit{is a} relationship.}
 \end{figure}

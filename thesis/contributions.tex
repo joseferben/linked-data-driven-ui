@@ -11,7 +11,7 @@ The scope of this thesis includes following artifacts:
 \end{itemize}
 The evaluation and creation of the hypermedia vocabulary is driven by the implementation of the HTTP APIs. The development of the HTTP APIs is driven by use cases that come from real world problems. The UI framework is then used to create client that can consume those two HTTP APIs which conform to a certain specification and make use of that hypermedia vocabulary.
 
-\subsection{Methods}\label{usecases}
+\subsection{Methods}
 This sections describe the methodological approach to achieve the items listed in the paragraph above.
 
 \subsubsection{General approach}
@@ -122,7 +122,7 @@ The development of the UI framework is driven by the implementation of these two
 Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how it can be measured.
 The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
 
-\subsubsection{Play nicely with others}\label{usecases}
+\subsubsection{Play nicely with others}
 As discussed in section \ref{graphql} the fact that GraphQL doesn't play well with other is one of its major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
 It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
 
@@ -130,21 +130,21 @@ We acknowledge the widespread use of HTTP and JSON as data exchange format and a
 
 This design goal can be quantified by analyzing each component of the UI framework and determine whether the technologies, protocols, languages and tools for that component are either formally standardized or a defacto standard.
 
-\subsubsection{Straightforward upgrade path}\label{usecases}
+\subsubsection{Straightforward upgrade path}
 In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction at a minimum.
 
 This can be achieved by \textbf{extending} existing standards, keep breaking changes at a minimum and with good documentation. Playing nicely with others helps to reach this design goal as well.
 
 This design goal can be quantified by measuring or estimating the effort that needs to be spent to upgrade a conventional API to the suggested hypermedia API.
 
-\subsubsection{Customizability}\label{usecases}
+\subsubsection{Customizability}
 While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be drawn.
 
 We want to achieve this goal be allowing the UI developer to override the sane defaults. The UI developer can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
 
 This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework. By allowing the UI developer to consume the hypermedia API as conventional API this goal is met.
 
-\subsubsection{Developer ergonomics}\label{usecases}
+\subsubsection{Developer ergonomics}
 The UI developer should be able to use the UI framework with spending minimal effort on learning.
 
 This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community working on that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics.
@@ -165,12 +165,12 @@ The consumer should be able to autonomously discover the data model of an API im
 The specification should provide a concept on how to interact with it. Ideally the API publishes the data that is needed by the client to build action objects or operations that can be invoked.
 
 \paragraph{Uses linked data}
-Based on the discussion in section \ref{linkeddate} about the benefits of linked data this thesis assumes that linked data is the key concept to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows the UI developer to think in terms of components and data.
+Based on the discussion in section \ref{linkeddata} about the benefits of linked data this thesis assumes that linked data is the key concept to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows the UI developer to think in terms of components and data.
 
 \subsubsection{Hydra}
 It is remarkable that at the time of writing this thesis only one specification exists that satisfies the requirements stated above.
 
-\href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydasprecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
+\href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydraspecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
 
 The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
 \paragraph{Discoverability} Discoverability is given by the RESTful nature of a hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by sending requests to the server, there is no additional documentation needed. All paths and resources that are interesting to the client he can reach.
@@ -217,13 +217,13 @@ Semantic empowers designers and developers by creating a shared vocabulary for U
 \subsection{Proof of concept}
 We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
 
-\subsection{Use Case 1: Apartment}\label{usecases}
+\subsection{Use Case 1: Apartment}
 For the user to be able to query data the UI has to render it.
 
 The first use case describes a scenario in home automation. Several thermometers in several rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, and thermometers and temperatures in a sensible manner.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=100]
+  \center{\includegraphics[width=100pt]
     {images/iot.png}}
   \caption{Data model of the kanban board use case.}
 \end{figure}
@@ -252,7 +252,7 @@ This paragraph focuses on presentation of data by rendering UI components in the
 \subsubsection{Leveraging linked data for UI rendering}\label{linkeddatarendering}
 \subsubsection{From JSON-LD to domain rendering}\label{domainrendering}
 
-\subsection{Use Case 2: Kanban Board}\label{usecases}
+\subsection{Use Case 2: Kanban Board}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=100pt]
@@ -282,26 +282,28 @@ This paragraph focuses on presentation of data by rendering UI components in the
 \end{table}
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380]
+  \center{\includegraphics[width=380pt]
     {images/ui-dev.png}}
   \caption{Solely the server contains business logic.}
 \end{figure}
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380]
+  \center{\includegraphics[width=380pt]
     {images/client-instances.png}}
   \caption{The client is decoupled from any API and is able to consume different APIs.}
 \end{figure}
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380]
+  \center{\includegraphics[width=380pt]
     {images/ui-dev-custom-renderer.png}}
   \caption{Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still lose.}
 \end{figure}
 
-\subsubsection{Task based computing}\label{interaction}
+\subsubsection{Task based computing}
 
-\subsubsection{User interaction}\label{interaction}
+TODO
+
+\subsubsection{User interaction}
 
 TODO three types of operations:
 
@@ -309,4 +311,4 @@ inline operations
 supported operations for all of the resource's types
 supported operations for the supported property, where the resource is an object of said property
 
-\subsubsection{CQRS}\label{interaction}
+\subsubsection{CQRS}
