@@ -1,10 +1,29 @@
 \section{Main contributions}\label{contributions}
-The main contribution of this thesis is the theoretical foundation of a new approach to UI development with a UI framework. A proof of concept demonstrates the major theoretical contributions. On a larger scale this thesis contributes to the fight against accidental complexity in software development.
+The main contribution of this thesis is the theoretical foundation of a new approach to UI development that reduces development costs. A proof of concept of a UI framework that can be used by any UI developer demonstrates the major theoretical contributions.
+
+\paragraph{Scope}
+The scope of this thesis includes following artifacts:
+\begin{itemize}
+\item a hypermedia vocabulary and specification
+\item implementations of two HTTP APIs using that hypermedia vocabulary
+\item an evaluation of design languages
+\item a proof of concept of a UI framework
+\end{itemize}
+The evaluation and creation of the hypermedia vocabulary is driven by the implementation of the HTTP APIs. The development of the HTTP APIs is driven by use cases that come from real world problems. The UI framework is then used to create client that can consume those two HTTP APIs which conform to a certain specification and make use of that hypermedia vocabulary.
 
 \subsection{Methods}\label{usecases}
-We chose to follow a process including the following points in order to explore possible answers and solutions to the thesis.
+This sections describe the methodological approach to achieve the items listed in the paragraph above.
 
-\paragraph{Use of scores}
+\subsubsection{General approach}
+The structure of this thesis consists of three parts.
+
+\begin{enumerate}
+\item The first part is concerned with research of hypermedia vocabularies and specifications and the evaluation of design languages. This includes research of the use of hypermedia, linked data and web components. The goal is to gather research results in order to base further work on top.
+\item The second part defines two real-world use cases of web applications. By looking at the deficits of contemporary solutions for UI development we define design goals for the UI framework. We summarize the insights gained by implementing on HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development and thus contains two iterations. The goal is the implementation of a proof of concept UI framework and the two real-world use cases.
+\item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore we assess whether the design goals have been met and we give an outlook on future work in this context.
+\end{enumerate}
+
+\subsubsection{Use of scores}
 In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
 
 \begin{table}[]
@@ -42,8 +61,17 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
   \end{center}
 \end{table}
 
+\subsubsection{Steps}
+This section lists and describes the steps that we take in this thesis.
+
 \paragraph{Conceptual analysis of user interfaces}
-Through analysis of the typical usage patterns of user interfaces we can derive coarse business requirements of the UI framework. These serve as foundation for further requirements engineering.
+Before defining the use cases we analyze UIs on a conceptual level. By looking at typical usage patterns of UIs by end users we aim to describe the nature of UIs. The goal are insights which can be further used to define the requirements of the UI framework.
+
+\paragraph{Hypermedia vocabulary and specification}
+This section explores hypermedia vocabularies and specifications. By listing requirements that such a specification has to cover we either create our own hypermedia specification, use an existing one or mix bits and pieces of existing ones.
+
+\paragraph{Evaluation of design languages and their implementations}
+We evaluate popular design languages and their implementations. The UI generation is based on top of an existing design language so that best practices in design and presentation of UIs are respected.
 
 \paragraph{Definition of major design goals}
 Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those. This includes analysis of:
@@ -56,24 +84,21 @@ Major design goals of the UI framework are directly influenced by non-functional
 
 By following what tools in \textbf{2} did right and avoiding the mistakes of tools in \textbf{3}, we define a set of design goals that the proof of concept should adhere to.
 
-\paragraph{Definition of the proof of concept}
+\paragraph{Specification of the proof of concept}
 The section defines the artifact that can be used to create UIs. The proof of concept should demonstrate the viability of the thesis.
-
-\paragraph{Definition of the development process}
-The proof of concept is a software artifact and is developed with respect to current engineering best practices.
 
 \paragraph{Definition of real world use cases}
 By defining real world applications for the UI framework, we discover user roles and user stories.
 
 \paragraph{Implementation of proof of concept driven by use cases}
-The UI framework is developed incrementally use case by use case. The major design goals are respected.
+The UI framework is developed incrementally use case by use case. The major design goals are respected. We expect to gain theoretical insights while implementing both the UI framework and the HTTP APIs.
 
 \paragraph{Evaluation of design goals}
 We analyze the design goals and whether they have been met. The design goals are not equally important, so they get a weight assigned. We assess each design goal qualitatively and assign a score between 0 and 3.
 
 The mean of all scores is calculated to asses whether the design goals have been met.
 
-\paragraph{Conclusion of approach to reduce Accidental and Essential Complexity}
+\paragraph{Conclusion of approach to reduce development costs}
 We break up software complexity into more specific types of complexities. Software complexity comprises Essential Complexity and Accidental Complexity according to Brooks. Essential Complexity has several causes on its own.
 
 After identifying types of complexity, we asses how the UI framework affects them by assigning a score between -3 and 3.
@@ -91,13 +116,15 @@ The usage of a UI by a user consists of either \textbf{reading} or \textbf{inter
   \item Interacting: The user is able to interact with the UI
 \end{enumerate}
 
-The development of the UI framework is driven by the implementation of these two capabilities.
+The development of the UI framework is driven by the implementation of these two capabilities. Each of the use cases covers one of them.
 
 \subsection{Design goals}
-Following design goals should be met by the UI framework. For each design goal we discuss the goal itself and the reason behind it, how we intend to meet it and how it can be measured.
+Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how it can be measured.
+The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
 
 \subsubsection{Play nicely with others}\label{usecases}
-The most important design goal is to play nicely with others. It is important to respect standards and keep compatibility with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
+As discussed in section \ref{graphql} the fact that GraphQL doesn't play well with other is one of its major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
+It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
 
 We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
 
@@ -125,8 +152,70 @@ A big market share of the platform increases the chances that the developer is a
 
 An established and widely adopted platform is Node and the NPM (Node Package Manager) ecosystem. This is the platform that we choose to develop the UI framework in.
 
+\subsection{Hypermedia API specifications}
+The goal is to pinpoint a specification among existing hypermedia API specifications. The real world uses cases will implement HTTP APIs that conform to this specification. The client that consumes such a hypermedia API is merely a console. This implies the client doesn't contain any knowledge about the API implementation, it is sufficient to know about the specification. \\ Following requirements have to be addressed by the chosen specification in some form:
+
+\paragraph{Self documentation}
+The API should provide its own documentation so the consumer doesn't have to use a third party tool.
+
+\paragraph{Discoverability}
+The consumer should be able to autonomously discover the data model of an API implementation.
+
+\paragraph{Actions and Operations}
+The specification should provide a concept on how to interact with it. Ideally the API publishes the data that is needed by the client to build action objects or operations that can be invoked.
+
+\paragraph{Uses linked data}
+Based on the discussion in section \ref{linkeddate} about the benefits of linked data this thesis assumes that linked data is the key concept to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows the UI developer to think in terms of components and data.
+
+\subsubsection{Hydra}
+It is remarkable that at the time of writing this thesis only one specification exists that satisfies the requirements stated above.
+
+\href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydasprecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
+
+The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
+\paragraph{Discoverability} Discoverability is given by the RESTful nature of a hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by sending requests to the server, there is no additional documentation needed. All paths and resources that are interesting to the client he can reach.
+
+\paragraph{Self documentation}
+A hypermedia API documents itself by providing meta data along the actual data. There is no need for other documentation tools because the hypermedia vocabulary provides primitives for built-in documentation.
+Hypermedia APIs can use the same data model for generating built-in documentations as the actual API uses. These documentations are more likely be up-to-date and the maintenance cost is low due to automation.
+
+Every Hydra resource has a documentation attached to it. By default the response contains the \textbf{Link} header of the URL to the documentation.
+
+\paragraph{Collections, partial views and pagination}
+In the world of Hydra there are conceptually only things and lists of things. A further nesting doesn't exist and it is not possible a list of lists of things.
+Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view} on a collection. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
+
+\paragraph{Operations}
+In order to interact with the server a client has to know which operations the server supports. Hydra supports this concept by exposing all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with a Hydra API without any prior knowledge about the concrete API implementation. This part is not fully specified yet at the time of writing. The author had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.
+
+\subsection{Design languages}
+A design language or design vocabulary is an overarching scheme or style that guides the design of a complement of products or architectural settings. Designers wishing to give their suite of products a unique but consistent look and feel define a design language for it, which can describe choices for design aspects such as materials, colour schemes, shapes, patterns, textures, or layouts. They then follow the scheme in the design of each object in the suite. \citep{designlanguage}
+
+For this thesis the benefit of the use of a design language is the consistent look and feel of UIs that \textbf{are composed of a set of small components}. Additionally it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about \textbf{small buttons horizontally next to each other} instead of considering the actual implementation of those horizontally aligned buttons.
+
+The major design languages are built on top of years of research in Human-computer interaction. Evaluation of the theoretical foundation is not in the scope of this thesis, it can however benefit off the implementations and tools.
+
+\subsubsection{Design language implementations}
+The UI framework will consume React components and it will internally use React as well. The only requirement to the design language implementation is the use of React.
+
+\paragraph{Material Design}
+Material Design was developed at Google in 2014. Initially it was used in Google's own mobile apps and in the mobile OS Android. In order to offer a consistent user experience across all products Google makes use of it in web products as well.
+
+The React implementation of Material Design is called Material UI. It bottles up the UX best practices and provides them in form of React components. \\ After implementing a simple form with three text fields and a button we conclude that Material UI is too heavyweight. It is not always obvious how to configure components, especially big ones. The main contribution of Material Design and Material UI are best practices in UX. This reaches beyond simple forms and visualization of lists. Material Design dictates the look and feel of menus and navigations. \\ The UI Framework requires a lower level design language implementation that doesn't make assumptions or rules about how larger components look or behave.
+
+\paragraph{Semantic UI}
+Semantic empowers designers and developers by creating a shared vocabulary for UI. \citep{semanticui} This thesis explores the benefits of shared vocabularies in HTTP APIs. Semantic UI is not as widely adopted as Material Design, but there exists a React implementation and the level of abstraction fights the use case of generically rendering forms and navigations.
+
+\begin{figure}[!htb]
+  \includegraphics[width=150pt]
+    {images/materialdesign.png}
+  \includegraphics[width=320pt]
+    {images/semanticui.jpg}
+  \caption{Material Design on a mobile device (left) and Semantic UI components (right). (Source: https://wikipedia.org, https://www.sketchappsources.com/)}
+\end{figure}
+
 \subsection{Proof of concept}
-I define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
+We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
 
 \subsection{Use Case 1: Apartment}\label{usecases}
 For the user to be able to query data the UI has to render it.
@@ -136,7 +225,7 @@ The first use case describes a scenario in home automation. Several thermometers
 \begin{figure}[!htb]
   \center{\includegraphics[width=100]
     {images/iot.png}}
-  \caption{\label{fig:my-label} Data model of the kanban board use case.}
+  \caption{Data model of the kanban board use case.}
 \end{figure}
 
 \begin{table}
@@ -166,9 +255,9 @@ This paragraph focuses on presentation of data by rendering UI components in the
 \subsection{Use Case 2: Kanban Board}\label{usecases}
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=100]
+  \center{\includegraphics[width=100pt]
     {images/kanban.png}}
-  \caption{\label{fig:my-label} Data model of the home automation use case.}
+  \caption{Data model of the home automation use case.}
 \end{figure}
 
 \begin{table}
@@ -195,19 +284,19 @@ This paragraph focuses on presentation of data by rendering UI components in the
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
     {images/ui-dev.png}}
-  \caption{\label{fig:my-label} Solely the server contains business logic.}
+  \caption{Solely the server contains business logic.}
 \end{figure}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
     {images/client-instances.png}}
-  \caption{\label{fig:my-label} The client is decoupled from any API and is able to consume different APIs.}
+  \caption{The client is decoupled from any API and is able to consume different APIs.}
 \end{figure}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
     {images/ui-dev-custom-renderer.png}}
-  \caption{\label{fig:my-label} Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still lose.}
+  \caption{Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still lose.}
 \end{figure}
 
 \subsubsection{Task based computing}\label{interaction}

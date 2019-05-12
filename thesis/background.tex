@@ -54,7 +54,7 @@ The DOM representation of that table looks as follows:
 \begin{figure}[!htb]
   \center{\includegraphics[width=250]
     {images/dom.png}}
-  \caption{\label{fig:my-label} The DOM is a tree data structure representing an HTML document.}
+  \caption{The DOM is a tree data structure representing an HTML document.}
 \end{figure}
 
 It is worth to note that the DOM API is an imperative. The developer has to tell the DOM how to achieve a certain transformation by providing a sequence of DOM operations. An example operation would be the removal of a node. Considering operations on the document as string, the DOM provides better developer ergonomics.
@@ -87,13 +87,13 @@ Most importantly, React models the problem of UI rendering as function applicati
 \begin{figure}[!htb]
   \center{\includegraphics[width=250]
     {images/ui-imperative.png}}
-  \caption{\label{fig:my-label} Imperative development: Developer works directly with DOM.}
+  \caption{Imperative development: Developer works directly with DOM.}
 \end{figure}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
     {images/ui-declarative.png}}
-  \caption{\label{fig:my-label} Declarative development: Developer provides data and React takes care of the DOM.}
+  \caption{Declarative development: Developer provides data and React takes care of the DOM.}
 \end{figure}
 
 The markup output of a component depends only on its data input. This allows to understand the change in the output when changing the input, the component is \textbf{easy to reason about}. It can be \textbf{tested easily in isolation} because there are no other dependencies than the data input. Analogous to function composition, such web components can be \textbf{composed} to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them usable in multiple contexts. That means a good code \textbf{reuse can be achieved}.
@@ -121,7 +121,7 @@ The web is an existence proof of a massively scalable distributed system that wo
 \begin{figure}[!htb]
   \center{\includegraphics[width=350]
     {images/rmm.png}}
-  \caption{\label{fig:my-label} Steps towards REST.}
+  \caption{Steps towards REST.}
   \captionsource{https://martinfowler.com/articles/richardsonMaturityModel.html}
 \end{figure}
 
@@ -197,14 +197,14 @@ HTTP/1.1 200 OK
 
 Still, there is ambiguity and the client (we) need some prior knowledge on how to book an appointment.
 
-\subsubsection{Level 4: Unknown}
+\subsubsection{Level 4: Linked data driven UI for task-based computing}
 
 This thesis describes Level 4.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380]
     {images/rmm-next.png}}
-  \caption{\label{fig:my-label} From REST to UI.}
+  \caption{From REST to UI.}
   \captionsource{https://martinfowler.com/articles/richardsonMaturityModel.html}
 \end{figure}
 
@@ -235,11 +235,9 @@ Information about the grandparent Albert can be obtained by loading the data at 
 
 \subsection{JSON-LD}\label{jsonld}
 
-TODO mention users of JSON-LD: https://github.com/json-ld/json-ld.org/wiki/Users-of-JSON-LD
+In web development the main format for data exchange now is JSON \citep{jsonformat}. It is easy to parse, to generate, arguably easier for humans to read than XML and many languages provide first-class support for it.
 
-In web development the main format for data exchange now is JSON \citep{jsonformat}. It is easy to parse and to generate and many languages provide first-class support for it.
-
-However, JSON is difficult to integrate from different sources as the data may contain keys that conflict with other data sources. JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web \citep{jsonldbasicconcepts}.
+However, JSON is difficult to integrate from different sources as the data may contain keys that conflict with other data sources. JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web \citep{jsonldbasicconcepts}. It doesn't provide any means to attach meta data to the data itself and one has to use other mechanisms to provide meta data like HTTP headers.
 
 Consider following JSON snippet:
 
@@ -285,9 +283,24 @@ The context is meta data that has to be provided together with the data. This ma
 
 With the small addition of the reserved keyword \lstinline{@context} readability of JSON was restored while allowing machines to understand the data. JSON-LD is 100\% compatible with JSON and therefore benefits of the vast amount of JSON tooling available.
 
-There are a few operations that can be executed on JSON-LD. Following are the three most important ones for this thesis:
 
-\subsubsection{Framing}\label{jsonldframing}
+\subsubsection{JSON-LD and the Semantic Web}
+The concepts of the Semantic Web were formed in the 1960s as something called \textbf{semantic network}. The technologies that power the Semantic Web today appeared in the 2000s. In 2006 Tim Berners-Lee, inventor of the World Wide Web, stated that the simple idea of the Semantic Web remains largely unrealized \citep{semanticwebrevisited}.
+
+JSON-LD became official standard in 2014, a few years after the core technologies of the Semantic Web emerged. As opposed to the Semantic Web and its technologies JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects \citep{jsonldusers}. Both the technologies of the Semantic Web and JSON-LD are concerned with linked data. Why is JSON-LD experiencing adoption?
+
+Manu Sporny, one of the primary creators of JSON-LD, criticizes the Semantic Web in his blog post \textit{JSON-LD and why I hate the Semantic Web}. His criticism has two aspects.
+
+\paragraph{Social}
+The main point of his criticism is that the Semantic Web working group neglects the human factor in software development. The goal of widespread adaption in mainstream web development can not be achieved if it requires the setup of a SPARQL engine, quad store and other RDF tooling. The average web developer has no interest dealing with this overhead. He further critiques the W3C specifications and states that they are hard to read. \citep{semanticwebrevisited} Manu further mentions how the Semantic Web community creates esoteric solutions to non-problems. \citep{semanticwebrevisited}
+
+\paragraph{Technology}
+The second point is criticism on the technological decisions mainly about RDF. RDF has no native support for lists it didn't have support for graphs for a long time. One of the goals was to remain compatible to RDF with JSON-LD, so that data can be serialized and deserialized from and to each other. \citep{semanticwebrevisited}
+
+\subsubsection{JSON-LD Operations}\label{jsonldframing}
+There are a few operations that can be executed on JSON-LD. Following are the three most important ones for this thesis.
+
+\paragraph{Framing}\label{jsonldframing}
 
 Framing is an operation that re-shapes the data. Input of the framing operation is data and a \textbf{frame}. The frame determines the new shape of the data.
 
@@ -364,7 +377,7 @@ The result of the framing operation is a tree:
 }
 \end{lstlisting}
 
-\subsubsection{Compacting}\label{jsonldcompacting}
+\paragraph{Compacting}\label{jsonldcompacting}
 
 Compacting describes the operation of reducing verbosity in the JSON-LD data. Compacted data is meant to be read and understood by human developers. This is achieved by pulling out the context and explicitely define it using the \lstinline{@context} keyword.
 
@@ -395,7 +408,7 @@ This data can be compacted by pulling out the \lstinline{@context}:
 }
 \end{lstlisting}
 
-\subsubsection{Expanding}\label{jsonldextending}
+\paragraph{Expanding}\label{jsonldextending}
 
 Expanded data serves the opposite goal of compacting data. While compacted data is easy to read for humans, extended data is easy to process for machines.
 
@@ -488,26 +501,6 @@ The data of the same person where the address is of type \lstinline{http://schem
 
 The \lstinline{streetAddress} is still stringly typed. A system running at a package distribution center could route packages correctly to some local distribution center or postal office by looking at \lstinline{addressRegion} and \lstinline{addressLocality}.
 
-\subsubsection{Hydra}
-
-\href{http://www.hydra-cg.com/}{Hydra} is a lightweight vocabulary to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydasprecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
-
-The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
-\paragraph{Discoverability} Discoverability is given by the RESTful nature of a hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by sending requests to the server, there is no additional documentation needed. All paths and resources that are interesting to the client he can reach.
-
-\paragraph{Self documentation}
-A hypermedia API documents itself by providing meta data along the actual data. There is no need for other documentation tools because the hypermedia vocabulary provides primitives for built-in documentation.
-Hypermedia APIs can use the same data model for generating built-in documentations as the actual API uses. These documentations are more likely be up-to-date and the maintenance cost is low due to automation.
-
-Every Hydra resource has a documentation attached to it. By default the response contains the \textbf{Link} header of the URL to the documentation.
-
-\paragraph{Collections, partial views and pagination}
-In the world of Hydra there are conceptually only things and lists of things. A further nesting doesn't exist and it is not possible a list of lists of things.
-Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view} on a collection. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
-
-\paragraph{Operations}
-In order to interact with the server a client has to know which operations the server supports. Hydra supports this concept by exposing all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with a Hydra API without any prior knowledge.
-
 \subsection{Contemporary solutions and tools}
 In this section we discuss solutions and tools that claim to reduce complexity and enhance efficiency in software development and especially in UI development. \\ For each tool we discuss its benefit and analyze how it can be used to reduce decrease development costs.
 
@@ -517,7 +510,7 @@ SOAP Version 1.2 (SOAP) is a lightweight protocol intended for exchanging struct
 In order to work with SOAP one has to use XML, which is harder to parse, generate and read than JSON. In contrast to XML, JSON provides no means to attach meta data. \\
 Because REST is more of an architectural style than an architecture, there are multiple ways to achieve do certain things.
 
-\subsubsection{GraphQL}
+\subsubsection{GraphQL}\label{graphql}
 GraphQL is a query language for APIs and a set of tools to fulfill those queries \citep{graphql}. It provides a way to define the data model as graph that can be queried and mutated. There is a growing ecosystem consisting of tools for implementing GraphQL servers and GraphQL clients.
 
 \lstset{language=GraphQL}
