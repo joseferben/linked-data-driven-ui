@@ -274,6 +274,7 @@ The first use case describes a scenario in home automation. Several thermometers
       \hline
     \end{tabular}
     \caption{User stories of a client that consumes a home automation API}
+    \label{tab:usecase1}
   \end{center}
 \end{table}
 
@@ -400,6 +401,37 @@ All things of type \lstinline{https://schema.org/Apartment} and \lstinline{https
 This property contains the longitude and latitude coordinates of the center of the place.
 
 Both properties \lstinline{https://schema.org/hasMap} and \lstinline{https://schema.org/geo} are defined on the type \lstinline{https://schema.org/Place}. \lstinline{https://schema.org/Apartment} is a subtype of \lstinline{https://schema.org/Place} in the schema.org hierarchy, so our apartment renderer has to expect the existence of those properties.
+
+By leveraging coordinates of the places and the floor plan of the apartment we use domain knowledge to implement a renderer that provides additional value to the landlord. By rendering the rooms on the floor plan the landlord can grasp the locations of thermometers in a more natural way.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=500pt]
+    {images/apartment-renderer.png}}
+  \caption{Apartment data with applied renderers: JSON-LD, Thermometer, Temperature, Room, Apartment, BoldFont.}
+\end{figure}
+
+It is noteworthy that a set of renderers can be active at the same time. Whenever the rendering infrastructure encounters a data type that has a registered renderer it will apply it. In this example Hydra collections are still rendered as tables if the landlord opens the collection of rooms or thermometers.
+
+\subsection{Verification of user stories}
+In this section we verify that the user stories listed in table \ref{tab:usecase1} are fulfilled by either accepting or declining them.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ |c|l| }
+      \hline
+      ID & Accepting/Declining \\
+      \hline
+      S01 & Accepting: The landlord can overview the apartments \\
+      S02 & Accepting: The landlord can list all rooms of an apartment \\
+      S03 & Accepting: The landlord can list all thermometers of a rooms \\
+      S04 & Accepting: The landlord can see the temperature reported by a thermometer \\
+      S05 & Accepting: The UI developer uses the default renderers to render a correct UI \\
+      S06 & Accepting: The UI developer can register custom renderers to improve the UI incrementally \\
+      \hline
+    \end{tabular}
+    \caption{All user stories are fulfilled and the first use case is implemented.}
+  \end{center}
+\end{table}
 
 \subsection{Use Case 2: Kanban Board}
 
