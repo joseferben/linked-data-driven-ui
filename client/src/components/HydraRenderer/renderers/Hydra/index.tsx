@@ -146,7 +146,15 @@ export class Hydra extends React.Component<
         (typeof member[0][k] !== "object" && k !== "@type")
       );
     });
-    const labels = [...keysToLabels(keys), "Operations"];
+    let hasOperations = false;
+    try {
+      hasOperations = member.reduce((res, m) => m.operations || res, false);
+    } catch (e) {
+      hasOperations = false;
+    }
+    const labels = hasOperations
+      ? [...keysToLabels(keys), "Operations"]
+      : keysToLabels(keys);
     return (
       <Table celled>
         <Table.Header>

@@ -217,7 +217,7 @@ A big market share of the platform increases the chances that the developer is a
 
 An established and widely adopted platform is Node and the NPM (Node Package Manager) ecosystem. This is the platform that we choose to develop the UI framework in.
 
-\subsection{Proof of concept of UI Framework}
+\subsection{Proof of concept of UI Framework}\label{proofofconcept}
 We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
 
 The proof of concept of the UI Framework consists of following components:
@@ -240,7 +240,7 @@ The Domain Renderers render linked data instead of any data. This means the link
 A React component and a linked data type constitute one domain specific renderer. The open-world philosophy of linked data encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to linked data vocabularies}.
 
 \paragraph{Semantic UI}
-Semantic UI is a set of reusable React components that constitute bottled
+Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and UUX.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=400pt]
@@ -256,7 +256,7 @@ The first use case describes a scenario in home automation. Several thermometers
 \begin{figure}[!htb]
   \center{\includegraphics[width=100pt]
     {images/iot.png}}
-  \caption{Data model of the kanban board use case.}
+  \caption{Data model of the apartment use case.}
 \end{figure}
 
 \begin{table}
@@ -277,11 +277,129 @@ The first use case describes a scenario in home automation. Several thermometers
   \end{center}
 \end{table}
 
-\subsubsection{Base hypermedia vocabulary}\label{basevocab}
-\subsubsection{UI rendering}\label{genericrendering}
-This paragraph focuses on presentation of data by rendering UI components in the context of web development.
-\subsubsection{Leveraging linked data for UI rendering}\label{linkeddatarendering}
-\subsubsection{From JSON-LD to domain rendering}\label{domainrendering}
+\subsubsection{Hydra Collection rendering}
+Due to the data model the API exposes a collection of apartments, rooms and thermometers. Every Hydra API has an entry point and a set of root collections. These collections can be used as starting point to discover the API.
+
+Hydra has native support for collections by using the property \lstinline{http://www.w3.org/ns/hydra/core#member}.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Data of /rooms as Hydra collection.]
+  {
+    "@context": "http://localhost:3000/iot/contexts/Room",
+    "@id": "http://localhost:3000/iot/rooms",
+    "@type": "Collection",
+    "totalItems": 6,
+    "member": [
+      {
+        "@id": "http://localhost:3000/iot/rooms/0",
+        "@type": "https://schema.org/Room",
+        "amenityFeature": "Kitchen",
+        "containsPlace": [],
+        "containedInPlace": "http://localhost:3000/iot/apartments/0",
+        "geo": {...}
+      },
+      {
+        "@id": "http://localhost:3000/iot/rooms/1",
+        "@type": "https://schema.org/Room",
+        "amenityFeature": "Laundry Storage",
+        "containedInPlace": "http://localhost:3000/iot/apartments/0",
+        "geo": {...}
+      },
+      ...
+    ]
+  }
+\end{lstlisting}
+
+Each member of this collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the URL of the type. Given every member of the collection is of the same type, we can implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=500pt]
+    {images/hydra-collection-rooms.png}}
+  \caption{Generic table renderer applied on root collections.}
+\end{figure}
+
+The \lstinline{@id}s are rendered as links so that the API can be traversed by looking up resources and collections of resources.
+
+\subsubsection{Plugin mechanism}
+As shown in section \ref{proofofconcept} the architecture of the UI Framework support custom renderers as main mechanism to override default behavior. The UI developer starts out with the default set of renderers that can render arbitrary JSON-LD data and data coming from a Hydra API. \\
+The fact that the API returns linked data benefits this customization process. The UI developer only cares about how to render \textbf{certain data types}. In our use case he might be concerned with rendering the data type \lstinline{Temperature}.
+
+We demonstrate data rendering using the room called \textbf{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=380pt]
+    {images/json-ld-renderer.png}}
+  \caption{JSON-LD renderer applied on the data of /rooms/4.}
+\end{figure}
+
+This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer as a custom \lstinline{https://schema.org/additionalProperty} that as the name \textbf{Temperature} and a numeric value. \\ This is not straightforward to see as the JSON-LD is visually noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. This however requires domain knowledge since these differentiation holds only true in this context of room temperatures.
+
+Considering the UI developer's workflow, the UI Framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI Framework comprises of a unique id, a name, a React component and a type. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=Renderer configuration that the developer provides.]
+  {
+    id: "thermometer",
+    name: "Thermometer",
+    comp: (data) => <Thermometer/>,
+    type: "http://localhost:3000/iot/apartments/Thermometer"
+  }
+\end{lstlisting}
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=380pt]
+    {images/temperature-renderer.png}}
+  \caption{The temperature renderer is applied on \lstinline{additionalProperty}. on top of the JSON-LD renderer.}
+  \label{fig:temperature}
+\end{figure}
+
+It is noteworthy that renderer compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
+
+\subsubsection{Domain rendering}
+Both the JSON-LD renderer and the Hydra renderer come with the UI Framework preconfigured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
+
+In order to leverage domain information for visualizing data the UI developer has to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=500pt]
+    {images/apartment-renderer.png}}
+  \caption{Apartment data with applied renderers: JSON-LD, Thermometer, Temperature, Room.}
+\end{figure}
+
+The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so rooms are easier to distinguish. This list view provides all information to the landlord that he cares about. \\ Places and containment relationships of places can be visualized in a more intuitive way.
+
+\paragraph{Floorplan}
+The apartment has a property called \lstinline{https://schema.org/hasMap}.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=The \lstinline{hasMap} property of apartment /apartments/0.]
+...
+  "hasMap": {
+  "@type": "https://schema.org/URL",
+  "@id": "http://localhost:3000/iot/floorplan.jpg"
+}
+...
+\end{lstlisting}
+
+This property has a link to an image representing the floor plan of the apartment.
+
+\paragraph{Geo coordinates}
+All things of type \lstinline{https://schema.org/Apartment} and \lstinline{https://schema.org/Room} can have a \lstinline{geo} property.
+
+\lstset{language=JSON}
+\begin{lstlisting}[caption=The \lstinline{https://schema.org/geo} property of apartment /apartments/0.]
+...
+  "geo": {
+    "@type": "https://schema.org/GeoCoordinates",
+    "longitude": 10,
+    "latitude": 7
+  }
+...
+\end{lstlisting}
+
+This property contains the longitude and latitude coordinates of the center of the place.
+
+Both properties \lstinline{https://schema.org/hasMap} and \lstinline{https://schema.org/geo} are defined on the type \lstinline{https://schema.org/Place}. \lstinline{https://schema.org/Apartment} is a subtype of \lstinline{https://schema.org/Place} in the schema.org hierarchy, so our apartment renderer has to expect the existence of those properties.
 
 \subsection{Use Case 2: Kanban Board}
 
@@ -303,9 +421,9 @@ This paragraph focuses on presentation of data by rendering UI components in the
       S04 & As project manager I want to change the status of an issue \\
       S05 & As project manager I want to create new issues \\
       S06 & As project manager I want to remove issues \\
-      S07 & As UI developer I want to present all available data without spending any development time \\
+      S07 & As UI developer I want to present all available data without spending time \\
       S08 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
-      S09 & As UI developer I want to expose all operations to the project manager without spending initial effort \\
+      S09 & As UI developer I want to have an interactive UI without spending time \\
       \hline
     \end{tabular}
     \caption{User stories of a simple software project management tool}
