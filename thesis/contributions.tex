@@ -118,39 +118,6 @@ The usage of a UI by a user consists of either \textbf{reading} or \textbf{inter
 
 The development of the UI framework is driven by the implementation of these two capabilities. Each of the use cases covers one of them.
 
-\subsection{Design goals}
-Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how it can be measured.
-The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
-
-\subsubsection{Play nicely with others}
-As discussed in section \ref{graphql} the fact that GraphQL doesn't play well with other is one of its major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
-It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
-
-We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
-
-This design goal can be quantified by analyzing each component of the UI framework and determine whether the technologies, protocols, languages and tools for that component are either formally standardized or a defacto standard.
-
-\subsubsection{Straightforward upgrade path}
-In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction at a minimum.
-
-This can be achieved by \textbf{extending} existing standards, keep breaking changes at a minimum and with good documentation. Playing nicely with others helps to reach this design goal as well.
-
-This design goal can be quantified by measuring or estimating the effort that needs to be spent to upgrade a conventional API to the suggested hypermedia API.
-
-\subsubsection{Customizability}
-While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be drawn.
-
-We want to achieve this goal be allowing the UI developer to override the sane defaults. The UI developer can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
-
-This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework. By allowing the UI developer to consume the hypermedia API as conventional API this goal is met.
-
-\subsubsection{Developer ergonomics}
-The UI developer should be able to use the UI framework with spending minimal effort on learning.
-
-This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community working on that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics.
-A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
-
-An established and widely adopted platform is Node and the NPM (Node Package Manager) ecosystem. This is the platform that we choose to develop the UI framework in.
 
 \subsection{Hypermedia API specifications}
 The goal is to pinpoint a specification among existing hypermedia API specifications. The real world uses cases will implement HTTP APIs that conform to this specification. The client that consumes such a hypermedia API is merely a console. This implies the client doesn't contain any knowledge about the API implementation, it is sufficient to know about the specification. \\ Following requirements have to be addressed by the chosen specification in some form:
@@ -214,8 +181,72 @@ Semantic empowers designers and developers by creating a shared vocabulary for U
   \caption{Material Design on a mobile device (left) and Semantic UI components (right). (Source: https://wikipedia.org, https://www.sketchappsources.com/)}
 \end{figure}
 
-\subsection{Proof of concept}
+We pick Semantic UI and its React implementation.
+
+\subsection{Design goals}
+Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how it can be measured.
+The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
+
+\subsubsection{Play nicely with others}
+As discussed in section \ref{graphql} the fact that GraphQL doesn't play well with other is one of its major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
+It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
+
+We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
+
+This design goal can be quantified by analyzing each component of the UI framework and determine whether the technologies, protocols, languages and tools for that component are either formally standardized or a defacto standard.
+
+\subsubsection{Straightforward upgrade path}
+In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction at a minimum.
+
+This can be achieved by \textbf{extending} existing standards, keep breaking changes at a minimum and with good documentation. Playing nicely with others helps to reach this design goal as well.
+
+This design goal can be quantified by measuring or estimating the effort that needs to be spent to upgrade a conventional API to the suggested hypermedia API.
+
+\subsubsection{Customizability}
+While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be drawn.
+
+We want to achieve this goal be allowing the UI developer to override the sane defaults. The UI developer can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
+
+This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework. By allowing the UI developer to consume the hypermedia API as conventional API this goal is met.
+
+\subsubsection{Developer ergonomics}
+The UI developer should be able to use the UI framework with spending minimal effort on learning.
+
+This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community working on that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics.
+A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
+
+An established and widely adopted platform is Node and the NPM (Node Package Manager) ecosystem. This is the platform that we choose to develop the UI framework in.
+
+\subsection{Proof of concept of UI Framework}
 We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
+
+The proof of concept of the UI Framework consists of following components:
+
+\paragraph{Hydra client}
+The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The value it provides to us is mainly developer ergonomics. The most complete Hydra client is called Alcaeus which we are using as a part of the UI Framework.
+
+\paragraph{Infrastructure}
+The infrastructure allows UI developers to plug in their own components as renderers, it fetches data from the server using the Hydra client and it applies the renderers by providing them the data returned by the Hydra client. This component is the glue - it knows all other components.
+
+\paragraph{JSON-LD Renderer}
+The JSON-LD renderer is one of the two renderers that ship be default with the UI Framework. It's only purpose is to render the JSON-LD response from the server. Rendering JSON-LD is equivalent to rendering tree like data.
+
+\paragraph{Hydra Renderer}
+The Hydra renderer is the second renderer that ships with the UI Framework. It builds on top of the JSON-LD renderer and it renders root resources, collections, links and operations. The Hydra Renderer creates a UI on top of a Hydra API which a user can use to interact. That UI is not optimized for efficiency because there is no domain knowledge involved.
+
+\paragraph{Domain Renderers}
+This component describes the set of renderers are contributed by the UI developer. They contain domain knowledge and are only valid for certain data types. As discussed in section \ref{uidevelopmenttoday} contemporary clients and the web UIs they include are tightly coupled to HTTP APIs. The reason is the hard coded knowledge in the UIs about the domain models and rules. \\
+The Domain Renderers render linked data instead of any data. This means the linked data provides its own context, the UI developer doesn't hard code assumptions about the data model of the HTTP API - only about the linked data. \\
+A React component and a linked data type constitute one domain specific renderer. The open-world philosophy of linked data encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to linked data vocabularies}.
+
+\paragraph{Semantic UI}
+Semantic UI is a set of reusable React components that constitute bottled
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=400pt]
+    {images/ui-framework-architecture.png}}
+  \caption{The architecture of the proof of concept of the UI Framework.}
+\end{figure}
 
 \subsection{Use Case 1: Apartment}
 For the user to be able to query data the UI has to render it.
