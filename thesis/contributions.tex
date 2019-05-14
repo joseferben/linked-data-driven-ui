@@ -251,8 +251,11 @@ Semantic UI is a set of reusable React components that constitutes the bottled u
 \subsection{Use Case 1: Apartment}
 For the user to be able to query data the UI has to render it.
 
-The first use case describes a scenario in home automation. Several thermometers in several rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, and thermometers and temperatures in a sensible manner.
+The first use case describes a scenario in home automation. Several thermometers in rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, and thermometers and temperatures in a sensible manner.
 
+\subsubsection{Requirements}
+
+TODO fix data model diagram, make it nicer
 \begin{figure}[!htb]
   \center{\includegraphics[width=100pt]
     {images/iot.png}}
@@ -269,8 +272,9 @@ The first use case describes a scenario in home automation. Several thermometers
       S02 & As landlord I want to overview all rooms of an apartment \\
       S03 & As landlord I want to overview thermometers of room \\
       S04 & As landlord I want to overview the measurement data of a thermometer \\
-      S05 & As UI developer I want to present all available data without spending any development time \\
-      S06 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+      S05 & As landlord I want to intuitively see the temperatures on a floor plan \\
+      S06 & As UI developer I want to present all available data without spending any development time \\
+      S07 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
       \hline
     \end{tabular}
     \caption{User stories of a client that consumes a home automation API}
@@ -278,7 +282,7 @@ The first use case describes a scenario in home automation. Several thermometers
   \end{center}
 \end{table}
 
-\subsubsection{Hydra Collection rendering}
+\subsubsection{Hydra collection rendering}
 Due to the data model the API exposes a collection of apartments, rooms and thermometers. Every Hydra API has an entry point and a set of root collections. These collections can be used as starting point to discover the API.
 
 Hydra has native support for collections by using the property \lstinline{http://www.w3.org/ns/hydra/core#member}.
@@ -321,7 +325,7 @@ Each member of this collection is of type \lstinline{https://schema.org/Room}. T
 
 The \lstinline{@id}s are rendered as links so that the API can be traversed by looking up resources and collections of resources.
 
-\subsubsection{Plugin mechanism}
+\subsubsection{Plugin mechanism}\label{pluginmechanism}
 As shown in section \ref{proofofconcept} the architecture of the UI Framework support custom renderers as main mechanism to override default behavior. The UI developer starts out with the default set of renderers that can render arbitrary JSON-LD data and data coming from a Hydra API. \\
 The fact that the API returns linked data benefits this customization process. The UI developer only cares about how to render \textbf{certain data types}. In our use case he might be concerned with rendering the data type \lstinline{Temperature}.
 
@@ -357,19 +361,13 @@ Considering the UI developer's workflow, the UI Framework expects a React compon
 It is noteworthy that renderer compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
 
 \subsubsection{Domain rendering}
-Both the JSON-LD renderer and the Hydra renderer come with the UI Framework preconfigured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
+Both the JSON-LD renderer and the Hydra renderer come with the UI Framework preconfigured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
 
 In order to leverage domain information for visualizing data the UI developer has to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
 
-\begin{figure}[!htb]
-  \center{\includegraphics[width=500pt]
-    {images/apartment-renderer.png}}
-  \caption{Apartment data with applied renderers: JSON-LD, Thermometer, Temperature, Room.}
-\end{figure}
-
 The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so rooms are easier to distinguish. This list view provides all information to the landlord that he cares about. \\ Places and containment relationships of places can be visualized in a more intuitive way.
 
-\paragraph{Floorplan}
+\paragraph{Floor plan}
 The apartment has a property called \lstinline{https://schema.org/hasMap}.
 
 \lstset{language=JSON}
@@ -412,21 +410,22 @@ By leveraging coordinates of the places and the floor plan of the apartment we u
 
 It is noteworthy that a set of renderers can be active at the same time. Whenever the rendering infrastructure encounters a data type that has a registered renderer it will apply it. In this example Hydra collections are still rendered as tables if the landlord opens the collection of rooms or thermometers.
 
-\subsection{Verification of user stories}
+\subsubsection{Verification of user stories}
 In this section we verify that the user stories listed in table \ref{tab:usecase1} are fulfilled by either accepting or declining them.
 
 \begin{table}
   \begin{center}
     \begin{tabular}{ |c|l| }
       \hline
-      ID & Accepting/Declining \\
+      ID & Accepted/Rejected \\
       \hline
-      S01 & Accepting: The landlord can overview the apartments \\
-      S02 & Accepting: The landlord can list all rooms of an apartment \\
-      S03 & Accepting: The landlord can list all thermometers of a rooms \\
-      S04 & Accepting: The landlord can see the temperature reported by a thermometer \\
-      S05 & Accepting: The UI developer uses the default renderers to render a correct UI \\
-      S06 & Accepting: The UI developer can register custom renderers to improve the UI incrementally \\
+      S01 & Accepted: The landlord can overview the apartments \\
+      S02 & Accepted: The landlord can list all rooms of an apartment \\
+      S03 & Accepted: The landlord can list all thermometers of a rooms \\
+      S04 & Accepted: The landlord can see the temperature reported by a thermometer \\
+      S05 & Accepted: The landlord can overview the location of the temperatures on the floor plan \\
+      S06 & Accepted: The UI developer uses the default renderers to render a correct UI \\
+      S07 & Accepted: The UI developer can register custom renderers to improve the UI incrementally \\
       \hline
     \end{tabular}
     \caption{All user stories are fulfilled and the first use case is implemented.}
@@ -434,7 +433,27 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
 \end{table}
 
 \subsection{Use Case 2: Kanban Board}
+The second use case describes a typical scenario in project management. We use this use case to explore the viability of Hydra for UIs with user interaction. A project has multiple issues which represent chunks of work. Issues can be in one of the following statuses:
 
+\subsubsection{Requirements}
+
+\begin{enumerate}
+  \item Backlog: Status of an issue that need additional input before it can be worked on.
+  \item Ready: Status of an issue that has well defined requirements - enough information is available to start implementation.
+  \item In process: Status of an issue that is being worked on.
+  \item Done: Issues that have been implemented.
+\end{enumerate}
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=400pt]
+    {images/state-diagram.png}}
+  \caption{Status workflow of an issue.}
+  \label{fig:statetransition}
+\end{figure}
+
+Figure \ref{fig:statetransition} shows all possible statuses and status transitions of an issue. It is noteworthy that once an issue is ready it can not be put back to the backlog and similarly an finished issue can not be undone.
+
+TODO fix data model diagram, make it nicer and correct
 \begin{figure}[!htb]
   \center{\includegraphics[width=100pt]
     {images/kanban.png}}
@@ -451,16 +470,52 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
       S02 & As project manager I want to overview all issues of a project \\
       S03 & As project manager I want to see the status of an issue \\
       S04 & As project manager I want to change the status of an issue \\
-      S05 & As project manager I want to create new issues \\
-      S06 & As project manager I want to remove issues \\
+      S05 & As project manager I want to remove issues \\
+      S06 & As a dev team member I want to change the issue status by drag and drop \\
       S07 & As UI developer I want to present all available data without spending time \\
       S08 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
       S09 & As UI developer I want to have an interactive UI without spending time \\
       \hline
     \end{tabular}
-    \caption{User stories of a simple software project management tool}
+    \caption{User stories of a simple software project management tool.}
   \end{center}
 \end{table}
+
+\subsubsection{Task based computing}
+
+TODO
+
+\subsubsection{User interaction}
+Hydra supports user interaction through operations. The server tells the client how to build an operation which the client then can invoke. Hydra supports three types of operations:
+
+\paragraph{Inline operations}
+The actual data is augmented with a list of supported operations.
+\begin{enumerate}
+  \item Inline: The resource has a property
+  \item contemporary frameworks and tools for UI development that enjoyed wide and rapid adoption
+  \item contemporary frameworks and tools for UI development that failed
+\end{enumerate}
+
+TODO three types of operations:
+
+inline operations
+supported operations for all of the resource's types
+supported operations for the supported property, where the resource is an object of said property
+
+\subsubsection{Domain rendering}
+Using the plugin mechanism developed in section \ref{pluginmechanism} we customize the look and feel of an issue. The JSON-LD renderer shows the formatted data of the server response of \lstinline{/issues/0} in figure \ref{fig:issue}. An issue has a title, a status, a description and a \textit{memberOf} relation to a project.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=450pt]
+    {images/issue-data.png}}
+  \caption{JSON-LD renderer applied to the issue \lstinline{/issues/0}.}
+  \label{fig:issue}
+\end{figure}
+
+The list of issue of all projects is a root Hydra collection.
+
+
+\subsection{UI Framework}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -479,17 +534,3 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
     {images/ui-dev-custom-renderer.png}}
   \caption{Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still lose.}
 \end{figure}
-
-\subsubsection{Task based computing}
-
-TODO
-
-\subsubsection{User interaction}
-
-TODO three types of operations:
-
-inline operations
-supported operations for all of the resource's types
-supported operations for the supported property, where the resource is an object of said property
-
-\subsubsection{CQRS}

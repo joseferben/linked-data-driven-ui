@@ -5,7 +5,7 @@ import HydraConsole from "./HydraConsole";
 
 export default class HydraEntry extends React.Component {
   state = {
-    entryPoint: "http://localhost:3000/iot",
+    entryPoint: "http://localhost:3000/kanban",
     entered: true
   };
 
