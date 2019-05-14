@@ -360,7 +360,7 @@ Considering the UI developer's workflow, the UI Framework expects a React compon
 
 It is noteworthy that renderer compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
 
-By implementing similar renderes for rooms and thermometers we achieve a UI as show in figure \ref{fig:rooms}.
+By implementing similar renderers for rooms and thermometers we achieve a UI as show in figure \ref{fig:rooms}.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
@@ -369,7 +369,7 @@ By implementing similar renderes for rooms and thermometers we achieve a UI as s
 \end{figure}
 
 \subsubsection{Domain rendering}
-Both the JSON-LD renderer and the Hydra renderer come with the UI Framework preconfigured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
+Both the JSON-LD renderer and the Hydra renderer come with the UI Framework pre-configured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
 
 In order to leverage domain information for visualizing data the UI developer has to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
 
@@ -489,26 +489,68 @@ TODO fix data model diagram, make it nicer and correct
   \end{center}
 \end{table}
 
-\subsubsection{Task based computing}
-
-TODO
-
 \subsubsection{User interaction}
 Hydra supports user interaction through operations. The server tells the client how to build an operation which the client then can invoke. Hydra supports three types of operations:
 
 \paragraph{Inline operations}
-The actual data is augmented with a list of supported operations.
-\begin{enumerate}
-  \item Inline: The resource has a property
-  \item contemporary frameworks and tools for UI development that enjoyed wide and rapid adoption
-  \item contemporary frameworks and tools for UI development that failed
-\end{enumerate}
+The actual data is augmented with a list of supported operations. The resource has a property \lstinline{supportedOperations} where the resource is the operation object \footnote{The subject invokes the operation on an object}.
 
-TODO three types of operations:
+\paragraph{Attached to supported properties}
+Hydra supports documentation of properties. This documentation might include information about which values are valid. It is possible to attach operations to those property documentations.
 
-inline operations
-supported operations for all of the resource's types
-supported operations for the supported property, where the resource is an object of said property
+\paragraph{Attached to supported classes}
+Similar to the concept of supported properties it is possible to document classes. Classes are used to group things together that are used the same way in certain contexts. Classes can be assigned to things by using the \lstinline{@type} property.
+
+We choose the last approach to attach operations to issues based on their status.
+
+\subsubsection{State transition as Hydra operations}
+This section discusses the HTTP API implementation of the issue status change actions. The goal is to implement the state transition shown in figure \ref{fig:statetransition}.
+
+\paragraph{Hydra classes}\label{par:classes}
+Each status that has outgoing state transitions maps to a Hydra class. We have the classes \lstinline{BacklogIssue}, \lstinline{ReadyIssue}, \lstinline{InProcessIssue}. Note that there is no class for an issue that is done because according to the status transitions there is no way to change the status of an issue that is done.
+
+Each \textbf{in going} status transitions is represented by Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate} because according to the state transitions it is not possible to undo issue planning.
+
+\paragraph{Supported operations}
+Each issue class supports a list of operations. Translation of the state transition diagram \ref{fig:statetransition} and mapping of the Hydra classes defined in \ref{par:classes} to the states and state transitions leads to the state transition matrix shown in \ref{tab:statetransitionmatrix}.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{ |c|l| }
+      \hline
+      Status class & Operation classes \\
+      \hline
+      BacklogIssue & IssueToReadyUpdate, IssueToInProcessUpdate, IssueToDoneUpdate \\
+      ReadyIssue & IssueToInProcessUpdate, IssueToDoneUpdate \\
+      InProcessIssue & IssueToReadyUpdate, IssueToDoneUpdate \\
+      \hline
+    \end{tabular}
+    \caption{State transition matrix of issue stati.}
+    \label{statetransitionmatrix}
+  \end{center}
+\end{table}
+
+\lstset{language=JSON}
+\begin{lstlisting}[Exempt of the Hydra documentation showing the list of supported operations for the issue status class \lstinline{ReadyIssue}]
+  ...
+  {
+    "@id": "http://localhost:3000/kanban/issues/ReadyIssue",
+    "@type": "Class",
+    "title": "Issue that is ready",
+    "description": "An issue which is ready and can be started.",
+    "supportedOperation": [
+      {
+        "@type": "http://schema.org/UpdateAction",
+        "method": "POST",
+        "label": "Start",
+        "expects": "http://localhost:3000/kanban/issues/IssueToInProcessUpdate",
+        "returns": null
+      },
+      ...
+    ]
+  },...
+\end{lstlisting}
+
 
 \subsubsection{Domain rendering}
 Using the plugin mechanism developed in section \ref{pluginmechanism} we customize the look and feel of an issue. The JSON-LD renderer shows the formatted data of the server response of \lstinline{/issues/0} in figure \ref{fig:issue}. An issue has a title, a status, a description and a \textit{memberOf} relation to a project.
