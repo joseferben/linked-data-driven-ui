@@ -319,7 +319,7 @@ Each member of this collection is of type \lstinline{https://schema.org/Room}. T
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
-    {images/hydra-collection-rooms.png}}
+    {images/hydra-collections.png}}
   \caption{Generic table renderer applied on root collections.}
 \end{figure}
 
@@ -359,6 +359,14 @@ Considering the UI developer's workflow, the UI Framework expects a React compon
 \end{figure}
 
 It is noteworthy that renderer compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
+
+By implementing similar renderes for rooms and thermometers we achieve a UI as show in figure \ref{fig:rooms}.
+
+\begin{figure}[!htb]
+  \center{\includegraphics[width=500pt]
+    {images/room-renderer.png}}
+  \caption{Apartment data with active renderers: JSON-LD, Thermometer, Temperature, Room.}
+\end{figure}
 
 \subsubsection{Domain rendering}
 Both the JSON-LD renderer and the Hydra renderer come with the UI Framework preconfigured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
@@ -405,7 +413,7 @@ By leveraging coordinates of the places and the floor plan of the apartment we u
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
     {images/apartment-renderer.png}}
-  \caption{Apartment data with applied renderers: JSON-LD, Thermometer, Temperature, Room, Apartment, BoldFont.}
+  \caption{Apartment data with active renderers: JSON-LD, Thermometer, Temperature, Room, Apartment, BoldFont.}
 \end{figure}
 
 It is noteworthy that a set of renderers can be active at the same time. Whenever the rendering infrastructure encounters a data type that has a registered renderer it will apply it. In this example Hydra collections are still rendered as tables if the landlord opens the collection of rooms or thermometers.
