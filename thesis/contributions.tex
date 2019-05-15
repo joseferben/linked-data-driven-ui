@@ -15,7 +15,7 @@ The evaluation and creation of the hypermedia vocabulary is driven by the implem
 This sections describe the methodological approach to achieve the items listed in the paragraph above.
 
 \subsubsection{General approach}
-The structure of this thesis consists of three parts.
+This thesis is structured in three parts.
 
 \begin{enumerate}
 \item The first part is concerned with research of hypermedia vocabularies and specifications and the evaluation of design languages. This includes research of the use of hypermedia, linked data and web components. The goal is to gather research results in order to base further work on top.
@@ -183,11 +183,11 @@ Semantic empowers designers and developers by creating a shared vocabulary for U
 
 We pick Semantic UI and its React implementation.
 
-\subsection{Design goals}
+\subsection{Design goals}\label{sec:designgoals}
 Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how it can be measured.
 The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
 
-\subsubsection{Play nicely with others}
+\subsubsection{Play nicely with others}\label{sec:playnice}
 As discussed in section \ref{graphql} the fact that GraphQL doesn't play well with other is one of its major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
 It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
 
@@ -414,6 +414,7 @@ By leveraging coordinates of the places and the floor plan of the apartment we u
   \center{\includegraphics[width=500pt]
     {images/apartment-renderer.png}}
   \caption{Apartment data with active renderers: JSON-LD, Thermometer, Temperature, Room, Apartment, BoldFont.}
+  \label{fig:apartmentrenderer}
 \end{figure}
 
 It is noteworthy that a set of renderers can be active at the same time. Whenever the rendering infrastructure encounters a data type that has a registered renderer it will apply it. In this example Hydra collections are still rendered as tables if the landlord opens the collection of rooms or thermometers.
@@ -612,7 +613,7 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
   \end{center}
 \end{table}
 
-\subsection{The result}
+\subsection{Result}
 By implementing a simple dashboard for home automation and a simple Kanban board for project management we have developed the proof of concept of the UI framework. It provides generic rendering capabilities out of the box using the JSON-LD and Hydra renderers. Those can be overridden by custom React components provided by the UI developer. Custom renderers define which \listinline{@type}s they can render, the infrastructure in the client triggers the rendering.
 
 \begin{figure}[!htb]
@@ -640,6 +641,6 @@ This lose coupling between client and API implementation allows the client to be
   \label{fig:linkeddata}
 \end{figure}
 
-By using \textbf{linked data} the use of custom renderers doesn't hurt the reusability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded in the client unlike how it is done in contemporary UI development - especially with SPAs. \\
+By using \textbf{linked data} the use of custom renderers doesn't hurt the re-usability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded in the client unlike how it is done in contemporary UI development - especially with SPAs. \\
 To elaborate we look at figure \ref{fig:linkeddata} and assume that a custom renderer for the type \lstinline{https://schema.org/Apartment} is implemented. If the responses of API A, API B and API C contain data with \lstinline{@type} \lstinline{https://schema.org/Apartment} the client can consume that data. \\
 Often it is required to display data differently depending on the context. The apartment might be rendered differently in a back office application used by administrators and the end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data modeling level by using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.

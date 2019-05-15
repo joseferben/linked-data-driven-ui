@@ -1,12 +1,98 @@
-\section{Evaluation}\label{evaluation}
-
+\section{Evaluation}
 Following paragraph evaluates the proof-of-concept of the UI framework. First, we verify if the design goals were met. Then we list the causes of Accidental Complexity and analyze for each of them if it can be reduced by using the UI framework or not.
 
-\subsection{Design goals}\label{designgoals}
+\subsection{Design goals}\label{sec:designgoals}
+By looking at the implementations of both use cases we evaluate whether the design goals defined in \ref{sec:designgoals} have been met.
 
-\subsection{Reduction of Accidental Complexity}\label{accidentalcomplexity}
-\subsection{Reduction of Essential Complexity}\label{essentialcomplexity}
-\paragraph{Complexity}
-\paragraph{Conformity}
-\paragraph{Changeability}
-\paragraph{Invisibility}
+\subsubsection{Play nicely with others}
+Playing nicely with other technologies, existing consumers and existing tooling is the major design goal as described in section \ref{sec:playnice}. Choices on the technologies being used in the UI framework have the biggest impact on it.
+
+\paragraph{JSON-LD}
+JSON-LD is a sub set of JSON which means that any tool that accepts JSON also accepts JSON-LD.
+
+\paragraph{Hydra operations}
+Hydra operations include a HTTP verb which the client reads to invoke the operation. Given the developer respects the conventions about safe and idempotent HTTP verbs, their invocations are equal to regular HTTP requests. HTTP proxies and caches treat Hydra requests the same as other HTTP requests.
+
+\paragraph{React}
+As discussed in section \ref{sec:react}, React is one of the widely used tools for UI development. The proof of concept of the UI framework accepts only custom renderers using React components. Idiomatic React development uses JSX (JavaScript XML) which requires dedicated support in the development environment. \\
+Web components are not fully specified yet but they are on the way to become official standard (TODO cite). Once they are specified and their ecosystem has matured web components might become the better choice to play nicely with others.
+
+\paragraph{Summary}
+Due to choice of technology this design goal has been fulfilled and we assess it with a \textbf{score of 3/3}.
+
+\subsubsection{Straightforward upgrade path}
+We explore a scenario with a running RESTful HTTP API returning JSON and a client consuming it. The client render the UI with a custom rendering solution that creates the DOM based on input data. They are generating HTTP API documentation with a custom tool and the documentation is served using another server. The development team evaluates the upgrade path to a Hydra conform API and the client using the UI framework. We discuss the upgrade steps to evaluate if the upgrade path is straightforward.
+
+\paragraph{Entity serialization}
+The serialization of entities to resources that can be fetched by the client through HTTP remains the same. By adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break.
+
+\paragraph{Hydra documentation}
+The documentation is served using the meta data mechanism of Hydra. This is again just a response header that points to the documentation of the response resource. The existing API documentation is marked as deprecated. Developers use the Hydra documentation instead of the old one, so that the previous solution can be removed after a grace period.
+
+\paragraph{Hydra operations}
+As the current API follows RESTful principles the concept of resources and HTTP methods exists. Resources and HTTP methods are directly mapped to Hydra resources and inline operations of the same HTTP method. This change requires careful design as it might be a breaking change otherwise. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as stepping stone towards using all of Hydra operations power.
+
+\paragraph{Summary}
+Due to choice of hypermedia specification and linked data format it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5/3}.
+
+\subsubsection{Customizability}
+In order to assess the customizability of the UI framework we compare the set of UIs that can be implemented using the UI framework with the set of UIs that can be implemented using tools like React.
+
+\paragraph{Plugin mechanism}
+The plugin mechanism allows the UI developer to map components to data types. It is possible to register a renderer using the wildcard \lstinline{*} type. This activates the renderer on every type. The UI developer can take control over the rendering by using that to render a React component with all the response data as input. The set of UIs that can be implemented using the UI framework is equal to the set of UIs that can be implemented using React.
+
+\paragraph{Summary}
+This design goal is fulfilled which leads to a \textbf{score of 3/3}.
+
+\subsubsection{Developer ergonomics}
+We analyze the usage of the UI framework by a developer.
+
+\paragraph{Component API}
+Every React component that is invoked by the rendering infrastructure gets the Hydra resource data and a \lstinline{renderer} JavaScript function as input.
+
+\lstset{language=JSON}
+\begin{lstlisting}[React component API for the apartment renderer as shown in figure \ref{fig:apartmentrenderer}]
+  const Apartment = ({resource, renderer}) => {
+    const { "https://schema.org/containsPlace": rooms } = resource;
+    return (
+      <div style={{ position: "relative" }}>
+        ...
+        {rooms.map((r: any) => {
+          return (
+            <PositionedRoom
+              renderer={renderer}
+              data={r}
+              key={r["@id"]}
+              xPos={xPos}
+              yPos={yPos}
+            />
+            );
+        })}
+      </div>
+    )
+  }
+  \label{lst:componentapi}
+\end{lstlisting}
+
+Figure \ref{lst:componentapi} shows the apartment renderer of the home automation use case. The \lstinline{resource} contains the data of the Hydra resource of \lstinline{@type} \lstinline{https://schema.org/Apartment}. It accesses the property \lstinline{https://schema.org/containsPlace} to fetch the rooms of the apartment. The \lstinline{renderer} function can be invoked with either a Hydra resource or any JSON. This returns the control of the rendering to the rendering infrastructure.
+
+This allows the UI developer to think in terms of data types and self-contained components. Developing isolated components without thinking about mapping data to children components reduces cognitive load.
+
+\paragraph{Learning curve}
+The learning curve of the UI framework is the sum of the learning curves of JSON-LD, React and depending on the use case Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
+Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering a non-interactive UI knowledge about special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
+Although Alcaeus hides implementation details of Hydra, the UI developer should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
+The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem covering these things that comes with a certain cognitive overhead. Using the UI framework the UI developer can focus on learning React without the usual tooling.
+
+\paragraph{Summary}
+The learning curve is minimal to implement non-interactive UIs. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2/3}.
+
+\subsection{Reduction of complexity in software development}
+\subsubsection{Complexity}
+\subsubsection{Conformity}
+\subsubsection{Changeability}
+\subsubsection{Invisibility}
+\subsubsection{Complexity of state}
+TODO out of tarpit
+\subsubsection{Complexity of control}
+TODO out of tarpit
