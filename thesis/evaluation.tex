@@ -51,7 +51,7 @@ We analyze the usage of the UI framework by a developer.
 Every React component that is invoked by the rendering infrastructure gets the Hydra resource data and a \lstinline{renderer} JavaScript function as input.
 
 \lstset{language=JSON}
-\begin{lstlisting}[React component API for the apartment renderer as shown in figure \ref{fig:apartmentrenderer}]
+\begin{lstlisting}[caption={React component API for the apartment renderer as shown in figure \ref{fig:apartmentrenderer}.}\label{lst:componentapi}]
   const Apartment = ({resource, renderer}) => {
     const { "https://schema.org/containsPlace": rooms } = resource;
     return (
@@ -71,7 +71,6 @@ Every React component that is invoked by the rendering infrastructure gets the H
       </div>
     )
   }
-  \label{lst:componentapi}
 \end{lstlisting}
 
 Figure \ref{lst:componentapi} shows the apartment renderer of the home automation use case. The \lstinline{resource} contains the data of the Hydra resource of \lstinline{@type} \lstinline{https://schema.org/Apartment}. It accesses the property \lstinline{https://schema.org/containsPlace} to fetch the rooms of the apartment. The \lstinline{renderer} function can be invoked with either a Hydra resource or any JSON. This returns the control of the rendering to the rendering infrastructure.
