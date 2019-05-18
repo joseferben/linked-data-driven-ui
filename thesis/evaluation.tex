@@ -92,13 +92,10 @@ We rate the design goal \textbf{play nicely with other} with 3, \textbf{straight
 \subsection{Reduction of complexity in software development}
 This section analyzes whether how development using the UI framework affects various types of software complexity. This requires a comparison of a traditional non-linked data driven approach to the development workflow using the UI framework. For that we inspect a development team working on a RESTful HTTP API that returns JSON and on a contemporary frontend as Single Page Application using React. They use Swagger to generate and serve API documentation. We compare that with an alternative scenario where the developers use the UI framework instead of plain React and they work on a HTTP API that conforms to Hydra. For both scenarios we assess various types of software complexities in order to gauge the change. We assume that a change in software complexity is a similar change in software development cost.
 
+\subsubsection{Essential Complexity}
 Brooks gives \textbf{Complexity}, \textbf{Conformity}, \textbf{Changeability} and \textbf{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
 
-Out of Tar Pit identifies \textbf{Complexity of State} and \textbf{Complexity of Control} as concrete types of Accidental Complexity.
-
-\subsubsection{Properties of software}
-
-\paragraph{Invisibility}
+\paragraph{Complexity caused by Invisibility}
 Software is invisible and unvisualizable. Geometric abstractions are powerful tools. The floor plan of a building helps both architect and client evaluate spaces, traffic flows, views. Contradictions and omissions become obvious. Scale drawings of mechanical parts and stick-figure models of molecules, although abstractions, serve the same purpose. A geometric reality is captured in a geometric abstraction.
 
 The reality of software is not inherently embedded in space. Hence, it has no ready geometric representation in the way that land has maps, silicon chips have diagrams, computers have connectivity schematics. As soon as we attempt to diagram software structure, we find it to constitute not one, but several, general directed graphs superimposed one upon another. The several graphs may represent the flow of control, the flow of data, patterns of dependency, time sequence, name-space relationships. These graphs are usually not even planar, much less hierarchical. Indeed, one of the ways of establishing conceptual control over such structure is to enforce link cutting until one or more of the graphs becomes hierarchical. \citep{nosilverbullet}
@@ -107,28 +104,63 @@ The development team starting out with the Hydra API and the UI framework is abl
 
 We asses the improvement of complexity caused by Invisibility with a \textbf{score of 3/5}.
 
-\paragraph{Conformity}
+\paragraph{Complexity caused by Conformity}
 Software people are not alone in facing complexity. Physics deals with terribly complex objects even at the "fundamental" particle level. The physicist labors on, however, in a firm faith that there are unifying principles to be found, whether in quarks or in unifiedfield theories. Einstein argued that there must be simplified explanations of nature, because God is not capricious or arbitrary.
 
 No such faith comforts the software engineer. Much of the complexity that he must master is arbitrary complexity, forced without rhyme or reason by the many human institutions and systems to which his interfaces must conform. These differ from interface to interface, and from time to time, not because of necessity but only because they were designed by different people, rather than by God.
 
 In many cases, the software must conform because it is the most recent arrival on the scene. In others, it must conform because it is perceived as the most conformable. But in all cases, much complexity comes from conformation to other interfaces; this complexity cannot be simplified out by any redesign of the software alone. \citep{nosilverbullet}
 
-\paragraph{Changeability}
+The UI framework doesn't affect the complexity that emerges from this property.
+
+The \textbf{score is 0/5}.
+
+\paragraph{Complexity caused by Changeability}
 The software entity is constantly subject to pressures for change. Of course, so are buildings, cars, computers. But manufactured things are infrequently changed after manufacture; they are superseded by later models, or essential changes are incorporated into later-serial-number copies of the same basic design. Call-backs of automobiles are really quite infrequent; field changes of computers somewhat less so. Both are much less frequent than modifications to fielded software.
 
 In part, this is so because the software of a system embodies its function, and the function is the part that most feels the pressures of change. In part it is because software can be changed more easily - it is pure thought-stuff, infinitely malleable. Buildings do in fact get changed, but the high costs of change, understood by all, serve to dampen the whims of the changers. \citep{nosilverbullet}
 
-\paragraph{Complexity}
-The complexity of software is an essential property, not an accidental one. Hence, descriptions of a software entity that abstract away its complexity often abstract away its essence. For three centuries, mathematics and the physical sciences made great strides by constructing simplified models of complex phenomena, deriving properties from the models, and verifying those properties by experiment. This paradigm worked because the complexities ignored in the models were not the essential properties of the phenomena. It does not work when the complexities are the essence. \citep{nosilverbullet} \\
+The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume linked data. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design it is possible to change the HTTP API while a user is interacting with the UI - without degrading the user experience.
+
+The cost of change in the client and the UI is \textbf{drastically} reduced. \textbf{The score of the improvement is 5/5}.
+
+\paragraph{Complexity caused by Complexity}
+The complexity of software is an essential property, not an accidental one. Hence, descriptions of a software entity that abstract away its complexity often abstract away its essence. For three centuries, mathematics and the physical sciences made great strides by constructing simplified models of complex phenomena, deriving properties from the models, and verifying those properties by experiment. This paradigm worked because the complexities ignored in the models were not the essential properties of the phenomena. It does not work when the complexities are the essence. \citep{nosilverbullet}
+
+The gist of this property is that complexity breeds complexity. If a software system becomes complex gets harder to add new components without code duplication. Due to the existing complexity it might be very hard to understand the code. \\ Decreasing the complexity by reducing the impact of the other three properties improves this point by definition.
+
+It is not possible to gauge the effect on complexity caused by complexity using the UI framework.
 
 \paragraph{Summary}
-While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process.
+While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process. The data driving the client and the UI \textbf{is visualized by default} and the \textbf{complexity of changing} the client is massively decreased.
 
+\subsubsection{Accidental Complexity}
+Out of Tar Pit identifies \textbf{Complexity of State} and \textbf{Complexity of Control} as concrete types of Accidental Complexity by building on top of the work of Brooks.
 
-\subsubsection{Types of Accidental Complexity}
-\paragraph{Complexity of state}
-TODO out of tarpit
-\paragraph{Complexity of control}
-TODO out of tarpit
+\paragraph{Complexity caused by State}
+The severity of the impact of state on testing noted by Brooks is hard to over-emphasise. State a↵ects all types of testing — from system-level testing (where the tester will be at the mercy of the same problems as the hapless user just mentioned) through to component-level or unit testing. The key problem is that a test (of any kind) on a system or component that is in one particular state tells you nothing at all about the behaviour of that system or component when it happens to be in another state. \\
+The common approach to testing a stateful system (either at the component or system levels) is to start it up such that it is in some kind of “clean” or “initial” (albeit mostly hidden) state, perform the desired tests using the test inputs and then rely upon the (often in the case of bugs ill-founded) assumption that the system would perform the same way — regardless of its hidden internal state — every time the test is run with those inputs. \citep{outoftarpit}
+
+In addition to causing problems for understanding a system from the outside, state also hinders the developer who must attempt to reason (most commonly on an informal basis) about the expected behaviour of the system “from the inside”. \\
+The mental processes which are used to do this informal reasoning often revolve around a case-by-case mental simulation of behaviour: “if this variable is in this state, then this will happen — which is correct — otherwise that will happen — which is also correct”. As the number of states — and hence the number of possible scenarios that must be considered — grows, the e↵ectiveness of this mental approach buckles almost as quickly as testing (it does achieve some advantage through abstraction over sets of similar values which can be seen to be treated identically). \\
+One of the issues (that a↵ects both testing and reasoning) is the exponential rate at which the number of possible states grows — for every single bit of state that we add we double the total number of possible states. Another issue — which is a particular problem for informal reasoning — is contamination. \citep{outoftarpit}
+
+Moseley and Marks identify impacts of state on \textbf{testing} and on \textbf{informal reasoning}.
+
+We consider the type and amount of state the UI developer has to maintain. The default client created using the UI framework is merely a Hydra console. There is no application state to maintain on the client, the complexity is immensely reduced \textbf{for the UI developers}. \\
+The application state lives on the server however. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra console. Custom renderers may have hard coded some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
+
+The improvement regarding complexity caused by state is \textbf{4/5}.
+
+\paragraph{Complexity caused by Control}
+Most traditional programming languages do force a concern with ordering — most often the ordering in which things will happen is controlled by the order in which the statements of the programming language are written in the textual form of the program. This order is then modified by explicit branching instructions (possibly with conditions attached), and subroutines are normally provided which will be invoked in an implicit stack. Of course a variety of evaluation orders is possible, but there is little variation in this regard amongst widespread languages. \\
+The difficulty is that when control is an implicit part of the language (as it almost always is), then every single piece of program must be understood in that context — even when (as is often the case) the programmer may wish to say nothing about this. When a programmer is forced (through use of a language with implicit control flow) to specify the control, he or she is being forced to specify an aspect of how the system should work rather than simply what is desired. Effectively they are being forced to over-specify the problem. \citep{outoftarpit}
+
+To summarize, complexity caused by control occurs when the developer is forced to specify \textbf{how} something works as opposed to \textbf{what} happens. A development approach that is more \textbf{declarative} brings less of this type of complexity. \\
+An example of decrease of complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
+The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. There is however no infrastructure code needed to fetch data from the server, the UI developer doesn't have to setup a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and the UI developer can focus on mapping custom renderers to linked data types.
+
+Complexity caused by control is reduced slightly with \textbf{a score of 3/5}.
+
 \paragraph{Summary}
+We observe that the main contribution towards reducing complexity in software development lies in reduction of \textbf{Complexity caused by Changeability} and \textbf{Complexity caused by State}. \textbf{Complexity caused by Invisibility} and \textbf{Complexity caused by Control} are slightly reduced by using the UI framework compared to the traditional approach.
