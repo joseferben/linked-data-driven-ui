@@ -86,19 +86,49 @@ The learning curve of using React with the UI framework is flat compared to usin
 \paragraph{Summary}
 The learning curve is minimal to implement non-interactive UIs. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2/3}.
 
-\subsection{Reduction of complexity in software development}
-\subsubsection{Complexity}
-TODO no silver bullet
-\subsubsection{Conformity}
-TODO no silver bullet
-\subsubsection{Changeability}
-TODO no silver bullet
-\subsubsection{Invisibility}
-TODO no silver bullet
-\subsubsection{Complexity of state}
-TODO out of tarpit
-\subsubsection{Complexity of control}
-TODO out of tarpit
+\subsubsection{Summary}
+We rate the design goal \textbf{play nicely with other} with 3, \textbf{straightforward upgrade path} with 2.5, \textbf{customizability} with 3 and \textbf{developer ergonomics} with 3 out of possible 3 scores. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
 
-\subsection{Summary}
-TODO spider plot
+\subsection{Reduction of complexity in software development}
+This section analyzes whether how development using the UI framework affects various types of software complexity. This requires a comparison of a traditional non-linked data driven approach to the development workflow using the UI framework. For that we inspect a development team working on a RESTful HTTP API that returns JSON and on a contemporary frontend as Single Page Application using React. They use Swagger to generate and serve API documentation. We compare that with an alternative scenario where the developers use the UI framework instead of plain React and they work on a HTTP API that conforms to Hydra. For both scenarios we assess various types of software complexities in order to gauge the change. We assume that a change in software complexity is a similar change in software development cost.
+
+Brooks gives \textbf{Complexity}, \textbf{Conformity}, \textbf{Changeability} and \textbf{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
+
+Out of Tar Pit identifies \textbf{Complexity of State} and \textbf{Complexity of Control} as concrete types of Accidental Complexity.
+
+\subsubsection{Properties of software}
+
+\paragraph{Invisibility}
+Software is invisible and unvisualizable. Geometric abstractions are powerful tools. The floor plan of a building helps both architect and client evaluate spaces, traffic flows, views. Contradictions and omissions become obvious. Scale drawings of mechanical parts and stick-figure models of molecules, although abstractions, serve the same purpose. A geometric reality is captured in a geometric abstraction.
+
+The reality of software is not inherently embedded in space. Hence, it has no ready geometric representation in the way that land has maps, silicon chips have diagrams, computers have connectivity schematics. As soon as we attempt to diagram software structure, we find it to constitute not one, but several, general directed graphs superimposed one upon another. The several graphs may represent the flow of control, the flow of data, patterns of dependency, time sequence, name-space relationships. These graphs are usually not even planar, much less hierarchical. Indeed, one of the ways of establishing conceptual control over such structure is to enforce link cutting until one or more of the graphs becomes hierarchical. \citep{nosilverbullet}
+
+The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario the developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility} by providing these visualizations out of the box.
+
+We asses the improvement of complexity caused by Invisibility with a \textbf{score of 3/5}.
+
+\paragraph{Conformity}
+Software people are not alone in facing complexity. Physics deals with terribly complex objects even at the "fundamental" particle level. The physicist labors on, however, in a firm faith that there are unifying principles to be found, whether in quarks or in unifiedfield theories. Einstein argued that there must be simplified explanations of nature, because God is not capricious or arbitrary.
+
+No such faith comforts the software engineer. Much of the complexity that he must master is arbitrary complexity, forced without rhyme or reason by the many human institutions and systems to which his interfaces must conform. These differ from interface to interface, and from time to time, not because of necessity but only because they were designed by different people, rather than by God.
+
+In many cases, the software must conform because it is the most recent arrival on the scene. In others, it must conform because it is perceived as the most conformable. But in all cases, much complexity comes from conformation to other interfaces; this complexity cannot be simplified out by any redesign of the software alone. \citep{nosilverbullet}
+
+\paragraph{Changeability}
+The software entity is constantly subject to pressures for change. Of course, so are buildings, cars, computers. But manufactured things are infrequently changed after manufacture; they are superseded by later models, or essential changes are incorporated into later-serial-number copies of the same basic design. Call-backs of automobiles are really quite infrequent; field changes of computers somewhat less so. Both are much less frequent than modifications to fielded software.
+
+In part, this is so because the software of a system embodies its function, and the function is the part that most feels the pressures of change. In part it is because software can be changed more easily - it is pure thought-stuff, infinitely malleable. Buildings do in fact get changed, but the high costs of change, understood by all, serve to dampen the whims of the changers. \citep{nosilverbullet}
+
+\paragraph{Complexity}
+The complexity of software is an essential property, not an accidental one. Hence, descriptions of a software entity that abstract away its complexity often abstract away its essence. For three centuries, mathematics and the physical sciences made great strides by constructing simplified models of complex phenomena, deriving properties from the models, and verifying those properties by experiment. This paradigm worked because the complexities ignored in the models were not the essential properties of the phenomena. It does not work when the complexities are the essence. \citep{nosilverbullet} \\
+
+\paragraph{Summary}
+While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process.
+
+
+\subsubsection{Types of Accidental Complexity}
+\paragraph{Complexity of state}
+TODO out of tarpit
+\paragraph{Complexity of control}
+TODO out of tarpit
+\paragraph{Summary}
