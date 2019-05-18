@@ -1,3 +1,59 @@
 \section{Conclusion}\label{conclusion}
 
-TODO data denormalization, future proof because machine consumable
+\subsection{Conclusion of the UI framework}
+We conclude by analyzing the implementation of the design goals and the contribution of the UI framework towards reducing complexity to assess whether the use of it can reduce costs in UI development.
+
+\begin{table}[]
+  \begin{center}
+    \begin{tabular}{|l|l|r|}
+      \hline
+      ID & Design goal & Degree to which goal is met [0, 3] \\
+      \hline
+      D0 & Play nicely with others & 3 \\
+      D1 & Straightforward upgrade path & 2.5 \\
+      D2 & Customizability & 3 \\
+      D3 & Developer ergonomics & 3 \\
+      \hline
+    \end{tabular}
+    \caption{Scores indicating whether goals were met.}
+  \end{center}
+\end{table}
+
+\begin{table}[]
+  \begin{center}
+    \begin{tabular}{|l|l|r|}
+      \hline
+      ID & Complexity name & Effect on change in complexity [-5, 5] \\
+      \hline
+      C0 & Complexity caused by Invisibility & 3 \\
+      C1 & Complexity caused by Conformity & 0 \\
+      C2 & Complexity caused by Changeability & 5 \\
+      C3 & Complexity caused by Complexity & unknown \\
+      C4 & Complexity caused by State & 5 \\
+      C5 & Complexity caused by Control & 4 \\
+      \hline
+    \end{tabular}
+    \caption{Scores indicating the effect on complexity (positive score means reduction of complexity).}
+    \label{tab:summarycomplexity}
+  \end{center}
+\end{table}
+
+\paragraph{Is it any useful?}
+The design goals are mostly met. The UI framework plays nicely with existing HTTP and JSON tooling due to the use of JSON-LD. The upgrade path of an existing system with a JSON HTTP API and a client to Hydra and the UI framework is straightforward. The UI framework is highly customizable which makes it powerful. It is possible to do traditional web UI development but the framework together with the Hydra API guides the developer to create a console rather than the usual app. The development workflow using the default renderers is ergonomic. \\
+The migration of complex POST requests to Hydra might lead to non-idiomatic use of Hydra operations. There is also a non-trivial learning curve when it comes to Hydra - both on the consumer and producer side. This is the case if the interaction with the UI is not trivial.
+
+The complexity gets by using the framework compared to contemporary UI development as described in \ref{uidevelopmenttoday}. This is mostly due to eradicating application state in the client and allowing the API to evolve with very little friction. In general the cognitive load is reduced by providing the developer this framework of mapping linked data types to components.
+
+\paragraph{Free lunch}
+According to table \ref{summarycomplexity} there is a positive net total of complexity that vanished. Even after considering the learning curve to linked data, JSON-LD and Hydra the costs of UI and client development are drastically reduced. \\
+According to the definition of Essential Complexity by Brooks it is not possible to get rid it. C0, C1, C2 and C3 are Essential Complexity and there is a reduction in total. \\
+Our analysis considered the point of view of the UI developer - not of the developer implementing the Hydra API. The complexity gets reduces in the client but increases on the server.
+
+Setup of Hydra on the server brings nonnegligible overhead. Serialization of the data model and routing of operations have to be considered. In more complex use cases it is not sufficient to just serialize the domain model to JSON-LD. The client should not contain business logic - it is not able to denormalize data on its own. The server has to consider \textbf{how the data is consumed and it has to denormalize it accordingly}. The Hydra API implementation contains knowledge about how the end user interacts with the system because the client is merely a console that holds no state. \\
+Not often are developers working on the backend the same developers that design the UX. UX designers and developers are required to work on HTTP API level. In contemporary UI development the HTTP API is often the boundary between the team that focuses on the user and how the user is interacting with the system and the team that focuses on data modeling. With the approach of the UI framework and Hydra this line gets blurred.
+
+Nevertheless, the complexity lives in one place. It is not obvious why UX knowledge can not exist in the server on a generic level. The clients that are developed using the UI framework implement the UX by providing knowledge about graphics, design, styling and usability.
+
+Adoption of Hydra, linked data and the UI framework is a total net gain.
+
+\subsection{Further work}
