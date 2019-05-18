@@ -114,12 +114,11 @@ We consider the UI of an issue tracking system where an issue has a status that 
 A template on the other hand only takes care of creating markup. It relies on a model to provide the data and behavior and on a style sheet providing the styling.
 Separation of markup, styling and business logic is done in the name of \textbf{encapsulation}. None of these could exist on their own in a sensible way because they contribute to the same thing. There is a technological and conceptual dichotomy. The main contribution of components is the acknowledgment that the conceptual one is more important since the technological one can be solved with tooling. This is the reason why components provide a higher level of encapsulation.
 
-\subsection{Task based computing}
-
-TODO human centered design, Don Norman
+\subsection{Task-based computing}
+Donald A. Norman explores human centered design of technology in his book \textit{The Invisible Computer}. Task-based computing describes the way a user interacts with a system. The only goal of the user is to complete an activity by interacting with tasks using actions. \citep{invisiblecomputer} \\
+This requires the UIs this thesis explores to be interactive. Furthermore, we aim to create a solution to not only create UIs supporting CRUD operations but to create UIs with more complex interactions. In the scope of this thesis we look at UIs that provide value to task-based computing.
 
 \subsection{Richardson Maturity Model}\label{richardsonmaturitymodel}
-
 The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily. \citep{richardsonmaturitymodel} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
 
 \begin{figure}[!htb]
@@ -131,7 +130,6 @@ The web is an existence proof of a massively scalable distributed system that wo
 The Richardson Maturity Model describes steps towards REST starting from HTTP. We go through the levels starting with level 0 by looking at an example of a system that allows us to book appointments with our doctor.
 
 \subsubsection{Level 0: The Swamp of POX}
-
 Level 0 uses HTTP as transport system for remote interactions. No other feature of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL work on this level. \\
 To book an appointment at our doctor we create following request:
 
@@ -144,7 +142,6 @@ POST /appointmentService HTTP/1.1
 \end{lstlisting}
 
 \subsubsection{Level 1: Resources}
-
 Level 1 introduces the concept of resources. Instead of referring to the doctor within our request we encode the doctor in the URL. This is similar the the concept of an object identity, where an object instance can be identified by an id.
 
 \lstset{language=XML}
@@ -156,7 +153,6 @@ POST /doctors/mjones HTTP/1.1
 \end{lstlisting}
 
 \subsubsection{Level 2: HTTP Verbs}
-
 Level 2 introduces HTTP verbs like \lstinline{GET}, \lstinline{POST} or \lstinline{DELETE}. Instead of using \lstinline{POST} everywhere, we choose the most specific verb that fits the use case as defined by HTTP.
 Fowler puts the emphasis here on \lstinline{safety} and says that it is not too important to make use of all the HTTP verbs. Proper use of the safe and idempotent verb \lstinline{GET} and the unsafe verb \lstinline{POST} improves an API a lot according to him. \\
 Level 2 additionally adds the proper use of HTTP status codes. The creation of a resource using \lstinline{POST} should return the HTTP status code \lstinline{201 Created}.
@@ -168,7 +164,6 @@ Host: royalhope.nhs.uk
 \end{lstlisting}
 
 \subsubsection{Level 3: Hypermedia Controls}
-
 The final level introduces something that you often hear referred to under the ugly acronym of HATEOAS (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list open slots to knowing what to do to book an appointment. \citep{richardsonmaturitymodel}
 
 We begin with the known request to get the list of open slots:
@@ -201,7 +196,6 @@ HTTP/1.1 200 OK
 Still, there is ambiguity and the client (we) need some prior knowledge on how to book an appointment.
 
 \subsubsection{Level 4: Linked data driven UI for task-based computing}
-
 This thesis describes Level 4.
 
 \begin{figure}[!htb]
@@ -211,7 +205,6 @@ This thesis describes Level 4.
 \end{figure}
 
 \subsection{Linked data}\label{linkeddata}
-
 Linked data is a way of creating a web of machine interpretable data across different domains, systems and organizations. A person or a machine should be able to explore data by simply following links. In essence, the same expectations apply to make that web of data grow as to linked HTML documents: \citep{linkedatafourrules}
 
 \begin{enumerate}
@@ -236,7 +229,6 @@ An RDF file describing a Smith family could live at \lstinline{http://example.or
 Information about the grandparent Albert can be obtained by loading the data at \\ \lstinline{http://example.org/smith#albert}. Albert's child Brian can be accessed at \\  \lstinline{http://example.org/smith#brian} and Brian's child Carol at \lstinline{http://example.org/smith#carol}.
 
 \subsection{JSON-LD}\label{jsonld}
-
 In web development the main format for data exchange now is JSON \citep{jsonformat}. It is easy to parse, to generate, arguably easier for humans to read than XML and many languages provide first-class support for it.
 
 However, JSON is difficult to integrate from different sources as the data may contain keys that conflict with other data sources. JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web \citep{jsonldbasicconcepts}. It doesn't provide any means to attach meta data to the data itself and one has to use other mechanisms to provide meta data like HTTP headers.
@@ -452,11 +444,9 @@ results in following expanded data:
 \end{lstlisting}
 
 \subsection{Vocabulary}
-
 JSON-LD is essentially a linked data serialization format that plays well with JSON tooling. Creating linked data means creating a vocabulary that other might use by linking to it. A lot of vocabularies those exist and two of them are particularly interesting for this thesis.
 
 \subsubsection{Schema.org}
-
 \url{Schema.org} is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond \citep{welcomeschemaorg}. Companies like Google, Microsoft, Pinterest and Yandex are using it in their tools and products.
 
 Their main goal is to provide a shared vocabulary that web developers can refer to. It is often used in the context of search engine optimization by helping crawlers understand websites.
