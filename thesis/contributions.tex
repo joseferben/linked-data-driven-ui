@@ -102,52 +102,50 @@ We break up software complexity into specific types Accidental Complexity and Es
 
 \subsection{Conceptual analysis of user interfaces}
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by two types of users. The users are either other systems or human users.
-The interfaces for human users (user interfaces) have typical characteristics,
-By observing the usage of a user interface by the user we can analyze the main characteristics. A typical scenario of UI usage is browsing a website. What does the user do while browsing a website? It is typically one of two things: he either reads or clicks.
-
-\textbf{Reading} a website is equivalent to data \textbf{querying}. The user \textbf{querying} data
+Interfaces for human users (user interfaces) have typical characteristics. By observing their usage we can analyze the main characteristics. A typical scenario of UI usage is browsing a website. What does the user do while browsing a website? It is typically one of two things: he either reads or clicks.
 
 The usage of a UI by a user consists of either \textbf{reading} or \textbf{interacting}. In terms of systems we can call them \textbf{querying} or \textbf{interacting} respectively.
+
 \begin{enumerate}
   \item Query: The user is able to retrieve information from the UI by looking at it
   \item Interacting: The user is able to interact with the UI
 \end{enumerate}
 
-The development of the UI framework is driven by the implementation of these two capabilities. Each of the use cases covers one of them.
+The development of the UI framework is driven by the implementation of these two capabilities. We define a use case for each of them.
 
+\subsection{HATEOAS API specifications}
+The goal is to pinpoint a specification among existing HATEOAS API specifications. The real world uses cases will implement HTTP APIs that conform to this specification. The client that consumes such a API is merely a console. This implies the client doesn't contain any knowledge about the API implementation. It is sufficient to implement the specification. \\
+Following requirements have to be addressed by the chosen specification:
 
-\subsection{Hypermedia API specifications}
-The goal is to pinpoint a specification among existing hypermedia API specifications. The real world uses cases will implement HTTP APIs that conform to this specification. The client that consumes such a hypermedia API is merely a console. This implies the client doesn't contain any knowledge about the API implementation, it is sufficient to know about the specification. \\ Following requirements have to be addressed by the chosen specification in some form:
-
-\paragraph{Self documentation}
-The API should provide its own documentation so the consumer doesn't have to use a third party tool.
+\paragraph{Self documenting}
+The API should provide its own documentation so the consumer doesn't have to use a third party tool. This requires a mechanism to attach meta data to the response payload.
 
 \paragraph{Discoverability}
-The consumer should be able to autonomously discover the data model of an API implementation.
+The consumer should be able to autonomously discover the data model of an API.
 
 \paragraph{Actions and Operations}
-The specification should provide a concept on how to interact with it. Ideally the API publishes the data that is needed by the client to build action objects or operations that can be invoked.
+The API should provide a description on how to interact with it. Ideally the API publishes the data that is needed by the client to build action objects or operations that can be invoked.
 
 \paragraph{Uses linked data}
-Based on the discussion in section \ref{linkeddata} about the benefits of linked data this thesis assumes that linked data is the key concept to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows the UI developer to think in terms of components and data.
+Based on the discussion in section \ref{linkeddata} about the benefits of linked data, this thesis explores linked data as key component to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows UI developers to think in terms of components and data.
 
 \subsubsection{Hydra}
-It is remarkable that at the time of writing this thesis only one specification exists that satisfies the requirements stated above.
+It is remarkable that at the time of writing only one HATEOAS specification exists that satisfies the requirements stated above.
 
 \href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydraspecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
 
 The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
-\paragraph{Discoverability} Discoverability is given by the RESTful nature of a hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by sending requests to the server, there is no additional documentation needed. All paths and resources that are interesting to the client he can reach.
+\paragraph{Discoverability} Discoverability is given by the RESTful nature of any hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by understanding the response and sending requests to the server - there is no external documentation needed. All resources that the client is concerned with it can reach.
 
 \paragraph{Self documentation}
-A hypermedia API documents itself by providing meta data along the actual data. There is no need for other documentation tools because the hypermedia vocabulary provides primitives for built-in documentation.
-Hypermedia APIs can use the same data model for generating built-in documentations as the actual API uses. These documentations are more likely be up-to-date and the maintenance cost is low due to automation.
+Hydra documents itself by providing meta data along the payload. \\
+It can use the same data model for generating built-in documentation and serving the API. These documentations less likely to become out-of-date and the maintenance cost is low..
 
 Every Hydra resource has a documentation attached to it. By default the response contains the \textbf{Link} header of the URL to the documentation.
 
 \paragraph{Collections, partial views and pagination}
-In the world of Hydra there are conceptually only things and lists of things. A further nesting doesn't exist and it is not possible a list of lists of things.
-Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view} on a collection. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
+In the world of Hydra there are conceptually only \textit{things} and \textit{lists of things}. There is no list of list of things. \\
+Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view}. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
 
 \paragraph{Operations}
 In order to interact with the server a client has to know which operations the server supports. Hydra supports this concept by exposing all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with a Hydra API without any prior knowledge about the concrete API implementation. This part is not fully specified yet at the time of writing. The author had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.
