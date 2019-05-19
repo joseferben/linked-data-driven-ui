@@ -364,6 +364,7 @@ By implementing similar renderers for rooms and thermometers we achieve a UI as 
   \center{\includegraphics[width=500pt]
     {images/room-renderer.png}}
   \caption{Apartment data with active renderers: JSON-LD, Thermometer, Temperature, Room.}
+  \label{fig:rooms}
 \end{figure}
 
 \subsubsection{Domain rendering}
@@ -512,7 +513,7 @@ Each status that has outgoing state transitions maps to a Hydra class. We have t
 Each \textbf{out going} status transition is represented by Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate} because according to the state transitions it is not possible to undo planned issues.
 
 \paragraph{Supported operations}
-Each issue class supports a list of operations. Translation of the state transition diagram \ref{fig:statetransition} and mapping of the Hydra classes defined in \ref{par:classes} to the states and state transitions leads to the state transition matrix shown in \ref{tab:statetransitionmatrix}.
+Each issue class supports a list of operations.
 
 \begin{table}
   \begin{center}
@@ -526,12 +527,14 @@ Each issue class supports a list of operations. Translation of the state transit
       \hline
     \end{tabular}
     \caption{Status transition matrix.}
-    \label{statetransitionmatrix}
+    \label{tab:statetransitionmatrix}
   \end{center}
 \end{table}
 
+Translation of the state transition diagram \ref{fig:statetransition} and mapping of the Hydra classes defined in \ref{par:classes} to the states and state transitions leads to the state transition matrix shown in \ref{tab:statetransitionmatrix}.
+
 \lstset{language=JSON}
-\begin{lstlisting}[Exempt of the Hydra documentation showing the list of supported operations for the issue status class \lstinline{ReadyIssue}]
+\begin{lstlisting}[caption=Exempt of the Hydra documentation showing the list of supported operations for the issue status class ReadyIssue.]
   ...
   {
     "@id": "http://localhost:3000/kanban/issues/ReadyIssue",
@@ -566,13 +569,13 @@ Operations have a HTTP \lstinline{method} property so the client knows how to in
 A click on a \textbf{start} status change button shown in \ref{fig:issueshydra} causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
 
 \subsubsection{Domain rendering}
-Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban board. Figure \ref{fig:kanbanrenderer} shows issues grouped by their statuses on a Kanban board.
+Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]
     {images/kanban-renderer.png}}
   \caption{Collection of issues rendered by the domain specific Kanban renderer.}
-  \label{fig:issueshydra}
+  \label{fig:kanban}
 \end{figure}
 
 \paragraph{Intuitive status change}
@@ -611,7 +614,7 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
 \end{table}
 
 \subsection{Result}
-By implementing a simple dashboard for home automation and a simple Kanban board for project management we have developed the proof of concept of the UI framework. It provides generic rendering capabilities out of the box using the JSON-LD and Hydra renderers. Those can be overridden by custom React components provided by the UI developer. Custom renderers define which \listinline{@type}s they can render - the infrastructure takes care of rendering.
+By implementing a simple dashboard for home automation and a simple Kanban board for project management we have developed the proof of concept of the UI framework. It provides generic rendering capabilities out of the box using the JSON-LD and Hydra renderers. Those can be overridden by custom React components provided by the UI developer. Custom renderers define which \lstinline{@type}s they can render - the infrastructure takes care of rendering.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
