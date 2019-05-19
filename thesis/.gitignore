@@ -9,3 +9,7 @@
 *.blg
 *.pdf
 *.pyg
+*.glg
+*.gls
+*.lof
+*.lot
