@@ -1,5 +1,5 @@
 \section{Evaluation}
-Following paragraph evaluates the proof-of-concept of the UI framework. First, we verify if the design goals were met. Then we list the causes of Accidental Complexity and analyze for each of them if it can be reduced by using the UI framework or not.
+In the following paragraph we evaluate the proof of concept of the UI framework. We examine whether the design goals have been met and we analyze the change in complexity.
 
 \subsection{Design goals}\label{sec:designgoals}
 By looking at the implementations of both use cases we evaluate whether the design goals defined in \ref{sec:designgoals} have been met.
@@ -15,40 +15,40 @@ Hydra operations include a HTTP verb which the client reads to invoke the operat
 
 \paragraph{React}
 As discussed in section \ref{sec:react}, React is one of the widely used tools for UI development. The proof of concept of the UI framework accepts only custom renderers using React components. Idiomatic React development uses JSX (JavaScript XML) which requires dedicated support in the development environment. \\
-Web components are not fully specified yet but they are on the way to become official standard (TODO cite). Once they are specified and their ecosystem has matured web components might become the better choice to play nicely with others.
+Web components are not fully specified yet but they are on the way to become official standard (TODO cite). Once they are specified and their ecosystem has matured, web components might become the better choice to play nicely with others than React.
 
 \paragraph{Summary}
-Due to choice of technology this design goal has been fulfilled and we assess it with a \textbf{score of 3/3}.
+Due to choice of technology this design goal has been fulfilled and we assess it with a \textbf{score of 3}.
 
 \subsubsection{Straightforward upgrade path}
-We explore a scenario with a running RESTful HTTP API returning JSON and a client consuming it. The client render the UI with a custom rendering solution that creates the DOM based on input data. They are generating HTTP API documentation with a custom tool and the documentation is served using another server. The development team evaluates the upgrade path to a Hydra conform API and the client using the UI framework. We discuss the upgrade steps to evaluate if the upgrade path is straightforward.
+We explore a scenario with a running RESTful HTTP API returning JSON and a client consuming it. The client render the UI with a custom rendering solution that creates the DOM based on input data. They are generating HTTP API documentation with a custom tool and the documentation is served using another server. The development team evaluates the upgrade path to a Hydra conform API using the UI framework. We discuss the upgrade steps to evaluate if the upgrade path is straightforward or if there is a lot of friction.
 
 \paragraph{Entity serialization}
-The serialization of entities to resources that can be fetched by the client through HTTP remains the same. By adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break.
+Serialization of entities to resources remains the same. Adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break.
 
 \paragraph{Hydra documentation}
-The documentation is served using the meta data mechanism of Hydra. This is again just a response header that points to the documentation of the response resource. The existing API documentation is marked as deprecated. Developers use the Hydra documentation instead of the old one, so that the previous solution can be removed after a grace period.
+Documentation is served using the meta data mechanism of Hydra. This is again just a response header that points to the documentation of the response resource. The existing API documentation is marked as deprecated. Developers use the Hydra documentation instead of the old one, so that the previous solution can be removed after a grace period.
 
 \paragraph{Hydra operations}
-As the current API follows RESTful principles the concept of resources and HTTP methods exists. Resources and HTTP methods are directly mapped to Hydra resources and inline operations of the same HTTP method. This change requires careful design as it might be a breaking change otherwise. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as stepping stone towards using all of Hydra operations power.
+As the current API follows RESTful principles the concepts of resources and HTTP methods exist. Resources and HTTP methods are directly mapped to Hydra resources and inline operations using the same HTTP method. This change requires careful design as it might break existing consumers. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as stepping stone towards using all the power that Hydra operations offer.
 
 \paragraph{Summary}
-Due to choice of hypermedia specification and linked data format it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5/3}.
+Due to choice of HATEOAS specification and linked data format it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5}.
 
 \subsubsection{Customizability}
 In order to assess the customizability of the UI framework we compare the set of UIs that can be implemented using the UI framework with the set of UIs that can be implemented using tools like React.
 
 \paragraph{Plugin mechanism}
-The plugin mechanism allows the UI developer to map components to data types. It is possible to register a renderer using the wildcard \lstinline{*} type. This activates the renderer on every type. The UI developer can take control over the rendering by using that to render a React component with all the response data as input. The set of UIs that can be implemented using the UI framework is equal to the set of UIs that can be implemented using React.
+The plugin mechanism allows UI developers to map components to data types. It is possible to register a renderer using the wildcard \lstinline{*} type. This activates the renderer on every type. The UI developer can take control over rendering by using wildcards to render a React component with all the response data as input. The set of UIs that can be implemented using the UI framework is equal to the set of UIs that can be implemented using React.
 
 \paragraph{Summary}
-This design goal is fulfilled which leads to a \textbf{score of 3/3}.
+This design goal is fulfilled which leads to a \textbf{score of 3}.
 
 \subsubsection{Developer ergonomics}
 We analyze the usage of the UI framework by a developer.
 
 \paragraph{Component API}
-Every React component that is invoked by the rendering infrastructure gets the Hydra resource data and a \lstinline{renderer} JavaScript function as input.
+Every React component that is invoked by the rendering infrastructure gets a Hydra resource and a \lstinline{renderer} JavaScript function as input.
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption={React component API for the apartment renderer as shown in figure \ref{fig:apartmentrenderer}.}\label{lst:componentapi}]
@@ -73,24 +73,28 @@ Every React component that is invoked by the rendering infrastructure gets the H
   }
 \end{lstlisting}
 
-Figure \ref{lst:componentapi} shows the apartment renderer of the home automation use case. The \lstinline{resource} contains the data of the Hydra resource of \lstinline{@type} \lstinline{https://schema.org/Apartment}. It accesses the property \lstinline{https://schema.org/containsPlace} to fetch the rooms of the apartment. The \lstinline{renderer} function can be invoked with either a Hydra resource or any JSON. This returns the control of the rendering to the rendering infrastructure.
+Figure \ref{lst:componentapi} shows the apartment renderer of the home automation use case. The \lstinline{resource} contains the data of the Hydra resource of \lstinline{@type} \lstinline{https://schema.org/Apartment}. It accesses the property \lstinline{https://schema.org/containsPlace} to fetch the rooms of the apartment. The \lstinline{renderer} function can be invoked with a Hydra resource. This returns the control of the rendering process to the rendering infrastructure.
 
-This allows the UI developer to think in terms of data types and self-contained components. Developing isolated components without thinking about mapping data to children components reduces cognitive load.
+This allows UI developers to think in terms of data types and self-contained components. Developing isolated components without thinking about mapping data to children components reduces cognitive load.
 
 \paragraph{Learning curve}
-The learning curve of the UI framework is the sum of the learning curves of JSON-LD, React and depending on the use case Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
-Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering a non-interactive UI knowledge about special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
-Although Alcaeus hides implementation details of Hydra, the UI developer should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
-The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem covering these things that comes with a certain cognitive overhead. Using the UI framework the UI developer can focus on learning React without the usual tooling.
+The learning curve of the UI framework is the sum of the learning curves of JSON-LD, React and Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
+Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering non-interactive UIs, knowledge about the two the two special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
+Although Alcaeus hides implementation details of Hydra, UI developers should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
+The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem covering these things that comes with a certain cognitive overhead. Using the UI framework developers can focus on learning React without the usual tooling.
 
 \paragraph{Summary}
-The learning curve is minimal to implement non-interactive UIs. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2/3}.
+The learning curve is minimal to implement non-interactive UIs. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2}.
 
 \subsubsection{Summary}
 We rate the design goal \textbf{play nicely with other} with 3, \textbf{straightforward upgrade path} with 2.5, \textbf{customizability} with 3 and \textbf{developer ergonomics} with 3 out of possible 3 scores. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
 
 \subsection{Reduction of complexity in software development}
-This section analyzes whether how development using the UI framework affects various types of software complexity. This requires a comparison of a traditional non-linked data driven approach to the development workflow using the UI framework. For that we inspect a development team working on a RESTful HTTP API that returns JSON and on a contemporary frontend as Single Page Application using React. They use Swagger to generate and serve API documentation. We compare that with an alternative scenario where the developers use the UI framework instead of plain React and they work on a HTTP API that conforms to Hydra. For both scenarios we assess various types of software complexities in order to gauge the change. We assume that a change in software complexity is a similar change in software development cost.
+This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional non-linked data driven approach to the development workflow using the UI framework. \\
+
+\paragraph{Baseline scenario} We describe a base line scenario where a development team is working on a RESTful HTTP API that returns JSON and on a frontend using React. They use Swagger to generate and serve API documentation.
+
+We assess various types of software complexities in order to gauge the change in complexity between the baseline scenario and the same scenario with the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
 
 \subsubsection{Essential Complexity}
 Brooks gives \textbf{Complexity}, \textbf{Conformity}, \textbf{Changeability} and \textbf{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
@@ -100,7 +104,7 @@ Software is invisible and unvisualizable. Geometric abstractions are powerful to
 
 The reality of software is not inherently embedded in space. Hence, it has no ready geometric representation in the way that land has maps, silicon chips have diagrams, computers have connectivity schematics. As soon as we attempt to diagram software structure, we find it to constitute not one, but several, general directed graphs superimposed one upon another. The several graphs may represent the flow of control, the flow of data, patterns of dependency, time sequence, name-space relationships. These graphs are usually not even planar, much less hierarchical. Indeed, one of the ways of establishing conceptual control over such structure is to enforce link cutting until one or more of the graphs becomes hierarchical. \citep{nosilverbullet}
 
-The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario the developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility} by providing these visualizations out of the box.
+The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as a tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario the developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility slightly} by providing these visualizations out of the box.
 
 We asses the improvement of complexity caused by Invisibility with a \textbf{score of 1}.
 
@@ -120,7 +124,7 @@ The software entity is constantly subject to pressures for change. Of course, so
 
 In part, this is so because the software of a system embodies its function, and the function is the part that most feels the pressures of change. In part it is because software can be changed more easily - it is pure thought-stuff, infinitely malleable. Buildings do in fact get changed, but the high costs of change, understood by all, serve to dampen the whims of the changers. \citep{nosilverbullet}
 
-The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume linked data. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design it is possible to change the HTTP API while a user is interacting with the UI - without degrading the user experience.
+The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume linked data. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design it is possible to change the HTTP API while a user is interacting with the UI - without breaking the UI.
 
 The cost of change in the client and the UI is \textbf{drastically} reduced. \textbf{The score of the improvement is 3/3}.
 
@@ -129,26 +133,26 @@ The complexity of software is an essential property, not an accidental one. Henc
 
 The gist of this property is that complexity breeds complexity. If a software system becomes complex gets harder to add new components without code duplication. Due to the existing complexity it might be very hard to understand the code. \\ Decreasing the complexity by reducing the impact of the other three properties improves this point by definition.
 
-It is not possible to gauge the effect on complexity caused by complexity using the UI framework.
+This software property is not orthogonal to the other three. It is not possible to gauge the effect on complexity caused by complexity using the UI framework.
 
 \paragraph{Summary}
-While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process. The data driving the client and the UI \textbf{is visualized by default} and the \textbf{complexity of changing} the client is massively decreased.
+While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process. The data that is driving the client and the UI \textbf{is visualized by default} and the \textbf{complexity of changing} the client is massively decreased.
 
 \subsubsection{Accidental Complexity}
 Out of Tar Pit identifies \textbf{Complexity of State} and \textbf{Complexity of Control} as concrete types of Accidental Complexity by building on top of the work of Brooks.
 
 \paragraph{Complexity caused by State}
-The severity of the impact of state on testing noted by Brooks is hard to over-emphasise. State a↵ects all types of testing — from system-level testing (where the tester will be at the mercy of the same problems as the hapless user just mentioned) through to component-level or unit testing. The key problem is that a test (of any kind) on a system or component that is in one particular state tells you nothing at all about the behaviour of that system or component when it happens to be in another state. \\
+The severity of the impact of state on testing noted by Brooks is hard to over-emphasise. State affects all types of testing — from system-level testing (where the tester will be at the mercy of the same problems as the hapless user just mentioned) through to component-level or unit testing. The key problem is that a test (of any kind) on a system or component that is in one particular state tells you nothing at all about the behaviour of that system or component when it happens to be in another state. \\
 The common approach to testing a stateful system (either at the component or system levels) is to start it up such that it is in some kind of “clean” or “initial” (albeit mostly hidden) state, perform the desired tests using the test inputs and then rely upon the (often in the case of bugs ill-founded) assumption that the system would perform the same way — regardless of its hidden internal state — every time the test is run with those inputs. \citep{outoftarpit}
 
 In addition to causing problems for understanding a system from the outside, state also hinders the developer who must attempt to reason (most commonly on an informal basis) about the expected behaviour of the system “from the inside”. \\
-The mental processes which are used to do this informal reasoning often revolve around a case-by-case mental simulation of behaviour: “if this variable is in this state, then this will happen — which is correct — otherwise that will happen — which is also correct”. As the number of states — and hence the number of possible scenarios that must be considered — grows, the e↵ectiveness of this mental approach buckles almost as quickly as testing (it does achieve some advantage through abstraction over sets of similar values which can be seen to be treated identically). \\
-One of the issues (that a↵ects both testing and reasoning) is the exponential rate at which the number of possible states grows — for every single bit of state that we add we double the total number of possible states. Another issue — which is a particular problem for informal reasoning — is contamination. \citep{outoftarpit}
+The mental processes which are used to do this informal reasoning often revolve around a case-by-case mental simulation of behaviour: “if this variable is in this state, then this will happen — which is correct — otherwise that will happen — which is also correct”. As the number of states — and hence the number of possible scenarios that must be considered — grows, the effectiveness of this mental approach buckles almost as quickly as testing (it does achieve some advantage through abstraction over sets of similar values which can be seen to be treated identically). \\
+One of the issues (that affects both testing and reasoning) is the exponential rate at which the number of possible states grows — for every single bit of state that we add we double the total number of possible states. Another issue — which is a particular problem for informal reasoning — is contamination. \citep{outoftarpit}
 
 Moseley and Marks identify impacts of state on \textbf{testing} and on \textbf{informal reasoning}.
 
-We consider the type and amount of state the UI developer has to maintain. The default client created using the UI framework is merely a Hydra console. There is no application state to maintain on the client, the complexity is immensely reduced \textbf{for the UI developers}. \\
-The application state lives on the server however. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra console. Custom renderers may have hard coded some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
+We consider the type and amount of state a UI developer has to maintain. The default client created using the UI framework is merely a Hydra console. There is no application state to maintain on the client - the complexity is immensely reduced \textbf{for UI developers}. \\
+However, the application state lives on the server. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra console. Custom renderers may contain some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
 
 The improvement regarding complexity caused by state is \textbf{4/5}.
 
@@ -156,9 +160,9 @@ The improvement regarding complexity caused by state is \textbf{4/5}.
 Most traditional programming languages do force a concern with ordering — most often the ordering in which things will happen is controlled by the order in which the statements of the programming language are written in the textual form of the program. This order is then modified by explicit branching instructions (possibly with conditions attached), and subroutines are normally provided which will be invoked in an implicit stack. Of course a variety of evaluation orders is possible, but there is little variation in this regard amongst widespread languages. \\
 The difficulty is that when control is an implicit part of the language (as it almost always is), then every single piece of program must be understood in that context — even when (as is often the case) the programmer may wish to say nothing about this. When a programmer is forced (through use of a language with implicit control flow) to specify the control, he or she is being forced to specify an aspect of how the system should work rather than simply what is desired. Effectively they are being forced to over-specify the problem. \citep{outoftarpit}
 
-To summarize, complexity caused by control occurs when the developer is forced to specify \textbf{how} something works as opposed to \textbf{what} happens. A development approach that is more \textbf{declarative} brings less of this type of complexity. \\
-An example of decrease of complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
-The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. There is however no infrastructure code needed to fetch data from the server, the UI developer doesn't have to setup a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and the UI developer can focus on mapping custom renderers to linked data types.
+To summarize, complexity caused by control occurs when the developer is forced to specify \textbf{how} something works as opposed to \textbf{what} happens. A development approach that is more \textbf{declarative} bears less of this type of complexity. \\
+An example of decrease in complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
+The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. On the other hand, there is no infrastructure code needed to fetch data from the server. The UI developer doesn't have to set up a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and UI developers can focus on mapping custom renderers to linked data types.
 
 Complexity caused by control is reduced slightly with \textbf{a score of 2/3}.
 
