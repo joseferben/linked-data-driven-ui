@@ -182,11 +182,11 @@ Semantic empowers designers and developers by creating a shared vocabulary for U
 We pick Semantic UI and its React implementation.
 
 \subsection{Design goals}\label{sec:designgoals}
-Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how it can be measured.
+Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how we plan to evaluate it.
 The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
 
 \subsubsection{Play nicely with others}\label{sec:playnice}
-As discussed in section \ref{graphql} the fact that GraphQL doesn't play well with other is one of its major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
+As discussed in sections \ref{graphql} and \ref{sec:soap} the fact that GraphQL and SOAP don't play nicely with others is one of their major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
 It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
 
 We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
@@ -194,51 +194,51 @@ We acknowledge the widespread use of HTTP and JSON as data exchange format and a
 This design goal can be quantified by analyzing each component of the UI framework and determine whether the technologies, protocols, languages and tools for that component are either formally standardized or a defacto standard.
 
 \subsubsection{Straightforward upgrade path}
-In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction at a minimum.
+In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction of a migration at a minimum.
 
-This can be achieved by \textbf{extending} existing standards, keep breaking changes at a minimum and with good documentation. Playing nicely with others helps to reach this design goal as well.
+This can be achieved by \textbf{extending} existing standards, keeping breaking changes at a minimum and providing good documentation. Playing nicely with others helps to reach this design goal as well.
 
-This design goal can be quantified by measuring or estimating the effort that needs to be spent to upgrade a conventional API to the suggested hypermedia API.
+This goal can be quantified by measuring or estimating the effort to upgrade a conventional API to the suggested HATEOS API with hypermedia vocabulary.
 
 \subsubsection{Customizability}
-While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be drawn.
+While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be created.
 
-We want to achieve this goal be allowing the UI developer to override the sane defaults. The UI developer can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
+We want to achieve this goal be allowing UI developers to override the sane defaults. They can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
 
-This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework. By allowing the UI developer to consume the hypermedia API as conventional API this goal is met.
+This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework.
 
 \subsubsection{Developer ergonomics}
-The UI developer should be able to use the UI framework with spending minimal effort on learning.
+UI developers should be able to use the UI framework after spending minimal effort on learning.
 
-This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community working on that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics.
+This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community for that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics. \\
 A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
 
-An established and widely adopted platform is Node and the NPM (Node Package Manager) ecosystem. This is the platform that we choose to develop the UI framework in.
+An established and widely adopted web stack is Node, the NPM (Node Package Manager) ecosystem together with React. This is the platform that we choose to develop the UI framework in.
 
 \subsection{Proof of concept of UI Framework}\label{proofofconcept}
-We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases are split up into user stories that can be implemented separately. This ensures that the design goals are met and all user roles are considered.
+We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases can be implemented separately. By implementing the use cases we develop the UI framework and respect the design goals.
 
 The proof of concept of the UI Framework consists of following components:
 
 \paragraph{Hydra client}
-The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The value it provides to us is mainly developer ergonomics. The most complete Hydra client is called Alcaeus which we are using as a part of the UI Framework.
+The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The value it provides to us is mainly developer ergonomics. The most complete Hydra client is Alcaeus which we are using as a part of the UI Framework.
 
 \paragraph{Infrastructure}
-The infrastructure allows UI developers to plug in their own components as renderers, it fetches data from the server using the Hydra client and it applies the renderers by providing them the data returned by the Hydra client. This component is the glue - it knows all other components.
+The infrastructure allows UI developers to plug in their own components as renderers, it fetches data from the server using the Hydra client and it applies the renderers by providing them the data returned by the Hydra client. This component glues all other components together.
 
 \paragraph{JSON-LD Renderer}
-The JSON-LD renderer is one of the two renderers that ship be default with the UI Framework. It's only purpose is to render the JSON-LD response from the server. Rendering JSON-LD is equivalent to rendering tree like data.
+The JSON-LD renderer is one of the two renderers that ship with the framework. It renders the JSON-LD response as a tree and highlights keys, values and relationships.
 
 \paragraph{Hydra Renderer}
-The Hydra renderer is the second renderer that ships with the UI Framework. It builds on top of the JSON-LD renderer and it renders root resources, collections, links and operations. The Hydra Renderer creates a UI on top of a Hydra API which a user can use to interact. That UI is not optimized for efficiency because there is no domain knowledge involved.
+The Hydra renderer is the second renderer that ships with the framework. It builds on top of the JSON-LD renderer and renders root resources, collections, links and operations. The Hydra renderer creates a UI on top of any Hydra API. That UI is not optimized because it has no domain knowledge.
 
 \paragraph{Domain Renderers}
-This component describes the set of renderers are contributed by the UI developer. They contain domain knowledge and are only valid for certain data types. As discussed in section \ref{uidevelopmenttoday} contemporary clients and the web UIs they include are tightly coupled to HTTP APIs. The reason is the hard coded knowledge in the UIs about the domain models and rules. \\
-The Domain Renderers render linked data instead of any data. This means the linked data provides its own context, the UI developer doesn't hard code assumptions about the data model of the HTTP API - only about the linked data. \\
+The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{uidevelopmenttoday} contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
+Domain renderers only render linked data - they don't render data without context. UI developers don't hard code assumptions about the data model of the HTTP API. \\
 A React component and a linked data type constitute one domain specific renderer. The open-world philosophy of linked data encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to linked data vocabularies}.
 
 \paragraph{Semantic UI}
-Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and UUX.
+Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and UX. This is the implementation of a design language.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=400pt]
@@ -249,13 +249,12 @@ Semantic UI is a set of reusable React components that constitutes the bottled u
 \subsection{Use Case 1: Apartment}\label{sec:usecase1}
 For the user to be able to query data the UI has to render it.
 
-The first use case describes a scenario in home automation. Several thermometers in rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, and thermometers and temperatures in a sensible manner.
+The first use case describes a scenario in home automation. Several thermometers in rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, thermometers and temperatures in a sensible manner.
 
 \subsubsection{Requirements}
 
-TODO fix data model diagram, make it nicer
 \begin{figure}[!htb]
-  \center{\includegraphics[width=100pt]
+  \center{\includegraphics[width=400pt]
     {images/iot.png}}
   \caption{Data model of the apartment use case.}
 \end{figure}
@@ -275,13 +274,13 @@ TODO fix data model diagram, make it nicer
       S07 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
       \hline
     \end{tabular}
-    \caption{User stories of a client that consumes a home automation API}
+    \caption{User stories of a scenario in home automation.}
     \label{tab:usecase1}
   \end{center}
 \end{table}
 
 \subsubsection{Hydra collection rendering}
-Due to the data model the API exposes a collection of apartments, rooms and thermometers. Every Hydra API has an entry point and a set of root collections. These collections can be used as starting point to discover the API.
+The API exposes a collection of apartments, rooms and thermometers. Every Hydra API has an entry point and a set of root collections. These collections can be used as starting point to discover the API.
 
 Hydra has native support for collections by using the property \lstinline{http://www.w3.org/ns/hydra/core#member}.
 
@@ -313,7 +312,7 @@ Hydra has native support for collections by using the property \lstinline{http:/
   }
 \end{lstlisting}
 
-Each member of this collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the URL of the type. Given every member of the collection is of the same type, we can implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
+Each member of this collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the URL. Given every member of the collection is of the same type, we can implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
@@ -324,8 +323,8 @@ Each member of this collection is of type \lstinline{https://schema.org/Room}. T
 The \lstinline{@id}s are rendered as links so that the API can be traversed by looking up resources and collections of resources.
 
 \subsubsection{Plugin mechanism}\label{pluginmechanism}
-As shown in section \ref{proofofconcept} the architecture of the UI Framework support custom renderers as main mechanism to override default behavior. The UI developer starts out with the default set of renderers that can render arbitrary JSON-LD data and data coming from a Hydra API. \\
-The fact that the API returns linked data benefits this customization process. The UI developer only cares about how to render \textbf{certain data types}. In our use case he might be concerned with rendering the data type \lstinline{Temperature}.
+As shown in section \ref{proofofconcept} the UI framework supports custom renderers as main mechanism to override default renderers. UI developers start out with the default set of renderers that can render arbitrary JSON-LD data and Hydra resources. \\
+The fact that the API returns linked data benefits this customization process. UI developers only care about rendering \textbf{certain data types}. In our use case they might be concerned with rendering the type \lstinline{Temperature}.
 
 We demonstrate data rendering using the room called \textbf{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
 
@@ -335,9 +334,10 @@ We demonstrate data rendering using the room called \textbf{Entrance}. The trivi
   \caption{JSON-LD renderer applied on the data of /rooms/4.}
 \end{figure}
 
-This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer as a custom \lstinline{https://schema.org/additionalProperty} that as the name \textbf{Temperature} and a numeric value. \\ This is not straightforward to see as the JSON-LD is visually noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. This however requires domain knowledge since these differentiation holds only true in this context of room temperatures.
+This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that as the name \textbf{Temperature} and a numeric value. \\
+This is not straightforward to see as the JSON-LD is noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. The distinction between hot and the icon change is hard coded into the renderer.
 
-Considering the UI developer's workflow, the UI Framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI Framework comprises of a unique id, a name, a React component and a type. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
+We consider the workflow of UI developers. The UI framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI framework comprises of a unique id, a name, a React component and a type. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=Renderer configuration that the developer provides.]
@@ -352,11 +352,11 @@ Considering the UI developer's workflow, the UI Framework expects a React compon
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
     {images/temperature-renderer.png}}
-  \caption{The temperature renderer is applied on \lstinline{additionalProperty}. on top of the JSON-LD renderer.}
+  \caption{The temperature renderer is applied on \lstinline{additionalProperty} on top of the JSON-LD renderer.}
   \label{fig:temperature}
 \end{figure}
 
-It is noteworthy that renderer compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
+It is noteworthy that renderers compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
 
 By implementing similar renderers for rooms and thermometers we achieve a UI as show in figure \ref{fig:rooms}.
 
@@ -367,11 +367,12 @@ By implementing similar renderers for rooms and thermometers we achieve a UI as 
 \end{figure}
 
 \subsubsection{Domain rendering}
-Both the JSON-LD renderer and the Hydra renderer come with the UI Framework pre-configured. Internally both are registered using the plugin mechanism. Activating both renderers leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation, the only requirement it has is the conformity to Hydra.
+Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation but the API has to conform the the Hydra specification.
 
-In order to leverage domain information for visualizing data the UI developer has to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
+In order to leverage domain information for visualizing data UI developers have to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
 
-The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so rooms are easier to distinguish. This list view provides all information to the landlord that he cares about. \\ Places and containment relationships of places can be visualized in a more intuitive way.
+The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so rooms are easier to distinguish. This list view provides all information to the landlord that he cares about. \\
+Places and containment relationships of places can be visualized in a more intuitive way.
 
 \paragraph{Floor plan}
 The apartment has a property called \lstinline{https://schema.org/hasMap}.
@@ -404,9 +405,9 @@ All things of type \lstinline{https://schema.org/Apartment} and \lstinline{https
 
 This property contains the longitude and latitude coordinates of the center of the place.
 
-Both properties \lstinline{https://schema.org/hasMap} and \lstinline{https://schema.org/geo} are defined on the type \lstinline{https://schema.org/Place}. \lstinline{https://schema.org/Apartment} is a subtype of \lstinline{https://schema.org/Place} in the schema.org hierarchy, so our apartment renderer has to expect the existence of those properties.
+Both properties \lstinline{https://schema.org/hasMap} and \lstinline{https://schema.org/geo} are defined on the type \lstinline{https://schema.org/Place}. \lstinline{https://schema.org/Apartment} is a subtype of \lstinline{https://schema.org/Place} in the schema.org hierarchy, so our apartment renderer assumes the existence of those properties.
 
-By leveraging coordinates of the places and the floor plan of the apartment we use domain knowledge to implement a renderer that provides additional value to the landlord. By rendering the rooms on the floor plan the landlord can grasp the locations of thermometers in a more natural way.
+By leveraging coordinates of places and the floor plan of the apartment we use domain knowledge to implement a renderer that provides additional value to the landlord. By rendering the rooms on the floor plan the landlord can grasp the locations of thermometers in a more natural way.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
@@ -445,26 +446,25 @@ The second use case describes a typical scenario in project management. We use t
 \subsubsection{Requirements}
 
 \begin{enumerate}
-  \item Backlog: Status of an issue that need additional input before it can be worked on.
+  \item Backlog: Status of an issue that needs additional input before it can be worked on.
   \item Ready: Status of an issue that has well defined requirements - enough information is available to start implementation.
   \item In process: Status of an issue that is being worked on.
-  \item Done: Issues that have been implemented.
+  \item Done: Status of an issue that has been implemented.
 \end{enumerate}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=400pt]
     {images/state-diagram.png}}
-  \caption{Status workflow of an issue.}
+  \caption{Status transitions of an issue.}
   \label{fig:statetransition}
 \end{figure}
 
-Figure \ref{fig:statetransition} shows all possible statuses and status transitions of an issue. It is noteworthy that once an issue is ready it can not be put back to the backlog and similarly an finished issue can not be undone.
+Figure \ref{fig:statetransition} shows all possible statuses and status transitions of an issue. It is noteworthy that once an issue is ready it can not be put back to the backlog and similarly a finished issue can not be undone.
 
-TODO fix data model diagram, make it nicer and correct
 \begin{figure}[!htb]
   \center{\includegraphics[width=100pt]
     {images/kanban.png}}
-  \caption{Data model of the home automation use case.}
+  \caption{Simple data model of a scenario in project management.}
 \end{figure}
 
 \begin{table}
@@ -484,7 +484,7 @@ TODO fix data model diagram, make it nicer and correct
       S09 & As UI developer I want to have an interactive UI without spending time \\
       \hline
     \end{tabular}
-    \caption{User stories of a simple home automation dashboard.}
+    \caption{User stories of a scenario in project management.}
     \label{tab:usecase2}
   \end{center}
 \end{table}
@@ -496,20 +496,20 @@ Hydra supports user interaction through operations. The server tells the client 
 The actual data is augmented with a list of supported operations. The resource has a property \lstinline{supportedOperations} where the resource is the operation object \footnote{The subject invokes the operation on an object}.
 
 \paragraph{Attached to supported properties}
-Hydra supports documentation of properties. This documentation might include information about which values are valid. It is possible to attach operations to those property documentations.
+Hydra supports documentation of properties. The documentation can include information about which values are valid for a property. It is possible to attach operations to those properties.
 
 \paragraph{Attached to supported classes}
 Similar to the concept of supported properties it is possible to document classes. Classes are used to group things together that are used the same way in certain contexts. Classes can be assigned to things by using the \lstinline{@type} property.
 
-We choose the last approach to attach operations to issues based on their status.
+We attach supported operations to supported classes of issues that represent issue statuses.
 
 \subsubsection{State transition as Hydra operations}
 This section discusses the HTTP API implementation of the issue status change actions. The goal is to implement the state transition shown in figure \ref{fig:statetransition}.
 
 \paragraph{Hydra classes}\label{par:classes}
-Each status that has outgoing state transitions maps to a Hydra class. We have the classes \lstinline{BacklogIssue}, \lstinline{ReadyIssue}, \lstinline{InProcessIssue}. Note that there is no class for an issue that is done because according to the status transitions there is no way to change the status of an issue that is done.
+Each status that has outgoing state transitions maps to a Hydra class. We have the classes \lstinline{BacklogIssue}, \lstinline{ReadyIssue}, \lstinline{InProcessIssue}. Note that there is no class for an issue that is done because according to the status transitions there is no way to change the status of such an issue.
 
-Each \textbf{out going} status transitions are represented by Hydra classes as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate} because according to the state transitions it is not possible to undo issue planning.
+Each \textbf{out going} status transition is represented by Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate} because according to the state transitions it is not possible to undo planned issues.
 
 \paragraph{Supported operations}
 Each issue class supports a list of operations. Translation of the state transition diagram \ref{fig:statetransition} and mapping of the Hydra classes defined in \ref{par:classes} to the states and state transitions leads to the state transition matrix shown in \ref{tab:statetransitionmatrix}.
@@ -525,7 +525,7 @@ Each issue class supports a list of operations. Translation of the state transit
       InProcessIssue & IssueToReadyUpdate, IssueToDoneUpdate \\
       \hline
     \end{tabular}
-    \caption{State transition matrix of issue stati.}
+    \caption{Status transition matrix.}
     \label{statetransitionmatrix}
   \end{center}
 \end{table}
@@ -552,10 +552,9 @@ Each issue class supports a list of operations. Translation of the state transit
 \end{lstlisting}
 
 \subsubsection{Generically rendering operations}
+Similar to the first use case in \ref{sec:usecase1} the list of issues is rendered using the \textit{Hydra renderer}. The properties of an issue \lstinline{description} and \lstinline{title} are columns in a table. The last column is used for Hydra operations in case any of the issues (table rows) has at least one supported operation.
 
-Similar to the first use case in \ref{sec:usecase1} the list of issues is rendered using the \textit{Hydra renderer}. The issue properties like \lstinline{description} and \lstinline{title} are columns in a table. The last column is used for the Hydra operations in case any of the issues (table rows) has at least one supported operation.
-
-Operations have \lstinline{method} property so the client knows how to invoke that operation. We use this information to render buttons for issue removal and issue status change differently.
+Operations have a HTTP \lstinline{method} property so the client knows how to invoke that operation. We use this information to render buttons for issue removal and issue status change differently.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]
@@ -564,10 +563,10 @@ Operations have \lstinline{method} property so the client knows how to invoke th
   \label{fig:issueshydra}
 \end{figure}
 
-A click on a a \textbf{start} status change button shown in \ref{fig:issueshydra} causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
+A click on a \textbf{start} status change button shown in \ref{fig:issueshydra} causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
 
 \subsubsection{Domain rendering}
-Using the plugin mechanism we have implemented in \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban board. Figure \ref{fig:kanbanrenderer} shows issues grouped by their status on a Kanban board.
+Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban board. Figure \ref{fig:kanbanrenderer} shows issues grouped by their statuses on a Kanban board.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]
@@ -577,15 +576,15 @@ Using the plugin mechanism we have implemented in \ref{pluginmechanism} we imple
 \end{figure}
 
 \paragraph{Intuitive status change}
-The Kanban renderer consumes the supported operations per issue and let's the project manager invoke them by in an intuitive way. The look and feel of an issue implies that it can be dropped on the target status. The visual grouping by status helps the project manager to quickly see what the development team is working on.
+The Kanban renderer consumes supported operations per issue and let's the project manager invoke them in an intuitive way. The look and feel of an issue implies that it can be dropped on the target status. The visual grouping by status helps the project manager to quickly see what the development team is working on.
 
 \paragraph{Optimistic rendering}
-Optimistic rendering tries to hide the latency in the client server communication. Instead of awaiting the positive response of the server that confirms that the operation succeeded the client behaves as if the positive response was immediate. This approach only works for operations that are expected to succeed most of the time.
+Optimistic rendering tries to hide the latency of the request-response life cycle. Instead of awaiting the positive response of the server confirming the operation success the client behaves as if the positive response was immediate. This approach only works for operations that are expected to succeed most of the time.
 
-For idempotent HTTP methods like \lstinline{PUT} or \lstinline{DELETE} it is possible to generically implement optimistic rendering. When the project manager for instance removes an issue, the object of the operation is known. The client immediately removes the issue from the UI without waiting for confirmation. When implementing optimistic rendering one has to make sure to handle operation failures in a sensible way. \\
-We consider the erroneous case where the project manager removes an issue and it reappears after a few hundred milliseconds. In the worst case he doesn't pay attention after clicking the delete button and goes on thinking that the issue has been removed. This is the reason one has to carefully design optimistic rendering, especially the negative scenario. Often it is not possible or feasible to implement optimistic rendering in a generic way.
+For idempotent HTTP methods like \lstinline{PUT} or \lstinline{DELETE} it is possible to generically implement optimistic rendering \textbf{that works most of the time}. When the project manager for instance removes an issue, the object of the operation is known. The client immediately removes the issue from the UI without waiting for confirmation. When implementing optimistic rendering one has to make sure to handle operation failures in a sensible way. \\
+We consider the erroneous case where the project manager removes an issue and it reappears after a few hundred milliseconds. In the worst case he doesn't pay attention after clicking the delete button and goes on thinking that the issue has been removed. This is the reason one has to carefully design optimistic rendering - especially the negative scenario. Often it is not possible or feasible to implement optimistic rendering in a generic way.
 
-The Kanban renderer can leverage domain knowledge to implement optimistic rendering for that specific use case. The Kanban renderer simply appends the issue item to the list of issues in a column. It has the knowledge of vertically aligning issue items that the Hydra renderer lacks. Impossible in going state transitions are communicated by not allowing the issue to be dropped on the \textbf{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \textbf{Done}.
+The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible in going state transitions are communicated by not allowing issues to be dropped on the \textbf{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \textbf{Done}.
 
 \subsubsection{Verification of user stories}
 In this section we verify that the user stories listed in table \ref{tab:usecase2} are fulfilled by either accepting or rejecting them.
@@ -612,7 +611,7 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
 \end{table}
 
 \subsection{Result}
-By implementing a simple dashboard for home automation and a simple Kanban board for project management we have developed the proof of concept of the UI framework. It provides generic rendering capabilities out of the box using the JSON-LD and Hydra renderers. Those can be overridden by custom React components provided by the UI developer. Custom renderers define which \listinline{@type}s they can render, the infrastructure in the client triggers the rendering.
+By implementing a simple dashboard for home automation and a simple Kanban board for project management we have developed the proof of concept of the UI framework. It provides generic rendering capabilities out of the box using the JSON-LD and Hydra renderers. Those can be overridden by custom React components provided by the UI developer. Custom renderers define which \listinline{@type}s they can render - the infrastructure takes care of rendering.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -630,7 +629,7 @@ Neither the client nor the custom renderers contain business rules whatsoever. T
   \label{fig:losecoupling}
 \end{figure}
 
-This lose coupling between client and API implementation allows the client to be used for various APIs as shown in figure \ref{fig:losecoupling}.
+This lose coupling between client and API implementation allows the same client to be used for various API implementations as shown in figure \ref{fig:losecoupling}.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -639,6 +638,6 @@ This lose coupling between client and API implementation allows the client to be
   \label{fig:linkeddata}
 \end{figure}
 
-By using \textbf{linked data} the use of custom renderers doesn't hurt the re-usability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded in the client unlike how it is done in contemporary UI development - especially with SPAs. \\
+By using \textbf{linked data} custom renderers don't affect re-usability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded into the client like it is often done in contemporary UI development. \\
 To elaborate we look at figure \ref{fig:linkeddata} and assume that a custom renderer for the type \lstinline{https://schema.org/Apartment} is implemented. If the responses of API A, API B and API C contain data with \lstinline{@type} \lstinline{https://schema.org/Apartment} the client can consume that data. \\
-Often it is required to display data differently depending on the context. The apartment might be rendered differently in a back office application used by administrators and the end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data modeling level by using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.
+Sometimes it is required to display data differently depending on the UI context. The apartment might be rendered differently in a back office application used by administrators and the end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data modeling level by using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.
