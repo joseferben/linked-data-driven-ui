@@ -102,7 +102,7 @@ The reality of software is not inherently embedded in space. Hence, it has no re
 
 The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario the developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility} by providing these visualizations out of the box.
 
-We asses the improvement of complexity caused by Invisibility with a \textbf{score of 3/5}.
+We asses the improvement of complexity caused by Invisibility with a \textbf{score of 1}.
 
 \paragraph{Complexity caused by Conformity}
 Software people are not alone in facing complexity. Physics deals with terribly complex objects even at the "fundamental" particle level. The physicist labors on, however, in a firm faith that there are unifying principles to be found, whether in quarks or in unifiedfield theories. Einstein argued that there must be simplified explanations of nature, because God is not capricious or arbitrary.
@@ -113,7 +113,7 @@ In many cases, the software must conform because it is the most recent arrival o
 
 The UI framework doesn't affect the complexity that emerges from this property.
 
-The \textbf{score is 0/5}.
+The \textbf{score is 0}.
 
 \paragraph{Complexity caused by Changeability}
 The software entity is constantly subject to pressures for change. Of course, so are buildings, cars, computers. But manufactured things are infrequently changed after manufacture; they are superseded by later models, or essential changes are incorporated into later-serial-number copies of the same basic design. Call-backs of automobiles are really quite infrequent; field changes of computers somewhat less so. Both are much less frequent than modifications to fielded software.
@@ -122,7 +122,7 @@ In part, this is so because the software of a system embodies its function, and 
 
 The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume linked data. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design it is possible to change the HTTP API while a user is interacting with the UI - without degrading the user experience.
 
-The cost of change in the client and the UI is \textbf{drastically} reduced. \textbf{The score of the improvement is 5/5}.
+The cost of change in the client and the UI is \textbf{drastically} reduced. \textbf{The score of the improvement is 3/3}.
 
 \paragraph{Complexity caused by Complexity}
 The complexity of software is an essential property, not an accidental one. Hence, descriptions of a software entity that abstract away its complexity often abstract away its essence. For three centuries, mathematics and the physical sciences made great strides by constructing simplified models of complex phenomena, deriving properties from the models, and verifying those properties by experiment. This paradigm worked because the complexities ignored in the models were not the essential properties of the phenomena. It does not work when the complexities are the essence. \citep{nosilverbullet}
@@ -160,7 +160,7 @@ To summarize, complexity caused by control occurs when the developer is forced t
 An example of decrease of complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
 The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. There is however no infrastructure code needed to fetch data from the server, the UI developer doesn't have to setup a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and the UI developer can focus on mapping custom renderers to linked data types.
 
-Complexity caused by control is reduced slightly with \textbf{a score of 3/5}.
+Complexity caused by control is reduced slightly with \textbf{a score of 2/3}.
 
 \paragraph{Summary}
 We observe that the main contribution towards reducing complexity in software development lies in reduction of \textbf{Complexity caused by Changeability} and \textbf{Complexity caused by State}. \textbf{Complexity caused by Invisibility} and \textbf{Complexity caused by Control} are slightly reduced by using the UI framework compared to the traditional approach.

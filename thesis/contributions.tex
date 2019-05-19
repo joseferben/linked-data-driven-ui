@@ -1,26 +1,27 @@
 \section{Main contributions}\label{contributions}
-The main contribution of this thesis is the theoretical foundation of a new approach to UI development that reduces development costs. A proof of concept of a UI framework that can be used by any UI developer demonstrates the major theoretical contributions.
+The main contribution of this thesis is the theoretical foundation of a new approach to UI development that reduces development costs.
 
-\paragraph{Scope}
+\paragraph{Scope}\label{sec:scope}
 The scope of this thesis includes following artifacts:
+
 \begin{itemize}
-\item a hypermedia vocabulary and specification
-\item implementations of two HTTP APIs using that hypermedia vocabulary
-\item an evaluation of design languages
-\item a proof of concept of a UI framework
+\item a hypermedia vocabulary and HATEOAS specification
+\item implementations of two HTTP APIs using that HATEOAS specification
+\item a brief evaluation of design languages
+\item a proof of concept of a the UI framework
 \end{itemize}
-The evaluation and creation of the hypermedia vocabulary is driven by the implementation of the HTTP APIs. The development of the HTTP APIs is driven by use cases that come from real world problems. The UI framework is then used to create client that can consume those two HTTP APIs which conform to a certain specification and make use of that hypermedia vocabulary.
+The choice of the HATEOS specification is driven by the implementation of the HTTP APIs. The development of the HTTP APIs is driven by use cases that resemble real world scenarios. The UI framework is used to create a client that can consume both HTTP APIs which conform to that HATEOAS specification.
 
 \subsection{Methods}
-This sections describe the methodological approach to achieve the items listed in the paragraph above.
+This sections describe the methodological approach to achieve the items listed in the paragraph \ref{sec:scope}.
 
 \subsubsection{General approach}
 This thesis is structured in three parts.
 
 \begin{enumerate}
-\item The first part is concerned with research of hypermedia vocabularies and specifications and the evaluation of design languages. This includes research of the use of hypermedia, linked data and web components. The goal is to gather research results in order to base further work on top.
-\item The second part defines two real-world use cases of web applications. By looking at the deficits of contemporary solutions for UI development we define design goals for the UI framework. We summarize the insights gained by implementing on HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development and thus contains two iterations. The goal is the implementation of a proof of concept UI framework and the two real-world use cases.
-\item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore we assess whether the design goals have been met and we give an outlook on future work in this context.
+\item The first part is concerned with research of HATEOAS vocabularies and specifications and the evaluation of design languages. This includes research of the use of hypermedia, linked data and web components. The goal is to gather research results that may serve as foundation of this thesis.
+\item The second part defines two real-world use cases for web applications. By looking at the deficits of contemporary solutions for UI development we define design goals for the UI framework. We summarize the insights gained by implementing an HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development - we develop the UI framework in two iterations.
+\item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore we assess whether the design goals were met and we give an outlook on future work.
 \end{enumerate}
 
 \subsubsection{Use of scores}
@@ -65,13 +66,13 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
 This section lists and describes the steps that we take in this thesis.
 
 \paragraph{Conceptual analysis of user interfaces}
-Before defining the use cases we analyze UIs on a conceptual level. By looking at typical usage patterns of UIs by end users we aim to describe the nature of UIs. The goal are insights which can be further used to define the requirements of the UI framework.
+Before defining the use cases we analyze UIs on a conceptual level. By looking at typical usage patterns of users we describe the concepts of UIs. We aim to identify components that can be researched and implemented independently in smaller iterations.
 
-\paragraph{Hypermedia vocabulary and specification}
-This section explores hypermedia vocabularies and specifications. By listing requirements that such a specification has to cover we either create our own hypermedia specification, use an existing one or mix bits and pieces of existing ones.
+\paragraph{Hypermedia vocabulary and HATEOAS specification}
+This section explores hypermedia vocabularies and HATEOAS specifications. By listing requirements that such a specification has to fulfill we either create our own HATEOAS specification, use an existing one or mix bits and pieces of existing ones.
 
 \paragraph{Evaluation of design languages and their implementations}
-We evaluate popular design languages and their implementations. The UI generation is based on top of an existing design language so that best practices in design and presentation of UIs are respected.
+We evaluate popular design languages and their implementations. The UI generation is based on top of an existing design language so that best practices in design and presentation of UIs are respected. Design languages are not in the scope of this thesis - the UI framework uses existing implementations.
 
 \paragraph{Definition of major design goals}
 Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those. This includes analysis of:
@@ -82,26 +83,22 @@ Major design goals of the UI framework are directly influenced by non-functional
   \item contemporary frameworks and tools for UI development that failed
 \end{enumerate}
 
-By following what tools in \textbf{2} did right and avoiding the mistakes of tools in \textbf{3}, we define a set of design goals that the proof of concept should adhere to.
+By following what tools in \textbf{2} did right and avoiding the mistakes of tools in \textbf{3}, we define a set of design goals that the proof of concept should adhere to. We refer to the solutions and tools researched in section \ref{sec:contemporarysolutions}.
 
 \paragraph{Specification of the proof of concept}
-The section defines the artifact that can be used to create UIs. The proof of concept should demonstrate the viability of the thesis.
+The section defines the architecture and design of the proof of concept. The proof of concept should demonstrate the viability of the thesis.
 
 \paragraph{Definition of real world use cases}
-By defining real world applications for the UI framework, we discover user roles and user stories.
+By defining real world applications for the UI framework we discover user roles and user stories.
 
 \paragraph{Implementation of proof of concept driven by use cases}
 The UI framework is developed incrementally use case by use case. The major design goals are respected. We expect to gain theoretical insights while implementing both the UI framework and the HTTP APIs.
 
 \paragraph{Evaluation of design goals}
-We analyze the design goals and whether they have been met. The design goals are not equally important, so they get a weight assigned. We assess each design goal qualitatively and assign a score between 0 and 3.
-
-The mean of all scores is calculated to asses whether the design goals have been met.
+We analyze the design goals and whether they have been met. We assess each design goal qualitatively and assign a score between 0 and 3.
 
 \paragraph{Conclusion of approach to reduce development costs}
-We break up software complexity into more specific types of complexities. Software complexity comprises Essential Complexity and Accidental Complexity according to Brooks. Essential Complexity has several causes on its own.
-
-After identifying types of complexity, we asses how the UI framework affects them by assigning a score between -3 and 3.
+We break up software complexity into specific types Accidental Complexity and Essential Complexity. Both types are broken down further and the effect of using the UI framework is analyzed. We asses the change in complexity with a score between -3 and 3.
 
 \subsection{Conceptual analysis of user interfaces}
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by two types of users. The users are either other systems or human users.
