@@ -148,25 +148,28 @@ In the world of Hydra there are conceptually only \textit{things} and \textit{li
 Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view}. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
 
 \paragraph{Operations}
-In order to interact with the server a client has to know which operations the server supports. Hydra supports this concept by exposing all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with a Hydra API without any prior knowledge about the concrete API implementation. This part is not fully specified yet at the time of writing. The author had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.
+In order to interact with the server a client has to know which operations the server supports. Hydra exposes all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with such API without any prior knowledge about the concrete API implementation. \\
+This part is not fully specified yet at the time of writing. The author had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.
 
 \subsection{Design languages}
 A design language or design vocabulary is an overarching scheme or style that guides the design of a complement of products or architectural settings. Designers wishing to give their suite of products a unique but consistent look and feel define a design language for it, which can describe choices for design aspects such as materials, colour schemes, shapes, patterns, textures, or layouts. They then follow the scheme in the design of each object in the suite. \citep{designlanguage}
 
-For this thesis the benefit of the use of a design language is the consistent look and feel of UIs that \textbf{are composed of a set of small components}. Additionally it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about \textbf{small buttons horizontally next to each other} instead of considering the actual implementation of those horizontally aligned buttons.
+The benefit of the use of a design language is the consistent look and feel of UIs that \textbf{are composed of a set of small components}. Additionally it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about \textbf{small buttons horizontally next to each other} instead of considering the actual implementation of those horizontally aligned buttons in CSS.
 
-The major design languages are built on top of years of research in Human-computer interaction. Evaluation of the theoretical foundation is not in the scope of this thesis, it can however benefit off the implementations and tools.
+The major design languages are built on top of years of research in Human-computer interaction. Evaluation of the theoretical foundation is not in the scope of this thesis. We aim to benefit off the implementations and tools.
 
 \subsubsection{Design language implementations}
-The UI framework will consume React components and it will internally use React as well. The only requirement to the design language implementation is the use of React.
+The UI framework will consume React components and it will internally use React as well. The only requirement for the design language implementation is the use of React.
 
 \paragraph{Material Design}
-Material Design was developed at Google in 2014. Initially it was used in Google's own mobile apps and in the mobile OS Android. In order to offer a consistent user experience across all products Google makes use of it in web products as well.
+Material Design was developed at Google in 2014. Initially it was used in Google's own mobile apps and in the mobile OS Android. In order to offer a consistent user experience across all products Google uses it in web products as well.
 
-The React implementation of Material Design is called Material UI. It bottles up the UX best practices and provides them in form of React components. \\ After implementing a simple form with three text fields and a button we conclude that Material UI is too heavyweight. It is not always obvious how to configure components, especially big ones. The main contribution of Material Design and Material UI are best practices in UX. This reaches beyond simple forms and visualization of lists. Material Design dictates the look and feel of menus and navigations. \\ The UI Framework requires a lower level design language implementation that doesn't make assumptions or rules about how larger components look or behave.
+The React implementation of Material Design is called Material UI. It bottles up the UX best practices and provides them in form of React components. \\
+By implementing a simple form with three text fields and a button we conclude that Material UI is too heavyweight. It is not always obvious how to configure components - especially big ones. The main contribution of Material Design and Material UI are best practices in mobile UX. This reaches beyond simple forms and visualization of lists. Material Design dictates the look and feel of menus and navigations as well. \\
+The UI Framework requires a lower level design language implementation that doesn't make assumptions or and doesn't state rules about larger components and UX.
 
 \paragraph{Semantic UI}
-Semantic empowers designers and developers by creating a shared vocabulary for UI. \citep{semanticui} This thesis explores the benefits of shared vocabularies in HTTP APIs. Semantic UI is not as widely adopted as Material Design, but there exists a React implementation and the level of abstraction fights the use case of generically rendering forms and navigations.
+Semantic empowers designers and developers by creating a shared vocabulary for UI. \citep{semanticui} This thesis explores the benefits of shared vocabularies in HTTP APIs. Semantic UI is not as widely adopted as Material Design. Its React implementation has a level of abstraction that fits generically rendering forms and navigations.
 
 \begin{figure}[!htb]
   \includegraphics[width=150pt]
