@@ -1,14 +1,14 @@
 \section{Main contributions}\label{contributions}
-The main contribution of this thesis is the theoretical foundation of a new approach to UI development that reduces development costs.
+The main contribution of this thesis is the theoretical foundation and development of a new approach to UI development that reduces development costs.
 
 \paragraph{Scope}\label{sec:scope}
-The scope of this thesis includes following artifacts:
+The scope of these contributions includes following artifacts:
 
 \begin{itemize}
 \item a hypermedia vocabulary and HATEOAS specification
 \item implementations of two HTTP APIs using that HATEOAS specification
 \item a brief evaluation of design languages
-\item a proof of concept of a the UI framework
+\item a proof of concept of for the UI framework
 \end{itemize}
 The choice of the HATEOS specification is driven by the implementation of the HTTP APIs. The development of the HTTP APIs is driven by use cases that resemble real world scenarios. The UI framework is used to create a client that can consume both HTTP APIs which conform to that HATEOAS specification.
 
@@ -16,16 +16,16 @@ The choice of the HATEOS specification is driven by the implementation of the HT
 This sections describe the methodological approach to achieve the items listed in the paragraph \ref{sec:scope}.
 
 \subsubsection{General approach}
-This thesis is structured in three parts.
+This section is structured in three parts.
 
 \begin{enumerate}
-\item The first part is concerned with research of HATEOAS vocabularies and specifications and the evaluation of design languages. This includes research of the use of hypermedia, linked data and web components. The goal is to gather research results that may serve as foundation of this thesis.
-\item The second part defines two real-world use cases for web applications. By looking at the deficits of contemporary solutions for UI development we define design goals for the UI framework. We summarize the insights gained by implementing an HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development - we develop the UI framework in two iterations.
-\item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore we assess whether the design goals were met and we give an outlook on future work.
+\item The first part is concerned with researching of HATEOAS vocabularies and specifications and the evaluation of design languages. This includes researching of the use of hypermedia, linked data and web components. The goal is to gather research results that may serve as a foundation for this thesis.
+\item The second part defines two real-world use cases for web applications. By looking at the deficits of contemporary solutions for UI development, we define design goals for the UI framework. We summarize the insights gained by implementing an HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development - we develop the UI framework in two iterations.
+\item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore, we assess whether the design goals were met and we give an outlook on future work.
 \end{enumerate}
 
 \subsubsection{Use of scores}
-In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
+In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
 
 \begin{table}[]
   \begin{center}
@@ -63,13 +63,13 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
 \end{table}
 
 \subsubsection{Steps}
-This section lists and describes the steps that we take in this thesis.
+This section lists and describes the methods of this analysis.
 
 \paragraph{Conceptual analysis of user interfaces}
-Before defining the use cases we analyze UIs on a conceptual level. By looking at typical usage patterns of users we describe the concepts of UIs. We aim to identify components that can be researched and implemented independently in smaller iterations.
+Before defining the use cases, we analyze UIs on a conceptual level. By looking at typical usage patterns of users we describe the concepts of UIs. We aim to identify components that can be researched and implemented independently in smaller iterations.
 
 \paragraph{Hypermedia vocabulary and HATEOAS specification}
-This section explores hypermedia vocabularies and HATEOAS specifications. By listing requirements that such a specification has to fulfill we either create our own HATEOAS specification, use an existing one or mix bits and pieces of existing ones.
+This section explores hypermedia vocabularies and HATEOAS specifications. By listing requirements such a specification has to fulfill, we either create our own HATEOAS specification, use an existing one or mix bits and pieces of existing ones.
 
 \paragraph{Evaluation of design languages and their implementations}
 We evaluate popular design languages and their implementations. The UI generation is based on top of an existing design language so that best practices in design and presentation of UIs are respected. Design languages are not in the scope of this thesis - the UI framework uses existing implementations.
@@ -98,13 +98,13 @@ The UI framework is developed incrementally use case by use case. The major desi
 We analyze the design goals and whether they have been met. We assess each design goal qualitatively and assign a score between 0 and 3.
 
 \paragraph{Conclusion of approach to reduce development costs}
-We break up software complexity into specific types Accidental Complexity and Essential Complexity. Both types are broken down further and the effect of using the UI framework is analyzed. We asses the change in complexity with a score between -3 and 3.
+We break up software complexity into specific types Accidental Complexity and Essential Complexity. Both types are broken down further and the effect of using the UI framework is analyzed. We assess the change in complexity with a score between -3 and 3.
 
 \subsection{Conceptual analysis of user interfaces}
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by two types of users. The users are either other systems or human users.
 Interfaces for human users (user interfaces) have typical characteristics. By observing their usage we can analyze the main characteristics. A typical scenario of UI usage is browsing a website. What does the user do while browsing a website? It is typically one of two things: he either reads or clicks.
 
-The usage of a UI by a user consists of either \textbf{reading} or \textbf{interacting}. In terms of systems we can call them \textbf{querying} or \textbf{interacting} respectively.
+The usage of a UI by a user consists of either \textbf{reading} or \textbf{interacting}. In terms of systems, we can call them \textbf{querying} or \textbf{interacting} respectively.
 
 \begin{enumerate}
   \item Query: The user is able to retrieve information from the UI by looking at it
@@ -114,8 +114,8 @@ The usage of a UI by a user consists of either \textbf{reading} or \textbf{inter
 The development of the UI framework is driven by the implementation of these two capabilities. We define a use case for each of them.
 
 \subsection{HATEOAS API specifications}
-The goal is to pinpoint a specification among existing HATEOAS API specifications. The real world uses cases will implement HTTP APIs that conform to this specification. The client that consumes such a API is merely a console. This implies the client doesn't contain any knowledge about the API implementation. It is sufficient to implement the specification. \\
-Following requirements have to be addressed by the chosen specification:
+The goal is to pinpoint a specification among existing HATEOAS API specifications. The real world uses cases will implement HTTP APIs that conform to this specification. The client that consumes such an API is merely a console. This implies the client doesn't contain any knowledge about the API implementation. It is sufficient to implement the specification. \\
+The following requirements have to be addressed by the chosen specification:
 
 \paragraph{Self documenting}
 The API should provide its own documentation so the consumer doesn't have to use a third party tool. This requires a mechanism to attach meta data to the response payload.
@@ -127,46 +127,44 @@ The consumer should be able to autonomously discover the data model of an API.
 The API should provide a description on how to interact with it. Ideally the API publishes the data that is needed by the client to build action objects or operations that can be invoked.
 
 \paragraph{Uses linked data}
-Based on the discussion in section \ref{linkeddata} about the benefits of linked data, this thesis explores linked data as key component to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows UI developers to think in terms of components and data.
+Based on the discussion in section \ref{linkeddata} about the benefits of linked data, we explore linked data as key component to efficient UI development. In combination with the web component based rendering discussed in section \ref{webcomponents} it allows UI developers to think in terms of components and data.
 
 \subsubsection{Hydra}
-It is remarkable that at the time of writing only one HATEOAS specification exists that satisfies the requirements stated above.
+It is remarkable that at the time of writing this thesis, only one HATEOAS specification exists that satisfies the requirements stated above.
 
-\href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs it enables the creation of generic API clients \citep{hydraspecs}. At the time of writing the Hydra specification exists only as an unofficial draft.
+\href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs, it enables the creation of generic API clients \citep{hydraspecs}. At the time of writing this thesis, the Hydra specification exists only as an unofficial draft.
 
 The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
 \paragraph{Discoverability} Discoverability is given by the RESTful nature of any hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by understanding the response and sending requests to the server - there is no external documentation needed. All resources that the client is concerned with it can reach.
 
 \paragraph{Self documentation}
 Hydra documents itself by providing meta data along the payload. \\
-It can use the same data model for generating built-in documentation and serving the API. These documentations less likely to become out-of-date and the maintenance cost is low..
-
-Every Hydra resource has a documentation attached to it. By default the response contains the \textbf{Link} header of the URL to the documentation.
+It can use the same data model for generating built-in documentation and serving the API. These documentations are less likely to become out-of-date and the maintenance cost is low.
 
 \paragraph{Collections, partial views and pagination}
-In the world of Hydra there are conceptually only \textit{things} and \textit{lists of things}. There is no list of list of things. \\
-Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view}. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
+In the world of Hydra, there are conceptually only \textit{things} and \textit{lists of things}. There is no list of list of things. \\
+Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view}. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{\gls{pagination}}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
 
 \paragraph{Operations}
 In order to interact with the server a client has to know which operations the server supports. Hydra exposes all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with such API without any prior knowledge about the concrete API implementation. \\
-This part is not fully specified yet at the time of writing. The author had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.
+This part is not fully specified yet at the time of writing this thesis. We had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.
 
 \subsection{Design languages}
 A design language or design vocabulary is an overarching scheme or style that guides the design of a complement of products or architectural settings. Designers wishing to give their suite of products a unique but consistent look and feel define a design language for it, which can describe choices for design aspects such as materials, colour schemes, shapes, patterns, textures, or layouts. They then follow the scheme in the design of each object in the suite. \citep{designlanguage}
 
-The benefit of the use of a design language is the consistent look and feel of UIs that \textbf{are composed of a set of small components}. Additionally it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about \textbf{small buttons horizontally next to each other} instead of considering the actual implementation of those horizontally aligned buttons in CSS.
+The benefit of using a design language is the consistent look and feel of UIs that \textbf{are composed of a set of small components}. Additionally, it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about \textbf{small buttons horizontally next to each other} instead of considering the actual implementation using CSS of those horizontally aligned buttons.
 
-The major design languages are built on top of years of research in Human-computer interaction. Evaluation of the theoretical foundation is not in the scope of this thesis. We aim to benefit off the implementations and tools.
+The major design languages are built on top of years of research in human-computer interaction. Evaluation of the theoretical foundation is not in the scope of this thesis. We aim to benefit off the implementations and tools.
 
 \subsubsection{Design language implementations}
 The UI framework will consume React components and it will internally use React as well. The only requirement for the design language implementation is the use of React.
 
 \paragraph{Material Design}
-Material Design was developed at Google in 2014. Initially it was used in Google's own mobile apps and in the mobile OS Android. In order to offer a consistent user experience across all products Google uses it in web products as well.
+Material Design was developed at Google in 2014. Initially it was used in Google's own mobile apps and in the mobile OS Android. In order to offer a consistent user experience across all products, Google uses it in web products as well.
 
 The React implementation of Material Design is called Material UI. It bottles up the UX best practices and provides them in form of React components. \\
-By implementing a simple form with three text fields and a button we conclude that Material UI is too heavyweight. It is not always obvious how to configure components - especially big ones. The main contribution of Material Design and Material UI are best practices in mobile UX. This reaches beyond simple forms and visualization of lists. Material Design dictates the look and feel of menus and navigations as well. \\
-The UI Framework requires a lower level design language implementation that doesn't make assumptions or and doesn't state rules about larger components and UX.
+By implementing a simple form with three text fields and a button, we conclude that Material UI is too heavyweight. It is not always obvious how to configure components - especially big ones. The main contribution of Material Design and Material UI are best practices in mobile UX. This reaches beyond simple forms and visualization of lists. Material Design dictates the look and feel of menus and navigations as well. \\
+The UI framework requires a lower level design language implementation that doesn't make assumptions and doesn't state rules about larger components and UX.
 
 \paragraph{Semantic UI}
 Semantic empowers designers and developers by creating a shared vocabulary for UI. \citep{semanticui} This thesis explores the benefits of shared vocabularies in HTTP APIs. Semantic UI is not as widely adopted as Material Design. Its React implementation has a level of abstraction that fits generically rendering forms and navigations.
@@ -182,7 +180,7 @@ Semantic empowers designers and developers by creating a shared vocabulary for U
 We pick Semantic UI and its React implementation.
 
 \subsection{Design goals}\label{sec:designgoals}
-Following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how we plan to evaluate it.
+The following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how we plan to evaluate it.
 The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
 
 \subsubsection{Play nicely with others}\label{sec:playnice}
@@ -196,32 +194,32 @@ This design goal can be quantified by analyzing each component of the UI framewo
 \subsubsection{Straightforward upgrade path}
 In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction of a migration at a minimum.
 
-This can be achieved by \textbf{extending} existing standards, keeping breaking changes at a minimum and providing good documentation. Playing nicely with others helps to reach this design goal as well.
+This can be achieved by \textbf{extending} existing standards, keeping breaking changes at a minimum and providing good documentation. Playing nicely with others helps reaching this design goal as well.
 
 This goal can be quantified by measuring or estimating the effort to upgrade a conventional API to the suggested HATEOS API with hypermedia vocabulary.
 
 \subsubsection{Customizability}
 While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be created.
 
-We want to achieve this goal be allowing UI developers to override the sane defaults. They can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
+We want to achieve this goal by allowing UI developers to override the sane defaults. They can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
 
 This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework.
 
 \subsubsection{Developer ergonomics}
 UI developers should be able to use the UI framework after spending minimal effort on learning.
 
-This goal can be achieved by choosing a widely used platform that has a striving open source community. It is important that there is an open source community for that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics. \\
+This goal can be achieved by choosing a widely used platform that has a thriving open source community. It is important that there is an open source community for that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics. \\
 A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
 
 An established and widely adopted web stack is Node, the NPM (Node Package Manager) ecosystem together with React. This is the platform that we choose to develop the UI framework in.
 
-\subsection{Proof of concept of UI Framework}\label{proofofconcept}
-We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases can be implemented separately. By implementing the use cases we develop the UI framework and respect the design goals.
+\subsection{Proof of concept for UI framework}\label{proofofconcept}
+We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases can be implemented separately. By implementing the use cases, we develop the UI framework and respect the design goals.
 
-The proof of concept of the UI Framework consists of following components:
+The proof of concept for the UI framework consists of following components:
 
 \paragraph{Hydra client}
-The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The value it provides to us is mainly developer ergonomics. The most complete Hydra client is Alcaeus which we are using as a part of the UI Framework.
+The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The value it provides to us is mainly developer ergonomics. The most complete Hydra client is Alcaeus which we are using as a part of the UI framework.
 
 \paragraph{Infrastructure}
 The infrastructure allows UI developers to plug in their own components as renderers, it fetches data from the server using the Hydra client and it applies the renderers by providing them the data returned by the Hydra client. This component glues all other components together.
@@ -233,7 +231,7 @@ The JSON-LD renderer is one of the two renderers that ship with the framework. I
 The Hydra renderer is the second renderer that ships with the framework. It builds on top of the JSON-LD renderer and renders root resources, collections, links and operations. The Hydra renderer creates a UI on top of any Hydra API. That UI is not optimized because it has no domain knowledge.
 
 \paragraph{Domain Renderers}
-The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{uidevelopmenttoday} contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
+The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{uidevelopmenttoday}, contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
 Domain renderers only render linked data - they don't render data without context. UI developers don't hard code assumptions about the data model of the HTTP API. \\
 A React component and a linked data type constitute one domain specific renderer. The open-world philosophy of linked data encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to linked data vocabularies}.
 
@@ -243,11 +241,11 @@ Semantic UI is a set of reusable React components that constitutes the bottled u
 \begin{figure}[!htb]
   \center{\includegraphics[width=400pt]
     {images/ui-framework-architecture.png}}
-  \caption{The architecture of the proof of concept of the UI Framework.}
+  \caption{The architecture of the proof of concept for the UI framework.}
 \end{figure}
 
 \subsection{Use Case 1: Apartment}\label{sec:usecase1}
-For the user to be able to query data the UI has to render it.
+For the user to be able to query data, the UI has to render it.
 
 The first use case describes a scenario in home automation. Several thermometers in rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, thermometers and temperatures in a sensible manner.
 
@@ -334,8 +332,8 @@ We demonstrate data rendering using the room called \textbf{Entrance}. The trivi
   \caption{JSON-LD renderer applied on the data of /rooms/4.}
 \end{figure}
 
-This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that as the name \textbf{Temperature} and a numeric value. \\
-This is not straightforward to see as the JSON-LD is noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. The distinction between hot and the icon change is hard coded into the renderer.
+This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that has the name \textbf{Temperature} and a numeric value. \\
+This is not straightforward to see as the JSON-LD is noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. The icon change is hard coded into the renderer.
 
 We consider the workflow of UI developers. The UI framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI framework comprises of a unique id, a name, a React component and a type. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
 
@@ -368,11 +366,11 @@ By implementing similar renderers for rooms and thermometers we achieve a UI as 
 \end{figure}
 
 \subsubsection{Domain rendering}
-Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation but the API has to conform the the Hydra specification.
+Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation but the API has to conform to the the Hydra specification.
 
-In order to leverage domain information for visualizing data UI developers have to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
+In order to leverage domain information for visualizing data, UI developers have to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
 
-The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so rooms are easier to distinguish. This list view provides all information to the landlord that he cares about. \\
+The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so they are easier to distinguish. This list view provides all information to the landlord that he cares about. \\
 Places and containment relationships of places can be visualized in a more intuitive way.
 
 \paragraph{Floor plan}
@@ -460,7 +458,7 @@ The second use case describes a typical scenario in project management. We use t
   \label{fig:statetransition}
 \end{figure}
 
-Figure \ref{fig:statetransition} shows all possible statuses and status transitions of an issue. It is noteworthy that once an issue is ready it can not be put back to the backlog and similarly a finished issue can not be undone.
+Figure \ref{fig:statetransition} shows all possible statuses and status transitions of an issue. It is noteworthy that once an issue is ready, it can not be put back to the backlog and similarly a finished issue can not be undone.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=100pt]
@@ -500,7 +498,7 @@ The actual data is augmented with a list of supported operations. The resource h
 Hydra supports documentation of properties. The documentation can include information about which values are valid for a property. It is possible to attach operations to those properties.
 
 \paragraph{Attached to supported classes}
-Similar to the concept of supported properties it is possible to document classes. Classes are used to group things together that are used the same way in certain contexts. Classes can be assigned to things by using the \lstinline{@type} property.
+Similar to the concept of supported properties, it is possible to document classes. Classes are used to group things together that are used the same way in certain contexts. Classes can be assigned to things by using the \lstinline{@type} property.
 
 We attach supported operations to supported classes of issues that represent issue statuses.
 
@@ -569,7 +567,7 @@ Operations have a HTTP \lstinline{method} property so the client knows how to in
 A click on a \textbf{start} status change button shown in \ref{fig:issueshydra} causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
 
 \subsubsection{Domain rendering}
-Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
+Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a \gls{Kanban} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]

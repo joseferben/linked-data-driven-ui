@@ -8,28 +8,29 @@ Frederick P. Brooks, Jr. states this in his work \textit{No Silver Bullet} where
 
 He breaks down software complexity and describes that reduction of software complexity is more feasible for some types than others.
 
-This thesis explores the generation of user interfaces (\gls{ui}s) for application programming interfaces (\gls{api}s) that fulfill certain criteria in the context of the World Wide Web. The main goal is to reduce the manual work required in UI development. The goal of this thesis is to decrease costs of UI decelopment by reducing the involved complexity.
+This thesis explores the generation of user interfaces (\gls{ui}s) for application programming interfaces (\gls{api}s) that fulfill certain criteria in the context of the World Wide Web. The main goal is to reduce the manual work required in UI development. The goal of this thesis is to decrease costs of UI development by reducing the involved complexity.
 
 \subsection{Context}\label{context}
-In order for information systems to be useful, they either have to interact with other systems or with human users. Those systems are increasingly connected together and they exchange data without any human interaction. When it comes to human-computer interaction, UIs are implemented that consume HTTP APIs which use the JSON data format \citep{jsonformat}. Those UIs are part of mobile, desktop or browser-only applications. End users interact with those applications through UIs in order to carry out tasks.
+In order for information systems to be useful, they either have to interact with other systems or with human users. Those systems are increasingly more connected together and they exchange data without any human interaction. When it comes to human-computer interaction, UIs are implemented that consume HTTP APIs which use the JSON data format \citep{jsonformat}. Those UIs are part of mobile, desktop or browser-only applications. End users interact with those applications through UIs in order to carry out tasks.
 
 \subsection{Problem}\label{problem}
-The contemporary way of implementing those UIs involves a lot of manual work. JSON is a very popular format for data exchange between information systems in web development. While humans can often infer the meaning of a piece of JSON data, it is not trivial for machines to do so. Specific knowledge about the JSON data is needed for a machine to understand the meaning of it. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitely, encoded into the application which contains the UI. This knowledge is required to understand the data coming from such an API, it gives the data its \textbf{semantics}. These client applications are strongly coupled to specific APIs and can not be re-used. Instead, client applications written from scratch to work with slightly different APIs which often share the same or similar data models.
+The contemporary way of implementing those UIs involves a lot of manual work. JSON is a very popular format for data exchange between information systems in web development. While humans can often infer the meaning of a piece of JSON data, it is not trivial for machines to do so. Specific knowledge about the JSON data is needed for a machine to understand the meaning of it. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitly, encoded into the application which contains the UI as shown in figure \ref{fig:hardcoded}. This knowledge is required to understand the data coming from such an API, it gives the data its \textbf{semantics}. These client applications are strongly coupled to specific APIs and can not be re-used. Instead, client applications are written from scratch to work with slightly different APIs which often share the same or similar data models.
 
 Current approaches fail to exploit the architecture of the World Wide Web and they completely ignore the possibilities offered by \textbf{linked data}.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=450pt]
     {images/ui-dev-now.png}}
-  \caption{\label{fig:my-label} A part of the business logic is hard coded into the client.}
+  \caption{A part of the business logic is hard coded into the client.}
+  \label{fig:hardcoded}
 \end{figure}
 
 \subsection{Strategy}\label{strategy}
-With this thesis we aim to identify complexities in UI and web development and suggest an approach to reduce them.
+With this thesis we aim to identify types of complexity in UI and web development and suggest an approach to reduce them.
 We want to minimize the manual work by leveraging linked data, the declarative concept of web components, the interaction model of task-based computing and by using hypermedia.
 
-The expected results and artifacts consist of a proof-of-concept of a UI framework, a HTTP hypermedia vocabulary based on linked data, an interaction model influenced by task-based computing and the implementation of two use cases that showcase the usage of the UI framework. \\
+The expected results and artifacts consist of a proof-of-concept for a UI framework, n HTTP hypermedia vocabulary based on linked data, an interaction model influenced by task-based computing and the implementation of two use cases that showcase the UI framework. \\
 Furthermore, we evaluate the UI framework in terms of its effect on software complexity. By reducing the complexity we aim to reduce the overall costs in UI and web development.
 
 \subsection{Industrial partner}
-The industrial partner of this thesis is Miko Nieminen Consulting. Miko Nieminen Consulting is interested in pushing open source efforts in linked data driven UI with complex user interaction. A future use case it the generation of UIs for administration next to customer facing UIs.
+The industrial partner of this thesis is Miko Nieminen Consulting. Miko Nieminen Consulting is interested in pushing open source efforts in linked data driven UI with complex user interaction. A future real-world use case is the generation of UIs for administrators.
