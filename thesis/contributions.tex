@@ -567,7 +567,7 @@ Operations have an HTTP \lstinline{method} property so the client knows how to i
 A click on a \textbf{start} status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
 
 \subsubsection{Domain rendering}
-Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a \gls{Kanban} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
+Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a \gls{kanban} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]
