@@ -33,7 +33,7 @@ Documentation is served using the meta data mechanism of Hydra. This is again ju
 As the current API follows RESTful principles, the concepts of resources and HTTP methods exist. Resources and HTTP methods are directly mapped to Hydra resources and inline operations using the same HTTP method. This change requires careful design as it might break existing consumers. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as a stepping stone towards using all the power that Hydra operations offer.
 
 \paragraph{Summary}
-Due to choice of HATEOAS specification and linked data format, it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5}.
+Due to choice of HATEOAS specification and \gls{linkeddata} format, it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5}.
 
 \subsubsection{Customizability}
 In order to assess the customizability of the UI framework, we compare the set of UIs that can be implemented using the UI framework with the set of UIs that can be implemented using tools like React.
@@ -90,7 +90,7 @@ The learning curve to implement non-interactive UIs is minimal. The component AP
 We rate the design goal \textit{play nicely with other} with 3, \textit{straightforward upgrade path} with 2.5, \textit{customizability} with 3 and \textit{developer ergonomics} with 2 out of 3. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
 
 \subsection{Reduction of complexity in software development}
-This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' linked data-driven approach to the development workflow using the UI framework.
+This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' \gls{linkeddata}-driven approach to the development workflow using the UI framework.
 
 \paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a frontend using React. They use Swagger to generate and serve API documentation.
 
@@ -116,7 +116,7 @@ The \textbf{score is 0}.
 \paragraph{Complexity caused by Changeability}
 \textit{``The software entity is constantly subject to pressures for change. Of course, so are buildings, cars, computers. But manufactured things are infrequently changed after manufacture; they are superseded by later models, or essential changes are incorporated into later-serial-number copies of the same basic design. Call-backs of automobiles are really quite infrequent; field changes of computers somewhat less so. Both are much less frequent than modifications to fielded software. \\ In part, this is so because the software of a system embodies its function, and the function is the part that most feels the pressures of change. In part it is because software can be changed more easily - it is pure thought-stuff, infinitely malleable. Buildings do in fact get changed, but the high costs of change, understood by all, serve to dampen the whims of the changers.''} \citep[p.~4]{nosilverbullet}
 
-The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume linked data. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design, it is possible to change the HTTP API while a user is interacting with the UI - without breaking the UI.
+The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume \gls{linkeddata}. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design, it is possible to change the HTTP API while a user is interacting with the UI - without breaking the UI.
 
 The cost of change in the client and the UI is \textbf{drastically} reduced. \textbf{The score of the improvement is 3}.
 
@@ -150,7 +150,7 @@ The improvement regarding complexity caused by state is \textbf{3}.
 
 To summarize, complexity caused by control occurs when the developer is forced to specify \textbf{how} something works as opposed to \textbf{what} happens. A development approach that is more \textbf{declarative} bears less of this type of complexity. \\
 An example of decrease in complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
-The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. On the other hand, there is no infrastructure code needed to fetch data from the server. The UI developer doesn't have to set up a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and UI developers can focus on mapping custom renderers to linked data types.
+The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. On the other hand, there is no infrastructure code needed to fetch data from the server. The UI developer doesn't have to set up a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and UI developers can focus on mapping custom renderers to \gls{linkeddata} types.
 
 Complexity caused by control is reduced slightly with \textbf{a score of 2}.
 

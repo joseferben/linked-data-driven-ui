@@ -62,8 +62,10 @@ Some UI parts are increasingly more rendered on the server again, mainly for per
 
 \subsubsection{Lack of context}\label{datahumanmachine}
 We picture a scenario in everyday life where two good friends meet. One of them says: \textit{Have you heard about Frank? He recently got married.} Chances are high the other one knows multiple people named Frank. Being a human, he is able to map the name Frank to the person the other one is referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people both friends know who might get married.
-\par The exact same thing happens frequently in software development, especially in data exchange. A frontend developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes, he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
-\par What makes life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems as participants in the web. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In traditional web UI development that context is hard coded into the client and the UI. We believe that the majority of work done in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
+
+The exact same thing happens frequently in software development, especially in data exchange. A frontend developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes, he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
+
+What makes life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems as participants in the web. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In traditional web UI development that context is hard coded into the client and the UI. We believe that the majority of work done in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
 
 \subsection{Web components}\label{webcomponents}
 In recent years an approach to rendering UIs became popular which we call component based rendering. This paragraph analyzes the reason why this approach to UI development gained popularity.
@@ -203,7 +205,7 @@ Linked data is a way of creating a web of machine interpretable data across diff
   \item Include links to other URIs, so that they can discover more things.
 \end{enumerate}
 
-A machine looking at a piece of linked data follows the links and is able to unambiguously understand the data. This is equivalent of traversing a graph since linked data is effectively a giant graph. There are multiple serialization formats in the family of specifications called Resource Description Framework (RDF) \citep{rdfspecification}.
+A machine looking at a piece of \gls{linkeddata} follows the links and is able to unambiguously understand the data. This is equivalent of traversing a graph since \gls{linkeddata} is effectively a giant graph. There are multiple serialization formats in the family of specifications called Resource Description Framework (RDF) \citep{rdfspecification}.
 
 An RDF file describing a Smith family could live at \lstinline{http://example.org/smith} and have following content:
 
@@ -235,7 +237,7 @@ Consider the following JSON snippet:
 
 It's obvious to humans that the data is about a person whose name is \textit{Manu Sporny} and that the homepage property contains the URL of that person's homepage. A machine doesn't have such an intuitive understanding and sometimes, even for humans, it is difficult to resolve ambiguities in such representations. This problem can be solved by using unambiguous identifiers to denote the different concepts instead of tokens such as name or homepage \citep{jsonldbasicconcepts}.
 
-JSON-LD is a serialization format for linked data which is based on JSON. By using the popular schema.org vocabulary the example \ref{jsonexample} can be written as follows:
+JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. By using the popular schema.org vocabulary the example \ref{jsonexample} can be written as follows:
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=Data of a person in the JSON-LD format, label=jsonldexample]
@@ -270,7 +272,7 @@ With the small addition of the reserved keyword \lstinline{@context}, readabilit
 \subsubsection{JSON-LD and the Semantic Web}
 The concepts of the \gls{semanticweb} were formed in the 1960s as something called semantic network. The technologies that power the Semantic Web today appeared in the 2000s. In 2006, Tim Berners-Lee, inventor of the World Wide Web, stated that \textit{``the simple idea of the Semantic Web remains largely unrealized''.} \citep{semanticwebrevisited}
 
-JSON-LD became an official standard in 2014, a few years after the core technologies of the Semantic Web emerged. As opposed to the Semantic Web and its technologies, JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects. \citep{jsonldusers} Both the technologies of the Semantic Web and JSON-LD are concerned with linked data. Why is JSON-LD experiencing adoption?
+JSON-LD became an official standard in 2014, a few years after the core technologies of the Semantic Web emerged. As opposed to the Semantic Web and its technologies, JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects. \citep{jsonldusers} Both the technologies of the Semantic Web and JSON-LD are concerned with \gls{linkeddata}. Why is JSON-LD experiencing adoption?
 
 Manu Sporny, one of the primary creators of JSON-LD, criticizes the Semantic Web in his blog post \textit{JSON-LD and why I hate the Semantic Web}. His criticism has two major aspects.
 
@@ -431,7 +433,7 @@ results in following expanded data:
 \end{lstlisting}
 
 \subsection{Vocabulary}
-JSON-LD is essentially a linked data serialization format that plays well with JSON tooling. Creating linked data means creating a vocabulary that others can use by linking to it. A lot of specialized vocabularies exist and Schema.org is popular in SEO and general web development.
+JSON-LD is essentially a \gls{linkeddata} serialization format that plays well with JSON tooling. Creating \gls{linkeddata} means creating a vocabulary that others can use by linking to it. A lot of specialized vocabularies exist and Schema.org is popular in SEO and general web development.
 
 \subsubsection{Schema.org}
 \url{Schema.org} is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond. \citep{welcomeschemaorg} Companies like Google, Microsoft, Pinterest and Yandex are using it in their tools and products.
@@ -460,7 +462,7 @@ The advantage of using such a vocabulary becomes obvious when looking at an exam
 
 A machine receiving that data knows that this is a person and understands his name, but it can not understand his address. There is additional context needed that describes the schema used in the \lstinline{address} property.
 
-The data of the same person where the address is of type \lstinline{http://schema.org/PostalAddress} can be processed unambiguously by any machine that understands linked data.
+The data of the same person where the address is of type \lstinline{http://schema.org/PostalAddress} can be processed unambiguously by any machine that understands \gls{linkeddata}.
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=A person with an address of type PostalAddress]

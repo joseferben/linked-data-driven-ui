@@ -8,7 +8,7 @@ This sections describe the methodological approach to achieve the items listed i
 This section is structured in three parts.
 
 \begin{enumerate}
-\item The first part is concerned with researching of \gls{hateoas} vocabularies and specifications and the evaluation of design languages. This includes researching of the use of hypermedia, linked data and web components. The goal is to gather research results that may serve as a foundation for this thesis.
+\item The first part is concerned with researching of \gls{hateoas} vocabularies and specifications and the evaluation of design languages. This includes researching of the use of hypermedia, \gls{linkeddata} and web components. The goal is to gather research results that may serve as a foundation for this thesis.
 \item The second part defines two real-world use cases for web applications. By looking at the deficits of contemporary solutions for UI development, we define design goals for the UI framework. We summarize the insights gained by implementing an HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development - we develop the UI framework in two iterations.
 \item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore, we assess whether the design goals were met and we give an outlook on future work.
 \end{enumerate}
@@ -95,7 +95,7 @@ The goals are partly derived by analyzing the deficits of contemporary tools to 
 
 \subsubsection{Play nicely with others}\label{sec:playnice}
 As discussed in sections \ref{graphql} and \ref{sec:soap} the fact that GraphQL and SOAP don't play nicely with others is one of their major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
-It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for linked data.
+It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for \gls{linkeddata}.
 
 We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
 
@@ -111,7 +111,7 @@ This goal can be quantified by measuring or estimating the effort to upgrade a c
 \subsubsection{Customizability}
 While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be created.
 
-We want to achieve this goal by allowing UI developers to override the sane defaults. They can decide to completely ignore the linked data aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
+We want to achieve this goal by allowing UI developers to override the sane defaults. They can decide to completely ignore the \gls{linkeddata} aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
 
 This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework.
 
@@ -142,8 +142,8 @@ The Hydra renderer is the second renderer that ships with the framework. It buil
 
 \paragraph{Domain Renderers}
 The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{uidevelopmenttoday}, contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
-Domain renderers only render linked data - they don't render data without context. UI developers don't hard code assumptions about the data model of the HTTP API. \\
-A React component and a linked data type constitute one domain specific renderer. The open-world philosophy of linked data encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to linked data vocabularies}.
+Domain renderers only render \gls{linkeddata} - they don't render data without context. UI developers don't hard code assumptions about the data model of the HTTP API. \\
+A React component and a \gls{linkeddata} type constitute one domain specific renderer. The open-world philosophy of \gls{linkeddata} encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to \gls{linkeddata} vocabularies}.
 
 \paragraph{Semantic UI}
 Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and UX. This is the implementation of a design language.
@@ -232,9 +232,9 @@ The \lstinline{@id}s are rendered as links so that the API can be traversed by l
 
 \subsubsection{Plugin mechanism}\label{pluginmechanism}
 As shown in section \ref{proofofconcept} the UI framework supports custom renderers as main mechanism to override default renderers. UI developers start out with the default set of renderers that can render arbitrary JSON-LD data and Hydra resources. \\
-The fact that the API returns linked data benefits this customization process. UI developers only care about rendering \textbf{certain data types}. In our use case they might be concerned with rendering the type \lstinline{Temperature}.
+The fact that the API returns \gls{linkeddata} benefits this customization process. UI developers only care about rendering \textbf{certain data types}. In our use case they might be concerned with rendering the type \lstinline{Temperature}.
 
-We demonstrate data rendering using the room \lstlinline{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
+We demonstrate data rendering using the room \lstinline{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -495,7 +495,7 @@ Optimistic rendering tries to hide the latency of the request-response life cycl
 For idempotent \footnote{Idempotence is a property of an operation that can be applied multiple times without changing the result beyond the initial application, in HTTP PUT and DELETE are idempotent where POST is not.} HTTP methods like \lstinline{PUT} or \lstinline{DELETE} it is possible to generically implement optimistic rendering \textbf{that works most of the time}. When the project manager for instance removes an issue, the object of the operation is known. The client immediately removes the issue from the UI without waiting for confirmation. When implementing optimistic rendering, one has to make sure to handle operation failures in a sensible way. \\
 We consider the erroneous case where the project manager removes an issue and it reappears after a few hundred milliseconds. In the worst case, he doesn't pay attention after clicking the delete button and goes on thinking that the issue has been removed. This is the reason one has to carefully design optimistic rendering - especially the negative scenario. Often, it is not possible or feasible to implement optimistic rendering in a generic way.
 
-The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible in going state transitions are communicated by not allowing issues to be dropped on the \lstline{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \lstiline{Done}.
+The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible in going state transitions are communicated by not allowing issues to be dropped on the \lstinline{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \lstinline{Done}.
 
 \subsubsection{Verification of user stories}
 In this section we verify that the user stories listed in table \ref{tab:usecase2} are fulfilled by either accepting or rejecting them.
@@ -545,10 +545,10 @@ This lose coupling between client and API implementation allows the same client 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
     {images/ui-dev-custom-renderer.png}}
-  \caption{Custom renderers provide the ability to render linked data types. By avoiding hard coding business logic into the client the coupling to the server is still loose.}
+  \caption{Custom renderers provide the ability to render data types. By avoiding hard coding business logic into the client the coupling to the server is still loose.}
   \label{fig:linkeddata}
 \end{figure}
 
-By using \gls{linked data}, custom renderers don't affect reusability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded into the client like it is often done in contemporary UI development. \\
+By using \gls{linkeddata}, custom renderers don't affect reusability of the client. A context is provided by \gls{linkeddata} so it can be understood by machines. That context is not hard coded into the client like it is often done in contemporary UI development. \\
 To elaborate, we look at figure \ref{fig:linkeddata} and assume that a custom renderer for the type \lstinline{https://schema.org/Apartment} is implemented. If the responses of API A, API B and API C contain data with \lstinline{@type} \lstinline{https://schema.org/Apartment} the client can consume that data. \\
 Sometimes it is required to display data differently depending on the UI context. The apartment might be rendered differently in a back office application used by administrators than an end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data modeling level by using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.
