@@ -14,7 +14,7 @@ This thesis explores the generation of user interfaces (UIs) for application pro
 In order for information systems to be useful, they either have to interact with other systems or with human users. Those systems are increasingly more connected together and they exchange data without any human interaction. In the context of contemporary UI and web development, UIs are implemented that consume HTTP APIs which use the JSON data format \citep{jsonformat}. Those UIs are part of mobile, desktop or browser applications. End users interact with applications through UIs to carry out tasks.
 
 \subsection{Problem}\label{problem}
-The contemporary way of implementing those UIs involves a lot of manual work. JSON is a popular format for data exchange between information systems in web development. Humans are able to infer the meaning of a piece of JSON data but machines are not. Specific knowledge about the JSON data is needed for a machine to understand the meaning of it. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitly, encoded into the application containing the UI as shown in figure \ref{fig:hardcoded}. This knowledge is required to understand the data coming from such an API, it gives the data semantics. These client applications are strongly coupled to specific APIs which hinders their re-use. Instead, client applications are written from scratch to work with slightly different APIs, often sharing the same or similar data models.
+JSON is a popular format for data exchange between information systems in web development. Humans are able to infer the meaning of a piece of JSON data but machines are not. Specific knowledge about the JSON data is needed for a machine to understand the meaning of it. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitly, encoded into the application containing the UI as shown in figure \ref{fig:hardcoded}. This knowledge is required to understand the data coming from such an API, it gives the data semantics. These client applications are strongly coupled to specific APIs which hinders their re-use. Instead, client applications are written from scratch to work with slightly different APIs, often sharing the same or similar data models.
 
 Current approaches fail to exploit the architecture of the World Wide Web and they completely ignore the possibilities offered by \gls{linkeddata}.
 
@@ -25,15 +25,19 @@ Current approaches fail to exploit the architecture of the World Wide Web and th
   \label{fig:hardcoded}
 \end{figure}
 
-\subsection{Expected results}
-The expected results and artifacts consist of a proof-of-concept for a UI framework, n HTTP \gls{hypermedia} vocabulary based on \gls{linkeddata}, an interaction model influenced by task-based computing and the implementation of two use cases that showcase the UI framework. \\
-Furthermore, we evaluate the effect of the UI framework on software complexity. By reducing the complexity we aim to reduce the overall costs in UI and web development.
+\subsection{Scope and expected results}
+The main question that this thesis aims to answer is: \textit{Is it possible to reduce development costs in UI development by using linked data?}
 
-TODO
+The scope and expected results of this thesis include following artifacts:
 
-\subsection{Strategy}\label{strategy}
-This thesis aims to identify types of complexity in UI and web development and to suggest an approach to reduce them.
-We want to minimize the manual work by leveraging \gls{linkeddata}, the declarative concept of web components, the interaction model of task-based computing and by using \gls{hypermedia} and \gls{hateoas}.
+\begin{itemize}
+\item a \gls{hypermedia} vocabulary or a \gls{hateoas} specification
+\item implementations of two HTTP APIs using that \gls{hateoas} specification
+\item a brief evaluation of design languages and their implementations
+\item a proof of concept for the UI framework
+\end{itemize}
+
+The choice of the \gls{hateoas} specification is driven by the implementation of the HTTP APIs. The implementation of the HTTP APIs is driven by use cases that resemble real world scenarios. A UI framework is implemented that is used to create a client that can consume HTTP APIs of both use cases. The framework uses a design language implementation internally to provide basic building blocks to the UI developer.
 
 \subsection{Industrial partner}
 The industrial partner of this thesis is Miko Nieminen Consulting. Miko Nieminen Consulting is interested in pushing open source efforts in \gls{linkeddata} driven UI with complex user interaction. A future real-world use case is the generation of UIs for administrators of web based back office applications.
