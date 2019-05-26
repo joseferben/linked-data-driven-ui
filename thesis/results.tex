@@ -87,7 +87,7 @@ The learning curve of using React with the UI framework is flat compared to usin
 The learning curve to implement non-interactive UIs is minimal. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2}.
 
 \subsubsection{Summary}
-We rate the design goal \textbf{play nicely with other} with 3, \textbf{straightforward upgrade path} with 2.5, \textbf{customizability} with 3 and \textbf{developer ergonomics} with 2 out of 3. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
+We rate the design goal \textit{play nicely with other} with 3, \textit{straightforward upgrade path} with 2.5, \textit{customizability} with 3 and \textit{developer ergonomics} with 2 out of 3. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
 
 \subsection{Reduction of complexity in software development}
 This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' linked data-driven approach to the development workflow using the UI framework.
@@ -97,7 +97,7 @@ This section analyzes whether and how development with the UI framework affects 
 We assess various types of software complexities in order to gauge the change in complexity between the baseline scenario and the same scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
 
 \subsubsection{Essential Complexity}
-Brooks gives \textbf{Complexity}, \textbf{Conformity}, \textbf{Changeability} and \textbf{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
+Brooks gives \textit{Complexity}, \textit{Conformity}, \textit{Changeability} and \textit{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
 
 \paragraph{Complexity caused by Invisibility}
 \textit{``Software is invisible and unvisualizable. Geometric abstractions are powerful tools. The floor plan of a building helps both architect and client evaluate spaces, traffic flows, views. Contradictions and omissions become obvious. Scale drawings of mechanical parts and stick-figure models of molecules, although abstractions, serve the same purpose. A geometric reality is captured in a geometric abstraction. \\ The reality of software is not inherently embedded in space. Hence, it has no ready geometric representation in the way that land has maps, silicon chips have diagrams, computers have connectivity schematics. As soon as we attempt to diagram software structure, we find it to constitute not one, but several, general directed graphs superimposed one upon another. The several graphs may represent the flow of control, the flow of data, patterns of dependency, time sequence, name-space relationships. These graphs are usually not even planar, much less hierarchical. Indeed, one of the ways of establishing conceptual control over such structure is to enforce link cutting until one or more of the graphs becomes hierarchical.''} \citep[p.~4]{nosilverbullet}
@@ -128,10 +128,10 @@ The gist of this property is that complexity breeds complexity. If a software sy
 This software property is not orthogonal to the other three. It is not possible to gauge the effect on complexity caused by complexity using the UI framework.
 
 \paragraph{Summary}
-While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process. The data that is driving the client and the UI \textbf{is visualized by default} and the \textbf{complexity of changing} the client is massively decreased.
+While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process. The data that is driving the client and the UI is visualized by default and the \textbf{complexity of changing the client is massively decreased}.
 
 \subsubsection{Accidental Complexity}
-\textbf{Out of the Tar Pit} identifies \textbf{Complexity of State} and \textbf{Complexity of Control} as concrete types of Accidental Complexity by building on top of the work of Brooks.
+\textit{Out of the Tar Pit} identifies \textit{Complexity of State} and \textit{Complexity of Control} as concrete types of Accidental Complexity by building on top of the work of Brooks.
 
 \paragraph{Complexity caused by State}
 \textit{``The severity of the impact of state on testing noted by Brooks is hard to over-emphasise. State affects all types of testing — from system-level testing (where the tester will be at the mercy of the same problems as the hapless user just mentioned) through to component-level or unit testing. The key problem is that a test (of any kind) on a system or component that is in one particular state tells you nothing at all about the behaviour of that system or component when it happens to be in another state. \\ The common approach to testing a stateful system (either at the component or system levels) is to start it up such that it is in some kind of “clean” or “initial” (albeit mostly hidden) state, perform the desired tests using the test inputs and then rely upon the (often in the case of bugs ill-founded) assumption that the system would perform the same way — regardless of its hidden internal state — every time the test is run with those inputs.''} \citep[p.~6]{outoftarpit}
@@ -140,7 +140,7 @@ While it is not possible to get rid of these properties, the UI framework reduce
 
 Moseley and Marks identify impacts of state on \textbf{testing} and on \textbf{informal reasoning}.
 
-We consider the type and amount of state a UI developer has to maintain. The default client created using the UI framework is merely a Hydra console. There is no application state to maintain on the client - the complexity is immensely reduced \textbf{for UI developers}. \\
+We consider the type and amount of state a UI developer has to maintain. The default client created using the UI framework is merely a Hydra console. There is no application state to maintain on the client - the complexity is immensely reduced for UI developers. \\
 However, the application state lives on the server. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra console. Custom renderers may contain some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
 
 The improvement regarding complexity caused by state is \textbf{3}.
@@ -155,4 +155,4 @@ The baseline scenario however makes use of React already, there is no improvemen
 Complexity caused by control is reduced slightly with \textbf{a score of 2}.
 
 \paragraph{Summary}
-We observe that the main contribution towards reducing complexity in software development lies in reduction of \textbf{Complexity caused by Changeability} and \textbf{Complexity caused by State}. \textbf{Complexity caused by Invisibility} and \textbf{Complexity caused by Control} are slightly reduced by using the UI framework compared to the baseline approach.
+We observe that the main contribution towards reducing complexity in software development lies in reduction of \textit{Complexity caused by Changeability} and \textit{Complexity caused by State}. \textit{Complexity caused by Invisibility} and \textit{Complexity caused by Control} are slightly reduced by using the UI framework compared to the baseline approach.

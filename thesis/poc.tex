@@ -64,7 +64,7 @@ This section explores hypermedia vocabularies and \gls{hateoas} specifications. 
 We evaluate popular design languages and their implementations. The UI generation is based on top of an existing design language so that best practices in design and presentation of UIs are respected. Design languages are not in the scope of this thesis - the UI framework uses existing implementations.
 
 \paragraph{Definition of major design goals}
-Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those. This includes analysis of:
+Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those requirements. This includes analysis of:
 
 \begin{enumerate}
   \item the development process of UIs with web technologies
@@ -234,7 +234,7 @@ The \lstinline{@id}s are rendered as links so that the API can be traversed by l
 As shown in section \ref{proofofconcept} the UI framework supports custom renderers as main mechanism to override default renderers. UI developers start out with the default set of renderers that can render arbitrary JSON-LD data and Hydra resources. \\
 The fact that the API returns linked data benefits this customization process. UI developers only care about rendering \textbf{certain data types}. In our use case they might be concerned with rendering the type \lstinline{Temperature}.
 
-We demonstrate data rendering using the room called \textbf{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
+We demonstrate data rendering using the room \lstlinline{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -242,7 +242,7 @@ We demonstrate data rendering using the room called \textbf{Entrance}. The trivi
   \caption{JSON-LD renderer applied on the data of /rooms/4.}
 \end{figure}
 
-This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that has the name \textbf{Temperature} and a numeric value. \\
+This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that has the name \lstinline{Temperature} and a numeric value. \\
 This is not straightforward to see as the JSON-LD is noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. The icon change is hard coded into the renderer.
 
 We consider the workflow of UI developers. The UI framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI framework comprises of a unique id, a name, a React component and a type. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
@@ -276,7 +276,7 @@ By implementing similar renderers for rooms and thermometers we achieve a UI as 
 \end{figure}
 
 \subsubsection{Domain rendering}
-Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is \textbf{correct} \footnote{Here we use the term \textbf{correct} in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation but the API has to conform to the the Hydra specification.
+Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is correct \footnote{Here we use the term correct in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation but the API has to conform to the the Hydra specification.
 
 In order to leverage domain information for visualizing data, UI developers have to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
 
@@ -418,7 +418,7 @@ This section discusses the HTTP API implementation of the issue status change ac
 \paragraph{Hydra classes}\label{par:classes}
 Each status that has outgoing state transitions maps to a Hydra class. We have the classes \lstinline{BacklogIssue}, \lstinline{ReadyIssue}, \lstinline{InProcessIssue}. Note that there is no class for an issue that is done because according to the status transitions there is no way to change the status of such an issue.
 
-Each \textbf{out going} status transition is represented by a Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate}, because according to the state transitions, it is not possible to undo planned issues.
+Each \textbf{out} going status transition is represented by a Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate}, because according to the state transitions, it is not possible to undo planned issues.
 
 \paragraph{Supported operations}
 Each issue class supports a list of operations.
@@ -474,7 +474,7 @@ Operations have an HTTP \lstinline{method} property so the client knows how to i
   \label{fig:issueshydra}
 \end{figure}
 
-A click on a \textbf{start} status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
+A click on a start status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
 
 \subsubsection{Domain rendering}
 Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban \footnote{Project scheduling methodology, issue cards that move through production/development stages.} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
@@ -495,7 +495,7 @@ Optimistic rendering tries to hide the latency of the request-response life cycl
 For idempotent \footnote{Idempotence is a property of an operation that can be applied multiple times without changing the result beyond the initial application, in HTTP PUT and DELETE are idempotent where POST is not.} HTTP methods like \lstinline{PUT} or \lstinline{DELETE} it is possible to generically implement optimistic rendering \textbf{that works most of the time}. When the project manager for instance removes an issue, the object of the operation is known. The client immediately removes the issue from the UI without waiting for confirmation. When implementing optimistic rendering, one has to make sure to handle operation failures in a sensible way. \\
 We consider the erroneous case where the project manager removes an issue and it reappears after a few hundred milliseconds. In the worst case, he doesn't pay attention after clicking the delete button and goes on thinking that the issue has been removed. This is the reason one has to carefully design optimistic rendering - especially the negative scenario. Often, it is not possible or feasible to implement optimistic rendering in a generic way.
 
-The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible in going state transitions are communicated by not allowing issues to be dropped on the \textbf{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \textbf{Done}.
+The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible in going state transitions are communicated by not allowing issues to be dropped on the \lstline{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \lstiline{Done}.
 
 \subsubsection{Verification of user stories}
 In this section we verify that the user stories listed in table \ref{tab:usecase2} are fulfilled by either accepting or rejecting them.
@@ -549,6 +549,6 @@ This lose coupling between client and API implementation allows the same client 
   \label{fig:linkeddata}
 \end{figure}
 
-By using \textbf{linked data}, custom renderers don't affect reusability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded into the client like it is often done in contemporary UI development. \\
+By using \gls{linked data}, custom renderers don't affect reusability of the client. Linked data always provides a context so it can be understood by machines. That context is not hard coded into the client like it is often done in contemporary UI development. \\
 To elaborate, we look at figure \ref{fig:linkeddata} and assume that a custom renderer for the type \lstinline{https://schema.org/Apartment} is implemented. If the responses of API A, API B and API C contain data with \lstinline{@type} \lstinline{https://schema.org/Apartment} the client can consume that data. \\
 Sometimes it is required to display data differently depending on the UI context. The apartment might be rendered differently in a back office application used by administrators than an end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data modeling level by using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.

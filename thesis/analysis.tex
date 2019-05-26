@@ -36,7 +36,8 @@ It is remarkable that at the time of writing this thesis, only one \gls{hateoas}
 
 \href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs, it enables the creation of generic API clients \citep{hydraspecs}. At the time of writing this thesis, the Hydra specification exists only as an unofficial draft.
 
-The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}. \\
+The two major benefits of APIs supporting hypermedia are \textbf{discoverability} and \textbf{self documentation}.
+
 \paragraph{Discoverability} Discoverability is given by the RESTful nature of any hypermedia API. The API provides an entry point and each resource describes the means to fetch other resources. The client is able to traverse the API by understanding the response and sending requests to the server - there is no external documentation needed. All resources that the client is concerned with it can reach.
 
 \paragraph{Self documentation}
@@ -45,7 +46,7 @@ It can use the same data model for generating built-in documentation and serving
 
 \paragraph{Collections, partial views and pagination}
 In the world of Hydra, there are conceptually only \textit{things} and \textit{lists of things}. There is no list of list of things. \\
-Hydra calls a list of things \textbf{collection}, which can have things as members. There is the concept of a \textbf{partial view}. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \textbf{\gls{pagination}}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
+Hydra calls a list of things collection, which can have things as members. There is the concept of a partial view. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated {\gls{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate pagination.
 
 \paragraph{Operations}
 In order to interact with the server a client has to know which operations the server supports. Hydra exposes all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with such API without any prior knowledge about the concrete API implementation. \\
@@ -54,7 +55,7 @@ This part is not fully specified yet at the time of writing this thesis. We had 
 \subsection{Analysis of design languages}
 A design language or design vocabulary is an overarching scheme or style that guides the design of a complement of products or architectural settings. Designers wishing to give their suite of products a unique but consistent look and feel define a design language for it, which can describe choices for design aspects such as materials, colour schemes, shapes, patterns, textures, or layouts. They then follow the scheme in the design of each object in the suite. \citep{designlanguage}
 
-The benefit of using a design language is the consistent look and feel of UIs that \textbf{are composed of a set of small components}. Additionally, it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about \textbf{small buttons horizontally next to each other} instead of considering the actual implementation using CSS of those horizontally aligned buttons.
+The benefit of using a design language is the consistent look and feel of UIs that are composed of a set of default components. Additionally, it frees the UI developer from cumbersome work like making sure that the UI is responsive and behaves well on various screen sizes. UI developers can communicate and think in a higher level of abstraction by omitting implementation details that are taken care of by design language implementations. As an example, it allows thinking about small buttons horizontally next to each other instead of considering the actual implementation using CSS of those horizontally aligned buttons.
 
 The major design languages are built on top of years of research in human-computer interaction. Evaluation of the theoretical foundation is not in the scope of this thesis. We aim to benefit off the implementations and tools.
 
