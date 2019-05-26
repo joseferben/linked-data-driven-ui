@@ -18,13 +18,16 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
 
 \begin{table}
   \begin{center}
-    \begin{tabular}{|c|l|}
+    \begin{tabular}{|l|l|}
       \hline
-      Score & Effect on goal \\
+      \textbf{Score} & \textbf{Effect on goal} \\
       \hline
       0 & Goal not met \\
+      \hline
       1 & Slight improvement towards goal \\
+      \hline
       2 & Goal mostly met \\
+      \hline
       3 & Goal completely fulfilled \\
       \hline
     \end{tabular}
@@ -34,16 +37,22 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
 
 \begin{table}
   \begin{center}
-    \begin{tabular}{|c|l|}
+    \begin{tabular}{|l|l|}
       \hline
-      Score & Effect on complexity \\
+      \textbf{Score} & \textbf{Effect on complexity} \\
       \hline
       -3 & Massive increase in complexity \\
+      \hline
       -2 & Increase in complexity \\
+      \hline
       -1 & Slight increase in complexity \\
+      \hline
       0 & No change in complexity \\
+      \hline
       1 & Slight decrease in complexity \\
+      \hline
       2 & Decrease in complexity \\
+      \hline
       3 & Massive decrease in complexity \\
       \hline
     \end{tabular}
@@ -171,15 +180,21 @@ The first use case describes a scenario in home automation. Several thermometers
   \begin{center}
     \begin{tabular}{ |c|l| }
       \hline
-      ID & Story title \\
+      \textbf{ID} & \textbf{Story title} \\
       \hline
-      S01 & As landlord I want to overview my apartments \\
-      S02 & As landlord I want to overview all rooms of an apartment \\
-      S03 & As landlord I want to overview thermometers of room \\
-      S04 & As landlord I want to overview the measurement data of a thermometer \\
-      S05 & As landlord I want to intuitively see the temperatures on a floor plan \\
-      S06 & As UI developer I want to present all available data without spending any development time \\
-      S07 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+      S1 & As landlord I want to overview my apartments \\
+      \hline
+      S2 & As landlord I want to overview all rooms of an apartment \\
+      \hline
+      S3 & As landlord I want to overview thermometers of room \\
+      \hline
+      S4 & As landlord I want to overview the measurement data of a thermometer \\
+      \hline
+      S5 & As landlord I want to intuitively see the temperatures on a floor plan \\
+      \hline
+      S6 & As UI developer I want to present all available data without spending any development time \\
+      \hline
+      S7 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
       \hline
     \end{tabular}
     \caption{User stories of a scenario in home automation.}
@@ -332,17 +347,23 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
 
 \begin{table}
   \begin{center}
-    \begin{tabular}{ |c|l| }
+    \begin{tabular}{ |l|l| }
       \hline
-      ID & Accepted/Rejected \\
+      \textbf{ID} & \textbf{Accepted/Rejected} \\
       \hline
-      S01 & Accepted: The landlord can overview the apartments \\
-      S02 & Accepted: The landlord can list all rooms of an apartment \\
-      S03 & Accepted: The landlord can list all thermometers of a rooms \\
-      S04 & Accepted: The landlord can see the temperature reported by a thermometer \\
-      S05 & Accepted: The landlord can overview the location of the temperatures on the floor plan \\
-      S06 & Accepted: The UI developer uses the default renderers to render a correct UI \\
-      S07 & Accepted: The UI developer can register custom renderers to improve the UI incrementally \\
+      S1 & Accepted: The landlord can overview the apartments \\
+      \hline
+      S2 & Accepted: The landlord can list all rooms of an apartment \\
+      \hline
+      S3 & Accepted: The landlord can list all thermometers of a rooms \\
+      \hline
+      S4 & Accepted: The landlord can see the temperature reported by a thermometer \\
+      \hline
+      S5 & Accepted: The landlord can overview the location of the temperatures on the floor plan \\
+      \hline
+      S6 & Accepted: The UI developer uses the default renderers to render a correct UI \\
+      \hline
+      S7 & Accepted: The UI developer can register custom renderers to improve the UI incrementally \\
       \hline
     \end{tabular}
     \caption{All user stories are accepted and the first use case is implemented.}
@@ -378,19 +399,27 @@ Figure \ref{fig:statetransition} shows all possible statuses and status transiti
 
 \begin{table}
   \begin{center}
-    \begin{tabular}{ |c|l| }
+    \begin{tabular}{ |l|l| }
       \hline
-      ID & Story title \\
+      \textbf{ID} & \textbf{Story title} \\
       \hline
-      S01 & As project manager I want to overview all projects \\
-      S02 & As project manager I want to overview all issues of a project \\
-      S03 & As project manager I want to see the status of an issue \\
-      S04 & As project manager I want to change the status of an issue \\
-      S05 & As project manager I want to remove issues \\
-      S06 & As a project manager I want to change the issue status by drag and drop \\
-      S07 & As UI developer I want to present all available data without spending time \\
-      S08 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
-      S09 & As UI developer I want to have an interactive UI without spending time \\
+      S1 & As project manager I want to overview all projects \\
+      \hline
+      S2 & As project manager I want to overview all issues of a project \\
+      \hline
+      S3 & As project manager I want to see the status of an issue \\
+      \hline
+      S4 & As project manager I want to change the status of an issue \\
+      \hline
+      S5 & As project manager I want to remove issues \\
+      \hline
+      S6 & As a project manager I want to change the issue status by drag and drop \\
+      \hline
+      S7 & As UI developer I want to present all available data without spending time \\
+      \hline
+      S8 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
+      \hline
+      S9 & As UI developer I want to have an interactive UI without spending time \\
       \hline
     \end{tabular}
     \caption{User stories of a scenario in project management.}
@@ -427,10 +456,12 @@ Each issue class supports a list of operations.
   \begin{center}
     \begin{tabular}{ |c|l| }
       \hline
-      Status class & Operation classes \\
+      \textbf{Status class} & \textbf{Operation classes} \\
       \hline
       BacklogIssue & IssueToReadyUpdate, IssueToInProcessUpdate, IssueToDoneUpdate \\
+      \hline
       ReadyIssue & IssueToInProcessUpdate, IssueToDoneUpdate \\
+      \hline
       InProcessIssue & IssueToReadyUpdate, IssueToDoneUpdate \\
       \hline
     \end{tabular}
@@ -504,17 +535,25 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
   \begin{center}
     \begin{tabular}{ |c|l| }
       \hline
-      ID & Accepted/Rejected \\
+      \textbf{ID} & \textbf{Accepted/Rejected} \\
       \hline
-      S01 & Accepted: The project manager can overview all projects \\
-      S02 & Accepted: The project manager can overview all issues of a project \\
-      S03 & Accepted: The project manager can see the status of an issue \\
-      S04 & Accepted: The project manager can see the status of an issue \\
-      S05 & Accepted: The project manager can remove issues \\
-      S06 & Accepted: The project manager can drag and drop issues \\
-      S07 & Accepted: The Hydra renderer shows all data \\
-      S08 & Accepted: The UI developer can override the generic renderers \\
-      S09 & Accepted: The Hydra renderer exposes all operations by default \\
+      S1 & Accepted: The project manager can overview all projects \\
+      \hline
+      S2 & Accepted: The project manager can overview all issues of a project \\
+      \hline
+      S3 & Accepted: The project manager can see the status of an issue \\
+      \hline
+      S4 & Accepted: The project manager can see the status of an issue \\
+      \hline
+      S5 & Accepted: The project manager can remove issues \\
+      \hline
+      S6 & Accepted: The project manager can drag and drop issues \\
+      \hline
+      S7 & Accepted: The Hydra renderer shows all data \\
+      \hline
+      S8 & Accepted: The UI developer can override the generic renderers \\
+      \hline
+      S9 & Accepted: The Hydra renderer exposes all operations by default \\
       \hline
     \end{tabular}
     \caption{All user stories are accepted and the second use case is implemented.}
