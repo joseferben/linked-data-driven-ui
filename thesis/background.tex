@@ -148,7 +148,7 @@ Level 2 introduces HTTP verbs like \lstinline{GET}, \lstinline{POST} or \lstinli
 Fowler puts the emphasis here on \lstinline{safety} and says that it is not too important to make use of all the HTTP verbs. Proper use of the safe and idempotent verb \lstinline{GET} and the unsafe verb \lstinline{POST} improves an API a lot, according to him. \\
 Level 2 additionally adds the proper use of HTTP status codes. The creation of a resource using \lstinline{POST} should return the HTTP status code \lstinline{201 Created}.
 
-\lstset{language=}
+\lstset{language=XML}
 \begin{lstlisting}[caption=Level 2: Safely fetching the list of open slots using \lstinline{GET}.]
 GET /doctors/mjones/slots?date=20100104&status=open HTTP/1.1
 Host: royalhope.nhs.uk
@@ -159,7 +159,7 @@ The final level introduces something that you often hear referred to under the u
 
 We begin with the known request to get the list of open slots:
 
-\lstset{language=}
+\lstset{language=XML}
 \begin{lstlisting}[caption=Fetching the list of open slots.]
 GET /doctors/mjones/slots?date=20100104&status=open HTTP/1.1
 Host: royalhope.nhs.uk
@@ -167,7 +167,7 @@ Host: royalhope.nhs.uk
 
 The response contains the URIs that help us understand how to book an appointment.
 
-\lstset{language=}
+\lstset{language=XML}
 \begin{lstlisting}[caption=Level 3: The response contains information that helps us book an appointment.]
 HTTP/1.1 200 OK
 [various headers]
