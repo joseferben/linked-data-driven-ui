@@ -46,13 +46,13 @@ We conclude by analyzing the implementation of the design goals and the contribu
   \end{center}
 \end{table}
 
-\paragraph{Is it any useful?}
+\subsection{Review}
 The design goals are mostly met. The UI framework plays nicely with existing HTTP and JSON tooling due to the use of JSON-LD. The upgrade path of an existing system with a JSON HTTP API and a client to Hydra and the UI framework is straightforward. The UI framework is highly customizable which makes it powerful. It is possible to do traditional web UI development but the framework guides developers to create a console rather than the usual app. The development workflow using the default renderers is ergonomic. \\
 The migration of complex POST requests to Hydra might lead to non-idiomatic use of Hydra operations. There is also a non-trivial learning curve when it comes to Hydra - both on the consumer and producer side. This is especially the case if the interaction with the UI is not trivial.
 
 The complexity is reduced compared to contemporary UI development as described in \ref{uidevelopmenttoday}. This is mostly due to eradicating application state in the client and allowing the API to evolve with very little friction. In general, the cognitive load is reduced by providing the developer with this framework of mapping \gls{linkeddata} types to components.
 
-\paragraph{Free lunch}
+\subsection{Free lunch}
 According to table \ref{tab:summarycomplexity} there is a positive net total of complexity that vanished. Even after considering the learning curve for \gls{linkeddata}, JSON-LD and Hydra - the costs of UI and client development are drastically reduced. \\
 According to the definition of Essential Complexity by Brooks it is not possible to get rid it. C0, C1, C2 and C3 are Essential Complexity and there is a reduction in total. \\
 Our analysis considered the point of view of UI developers - not of developers implementing the Hydra API. Complexity is reduced in the client but it increases on the server.
@@ -64,7 +64,12 @@ Nevertheless, the complexity lives in one place. It is not obvious why UX knowle
 
 Adoption of Hydra, \gls{linkeddata} and the UI framework is a total net gain.
 
-\subsection{Further work}
+\subsection{Server implementation}
+TODO
+\paragraph{Data denormalization and UX on the server}
+TODO
+
+\subsection{Future work}
 The HTTP API implementations of both use cases are hard coded. This thesis provides a proof of concept for a Hydra console. Generic generation of an API that conforms to Hydra is not in the scope of this thesis. It is obvious that a tool that creates a Hydra API given a data model or an existing HTTP API together with the UI framework could make a full-stack \gls{linkeddata}-driven application framework. \\
 A possible approach is to implement Hydra serialization for an existing platform. Rails makes heavy use of Convention over Configuration which allows its plugins (gems) to make a lot of assumption. A Rails gem has direct access to the data model. This could be used to expose operations, generate documentation and serialize models to JSON-LD. \\
 Building a Hydra plugin on top of an established platform fits the central design goal and philosophy to \textbf{play nicely with others}.
