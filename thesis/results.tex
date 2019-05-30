@@ -1,6 +1,53 @@
 \section{Results}
 In the following paragraph we evaluate the proof of concept for the UI framework. We examine whether the design goals have been met and we analyze the change in complexity.
 
+\subsection{Methodology}
+In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      \hline
+      \textbf{Score} & \textbf{Effect on goal} \\
+      \hline
+      0 & Goal not met \\
+      \hline
+      1 & Slight improvement towards goal \\
+      \hline
+      2 & Goal mostly met \\
+      \hline
+      3 & Goal completely fulfilled \\
+      \hline
+    \end{tabular}
+    \caption{Scores to evaluate whether goals have been met}
+  \end{center}
+\end{table}
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      \hline
+      \textbf{Score} & \textbf{Effect on complexity} \\
+      \hline
+      -3 & Massive increase in complexity \\
+      \hline
+      -2 & Increase in complexity \\
+      \hline
+      -1 & Slight increase in complexity \\
+      \hline
+      0 & No change in complexity \\
+      \hline
+      1 & Slight decrease in complexity \\
+      \hline
+      2 & Decrease in complexity \\
+      \hline
+      3 & Massive decrease in complexity \\
+      \hline
+    \end{tabular}
+    \caption{Scores to gauge the change in complexity}
+  \end{center}
+\end{table}
+
 \subsection{Design goals}
 By looking at the implementations of both use cases, we evaluate whether the design goals defined in \ref{sec:designgoals} have been met.
 
@@ -87,7 +134,28 @@ The learning curve of using React with the UI framework is flat compared to usin
 The learning curve to implement non-interactive UIs is minimal. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2}.
 
 \subsubsection{Summary}
-We rate the design goal \textit{play nicely with other} with 3, \textit{straightforward upgrade path} with 2.5, \textit{customizability} with 3 and \textit{developer ergonomics} with 2 out of 3. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{ID} & \textbf{Title} & \textbf{Degree to which goal is met} \\
+      \hline
+      D1 & Play nicely with others & 3 \\
+      \hline
+      D2 & Straightforward upgrade path & 2.5 \\
+      \hline
+      D3 & Customizability & 3 \\
+      \hline
+      D4 & Developer ergonomics & 2 \\
+      \hline
+    \end{tabular}
+    \caption{Overview of the design goals and their score indicating the degree to which they are met.}
+    \label{tab:designgoalscomplexity}
+  \end{center}
+\end{table}
+
+As shown in table \ref{tab:designgoalscomplexity}, we rate the design goal \textit{play nicely with other} with 3, \textit{straightforward upgrade path} with 2.5, \textit{customizability} with 3 and \textit{developer ergonomics} with 2 out of 3. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
 
 \subsection{Reduction of complexity in software development}
 This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' \gls{linkeddata}-driven approach to the development workflow using the UI framework.
@@ -154,5 +222,30 @@ The baseline scenario however makes use of React already, there is no improvemen
 
 Complexity caused by control is reduced slightly with \textbf{a score of 2}.
 
-\paragraph{Summary}
-We observe that the main contribution towards reducing complexity in software development lies in reduction of \textit{Complexity caused by Changeability} and \textit{Complexity caused by State}. \textit{Complexity caused by Invisibility} and \textit{Complexity caused by Control} are slightly reduced by using the UI framework compared to the baseline approach.
+\subsubsection{Summary}
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|l|l|}
+      \hline
+      \textbf{ID} & \textbf{Title} & \textbf{Type} & \textbf{Change in complexity} \\
+      \hline
+      C1 & Complexity caused by Invisibility & Essential & 1 \\
+      \hline
+      C2 & Complexity caused by Conformity & Essential & 0 \\
+      \hline
+      C3 & Complexity caused by Changeability & Essential & 3 \\
+      \hline
+      C4 & Complexity caused by Complexity & Essential & unknown \\
+      \hline
+      C5 & Complexity caused by State & Accidental & 3 \\
+      \hline
+      C5 & Complexity caused by Control & Accidental & 2 \\
+      \hline
+    \end{tabular}
+    \caption{Overview of the types of complexities in software development and how the UI framework affects them. Positive scores indicate a reduction of complexity and negative scores indicate an increase.}
+    \label{tab:complexitysummary}
+  \end{center}
+\end{table}
+
+Table \ref{tab:complexitysummary} shows that the main contribution towards reducing complexity in software development lies in reduction of \textit{Complexity caused by Changeability} and \textit{Complexity caused by State}. \textit{Complexity caused by Invisibility} and \textit{Complexity caused by Control} are slightly reduced by using the UI framework compared to the baseline approach.

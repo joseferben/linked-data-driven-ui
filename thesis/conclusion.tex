@@ -3,11 +3,12 @@
 \subsection{Conclusion of the UI framework}
 We conclude by analyzing the implementation of the design goals and the contribution of the UI framework towards reducing complexity to assess whether the use can reduce costs in UI development.
 
+\end{table}
 \begin{table}[!htb]
   \begin{center}
-    \begin{tabular}{|l|l|r|}
+    \begin{tabular}{|l|l|l|}
       \hline
-      \textbf{ID} & \textbf{Design goal title} & \textbf{Degree to which goal is met [0, 3]} \\
+      \textbf{ID} & \textbf{Title} & \textbf{Degree to which goal is met} \\
       \hline
       D1 & Play nicely with others & 3 \\
       \hline
@@ -15,33 +16,34 @@ We conclude by analyzing the implementation of the design goals and the contribu
       \hline
       D3 & Customizability & 3 \\
       \hline
-      D4 & Developer ergonomics & 3 \\
+      D4 & Developer ergonomics & 2 \\
       \hline
     \end{tabular}
-    \caption{Scores indicating whether goals were met.}
+    \caption{Overview of the design goals and their score indicating the degree to which they are met.}
   \end{center}
 \end{table}
 
+
 \begin{table}[!htb]
   \begin{center}
-    \begin{tabular}{|l|l|r|}
+    \begin{tabular}{|l|l|l|l|}
       \hline
-      \textbf{ID} & \textbf{Complexity name} & \textbf{Effect on change in complexity [-3, 3]} \\
+      \textbf{ID} & \textbf{Title} & \textbf{Type} & \textbf{Change in complexity} \\
       \hline
-      C1 & Complexity caused by Invisibility & 1 \\
+      C1 & Complexity caused by Invisibility & Essential & 1 \\
       \hline
-      C2 & Complexity caused by Conformity & 0 \\
+      C2 & Complexity caused by Conformity & Essential & 0 \\
       \hline
-      C3 & Complexity caused by Changeability & 3 \\
+      C3 & Complexity caused by Changeability & Essential & 3 \\
       \hline
-      C4 & Complexity caused by Complexity & unknown \\
+      C4 & Complexity caused by Complexity & Essential & unknown \\
       \hline
-      C5 & Complexity caused by State & 3 \\
+      C5 & Complexity caused by State & Accidental & 3 \\
       \hline
-      C6 & Complexity caused by Control & 2 \\
+      C5 & Complexity caused by Control & Accidental & 2 \\
       \hline
     \end{tabular}
-    \caption{Scores indicating the effect on complexity (positive score means reduction of complexity).}
+    \caption{Overview of the types of complexities in software development and how the UI framework affects them. Positive scores indicate a reduction of complexity and negative scores indicate an increase.}
     \label{tab:summarycomplexity}
   \end{center}
 \end{table}

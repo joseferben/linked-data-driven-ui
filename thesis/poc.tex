@@ -1,76 +1,11 @@
 \section{Proof of concept}\label{sec:proofofconcept}
 The main contribution of this thesis is the theoretical foundation and development of a new approach to UI development that reduces development costs.
 
-\subsection{Methods}
+\subsection{Methodology}
 This sections describe the methodological approach to achieve the items listed in the paragraph \ref{sec:scope}.
 
-\subsubsection{General approach}
-This section is structured in three parts.
-
-\begin{enumerate}
-\item The first part is concerned with researching of \gls{hateoas} vocabularies and specifications and the evaluation of design languages. This includes researching of the use of hypermedia, \gls{linkeddata} and web components. The goal is to gather research results that may serve as a foundation for this thesis.
-\item The second part defines two real-world use cases for web applications. By looking at the deficits of contemporary solutions for UI development, we define design goals for the UI framework. We summarize the insights gained by implementing an HTTP API for each use case and by developing the UI framework. This part follows best practices from agile software development - we develop the UI framework in two iterations.
-\item The last part evaluates the UI framework by analyzing its impact on software complexity. Furthermore, we assess whether the design goals were met and we give an outlook on future work.
-\end{enumerate}
-
-\subsubsection{Use of scores}
-In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
-
-\begin{table}[!htb]
-  \begin{center}
-    \begin{tabular}{|l|l|}
-      \hline
-      \textbf{Score} & \textbf{Effect on goal} \\
-      \hline
-      0 & Goal not met \\
-      \hline
-      1 & Slight improvement towards goal \\
-      \hline
-      2 & Goal mostly met \\
-      \hline
-      3 & Goal completely fulfilled \\
-      \hline
-    \end{tabular}
-    \caption{Scores to evaluate whether goals have been met}
-  \end{center}
-\end{table}
-
-\begin{table}[!htb]
-  \begin{center}
-    \begin{tabular}{|l|l|}
-      \hline
-      \textbf{Score} & \textbf{Effect on complexity} \\
-      \hline
-      -3 & Massive increase in complexity \\
-      \hline
-      -2 & Increase in complexity \\
-      \hline
-      -1 & Slight increase in complexity \\
-      \hline
-      0 & No change in complexity \\
-      \hline
-      1 & Slight decrease in complexity \\
-      \hline
-      2 & Decrease in complexity \\
-      \hline
-      3 & Massive decrease in complexity \\
-      \hline
-    \end{tabular}
-    \caption{Scores to gauge the change in complexity}
-  \end{center}
-\end{table}
-
 \subsubsection{Steps}
-This section lists and describes the methods of this analysis.
-
-\paragraph{Conceptual analysis of user interfaces}
-Before defining the use cases, we analyze UIs on a conceptual level. By looking at typical usage patterns of users we describe the concepts of UIs. We aim to identify components that can be researched and implemented independently in smaller iterations.
-
-\paragraph{Hypermedia vocabulary and \gls{hateoas} specification}
-This section explores hypermedia vocabularies and \gls{hateoas} specifications. By listing requirements such a specification has to fulfill, we either create our own HATEOAS specification, use an existing one or mix bits and pieces of existing ones.
-
-\paragraph{Evaluation of design languages and their implementations}
-We evaluate popular design languages and their implementations. The UI generation is based on top of an existing design language so that best practices in design and presentation of UIs are respected. Design languages are not in the scope of this thesis - the UI framework uses existing implementations.
+This section explains the methods of this analysis.
 
 \paragraph{Definition of major design goals}
 Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those requirements. This includes analysis of:
@@ -131,6 +66,26 @@ This goal can be achieved by choosing a widely used platform that has a thriving
 A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
 
 An established and widely adopted web stack is Node, the NPM (Node Package Manager) ecosystem together with React. This is the platform that we choose to develop the UI framework in.
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|}
+      \hline
+      \textbf{ID} & \textbf{Title}\\
+      \hline
+      D1 & Play nicely with others \\
+      \hline
+      D2 & Straightforward upgrade path \\
+      \hline
+      D3 & Customizability \\
+      \hline
+      D4 & Developer ergonomics \\
+      \hline
+    \end{tabular}
+    \caption{Overview of the 4 defined design goals.}
+    \label{tab:designgoals}
+  \end{center}
+\end{table}
 
 \subsection{Proof of concept for UI framework}\label{proofofconcept}
 We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases can be implemented separately. By implementing the use cases, we develop the UI framework and respect the design goals.
@@ -349,7 +304,7 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
   \begin{center}
     \begin{tabular}{ |l|l| }
       \hline
-      \textbf{ID} & \textbf{Accepted/Rejected} \\
+      \textbf{ID} & \textbf{Outcome} \\
       \hline
       S1 & Accepted: The landlord can overview the apartments \\
       \hline
@@ -535,7 +490,7 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
   \begin{center}
     \begin{tabular}{ |c|l| }
       \hline
-      \textbf{ID} & \textbf{Accepted/Rejected} \\
+      \textbf{ID} & \textbf{Outcome} \\
       \hline
       S1 & Accepted: The project manager can overview all projects \\
       \hline
