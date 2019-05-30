@@ -208,8 +208,8 @@ While it is not possible to get rid of these properties, the UI framework reduce
 
 Moseley and Marks identify impacts of state on \textbf{testing} and on \textbf{informal reasoning}.
 
-We consider the type and amount of state a UI developer has to maintain. The default client created using the UI framework is merely a Hydra console. There is no application state to maintain on the client - the complexity is immensely reduced for UI developers. \\
-However, the application state lives on the server. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra console. Custom renderers may contain some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
+We consider the type and amount of state a UI developer has to maintain. The default client created using the UI framework is merely a Hydra \gls{console}. There is no application state to maintain on the client - the complexity is immensely reduced for UI developers. \\
+However, the application state lives on the server. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra \gls{console}. Custom renderers may contain some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
 
 The improvement regarding complexity caused by state is \textbf{3}.
 
