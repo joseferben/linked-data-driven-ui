@@ -1,4 +1,4 @@
-\section{Proof of concept}
+\section{Proof of concept}\label{sec:proofofconcept}
 The main contribution of this thesis is the theoretical foundation and development of a new approach to UI development that reduces development costs.
 
 \subsection{Methods}
@@ -158,7 +158,7 @@ A React component and a \gls{linkeddata} type constitute one domain specific ren
 Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and UX. This is the implementation of a design language.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=400pt]
+  \center{\includegraphics[width=450pt]
     {images/ui-framework-architecture.png}}
   \caption{The architecture of the proof of concept for the UI framework.}
 \end{figure}
@@ -252,9 +252,9 @@ The fact that the API returns \gls{linkeddata} benefits this customization proce
 We demonstrate data rendering using the room \lstinline{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380pt]
+  \center{\includegraphics[width=400pt]
     {images/json-ld-renderer.png}}
-  \caption{JSON-LD renderer applied on the data of /rooms/4.}
+  \caption{JSON-LD renderer applied on the data of \lstinline{/rooms/4}.}
 \end{figure}
 
 This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that has the name \lstinline{Temperature} and a numeric value. \\
@@ -392,7 +392,7 @@ The second use case describes a typical scenario in project management. We use t
 Figure \ref{fig:statetransition} shows all possible statuses and status transitions of an issue. It is noteworthy that once an issue is ready, it can not be put back to the backlog and similarly a finished issue can not be undone.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=100pt]
+  \center{\includegraphics[width=150pt]
     {images/kanban.png}}
   \caption{Simple data model of a scenario in project management.}
 \end{figure}

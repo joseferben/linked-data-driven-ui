@@ -1,6 +1,50 @@
 \section{Analysis}
 \subsection{Risk analysis}
 
+\paragraph{Methodology}
+We identify risks that could affect the implementation of the UI framework and the use cases. Each risk has a probability of occurrence as shown in table \ref{tab:probability} and a severity as explained in table \ref{tab:severity}. Multiplication of both scores yields the risk factor. We list all risks sorted descending by their risk factor in table \ref{tab:riskanalysis}. A risk factor greater or equal \textbf{8} indicates a risk that is likely to cause substantial project damage. \\
+Furthermore, decisions that are made in section \ref{sec:proofofconcept} are based on this sorted list of risks.
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{Probability} & \textbf{Score} & \textbf{Description} \\
+      \hline
+      0 <= p <= 0.25 & 1 & The probability of occurrence of this risk is minimal. \\
+      \hline
+      0.25 < p <= 0.5 & 2 & The risk might occur with a low probability. \\
+      \hline
+      0.5 < p <= 0.75 & 3 & There is a significant chance for the risk to occur. \\
+      \hline
+      0.75 < p <= 1 & 4 & The probability of occurrence of this risk is high. \\
+      \hline
+    \end{tabular}
+    \caption{The probability of occurrence is mapped to a score which is used in the risk analysis.}
+    \label{tab:probability}
+  \end{center}
+\end{table}
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{Severity} & \textbf{Score} & \textbf{Project Damage} \\
+      \hline
+      insignificant & 1 & \begin{tabular}[x]{@{}l@{}}It is possible to implement the UI framework and the use cases \\ but the results might be poor.\end{tabular} \\
+      \hline
+      moderate & 2 & \begin{tabular}[x]{@{}l@{}}It is possible to implement the UI framework and the use cases \\ but the results might be unusable.\end{tabular} \\
+      \hline
+      high & 3 & \begin{tabular}[x]{@{}l@{}}It is possible to implement the UI framework and the use cases. \\ That approach to UI development is less efficient and more \\ costly than UI development without the UI framework.\end{tabular} \\
+      \hline
+      fatal & 4 & \begin{tabular}[x]{@{}l@{}}It is not possible to implement the UI framework and the use cases. \\ The thesis is neither confirmed nor rejected and no value is generated.\end{tabular} \\
+      \hline
+    \end{tabular}
+    \caption{The level of severity is mapped to a score which is used in the risk analysis.}
+    \label{tab:severity}
+  \end{center}
+\end{table}
+
 \begin{table}[!htb]
   \begin{center}
     \begin{tabular}{|l|l|}
@@ -9,16 +53,16 @@
       \hline
       \textbf{Title} & Incomplete HATEOAS specification \\
       \hline
-      \textbf{Occurrence} Probability & 2 \\
+      \textbf{Probability of occurrence} & 2 \\
       \hline
-      \textbf{Severity} & 3 \\
+      \textbf{Severity} & 4 \\
       \hline
       \textbf{Risk Factor} & 8 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The used HATEOAS specification is either an early draft or it has been \\ abandoned. In the worst case the specification superficially appears \\ to be complete while not providing crucial features that are needed by \\ the use cases. Parts of it have to be written during the thesis work.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The HATEOAS specification in use is either an early draft or it \\ has been abandoned. In the worst case the specification superficially \\ appears to be complete while not providing crucial features that \\ are needed by the use cases. Parts of it have to be written during the \\ thesis work.\end{tabular} \\
       \hline
     \end{tabular}
-    \caption{Source of risk R0.}
+    \caption{Source of risk R1.}
   \end{center}
 \end{table}
 
@@ -30,18 +74,20 @@
       \hline
       \textbf{Title} & Unstable HATEOAS specification and tooling\\
       \hline
-      \textbf{Occurrence} Probability & 3 \\
+      \textbf{Probability of occurrence} & 3 \\
       \hline
       \textbf{Severity} & 1 \\
       \hline
       \textbf{Risk Factor} & 3 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The used HATEOAS specification and reference implementations are \\ under development and parts are rewritten frequently. For the thesis \\ work a version has to be pinpointed.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The HATEOAS specification in use and reference implementations \\ are under development and parts are rewritten frequently. For the \\ thesis work a version has to be pinpointed.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R2.}
   \end{center}
 \end{table}
+
+\clearpage
 
 \begin{table}[!htb]
   \begin{center}
@@ -51,13 +97,13 @@
       \hline
       \textbf{Title} & Lack of HATEOAS tooling \\
       \hline
-      \textbf{Occurrence} Probability & 2 \\
+      \textbf{Probability of occurrence} & 2 \\
       \hline
       \textbf{Severity} & 2 \\
       \hline
       \textbf{Risk Factor} & 4 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The used HATEOAS specification has no reference implementation, \\ little working examples and no tools for generating and consuming \\ HATEOAS APIs. All tools have to be written from scratch.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The HATEOAS specification in use has no reference implementation, \\ little working examples and no tools for generating and consuming \\ HATEOAS APIs. All tools have to be written from scratch.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R3.}
@@ -72,13 +118,13 @@
       \hline
       \textbf{Title} & Lack of JSON-LD tooling \\
       \hline
-      \textbf{Occurrence} Probability & 1 \\
+      \textbf{Probability of occurrence} & 1 \\
       \hline
       \textbf{Severity} & 3 \\
       \hline
       \textbf{Risk Factor} & 3 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}There are no tools that implement the JSON-LD operations discussed \\ in section \ref{jsonld}. The used languages and frameworks don't support JSON \\ as first class citizen. All tools have to be written from scratch.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}There are no tools that implement the JSON-LD operations \\ discussed in section \ref{jsonld}. The used languages and frameworks don't \\ support JSON as first class citizen. All tools have to be written \\ from scratch.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R4.}
@@ -93,18 +139,20 @@
       \hline
       \textbf{Title} & Lack of design language implementations \\
       \hline
-      \textbf{Occurrence} Probability & 1 \\
+      \textbf{Probability of occurrence} & 1 \\
       \hline
       \textbf{Severity} & 4 \\
       \hline
       \textbf{Risk Factor} & 4 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The UI framework provides usable UIs out of the box. These are created \\ by using a design language implementation which takes care of portability \\ across browsers. The implementation provides the authors with best \\ practices in UI design and layout. In case there is a lack of design language \\ implementations one has to be written from scratch.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The UI framework provides usable UIs out of the box. These  \\ are created by using a design language implementation which \\ takes care of portability across browsers. The implementation provides \\ the authors with best practices in UI design and layout. In case \\ there is a lack of design language implementations one has to \\ be written from scratch.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R5.}
   \end{center}
 \end{table}
+
+\clearpage
 
 \begin{table}[!htb]
   \begin{center}
@@ -114,16 +162,42 @@
       \hline
       \textbf{Title} & Linked data-driven UIs are slow \\
       \hline
-      \textbf{Occurrence} Probability & 3 \\
+      \textbf{Probability of occurrence} & 3 \\
       \hline
       \textbf{Severity} & 4 \\
       \hline
       \textbf{Risk Factor} & 12 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}JSON-LD operations as discussed in section \ref{jsonld} require multiple requests \\ per user request. This adds some overhead to the client-server \\ communication which can decrease performance. If those additional \\ requests can not be mitigated by caching, the overhead might affect the UX. \end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}JSON-LD operations as discussed in section \ref{jsonld} require multiple \\ requests per user request. This adds some overhead to \\ the client-server communication which can decrease performance. \\ If those additional requests can not be mitigated by caching, the \\ overhead might affect the UX. \end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R6.}
+  \end{center}
+\end{table}
+
+\begin{table}[!htb]
+  \begin{center}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      \textbf{ID} & \textbf{Risk Factor} & \textbf{Title} \\
+      \hline
+      \rowcolor{red}
+      R6 & 12 & Linked data-driven UIs are slow \\
+      \hline
+      \rowcolor{yellow}
+      R1 & 8 & Incomplete HATEOAS specification \\
+      \hline
+      R5 & 4 & Lack of design language implementations \\
+      \hline
+      R3 & 4 & Lack of HATEOAS tooling \\
+      \hline
+      R2 & 3 & Unstable HATEOAS specification and tooling \\
+      \hline
+      R4 & 3 & Lack of JSON-LD tooling \\
+      \hline
+    \end{tabular}
+    \caption{The result of the risk analysis shows the list of all risks sorted descending by their total risk factor. R1 and R6 have to be considered in design and implementation decisions.}
+    \label{tab:riskanalysis}
   \end{center}
 \end{table}
 

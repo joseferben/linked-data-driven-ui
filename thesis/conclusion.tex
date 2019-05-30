@@ -64,11 +64,6 @@ Nevertheless, the complexity lives in one place. It is not obvious why UX knowle
 
 Adoption of Hydra, \gls{linkeddata} and the UI framework is a total net gain.
 
-\subsection{HATEOAS API implementation}
-TODO
-\paragraph{Data denormalization and UX on the server}
-TODO
-
 \subsection{Future work}
 The HTTP API implementations of both use cases are hard coded. This thesis provides a proof of concept for a Hydra console. Generic generation of an API that conforms to Hydra is not in the scope of this thesis. It is obvious that a tool that creates a Hydra API given a data model or an existing HTTP API together with the UI framework could make a full-stack \gls{linkeddata}-driven application framework. \\
 A possible approach is to implement Hydra serialization for an existing platform. Rails makes heavy use of Convention over Configuration which allows its plugins (gems) to make a lot of assumption. A Rails gem has direct access to the data model. This could be used to expose operations, generate documentation and serialize models to JSON-LD. \\
