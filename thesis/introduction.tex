@@ -8,20 +8,20 @@ Frederick P. Brooks, Jr. states this in his work \textit{No Silver Bullet} where
 
 He breaks down software complexity and describes that reduction of software complexity is more feasible for some types of complexity than others.
 
-This thesis explores the generation of user interfaces (UIs) for application programming interfaces (APIs) that fulfill certain criteria in the context of the World Wide Web. The main goal is to reduce the manual work required in UI development. The goal of this thesis is to decrease costs of UI development by reducing the involved complexity.
+This thesis explores the generation of user interfaces (UIs) for application programming interfaces (APIs) that fulfill certain criteria in the context of the World Wide Web. The main goal is to reduce the manual work in UI development by reducing complexity.
 
 \subsection{Context}\label{context}
-In order for information systems to be useful, they either have to interact with other systems or with human users. Those systems are increasingly more connected together and they exchange data without any human interaction. In the context of contemporary UI and web development, UIs are implemented that consume HTTP APIs which use the JSON data format \citep{jsonformat}. Those UIs are part of mobile, desktop or browser applications. End users interact with applications through UIs to carry out tasks.
+The context is UI development in web. These UIs are typically included in clients that run in browsers, on mobile devices or on desktops computers. They often exchange data with servers in the JSON data format \citep{jsonformat} through HTTP. The client is referred to as \textit{front-end}, the server as \textit{back-end}. End users interact with those UIs to carry out tasks.
 
 \subsection{Problem}\label{problem}
-JSON is a popular format for data exchange between information systems in web development. Humans are able to infer the meaning of a piece of JSON data but machines are not. Specific knowledge about the JSON data is needed for a machine to understand the meaning of it. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitly, encoded into the application containing the UI as shown in figure \ref{fig:hardcoded}. This knowledge is required to understand the data coming from such an API, it gives the data semantics. These client applications are strongly coupled to specific APIs which hinders their re-use. Instead, client applications are written from scratch to work with slightly different APIs, often sharing the same or similar data models.
+JSON is a popular format for data exchange between information systems in web development. Humans are able to infer the meaning of a piece of JSON data where machines are not. Specific knowledge about the JSON data is needed for a machine to understand the meaning of it. That specific knowledge is only valid for a certain API in a certain context. It is manually, often implicitly, encoded into the application containing the UI as shown in figure \ref{fig:hardcoded}. This knowledge is required to understand the data coming from such an API, it gives the data its semantics. These client applications are strongly coupled to specific APIs which hinders their re-use. Instead, client applications are written from scratch to work with slightly different APIs, often sharing the same or similar data models.
 
-Current approaches fail to exploit the architecture of the World Wide Web and they completely ignore the possibilities offered by \gls{linkeddata}.
+Current approaches fail to exploit the architecture of the World Wide Web and they completely ignore the possibilities offered by \gls{linkeddata}. These approaches we refer to as \textit{contemporary UI development}.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=450pt]
     {images/ui-dev-now.png}}
-  \caption{A part of the business logic is hard coded into the client.}
+  \caption{The business logic is hard coded into the client.}
   \label{fig:hardcoded}
 \end{figure}
 
@@ -37,7 +37,7 @@ The scope and expected results of this thesis include following artifacts:
 \item a proof of concept for the UI framework
 \end{itemize}
 
-The choice of the \gls{hateoas} specification is driven by the implementation of the HTTP APIs. The implementation of the HTTP APIs is driven by use cases that resemble real world scenarios. A UI framework is implemented that is used to create a client that can consume HTTP APIs of both use cases. The framework uses a design language implementation internally to provide basic building blocks to the UI developer.
+The choice of the \gls{hateoas} specification is driven by the implementation of the two HTTP APIs. The implementation of the HTTP APIs is driven by use cases that resemble real world scenarios. A UI framework is implemented that is used to create a client that can consume HTTP APIs of both use cases. The framework uses a design language implementation internally to provide basic building blocks to the UI developer.
 
 \subsection{Industrial partner}
-The industrial partner of this thesis is M. Nieminen Consulting. Miko Nieminen Consulting is interested in pushing open source efforts in \gls{linkeddata} driven UI with complex user interaction. A future real-world use case is the generation of web based back office applications for data and process management.
+The industrial partner of this thesis is M. Nieminen Consulting. M. Nieminen Consulting is interested in pushing open source efforts in \gls{linkeddata}-driven UI with complex user interaction. A future real-world use case is the generation of web based back office applications for data and process management.

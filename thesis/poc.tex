@@ -190,7 +190,7 @@ Hydra has native support for collections by using the property \lstinline{http:/
   }
 \end{lstlisting}
 
-Each member of this collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the URL. Given every member of the collection is of the same type, we can implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
+Each member of this collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the \gls{URL}. Given every member of the collection is of the same type, we can implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
@@ -460,7 +460,7 @@ Operations have an HTTP \lstinline{method} property so the client knows how to i
   \label{fig:issueshydra}
 \end{figure}
 
-A click on a start status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the URL of the issue in that row.
+A click on a start status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the \gls{URL} of the issue in that row.
 
 \subsubsection{Domain rendering}
 Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban \footnote{Project scheduling methodology, issue cards that move through production/development stages.} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
