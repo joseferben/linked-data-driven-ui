@@ -107,7 +107,7 @@ Separation of markup, styling and business logic is done in the name of encapsul
 
 \subsection{Task-based computing}
 Donald A. Norman explores human centered design of technology in his book \textit{The Invisible Computer}. Task-based computing describes the way a user interacts with a system. The only goal of the user is to complete an activity by interacting with tasks using actions. \citep{invisiblecomputer} \\
-This requires the UIs this thesis explores to be interactive. Furthermore, we aim to create a solution to not only create UIs supporting \gls{crud} operations but to create UIs with more complex interactions. In the scope of this thesis we look at UIs that provide value to task-based computing.
+This requires the UIs, this thesis explores, to be interactive. Furthermore, we aim to create a solution to not only create UIs supporting \gls{crud} operations but to create UIs with more complex interactions. In the scope of this thesis we look at UIs that provide value to task-based computing.
 
 \subsection{Richardson Maturity Model}\label{richardsonmaturitymodel}
 \textit{``The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily.''} \citep{richardsonmaturitymodel} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
@@ -237,7 +237,7 @@ Consider the following JSON snippet:
 
 It's obvious to humans that the data is about a person whose name is \textit{Manu Sporny} and that the homepage property contains the URL of that person's homepage. A machine doesn't have such an intuitive understanding and sometimes, even for humans, it is difficult to resolve ambiguities in such representations. This problem can be solved by using unambiguous identifiers to denote the different concepts instead of tokens such as name or homepage \citep{jsonldbasicconcepts}.
 
-JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. By using the popular schema.org vocabulary the example \ref{jsonexample} can be written as follows:
+JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. By using the popular Schema.org \footnote{Schema.org is explained in section \ref{schemaorg}} vocabulary the example \ref{jsonexample} can be written as follows:
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=Data of a person in the JSON-LD format, label=jsonldexample]
@@ -272,7 +272,7 @@ With the small addition of the reserved keyword \lstinline{@context}, readabilit
 \subsubsection{JSON-LD and the Semantic Web}
 The concepts of the \gls{semanticweb} were formed in the 1960s as something called semantic network. The technologies that power the Semantic Web today appeared in the 2000s. In 2006, Tim Berners-Lee, inventor of the World Wide Web, stated that \textit{``the simple idea of the Semantic Web remains largely unrealized''.} \citep{semanticwebrevisited}
 
-JSON-LD became an official standard in 2014, a few years after the core technologies of the Semantic Web emerged. As opposed to the Semantic Web and its technologies, JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects. \citep{jsonldusers} Both the technologies of the Semantic Web and JSON-LD are concerned with \gls{linkeddata}. Why is JSON-LD experiencing adoption?
+JSON-LD became an official standard in 2014, a decade after the core technologies of the Semantic Web emerged. As opposed to the Semantic Web and its technologies, JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects. \citep{jsonldusers} Both the technologies of the Semantic Web and JSON-LD are concerned with \gls{linkeddata}. Why is JSON-LD experiencing adoption?
 
 Manu Sporny, one of the primary creators of JSON-LD, criticizes the Semantic Web in his blog post \textit{JSON-LD and why I hate the Semantic Web}. His criticism has two major aspects.
 
@@ -435,7 +435,7 @@ results in following expanded data:
 \subsection{Vocabulary}
 JSON-LD is essentially a \gls{linkeddata} serialization format that plays well with JSON tooling. Creating \gls{linkeddata} means creating a vocabulary that others can use by linking to it. A lot of specialized vocabularies exist and Schema.org is popular in SEO and general web development.
 
-\subsubsection{Schema.org}
+\subsubsection{Schema.org}\label{schemaorg}
 \url{Schema.org} is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond. \citep{welcomeschemaorg} Companies like Google, Microsoft, Pinterest and Yandex are using it in their tools and products.
 
 Their main goal is to provide a shared vocabulary that web developers can refer to. It is often used in the context of search engine optimization by helping crawlers understand websites.

@@ -71,7 +71,7 @@ Due to choice of technology this design goal has been fulfilled and we assess it
 We explore a scenario with a running RESTful HTTP API returning JSON and a client consuming it. The client renders the UI with a custom rendering solution that creates the DOM based on input data. They are generating HTTP API documentation with a custom tool and the documentation is served using another server. The development team evaluates the upgrade path to a Hydra conform API using the UI framework. We discuss the upgrade steps to evaluate if the upgrade path is straightforward or if there is a lot of friction.
 
 \paragraph{Entity serialization}
-Serialization of entities to resources remains the same. Adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break.
+Serialization of entities to resources remains the same. Adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break often.
 
 \paragraph{Hydra documentation}
 Documentation is served using the meta data mechanism of Hydra. This is again just a response header that points to the documentation of the response resource. The existing API documentation is marked as deprecated. Developers use the Hydra documentation instead of the old one, so that the previous solution can be removed after a grace period.
