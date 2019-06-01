@@ -11,7 +11,7 @@ Ben Moseley and Peter Marks explore a general infrastructure to run specificatio
 
 \subsection{Evolution of UI web development}\label{history}
 
-\paragraph{Static pages} Websites comprise mostly static files accessed using \gls{URL}s. Those files are often created manually or generated using WYSIWYG \footnote{``What You See Is What You Get'' is a concept where the data is edited in a form that is close to its rendered form.} editors. The served files are mostly styles (CSS) \footnote{CSS is a language used to describe the presentation of markup documents and it plays an important role in the rendering process in browsers.}, static assets and markup that is rendered by the browser.
+\paragraph{Static pages} Websites comprise mostly static files accessed using \gls{url}s. Those files are often created manually or generated using WYSIWYG \footnote{``What You See Is What You Get'' is a concept where the data is edited in a form that is close to its rendered form.} editors. The served files are mostly styles (CSS) \footnote{CSS is a language used to describe the presentation of markup documents and it plays an important role in the rendering process in browsers.}, static assets and markup that is rendered by the browser.
 
 \paragraph{Dynamic pages} Dynamically generated content becomes popular with the rise of PHP \footnote{Hypertext Preprocessor (PHP) is a general purpose programming language that is used to render dynamic web pages on the server.}. Websites show different content to each user based on previous interaction. The served files were still the same static files. The markup was not hard coded anymore but dynamically rendered on the server for each user request.
 \\ Developers use templating languages to implement UIs.
@@ -68,20 +68,20 @@ What makes life of a human developer hard, poses an insurmountable obstacle to a
 In recent years, a concept in UI development became popular involving web components \footnote{We refer to the concept of web components and component-based rendering as opposed to template-based rendering, not the Web Component standard \url{https://www.webcomponents.org/specs}.}. This paragraph analyzes the concept of web components.
 
 \subsubsection{React}\label{sec:react}
-In 2013, Facebook released a library called React, which is a popular tool for component-based UI development today \citep{reactmarketshare}. Due to its widespread adoption in web development it caused a paradigm shift in UI development.
+In 2013, Facebook released a library called React, which is a popular tool for component-based UI development today \citep{reactmarketshare}. Its widespread adoption in web development caused a paradigm shift in UI development.
 
-React encourages the thinking of UIs as a composition of components. UI developers don't touch the DOM manually and merely provide data to React. This is a declarative approach where the developer states \textbf{what} the UI looks like as shown in figure \ref{fig:imperative} as opposed to \textbf{how} the UI should be rendered as illustrated in figure \ref{fig:declarative}. \\
+React encourages the mental model of UIs as compositions of components. UI developers don't touch the DOM manually and merely provide data to React. This is a declarative approach where the developer states \textbf{what} the UI looks like as shown in figure \ref{fig:imperative} as opposed to \textbf{how} the UI should be rendered as illustrated in figure \ref{fig:declarative}. \\
 React models the problem of UI rendering as function application. This leads to small re-usable components providing various benefits.
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=250pt]
+  \center{\includegraphics[width=270pt]
     {images/ui-imperative.png}}
   \caption{Imperative development: The UI developer works directly with the DOM.}
   \label{fig:imperative}
 \end{figure}
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380pt]
+  \center{\includegraphics[width=400pt]
     {images/ui-declarative.png}}
   \caption{Declarative development: The UI developer works with data and React takes care of the DOM.}
   \label{fig:declarative}
@@ -90,23 +90,24 @@ React models the problem of UI rendering as function application. This leads to 
 The output of a component depends only on its input. This allows developers to understand the change in the output depending on the change in the input, making the component easy to reason about. UIs using components are easy to test in isolation because the only dependency the data input. Analogous to function composition, such web components can be composed to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them easy to maintain and adjust. They can be used in multiple contexts and a good level of code re-use can be achieved.
 
 \subsubsection{Templates vs. Components}
-The benefits of web components become apparent when we analyze UI development without them. Before web components, it was common to render markup dynamically on the server and send it over to the browser where some JavaScript is executed that enhances the rendered DOM. \\
-On the server, some templating language was used typically. Templating languages resemble simple programming languages as they provide control structures and variables together with primitives to output markup. These templates are evaluated with some input data during a template rendering step. The output of that templating step is markup. Compared to components, templates have major drawbacks.
+The benefits of web components become apparent with the analysis of UI development with templates. \\
+We consider web pages that are dynamically created on the server in a template rendering step. Templating languages resemble simple programming languages providing control structures, assignable variables and primitives to output markup. These templates are evaluated with input data during a template rendering step. The output of that templating step is markup. Compared to components, templates have some drawbacks.
 
-Firstly, templating languages are a source of complexity. They often have powerful primitives to filter collections, sort sequences or format dates. This enlarges the technology stack and the learning curve. Questions like \textit{how does the evaluation of a template happen?} or \textit{how can I debug the evaluation process?} may arise at some point during development. \\
-They are often used together with models - abstractions that contain business logic and application state. There is a risk that business logic creeps into templates which makes them harder to maintain.
+\paragraph{Additional complexity} Templating languages are a source of complexity. They often have powerful primitives to filter collections, sort sequences or format dates. This enlarges the technology stack and its learning curve. Questions like \textit{how exactly does the evaluation and rendering of a template happen?} or \textit{how can I debug the rendering process?} may arise at some point during development. \\
+They are often used together with models - abstractions that contain business logic and application state. There is a risk that business logic creeps into templates. Mixing business and view logic makes decreases maintainability.
 
-Secondly, templates separate things that conceptually belong together. The developers of React have famously stated:
+\paragraph{Separation of concerns} Templates separate things that conceptually belong together. The developers of React have stated:
 \begin{quote}
 \textit{Templates separate technologies, not concerns.}
 \end{quote}
 We consider the UI of an issue tracking system where an issue has a status that can be changed. \\ A web component representing that issue contains the markup text, the styling and the business logic to change its status. That component is self-contained - it can be used in isolation and in various contexts. \\
 A template, on the other hand, only takes care of creating markup. It relies on a model to provide the data and behavior and on a style sheet providing the styling.
-Separation of markup, styling and business logic is done in the name of encapsulation. There is a technological and conceptual dichotomy. The main contribution of web components is the acknowledgment that the conceptual dichotomy is more important since the technological one can be solved with tooling. This is the reason why components provide a higher level of encapsulation than templates.
+Separation of markup, styling and business logic is done in the name of encapsulation. There is a technological and conceptual dichotomy. The main contribution of web components is the acknowledgment that the conceptual dichotomy is the important one. Things that are conceptually related belong together, not things that are using similar technologies. \\
+The technological dichotomy can be solved with improvements in tooling. Components provide a better level of encapsulation than templates.
 
 \subsection{Task-based computing}
 Donald A. Norman explores human centered design of technology in his book \textit{The Invisible Computer}. Task-based computing describes the way a user interacts with a system. The only goal of the user is to complete an activity by interacting with tasks using actions. \citep{invisiblecomputer} \\
-This requires the UIs, this thesis explores, to be interactive. Furthermore, we aim to create a solution to not only create UIs supporting \gls{crud} operations but to create UIs with more complex interactions. In the scope of this thesis we look at UIs that provide value to task-based computing.
+This requires the UIs, supporting task-based computing, to be interactive. Furthermore, we aim for an approach to not only develop UIs supporting \gls{crud} operations, but to create UIs with more complex interactions. In the scope of this thesis we consider UIs that provide value to the topic of task-based computing.
 
 \subsection{Richardson Maturity Model}\label{richardsonmaturitymodel}
 \textit{``The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily.''} \citep{richardsonmaturitymodel} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
@@ -114,13 +115,13 @@ This requires the UIs, this thesis explores, to be interactive. Furthermore, we 
 \begin{figure}[!htb]
   \center{\includegraphics[width=350pt]
     {images/rmm.png}}
-  \caption{Steps towards REST.}
+  \caption{Steps towards REST. \\ (Source: https://martinfowler.com/articles/richardsonMaturityModel.html)}
 \end{figure}
 
-The Richardson Maturity Model describes steps towards REST starting with HTTP. We go through the levels starting with level 0 by looking at an example of a system that allows us to book appointments with our doctor.
+The Richardson Maturity Model describes steps towards REST starting with HTTP. We go through the levels by looking at an example of a system that allows us to book appointments with our doctor.
 
 \subsubsection{Level 0: The Swamp of POX}
-Level 0 uses HTTP as a transport system for remote interactions. No other features of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL work on this level. POX stands for plain old XML. \\
+Level 0 uses HTTP as a transport system for remote interactions. No other features of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL work on this level. POX stands for \textit{plain old XML}. \\
 To book an appointment at our doctor we create the following request:
 
 \lstset{language=XML}
@@ -132,7 +133,7 @@ POST /appointmentService HTTP/1.1
 \end{lstlisting}
 
 \subsubsection{Level 1: Resources}
-Level 1 introduces the concept of resources. Instead of referring to the doctor within our request body we encode the doctor in the \gls{URL}. This is similar to the concept of an object identity, where an object instance can be identified by an id.
+Level 1 introduces the concept of resources. Instead of referring to the doctor within the request body, we encode the doctor in the \gls{url}. This is similar to the concept of an object identity, where an object instance can be identified by an id.
 
 \lstset{language=XML}
 \begin{lstlisting}[caption=Level 1: Referring to the doctor as a resource.]
@@ -143,9 +144,9 @@ POST /doctors/mjones HTTP/1.1
 \end{lstlisting}
 
 \subsubsection{Level 2: HTTP Verbs}
-Level 2 introduces HTTP verbs like \lstinline{GET}, \lstinline{POST} or \lstinline{DELETE}. Instead of using \lstinline{POST} everywhere we choose the most specific verb that fits the use case.
-Fowler puts the emphasis here on \lstinline{safety} and says that it is not too important to make use of all the HTTP verbs. Proper use of the safe and idempotent verb \lstinline{GET} and the unsafe verb \lstinline{POST} improves an API a lot, according to him. \\
-Level 2 additionally adds the proper use of HTTP status codes. The creation of a resource using \lstinline{POST} should return the HTTP status code \lstinline{201 Created}.
+Level 2 introduces HTTP verbs like \lstinline{GET}, \lstinline{POST} or \lstinline{DELETE}. Instead of using \lstinline{POST} everywhere, we choose the most specific verb that fits the use case.
+Fowler puts the emphasis here on \lstinline{safety} and says that it is not too important to make use of all the HTTP verbs. Proper use of the safe and idempotent verb \lstinline{GET} and the unsafe verb \lstinline{POST} suffices, according to Fowler. \citep{richardsonmaturitymodel} \\
+Level 2 additionally requires the proper use of HTTP status codes. The creation of a resource using \lstinline{POST} should return the HTTP status code \lstinline{201 Created}.
 
 \lstset{language=XML}
 \begin{lstlisting}[caption=Level 2: Safely fetching the list of open slots using \lstinline{GET}.]
@@ -154,7 +155,7 @@ Host: royalhope.nhs.uk
 \end{lstlisting}
 
 \subsubsection{Level 3: Hypermedia Controls}
-The final level introduces something that you often hear referred to under the ugly acronym of \gls{hateoas} (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list of open slots to knowing what to do to book an appointment. \citep{richardsonmaturitymodel}
+``\textit{The final level introduces something that you often hear referred to under the ugly acronym of \gls{hateoas} (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list of open slots to knowing what to do to book an appointment.}'' \citep{richardsonmaturitymodel}
 
 We begin with the known request to get the list of open slots:
 
@@ -164,7 +165,7 @@ GET /doctors/mjones/slots?date=20100104&status=open HTTP/1.1
 Host: royalhope.nhs.uk
 \end{lstlisting}
 
-The response contains the URIs that help us understand how to book an appointment.
+The response contains the \gls{uri}s that help us understand how to book an appointment.
 
 \lstset{language=XML}
 \begin{lstlisting}[caption=Level 3: The response contains information that helps us book an appointment.]
@@ -183,7 +184,7 @@ HTTP/1.1 200 OK
 </openSlotList>
 \end{lstlisting}
 
-There is still some ambiguity and the client needs some prior knowledge on how to book an appointment.
+There is still some ambiguity and the client needs prior knowledge about the API on how to book an appointment.
 
 \subsubsection{Level 4: Linked data-driven UI for task-based computing}
 This thesis aims to specify \gls{hateoas} in order to allow a generic UI to consume any API that conforms to that specification. A generic UI consumes that machine readable API and allows users to interact with it.
@@ -191,42 +192,42 @@ This thesis aims to specify \gls{hateoas} in order to allow a generic UI to cons
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
     {images/rmm-next.png}}
-  \caption{From REST to UI.}
+  \caption{The \gls{linkeddata}-driven UI sits on top of Level 4, which specifies a HATEOAS API. \\ (Based on: https://martinfowler.com/articles/richardsonMaturityModel.html)}
 \end{figure}
 
 \subsection{Linked data}\label{linkeddata}
-Linked data is a way of creating a web of machine interpretable data across different domains, systems and organizations. A person or a machine should be able to explore data by simply following links. In essence, the same expectations apply to make that web of data grow as to linked HTML documents. \citep{linkedatafourrules}
+\textit{``Linked data is a way of creating a web of machine interpretable data across different domains, systems and organizations. A person or a machine should be able to explore data by simply following links. In essence, the same expectations apply to make that web of data grow as to linked HTML documents.''} \citep{linkedatafourrules}
 
 \begin{enumerate}
-  \item Use URIs as names for things
-  \item Use HTTP URIs so that people can look up those names.
-  \item When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL)
-  \item Include links to other URIs, so that they can discover more things.
+  \item Use \gls{uri}s as names for things.
+  \item Use HTTP \gls{uri}s so that people can look up those names.
+  \item When someone looks up a \gls{uri}, provide useful information, using the standards (\gls{rdf}, \gls{sparql}).
+  \item Include links to other \gls{uri}s, so that they can discover more things.
 \end{enumerate}
 
-A machine looking at a piece of \gls{linkeddata} follows the links and is able to unambiguously understand the data. This is equivalent of traversing a graph since \gls{linkeddata} is effectively a giant graph. There are multiple serialization formats in the family of specifications called Resource Description Framework (RDF) \citep{rdfspecification}.
+A machine looking at a piece of \gls{linkeddata} follows the links and is able to unambiguously understand the data. This is equivalent to traversing a graph since \gls{linkeddata} is effectively a giant graph. There are multiple serialization formats in the family of specifications called Resource Description Framework (\gls{rdf}) \citep{rdfspecification}.
 
-An RDF file describing a Smith family could live at \lstinline{http://example.org/smith} and have following content:
+An \gls{rdf} file describing a Smith family lives at \lstinline{http://example.org/smith} and has following content:
 
 \lstset{language=XML}
-\begin{lstlisting}[caption= Simple example of a person as RDF, label=rdfexample]
+\begin{lstlisting}[caption= Simple example of a person as \gls{rdf}, label=rdfexample]
 <rdf:Description about="#albert"
  <fam:child rdf:Resource="#brian">
   <fam:child rdf:Resource="#carol">
   </rdf:Description>
 \end{lstlisting}
 
-Information about the grandparent Albert can be obtained by loading the data at \\ \lstinline{http://example.org/smith#albert}. Albert's child Brian can be accessed at \\  \lstinline{http://example.org/smith#brian} and Brian's child Carol at \lstinline{http://example.org/smith#carol}.
+Information about the grandparent Albert can be obtained by loading the data at \lstinline{http://example.org/smith#albert}. Albert's child Brian can be accessed at \lstinline{http://example.org/smith#brian} and Brian's child Carol at \lstinline{http://example.org/smith#carol}.
 
 \subsection{JSON-LD}\label{jsonld}
-In web development the main format for data exchange is JSON \citep{jsonformat}. It is easy to parse, to generate, arguably easier for humans to read than XML and many languages provide first-class support for it.
+In web development, a popular format for data exchange is JSON \citep{jsonformat}. It is easy to parse, to generate, arguably easier for humans to read than XML and many languages provide first-class support for it.
 
-However, JSON is difficult to integrate from different sources as the data may contain keys that conflict with other data sources. JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web \citep{jsonldbasicconcepts}. It doesn't provide any means to attach meta data to the data itself and one has to use other mechanisms to provide meta data like HTTP headers.
+However, JSON is difficult to integrate from different sources as the data may contain keys that conflict with other data sources. JSON has no built-in support for hyperlinks, which is a fundamental building block on the Web \citep{jsonldbasicconcepts}. It doesn't provide any means to attach meta data to the data itself and one has to use other mechanisms to provide meta data like HTTP headers.
 
-Consider the following JSON snippet:
+We consider following JSON snippet:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Data of a person in the JSON format, label=jsonexample]
+\begin{lstlisting}[caption=Data of a person in the JSON format., label=jsonexample]
 {
   "name": "Manu Sporny",
   "homepage": "http://manu.sporny.org/",
@@ -234,12 +235,12 @@ Consider the following JSON snippet:
 }
 \end{lstlisting}
 
-It's obvious to humans that the data is about a person whose name is \textit{Manu Sporny} and that the homepage property contains the \gls{URL} of that person's homepage. A machine doesn't have such an intuitive understanding and sometimes, even for humans, it is difficult to resolve ambiguities in such representations. This problem can be solved by using unambiguous identifiers to denote the different concepts instead of tokens such as name or homepage \citep{jsonldbasicconcepts}.
+\textit{``It's obvious to humans that the data is about a person whose name is \textit{Manu Sporny} and that the homepage property contains the \gls{url} of that person's homepage. A machine doesn't have such an intuitive understanding and sometimes, even for humans, it is difficult to resolve ambiguities in such representations. This problem can be solved by using unambiguous identifiers to denote the different concepts instead of tokens such as name or homepage.''} \citep{jsonldbasicconcepts}.
 
-JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. By using the popular Schema.org \footnote{Schema.org is explained in section \ref{schemaorg}} vocabulary the example \ref{jsonexample} can be written as follows:
+JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. By using the popular \url{Schema.org} \footnote{\url{Schema.org} is explained in section \ref{schemaorg}} vocabulary the example shown in listing \ref{jsonexample} can be written as follows:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Data of a person in the JSON-LD format, label=jsonldexample]
+\begin{lstlisting}[caption=Data of a person in the JSON-LD format., label=jsonldexample]
 {
   "http://schema.org/name": "Manu Sporny",
   "http://schema.org/url": {
@@ -253,10 +254,10 @@ JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. B
 
 This can be understood by any machine without providing additional information. The key \lstinline{http://schema.org/name} can be looked up to determine the meaning of the value \lstinline{Manu Sporny}. JSON-LD supports the concept of a \textbf{context}.
 
-The context is meta data that has to be provided together with the data. This makes it possible for a machine to attach meaning to it. Thanks to the context it is not required to have the keys as absolute URIs anymore. The data can be compacted and written as follows:
+The context is meta data that has to be provided together with the data. This makes it possible for a machine to attach meaning to it. Thanks to the context, it is not required to have the keys as absolute \gls{uri}s anymore. The data can be compacted and written as follows:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Compacted data of a person, label=jsonldcompacted]
+\begin{lstlisting}[caption=Compacted JSON-LD data of a person., label=jsonldcompacted]
 {
   "@context": "http://schema.org",
   "name": "Manu Sporny",
@@ -269,28 +270,28 @@ With the small addition of the reserved keyword \lstinline{@context}, readabilit
 
 
 \subsubsection{JSON-LD and the Semantic Web}
-The concepts of the \gls{semanticweb} were formed in the 1960s as something called semantic network. The technologies that power the Semantic Web today appeared in the 2000s. In 2006, Tim Berners-Lee, inventor of the World Wide Web, stated that \textit{``the simple idea of the Semantic Web remains largely unrealized''.} \citep{semanticwebrevisited}
+The concepts of the \gls{semanticweb} were formed in the 1960s as something called \textit{semantic network}. The technologies that power the Semantic Web today appeared in the 2000s. In 2006, Tim Berners-Lee, inventor of the World Wide Web, stated that \textit{``the simple idea of the Semantic Web remains largely unrealized''.} \citep{semanticwebrevisited}
 
-JSON-LD became an official standard in 2014, a decade after the core technologies of the Semantic Web emerged. As opposed to the Semantic Web and its technologies, JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects. \citep{jsonldusers} Both the technologies of the Semantic Web and JSON-LD are concerned with \gls{linkeddata}. Why is JSON-LD experiencing adoption?
+JSON-LD became an official standard in 2014, a decade after the core technologies of the Semantic Web emerged. Opposed to the Semantic Web and its technologies, JSON-LD has seen a widespread adoption in the software industry. Among the users of JSON-LD are Microsoft, Google, Yandex and a few Apache projects. \citep{jsonldusers} Both the technologies of the Semantic Web and JSON-LD are concerned with \gls{linkeddata}. Why is JSON-LD experiencing adoption?
 
 Manu Sporny, one of the primary creators of JSON-LD, criticizes the Semantic Web in his blog post \textit{JSON-LD and why I hate the Semantic Web}. His criticism has two major aspects.
 
 \paragraph{Social}
-The main point of his criticism is that the Semantic Web working group neglects the human factor in software development. Widespread adoption of a technology in mainstream web development can not be achieved if it requires the setup of a \gls{sparql} engine, a \gls{quadstore} and \gls{rdf} tooling. The average web developer has no interest in dealing with this overhead. He further critiques the W3C specifications and states that they are hard to read. \citep{semanticwebrevisited} Manu also mentions how the Semantic Web community creates esoteric solutions to non-problems. \citep{semanticwebrevisited}
+The main point of his criticism is the neglect of the human factor in software development by the Semantic Web working group. Widespread adoption of a technology in mainstream web development can not be achieved if it requires the setup of a \gls{sparql} engine, a \gls{quadstore} and \gls{rdf} tooling. The average web developer has no interest in dealing with this overhead. He further critiques the W3C specifications and states that they are hard to read. \citep{semanticwebrevisited} Manu also mentions how the Semantic Web community creates esoteric solutions to non-problems. \citep{semanticwebrevisited}
 
 \paragraph{Technology}
-The second point is criticism on the technological decisions mainly about RDF. RDF has no native support for lists and it didn't have support for graphs for a long time. One of the goals was to remain compatible to RDF with JSON-LD, so that data can be serialized and deserialized from and to each other. \citep{semanticwebrevisited}
+The second point is criticism on the technological decisions mainly about \gls{rdf}. \gls{rdf} has no native support for lists and it didn't have support for graphs for a long time. One of the goals was to remain compatible to \gls{rdf} with JSON-LD, so that data can be serialized and deserialized from and to each other. \citep{semanticwebrevisited}
 
 \subsubsection{JSON-LD Operations}
-There are a few operations that can be executed on JSON-LD. Following are the three most important ones to understand how machines use the context to make sense of the payload.
+There are a few operations that can be executed on JSON-LD. Following are the three most important ones to understand how machines use the context to make sense of the payload \footnote{The data is referred to as payload in order to distinguish data from meta data}.
 
 \paragraph{Framing}
 Framing is an operation that re-shapes data. Input of the framing operation is data and a frame. The frame determines the new shape of the data.
 
-Consider following data describing books in a library. The data is in the form of a normalized graph. The \lstinline{contains} relation represents edges between nodes, the items in the \lstinline{@graph} list are the graph nodes.
+We consider following data describing books in a library. I is in the form of a normalized graph. The \lstinline{contains} relation represents edges between nodes, the items in the \lstinline{@graph} list are the graph nodes.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Data of a library as normalized graph]
+\begin{lstlisting}[caption=Data of a library as normalized graph.]
 {
   "@context": {
     "@vocab": "http://example.org/",
@@ -318,7 +319,7 @@ Consider following data describing books in a library. The data is in the form o
 Following frame defines the shape:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Frame for the framing operation]
+\begin{lstlisting}[caption=Frame for the framing operation.]
 {
   "@context": {
     "@version": 1.1,
@@ -337,7 +338,7 @@ Following frame defines the shape:
 While the input to the framing operation is a graph, the output is a tree or a normalized graph:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Framed data of a library]
+\begin{lstlisting}[caption=Framed data of a library.]
 {
   "@context": {
     "@version": 1.1,
@@ -361,10 +362,9 @@ While the input to the framing operation is a graph, the output is a tree or a n
 \end{lstlisting}
 
 \paragraph{Compacting}\label{jsonldcompacting}
+Compacting describes the operation of reducing verbosity. Compacted data is meant to be read and understood by human developers. This is achieved by pulling out the context and explicitly define it using the \lstinline{@context} keyword.
 
-Compacting describes the operation of reducing verbosity in some JSON-LD data. Compacted data is meant to be read and understood by human developers. This is achieved by pulling out the context and explicitely define it using the \lstinline{@context} keyword.
-
-Consider following input:
+We consider following input:
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=Verbose data of a person]
@@ -392,12 +392,12 @@ This data can be compacted by pulling out the \lstinline{@context}:
 \end{lstlisting}
 
 \paragraph{Expanding}\label{jsonldextending}
-Expanded data serves the opposite goal of compacting data. While compacted data is easy to read for humans, extended data is easy to process for machines.
+Expanded data serves the opposite goal of compacting data as shown in section \ref{jsonldcompacting}. While compacted data is easy to read for humans, extended data is easy to process for machines.
 
 Expanding the following compacted data
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Compacted and easy-to-read data of a person]
+\begin{lstlisting}[caption=Compacted and easy-to-read data of a person.]
 {
   "@context": "http://schema.org",
   "name": "Manu Sporny",
@@ -409,7 +409,7 @@ Expanding the following compacted data
 results in following expanded data:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Expanded data of a person that is easy to process for machines]
+\begin{lstlisting}[caption=Expanded data of a person that is easy to process for machines.]
 [
   {
     "http://schema.org/image": [
@@ -432,19 +432,19 @@ results in following expanded data:
 \end{lstlisting}
 
 \subsection{Vocabulary}
-JSON-LD is essentially a \gls{linkeddata} serialization format that plays well with JSON tooling. Creating \gls{linkeddata} means creating a vocabulary that others can use by linking to it. A lot of specialized vocabularies exist and Schema.org is popular in SEO and general web development.
+JSON-LD is essentially a \gls{linkeddata} serialization format that plays well with JSON tooling. Creating \gls{linkeddata} means creating a vocabulary that others can use by linking to it. A lot of specialized vocabularies exist and \url{Schema.org} is popular in SEO \footnote{Search Engine Optimization (SEO) describes the topic of optimizing websites to achieve better rankings in search results.} and general web development.
 
-\subsubsection{Schema.org}\label{schemaorg}
+\subsubsection{\url{Schema.org}}\label{schemaorg}
 \url{Schema.org} is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond. \citep{welcomeschemaorg} Companies like Google, Microsoft, Pinterest and Yandex are using it in their tools and products.
 
 Their main goal is to provide a shared vocabulary that web developers can refer to. It is often used in the context of search engine optimization by helping crawlers understand websites.
 
-Schema.org is a hierarchy of \lstinline{Things} that have an implicit \textit{is a} relationship. This is similar to subtyping through inheritance in object-oriented programming. The following is a small subset of the Schema.org hierarchy:
+\url{Schema.org} is a hierarchy of \lstinline{Things} that have an implicit \textit{is a} relationship. This is similar to subtyping through inheritance in object-oriented programming. The following is a small subset of the \url{Schema.org} hierarchy:
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
     {images/schemaorg.png}}
-  \caption{\label{fig:schemaorg} Subset of the Schema.org ontology where child-parent relation describes an \textit{is a} relationship.}
+  \caption{\label{fig:schemaorg} Subset of the \url{Schema.org} ontology where child-parent relation describes an \textit{is a} relationship.}
 \end{figure}
 
 The advantage of using such a vocabulary becomes obvious when looking at an example. The type \lstinline{Person} has a property \lstinline{address}. \lstinline{Address} can be of type \lstinline{http://schema.org/Text} or \lstinline{http://schema.org/PostalAddress}.
