@@ -22,7 +22,7 @@ Ben Moseley and Peter Marks explore a general infrastructure to run specificatio
 \paragraph{Web applications} The amount of interactive elements on websites and their complexity increased. What is once a text input field with real-time suggestions is now a full-text search interface with complex filtering and sorting options. The standardization of browser APIs is in the early stages and developers have to spend effort to create a consistent user experience across various browsers.
 \\ Tools like jQuery \footnote{JQuery is a JavaScript library released in 2006 that is used to simplify interaction with browsers by providing a unified API. (\url{http://jquery.com/})} emerge and provide a single interface for multiple browsers. The websites are still dynamically rendered on the server but they are enriched in the browser by running JavaScript.
 
-\paragraph{Single-Page Applications} The first web applications appear, providing a user experience in the browser similar to the one of fat clients \footnote{Applications that provide rich functionality without a connection to the server.}. The response that the server sends to the browser is mostly JavaScript. The browser runs that JavaScript to render the website and to react on user input. The application communicates with the server using AJAX and the website is not rendered on the server anymore. Instead, a single page is served, on which the application lifecycle takes place. Single-Page Applications \footnote{Single-Page Applications (SPA) interact with the user by rewriting the current DOM instead of loading entirely new pages.} are born.
+\paragraph{Single-page applications} The first web applications appear, providing a user experience in the browser similar to the one of fat clients \footnote{Applications that provide rich functionality without a connection to the server.}. The response that the server sends to the browser is mostly JavaScript. The browser runs that JavaScript to render the website and to react on user input. The application communicates with the server using AJAX and the website is not rendered on the server anymore. Instead, a single page is served, on which the application lifecycle takes place. Single-page applications \footnote{Single-page applications (SPA) interact with the user by rewriting the current DOM instead of loading entirely new pages.} are born.
 \\ Development of UIs changes - the UI is part of an application that has its own lifecycle. Development of the server and the client often takes place separately. The HTTP API is informal contract between client and server.
 
 \subsection{Document Object Model}\label{documentobjectmodel}
@@ -44,52 +44,50 @@ The Document Object Model (DOM) is a programming API for HTML and XML documents.
 </table>
 \end{lstlisting}
 
-The DOM representation of that table looks as follows:
+Figure \ref{fig:dom} shows the DOM representation of that table.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=250pt]
     {images/dom.png}}
   \caption{The DOM is a tree data structure representing an HTML document.}
+  \label{fig:dom}
 \end{figure}
 
-It is worth to note that the DOM API is imperative. The developer has to tell the DOM how to achieve a certain transformation by providing a sequence of DOM operations. An example operation would be the removal of a node. Considering operations on the document as strings, the DOM provides better developer ergonomics.
+It is worth to note that the DOM API is imperative. The developer has to tell the DOM \textbf{how} to achieve a certain transformation by providing a sequence of DOM operations. An example operation would be the removal of a node. Considering operations on the document as strings, the DOM provides better developer ergonomics.
 
-We call the process of creating the DOM of a document rendering. This is not to be confused with the rendering taking place in a web browser. There the creation of the DOM is just one step of the whole rendering process.
-
-\subsection{UI web development today}\label{uidevelopmenttoday}
-Some UI parts are increasingly more rendered on the server again, mainly for performance reasons and search engine optimization. It is common to have a front-end team working on the client and a back-end team working on the server. The frontend team makes sense of the data that comes from the server either manually or in the best case using some form of HTTP API documentation.
-\\ There are efforts like Swagger \footnote{Swagger is a framework to design, build and document RESTful Web Services. (\url{https://swagger.io/})} or OpenAPI \footnote{OpenAPI is a specification that defines a standard for REST APIs that allows humans and computers to discover the capabilities of a service. (\url{https://github.com/OAI/OpenAPI-Specification})} to formalize and standardize documentation of HTTP APIs. Often documentation can be generated to a certain extent, so the overhead to keep it up-to-date is small. Documentation helps humans (front-end team) to understand the data.
-\\ This interpretation of the meaning of the incoming data is hard coded into the client and the UI. This causes strong coupling of the client to the data and therefore to the server. The client can not be re-used in some other \textbf{context}.
+We call the process of creating the DOM of a document ``rendering''. This is not to be confused with the rendering taking place in browsers. There, the creation of the DOM is just one step of the rendering process.
 
 \subsubsection{Lack of context}\label{datahumanmachine}
-We picture a scenario in everyday life where two good friends meet. One of them says: \textit{Have you heard about Frank? He recently got married.} Chances are high the other one knows multiple people named Frank. Being a human, he is able to map the name Frank to the person the other one is referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people both friends know who might get married.
+We picture a scenario in everyday life where two good friends meet. One of them says: ``Have you heard about Frank? He recently got married.''} Chances are high the other one knows multiple people named Frank. Being a human, he is able to map the name Frank to the person the other one is referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people both friends know who might get married.
 
-The exact same thing happens frequently in software development, especially in data exchange. A frontend developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes, he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
+Similar things happen in software development, specifically in data exchange. A \gls{frontend} developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes, he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
 
-What makes life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems as participants in the web. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In traditional web UI development that context is hard coded into the client and the UI. We believe that the majority of work done in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
+What makes life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems as participants in the web. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In UI development, that context is often hard coded into the client and the UI itself \footnote{We refer to this approach of UI development as \textit{traditional} or \textit{contemporary} approach}. We think that some of the complexity in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
 
 \subsection{Web components}\label{webcomponents}
-In recent years an approach to rendering UIs became popular which we call component based rendering. This paragraph analyzes the reason why this approach to UI development gained popularity.
+In recent years, a concept in UI development became popular involving web components \footnote{We refer to the concept of web components and component-based rendering as opposed to template-based rendering, not the Web Component standard \url{https://www.webcomponents.org/specs}.}. This paragraph analyzes the concept of web components.
 
 \subsubsection{React}\label{sec:react}
-In 2013, Facebook released a library called React, which is one of the main tools for web development today. It was one of the first libraries to encourage the usage of web components \footnote{We mean the concept of web components, not the Web Component standard \url{https://www.webcomponents.org/specs}.}. Due to its widespread adoption in web development it caused a paradigm shift.
+In 2013, Facebook released a library called React, which is a popular tool for component-based UI development today \citep{reactmarketshare}. Due to its widespread adoption in web development it caused a paradigm shift in UI development.
 
-React encourages the thinking of UIs as a composition of components. The UI developer doesn't touch the DOM manually and merely provides data to React. This is a declarative approach where the developer states \textbf{what} the UI looks like not \textbf{how} the UI should be rendered. \\
-Most importantly, React models the problem of UI rendering as function application. This insight leads to small re-usable components which has various benefits.
+React encourages the thinking of UIs as a composition of components. UI developers don't touch the DOM manually and merely provide data to React. This is a declarative approach where the developer states \textbf{what} the UI looks like as shown in figure \ref{fig:imperative} as opposed to \textbf{how} the UI should be rendered as illustrated in figure \ref{fig:declarative}. \\
+React models the problem of UI rendering as function application. This leads to small re-usable components providing various benefits.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=250pt]
     {images/ui-imperative.png}}
-  \caption{Imperative development: Developer works directly with DOM.}
+  \caption{Imperative development: The UI developer works directly with the DOM.}
+  \label{fig:imperative}
 \end{figure}
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
     {images/ui-declarative.png}}
-  \caption{Declarative development: Developer provides data and React takes care of the DOM.}
+  \caption{Declarative development: The UI developer works with data and React takes care of the DOM.}
+  \label{fig:declarative}
 \end{figure}
 
-The markup output of a component depends only on its data input. This allows developers to understand the change in the output when changing the input, making the component easy to reason about. UIs using components are easy to test in isolation because there are no other dependencies than the data input. Analogous to function composition, such web components can be composed to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them usable in multiple contexts. That means a good level of code reuse can be achieved.
+The output of a component depends only on its input. This allows developers to understand the change in the output depending on the change in the input, making the component easy to reason about. UIs using components are easy to test in isolation because the only dependency the data input. Analogous to function composition, such web components can be composed to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them easy to maintain and adjust. They can be used in multiple contexts and a good level of code re-use can be achieved.
 
 \subsubsection{Templates vs. Components}
 The benefits of web components become apparent when we analyze UI development without them. Before web components, it was common to render markup dynamically on the server and send it over to the browser where some JavaScript is executed that enhances the rendered DOM. \\

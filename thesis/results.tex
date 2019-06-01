@@ -86,7 +86,7 @@ Due to choice of HATEOAS specification and \gls{linkeddata} format, it is almost
 In order to assess the customizability of the UI framework, we compare the set of UIs that can be implemented using the UI framework with the set of UIs that can be implemented using tools like React.
 
 \paragraph{Plugin mechanism}
-The plugin mechanism allows UI developers to map components to data types. It is possible to register a renderer using the wildcard \lstinline{*} type. This activates the renderer on every type. The UI developer can take control over rendering by using wildcards to render a React component with all the response data as input. The set of UIs that can be implemented using the UI framework is equal to the set of UIs that can be implemented using React.
+The plugin mechanism allows UI developers to map components to data types. It is possible to register a renderer using the wildcard \lstinline{*} type. This activates the renderer on every type. UI developers can take control over rendering by using wildcards to render a React component with all the response data as input. The set of UIs that can be implemented using the UI framework is equal to the set of UIs that can be implemented using React.
 
 \paragraph{Summary}
 This design goal is fulfilled which leads to a \textbf{score of 3}.
@@ -160,7 +160,7 @@ As shown in table \ref{tab:designgoalscomplexity}, we rate the design goal \text
 \subsection{Reduction of complexity in software development}
 This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' \gls{linkeddata}-driven approach to the development workflow using the UI framework.
 
-\paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a frontend using React. They use Swagger to generate and serve API documentation.
+\paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a front-end using React. They use Swagger to generate and serve API documentation.
 
 We assess various types of software complexities in order to gauge the change in complexity between the baseline scenario and the same scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
 
@@ -218,7 +218,7 @@ The improvement regarding complexity caused by state is \textbf{3}.
 
 To summarize, complexity caused by control occurs when the developer is forced to specify \textbf{how} something works as opposed to \textbf{what} happens. A development approach that is more \textbf{declarative} bears less of this type of complexity. \\
 An example of decrease in complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
-The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. On the other hand, there is no infrastructure code needed to fetch data from the server. The UI developer doesn't have to set up a build process and is not concerned with local state management. These things are implicitly handled by the UI framework and UI developers can focus on mapping custom renderers to \gls{linkeddata} types.
+The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. On the other hand, there is no infrastructure code needed to fetch data from the server. UI developers don't have to set up a build process and are not concerned with local state management. These things are implicitly handled by the UI framework and UI developers can focus on mapping custom renderers to \gls{linkeddata} types.
 
 Complexity caused by control is reduced slightly with \textbf{a score of 2}.
 

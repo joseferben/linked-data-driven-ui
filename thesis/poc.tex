@@ -105,7 +105,7 @@ The JSON-LD renderer is one of the two renderers that ship with the framework. I
 The Hydra renderer is the second renderer that ships with the framework. It builds on top of the JSON-LD renderer and renders root resources, collections, links and operations. The Hydra renderer creates a UI on top of any Hydra API. That UI is not optimized because it has no domain knowledge.
 
 \paragraph{Domain Renderers}
-The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{uidevelopmenttoday}, contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
+The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{problem}, contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
 Domain renderers only render \gls{linkeddata} - they don't render data without context. UI developers don't hard code assumptions about the data model of the HTTP API. \\
 A React component and a \gls{linkeddata} type constitute one domain specific renderer. The open-world philosophy of \gls{linkeddata} encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to \gls{linkeddata} vocabularies}.
 
@@ -506,7 +506,7 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
       \hline
       S7 & Accepted: The Hydra renderer shows all data \\
       \hline
-      S8 & Accepted: The UI developer can override the generic renderers \\
+      S8 & Accepted: UI developers can override the generic renderers \\
       \hline
       S9 & Accepted: The Hydra renderer exposes all operations by default \\
       \hline
