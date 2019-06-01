@@ -436,21 +436,21 @@ JSON-LD is essentially a \gls{linkeddata} serialization format that plays well w
 
 \subsubsection{\url{Schema.org}}\label{schemaorg}
 \url{Schema.org} is a collaborative, community activity with a mission to create, maintain, and promote schemas for structured data on the Internet, on web pages, in email messages, and beyond. \citep{welcomeschemaorg} Companies like Google, Microsoft, Pinterest and Yandex are using it in their tools and products.
-
-Their main goal is to provide a shared vocabulary that web developers can refer to. It is often used in the context of search engine optimization by helping crawlers understand websites.
+Their main goal is to provide a shared vocabulary that web developers can refer to.
 
 \url{Schema.org} is a hierarchy of \lstinline{Things} that have an implicit \textit{is a} relationship. This is similar to subtyping through inheritance in object-oriented programming. The following is a small subset of the \url{Schema.org} hierarchy:
 
 \begin{figure}[!htb]
-  \center{\includegraphics[width=380pt]
+  \center{\includegraphics[width=400pt]
     {images/schemaorg.png}}
-  \caption{\label{fig:schemaorg} Subset of the \url{Schema.org} ontology where child-parent relation describes an \textit{is a} relationship.}
+  \caption{ A subset of the \url{Schema.org} ontology where child-parent relation describes an \textit{is a} relationship.}
+  \label{fig:schemaorg}
 \end{figure}
 
-The advantage of using such a vocabulary becomes obvious when looking at an example. The type \lstinline{Person} has a property \lstinline{address}. \lstinline{Address} can be of type \lstinline{http://schema.org/Text} or \lstinline{http://schema.org/PostalAddress}.
+The advantage of using such a vocabulary becomes obvious when looking at an example. As shown in listing \ref{lst:personuntyped}, the type \lstinline{Person} has a property \lstinline{address}. \lstinline{Address} can be of type \lstinline{http://schema.org/Text} or \lstinline{http://schema.org/PostalAddress}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=A person with an address of type Text]
+\begin{lstlisting}[caption=A person with an address of type Text., label=lst:personuntyped]
 {
   "@context": "http://schema.org",
   "givenName": "Walter",
@@ -461,10 +461,10 @@ The advantage of using such a vocabulary becomes obvious when looking at an exam
 
 A machine receiving that data knows that this is a person and understands his name, but it can not understand his address. There is additional context needed that describes the schema used in the \lstinline{address} property.
 
-The data of the same person where the address is of type \lstinline{http://schema.org/PostalAddress} can be processed unambiguously by any machine that understands \gls{linkeddata}.
+The data of the same person where the address is of type \lstinline{http://schema.org/PostalAddress} can be processed unambiguously by any machine that understands \gls{linkeddata}, which is shown in listing \ref{lst:persontyped}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=A person with an address of type PostalAddress]
+\begin{lstlisting}[caption=A person with an address of type PostalAddress., label=lst:persontyped]
 {
   "@context": "http://schema.org",
   "givenName": "Walter",
