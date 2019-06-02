@@ -158,9 +158,9 @@ The learning curve to implement non-interactive UIs is minimal. The component AP
 \subsection{Reduction of complexity in software development}
 This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' \gls{linkeddata}-driven approach to the development workflow using the UI framework.
 
-\paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a front-end using React. They use Swagger to generate and serve API documentation.
+\paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a front-end using React. They use Swagger \footnote{Swagger is a tool for documentation and development of HTTP APIs. \url{https://swagger.io/}} to generate and serve API documentation.
 
-We assess various types of software complexities in order to gauge the change in complexity between the baseline scenario and the same scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
+We assess various types of software complexities in order to gauge the change in complexity from the baseline scenario to scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
 
 \subsubsection{Essential Complexity}
 Brooks gives \textit{Complexity}, \textit{Conformity}, \textit{Changeability} and \textit{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
@@ -168,7 +168,7 @@ Brooks gives \textit{Complexity}, \textit{Conformity}, \textit{Changeability} an
 \paragraph{Complexity caused by Invisibility}
 \textit{``Software is invisible and unvisualizable. Geometric abstractions are powerful tools. The floor plan of a building helps both architect and client evaluate spaces, traffic flows, views. Contradictions and omissions become obvious. Scale drawings of mechanical parts and stick-figure models of molecules, although abstractions, serve the same purpose. A geometric reality is captured in a geometric abstraction. \\ The reality of software is not inherently embedded in space. Hence, it has no ready geometric representation in the way that land has maps, silicon chips have diagrams, computers have connectivity schematics. As soon as we attempt to diagram software structure, we find it to constitute not one, but several, general directed graphs superimposed one upon another. The several graphs may represent the flow of control, the flow of data, patterns of dependency, time sequence, name-space relationships. These graphs are usually not even planar, much less hierarchical. Indeed, one of the ways of establishing conceptual control over such structure is to enforce link cutting until one or more of the graphs becomes hierarchical.''} \citep[p.~4]{nosilverbullet}
 
-The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as a tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario, the developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility slightly} by providing these visualizations out of the box.
+The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as a tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility slightly} by providing these visualizations out of the box.
 
 We asses the improvement in complexity caused by Invisibility with a \textbf{score of 1}.
 
@@ -182,32 +182,32 @@ The \textbf{score is 0}.
 \paragraph{Complexity caused by Changeability}
 \textit{``The software entity is constantly subject to pressures for change. Of course, so are buildings, cars, computers. But manufactured things are infrequently changed after manufacture; they are superseded by later models, or essential changes are incorporated into later-serial-number copies of the same basic design. Call-backs of automobiles are really quite infrequent; field changes of computers somewhat less so. Both are much less frequent than modifications to fielded software. \\ In part, this is so because the software of a system embodies its function, and the function is the part that most feels the pressures of change. In part it is because software can be changed more easily - it is pure thought-stuff, infinitely malleable. Buildings do in fact get changed, but the high costs of change, understood by all, serve to dampen the whims of the changers.''} \citep[p.~4]{nosilverbullet}
 
-The UI framework decouples the client from the HTTP implementation. The renderers are valid in a broader context because they consume \gls{linkeddata}. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design, it is possible to change the HTTP API while a user is interacting with the UI - without breaking the UI.
+The custom domain renderers are valid in a broader context because they consume \gls{linkeddata}. The UI remains functional as long as the HTTP API conforms to the Hydra specification. By design, it is possible to change the HTTP API within those boundaries while a user is interacting with the UI - without breaking the UI.
 
 The cost of change in the client and the UI is \textbf{drastically} reduced. \textbf{The score of the improvement is 3}.
 
 \paragraph{Complexity caused by Complexity}
 \textit{``The complexity of software is an essential property, not an accidental one. Hence, descriptions of a software entity that abstract away its complexity often abstract away its essence. For three centuries, mathematics and the physical sciences made great strides by constructing simplified models of complex phenomena, deriving properties from the models, and verifying those properties by experiment. This paradigm worked because the complexities ignored in the models were not the essential properties of the phenomena. It does not work when the complexities are the essence.''} \citep[p.~3]{nosilverbullet}
 
-The gist of this property is that complexity breeds complexity. If a software system becomes complex, it becomes harder to add new components without code duplication. Due to the existing complexity it might be very hard to understand the code. \\ Decreasing the complexity by reducing the impact of the other three properties improves this point by definition.
+The gist of this property is that complexity breeds complexity. If a software system becomes complex, it becomes harder to add new components without code duplication. Due to the existing complexity it might be hard to understand the code. \\ Decreasing the complexity by reducing the impact of the other three properties improves this point by definition.
 
 This software property is not orthogonal to the other three. It is not possible to gauge the effect on complexity caused by complexity using the UI framework.
 
 \paragraph{Summary}
-While it is not possible to get rid of these properties, the UI framework reduces their impact on complexity in the development process. The data that is driving the client and the UI is visualized by default and the \textbf{complexity of changing the client is massively decreased}.
+While it is not possible to get rid of these properties of software, the UI framework reduces their impact on complexity in the development process. The data that is driving the client and the UI is visualized by default and the \textbf{complexity of changing the client is massively decreased}.
 
 \subsubsection{Accidental Complexity}
 \textit{Out of the Tar Pit} identifies \textit{Complexity of State} and \textit{Complexity of Control} as concrete types of Accidental Complexity by building on top of the work of Brooks.
 
 \paragraph{Complexity caused by State}
-\textit{``The severity of the impact of state on testing noted by Brooks is hard to over-emphasise. State affects all types of testing — from system-level testing (where the tester will be at the mercy of the same problems as the hapless user just mentioned) through to component-level or unit testing. The key problem is that a test (of any kind) on a system or component that is in one particular state tells you nothing at all about the behaviour of that system or component when it happens to be in another state. \\ The common approach to testing a stateful system (either at the component or system levels) is to start it up such that it is in some kind of “clean” or “initial” (albeit mostly hidden) state, perform the desired tests using the test inputs and then rely upon the (often in the case of bugs ill-founded) assumption that the system would perform the same way — regardless of its hidden internal state — every time the test is run with those inputs.''} \citep[p.~6]{outoftarpit}
+\textit{``The severity of the impact of state on testing noted by Brooks is hard to over-emphasise. State affects all types of testing — from system-level testing (where the tester will be at the mercy of the same problems as the hapless user just mentioned) through to component-level or unit testing. The key problem is that a test (of any kind) on a system or component that is in one particular state tells you nothing at all about the behaviour of that system or component when it happens to be in another state. \\ The common approach to testing a stateful system (either at the component or system levels) is to start it up such that it is in some kind of “clean” or “initial” (albeit mostly hidden) state, perform the desired tests using the test inputs and then rely upon the (often in the case of bugs ill-founded) assumption that the system would perform the same way - regardless of its hidden internal state - every time the test is run with those inputs.''} \citep[p.~6]{outoftarpit}
 
-\textit{``In addition to causing problems for understanding a system from the outside, state also hinders the developer who must attempt to reason (most commonly on an informal basis) about the expected behaviour of the system “from the inside”. \\ The mental processes which are used to do this informal reasoning often revolve around a case-by-case mental simulation of behaviour: “if this variable is in this state, then this will happen — which is correct — otherwise that will happen — which is also correct”. As the number of states — and hence the number of possible scenarios that must be considered — grows, the effectiveness of this mental approach buckles almost as quickly as testing (it does achieve some advantage through abstraction over sets of similar values which can be seen to be treated identically). \\ One of the issues (that affects both testing and reasoning) is the exponential rate at which the number of possible states grows — for every single bit of state that we add we double the total number of possible states. Another issue — which is a particular problem for informal reasoning — is contamination.''} \citep[p.~7]{outoftarpit}
+\textit{``In addition to causing problems for understanding a system from the outside, state also hinders the developer who must attempt to reason (most commonly on an informal basis) about the expected behaviour of the system “from the inside”. \\ The mental processes which are used to do this informal reasoning often revolve around a case-by-case mental simulation of behaviour: “if this variable is in this state, then this will happen - which is correct - otherwise that will happen 0 which is also correct”. As the number of states - and hence the number of possible scenarios that must be considered - grows, the effectiveness of this mental approach buckles almost as quickly as testing (it does achieve some advantage through abstraction over sets of similar values which can be seen to be treated identically). \\ One of the issues (that affects both testing and reasoning) is the exponential rate at which the number of possible states grows - for every single bit of state that we add we double the total number of possible states. Another issue — which is a particular problem for informal reasoning - is contamination.''} \citep[p.~7]{outoftarpit}
 
 Moseley and Marks identify impacts of state on \textbf{testing} and on \textbf{informal reasoning}.
 
 We consider the type and amount of state a UI developer has to maintain. The default client created using the UI framework is merely a Hydra \gls{console}. There is no application state to maintain on the client - the complexity is immensely reduced for UI developers. \\
-However, the application state lives on the server. Some parts of state are essential because they are required to express the domain problem so it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra \gls{console}. Custom renderers may contain some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
+However, the application state lives on the server. Some parts of state are essential because they are required to express the domain problem - it is not possible to get rid of all complexity caused by state. The main contribution of the UI framework is the removal of duplicated state in the client. Hydra encourages to keep the client free of domain logic and implement the client as Hydra \gls{console}. Custom renderers may contain some state in order to enhance user experience. That state is not mission critical, less likely to break the client if the domain model changes and is overall easier to maintain.
 
 The improvement regarding complexity caused by state is \textbf{3}.
 
@@ -218,7 +218,7 @@ To summarize, complexity caused by control occurs when the developer is forced t
 An example of decrease in complexity caused by control is observable in the evolution of UI development in web as described in section \ref{history}. UI developers use high-level data driven \textbf{declarative} UI libraries and frameworks that wrap the highly \textbf{imperative} DOM API as shown in section \ref{documentobjectmodel}. \\
 The baseline scenario however makes use of React already, there is no improvement in that regard using the UI framework. On the other hand, there is no infrastructure code needed to fetch data from the server. UI developers don't have to set up a build process and are not concerned with local state management. These things are implicitly handled by the UI framework and UI developers can focus on mapping custom renderers to \gls{linkeddata} types.
 
-Complexity caused by control is reduced slightly with \textbf{a score of 2}.
+Complexity caused by control is reduced slightly with \textbf{a score of 1}.
 
 \subsubsection{Summary}
 
@@ -238,12 +238,10 @@ Complexity caused by control is reduced slightly with \textbf{a score of 2}.
       \hline
       C5 & Complexity caused by State & Accidental & 3 \\
       \hline
-      C5 & Complexity caused by Control & Accidental & 2 \\
+      C5 & Complexity caused by Control & Accidental & 1 \\
       \hline
     \end{tabular}
     \caption{Overview of the types of complexities in software development and how the UI framework affects them. Positive scores indicate a reduction of complexity and negative scores indicate an increase.}
     \label{tab:complexitysummary}
   \end{center}
 \end{table}
-
-Table \ref{tab:complexitysummary} shows that the main contribution towards reducing complexity in software development lies in reduction of \textit{Complexity caused by Changeability} and \textit{Complexity caused by State}. \textit{Complexity caused by Invisibility} and \textit{Complexity caused by Control} are slightly reduced by using the UI framework compared to the baseline approach.
