@@ -1,11 +1,8 @@
 \section{Proof of concept}\label{sec:proofofconcept}
-The main contribution of this thesis is the theoretical foundation and development of a new approach to UI development that reduces development costs.
+This chapter defines two real world use cases, explains their implementations and shows the implementation of the UI framework.
 
 \subsection{Methodology}
 This sections describe the methodological approach to achieve the items listed in the paragraph \ref{sec:scope}.
-
-\subsubsection{Steps}
-This section explains the methods of this analysis.
 
 \paragraph{Definition of major design goals}
 Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those requirements. This includes analysis of:
@@ -14,39 +11,33 @@ Major design goals of the UI framework are directly influenced by non-functional
   \item the development process of UIs with web technologies
   \item contemporary frameworks and tools for UI development that enjoyed wide and rapid adoption
   \item contemporary frameworks and tools for UI development that failed
+  \item risk analysis conducted in section \ref{sec:riskanalysis}
 \end{enumerate}
 
-By following what tools in \textbf{2} did right and avoiding the mistakes of tools in \textbf{3}, we define a set of design goals that the proof of concept should adhere to. We refer to the solutions and tools researched in section \ref{sec:contemporarysolutions}.
+From contemporary solutions and tools for UI development as discussed in \ref{sec:contemporarysolutions} and the risk analysis conducted in section \ref{sec:riskanalysis} we derive design goals that the proof of concept should adhere to.
 
 \paragraph{Specification of the proof of concept}
-The section defines the architecture and design of the proof of concept. The proof of concept should demonstrate the viability of the thesis.
+The section defines the architecture and design of the proof of concept.
 
 \paragraph{Definition of real world use cases}
 By defining real world applications for the UI framework we discover user roles and user stories.
 
-\paragraph{Implementation of proof of concept driven by use cases}
-The UI framework is developed incrementally use case by use case. The major design goals are respected. We expect to gain theoretical insights while implementing both the UI framework and the HTTP APIs.
-
-\paragraph{Evaluation of design goals}
-We analyze the design goals and whether they have been met. We assess each design goal qualitatively and assign a score between 0 and 3.
-
-\paragraph{Conclusion of approach to reduce development costs}
-We break up software complexity into specific types Accidental Complexity and Essential Complexity. Both types are broken down further and the effect of using the UI framework is analyzed. We assess the change in complexity with a score between -3 and 3.
+\paragraph{Implementation of the proof of concept driven by use cases}
+The UI framework is developed incrementally use case after use case. The major design goals are respected. We expect to gain theoretical insights while implementing both the UI framework and the HTTP APIs.
 
 \subsection{Design goals}\label{sec:designgoals}
-The following design goals should be met by the UI framework. For each design goal we discuss the goal itself, why and how we intend to meet it and how we plan to evaluate it.
-The goals are partly derived by analyzing the deficits of contemporary tools to enhance UI and web development.
+The following design goals should be met by the UI framework. For each design goal we discuss the goal itself, the strategy to meet it and its evaluation.
 
 \subsubsection{Play nicely with others}\label{sec:playnice}
-As discussed in sections \ref{graphql} and \ref{sec:soap} the fact that GraphQL and SOAP don't play nicely with others is one of their major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
-It is important to respect standards and stay compatible with existing tooling. This design goal drove the choice of JSON-LD as serialization format for \gls{linkeddata}.
+As discussed in sections \ref{graphql} and \ref{sec:soap}, GraphQL and SOAP don't play nicely with others which is one of their major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
+It is important to respect standards in order to build on top of the Richardson Maturity Model. This design goal drove the choice of JSON-LD as serialization format for \gls{linkeddata}.
 
 We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
 
 This design goal can be quantified by analyzing each component of the UI framework and determine whether the technologies, protocols, languages and tools for that component are either formally standardized or a defacto standard.
 
 \subsubsection{Straightforward upgrade path}
-In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction of a migration at a minimum.
+In order to help the adoption of the UI framework it is important to show a clear upgrade path and to keep the friction of migrations at a minimum.
 
 This can be achieved by \textbf{extending} existing standards, keeping breaking changes at a minimum and providing good documentation. Playing nicely with others helps reaching this design goal as well.
 
@@ -55,17 +46,17 @@ This goal can be quantified by measuring or estimating the effort to upgrade a c
 \subsubsection{Customizability}
 While providing sane defaults, the UI framework should be customizable. There should be no limitations imposed in terms of what UIs can be created.
 
-We want to achieve this goal by allowing UI developers to override the sane defaults. They can decide to completely ignore the \gls{linkeddata} aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
+We aim to achieve this by allowing UI developers to override the sane defaults. They can decide to completely ignore the \gls{linkeddata} aspect and consume the HTTP API in a traditional way by hard coding knowledge into the client. The use of React as UI library allows the UI developer to pull in external React components.
 
-This design goal is met if all possible UIs that can be drawn with conventional tools can be drawn using the UI framework.
+This design goal is simple to quantify and it is met if all possible UIs that can be drawn with React can be drawn using the UI framework.
 
 \subsubsection{Developer ergonomics}
-UI developers should be able to use the UI framework after spending minimal effort on learning.
+UI developers should be able to use the UI framework after spending minimal effort on learning. The amount of infrastructure work needed should be minimal. This allows UI developers to focus on problems in the domain.
 
 This goal can be achieved by choosing a widely used platform that has a thriving open source community. It is important that there is an open source community for that platform because a wide adoption behind closed doors is less likely to improve developer ergonomics. \\
-A big market share of the platform increases the chances that the developer is already familiar with it. The tooling of these platforms tends to be polished and battle tested. The developer is less likely to get stuck because of some edge case issues.
+A big market share of the platform increases the chances that UI developers are already familiar with it. The tooling of these platforms tends to be polished and battle tested. Edge case issues are less likely to slow down UI developers.
 
-An established and widely adopted web stack is Node, the NPM (Node Package Manager) ecosystem together with React. This is the platform that we choose to develop the UI framework in.
+An established and widely adopted web stack is Node, the NPM (Node Package Manager) ecosystem together with React. This platform is used to implement the UI framework.
 
 \begin{table}[!htb]
   \begin{center}
@@ -88,39 +79,39 @@ An established and widely adopted web stack is Node, the NPM (Node Package Manag
 \end{table}
 
 \subsection{Proof of concept for UI framework}\label{proofofconcept}
-We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. Each of those use cases can be implemented separately. By implementing the use cases, we develop the UI framework and respect the design goals.
+We define two real-world use cases that cover the two main capabilities of \textbf{rendering data} and \textbf{user interaction}. By implementing those use cases, we develop the UI framework respecting the design goals.
 
-The proof of concept for the UI framework consists of following components:
+\subsubsection{Architecture}
+The proof of concept for the UI framework consists of several components as shown in figure \ref{fig:pocarchitecture}.
 
 \paragraph{Hydra client}
-The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The value it provides to us is mainly developer ergonomics. The most complete Hydra client is Alcaeus which we are using as a part of the UI framework.
+The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The most complete Hydra client is Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}} uses TypeScript \footnote{TypeScript is a statically typed language developed by Microsoft that compiles to JavaScript. \url{https://www.typescriptlang.org/}}. TypeScript supports JSON and JSON-LD as first class citizens.
 
 \paragraph{Infrastructure}
-The infrastructure allows UI developers to plug in their own components as renderers, it fetches data from the server using the Hydra client and it applies the renderers by providing them the data returned by the Hydra client. This component glues all other components together.
+The infrastructure allows UI developers to plug in their own components, it fetches data from the server using the Hydra client and it applies the components by providing them the data returned by the Hydra client. This component glues all other components together.
 
 \paragraph{JSON-LD Renderer}
 The JSON-LD renderer is one of the two renderers that ship with the framework. It renders the JSON-LD response as a tree and highlights keys, values and relationships.
 
 \paragraph{Hydra Renderer}
-The Hydra renderer is the second renderer that ships with the framework. It builds on top of the JSON-LD renderer and renders root resources, collections, links and operations. The Hydra renderer creates a UI on top of any Hydra API. That UI is not optimized because it has no domain knowledge.
+The Hydra renderer is the second renderer that ships with the framework. It builds on top of the JSON-LD renderer and renders root resources, collections, links and operations. The Hydra renderer creates a UI on top of any Hydra API. That UI is not optimized but complete - it shows all data the API provides and it exposes all operations the API exposes.
 
 \paragraph{Domain Renderers}
-The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{problem}, contemporary clients and their UIs are tightly coupled to HTTP APIs. \\
+The domain renderers are provided by the UI developers. They contain domain knowledge and can only render specific data types. As discussed in section \ref{problem}, contemporary clients and their UIs are often tightly coupled to HTTP APIs. \\
 Domain renderers only render \gls{linkeddata} - they don't render data without context. UI developers don't hard code assumptions about the data model of the HTTP API. \\
 A React component and a \gls{linkeddata} type constitute one domain specific renderer. The open-world philosophy of \gls{linkeddata} encourages reuse across company, department and team boundaries. Domain renderers can be shared together with vocabulary since they are not coupled to data models \textbf{but to \gls{linkeddata} vocabularies}.
 
 \paragraph{Semantic UI}
-Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and UX. This is the implementation of a design language.
+Semantic UI is a set of reusable React components that constitutes the bottled up best practices of UI and \gls{ux}. This is the implementation of a design language that the domain renderers and the Hydra renderer use.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=450pt]
     {images/ui-framework-architecture.png}}
   \caption{The architecture of the proof of concept for the UI framework.}
+  \label{fig:pocarchitecture}
 \end{figure}
 
 \subsection{Use Case 1: Apartment}\label{sec:usecase1}
-For the user to be able to query data, the UI has to render it.
-
 The first use case describes a scenario in home automation. Several thermometers in rooms in an apartment send the current temperature to a server. The goal is to develop a UI that displays apartments, rooms, thermometers and temperatures in a sensible manner.
 
 \subsubsection{Requirements}
@@ -152,7 +143,7 @@ The first use case describes a scenario in home automation. Several thermometers
       S7 & As UI developer I want to be able to customize the UI in order to improve it incrementally \\
       \hline
     \end{tabular}
-    \caption{User stories of a scenario in home automation.}
+    \caption{User stories of the apartment use case.}
     \label{tab:usecase1}
   \end{center}
 \end{table}
@@ -160,10 +151,10 @@ The first use case describes a scenario in home automation. Several thermometers
 \subsubsection{Hydra collection rendering}
 The API exposes a collection of apartments, rooms and thermometers. Every Hydra API has an entry point and a set of root collections. These collections can be used as starting point to discover the API.
 
-Hydra has native support for collections by using the property \lstinline{http://www.w3.org/ns/hydra/core#member}.
+Hydra has native support for collections by using the property \lstinline{http://www.w3.org/ns/hydra/core#member}. Listing \ref{lst:rooms} shows an excerpt of the rooms.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Data of /rooms as Hydra collection.]
+\begin{lstlisting}[caption=Data of /rooms as Hydra collection., label=lst:rooms]
   {
     "@context": "http://localhost:3000/iot/contexts/Room",
     "@id": "http://localhost:3000/iot/rooms",
