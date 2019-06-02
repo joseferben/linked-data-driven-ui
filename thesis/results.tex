@@ -2,7 +2,7 @@
 In the following paragraph we evaluate the proof of concept for the UI framework. We examine whether the design goals have been met and we analyze the change in complexity.
 
 \subsection{Methodology}
-In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are used. To gauge how complexity has been effected we use scores between -3 and 3.
+In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are assigned. To gauge how complexity has been effected we use scores between -3 and 3.
 
 \begin{table}[!htb]
   \begin{center}
@@ -10,16 +10,16 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
       \hline
       \textbf{Score} & \textbf{Effect on goal} \\
       \hline
-      0 & Goal not met \\
+      0 & The goal is not met \\
       \hline
       1 & Slight improvement towards goal \\
       \hline
-      2 & Goal mostly met \\
+      2 & The design goal is mostly met \\
       \hline
-      3 & Goal completely fulfilled \\
+      3 & The design goal is completely fulfilled \\
       \hline
     \end{tabular}
-    \caption{Scores to evaluate whether goals have been met}
+    \caption{Scale to asses whether a design goal was met.}
   \end{center}
 \end{table}
 
@@ -44,7 +44,7 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
       3 & Massive decrease in complexity \\
       \hline
     \end{tabular}
-    \caption{Scores to gauge the change in complexity}
+    \caption{Scale of the effect on complexity by using the UI framework.}
   \end{center}
 \end{table}
 
@@ -58,26 +58,26 @@ Playing nicely with other technologies, existing consumers and existing tooling 
 JSON-LD is valid JSON which means that any tool that accepts JSON also accepts JSON-LD.
 
 \paragraph{Hydra operations}
-Hydra operations include an  HTTP verb which the client reads to invoke the operation. Given the developer respects the conventions about safe and idempotent HTTP verbs, their invocations are equal to regular HTTP requests. HTTP proxies and caches treat Hydra requests the same as other HTTP requests.
+Hydra operations include an  HTTP verb which the client reads to invoke the operation. Given the developer respects the conventions regarding safe and idempotent HTTP verbs, their invocations are equal to regular HTTP requests. HTTP proxies and caches treat Hydra requests the same as other HTTP requests.
 
 \paragraph{React}
-As discussed in section \ref{sec:react}, React is one of the widely used tools for UI development. The proof of concept for the UI framework accepts only custom renderers using React components. Idiomatic React development uses JSX (JavaScript XML) which requires dedicated support in the development environment. \\
+As discussed in section \ref{sec:react}, React is one of the widely used tools for UI development. The proof of concept for the UI framework accepts only custom renderers using React components. \\
 HTML templates \citep{htmltemplates}, which are part of the Web component specification, might become a better choice for the DOM rendering component once the tooling has developed.
 
 \paragraph{Summary}
 Due to choice of technology this design goal has been fulfilled and we assess it with a \textbf{score of 3}.
 
 \subsubsection{Straightforward upgrade path}
-We explore a scenario with a running RESTful HTTP API returning JSON and a client consuming it. The client renders the UI with a custom rendering solution that creates the DOM based on input data. They are generating HTTP API documentation with a custom tool and the documentation is served using another server. The development team evaluates the upgrade path to a Hydra conform API using the UI framework. We discuss the upgrade steps to evaluate if the upgrade path is straightforward or if there is a lot of friction.
+We assume a scenario with a running RESTful HTTP API returning JSON and a client consuming it. The client renders the UI with a custom rendering solution that creates the DOM based on input data. API documentation is generated using a custom tool and the documentation is served using another server. The development team evaluates the upgrade path to a Hydra conform API using the UI framework. We discuss the upgrade steps to evaluate if the upgrade path is straightforward and to asses the amount of friction.
 
 \paragraph{Entity serialization}
-Serialization of entities to resources remains the same. Adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break often.
+Serialization of entities to Hydra resources remains the same. Adding a header that transmits the context, similar to the \lstinline{@context} property, suffices. The response payload remains the same and existing consumers don't break.
 
 \paragraph{Hydra documentation}
-Documentation is served using the meta data mechanism of Hydra. This is again just a response header that points to the documentation of the response resource. The existing API documentation is marked as deprecated. Developers use the Hydra documentation instead of the old one, so that the previous solution can be removed after a grace period.
+Documentation is served using the meta data mechanism of Hydra. The response header points to the documentation of the requested resource. The existing API documentation is marked as deprecated. Developers use the Hydra documentation instead of the old one, the previous solution can be removed after a grace period.
 
 \paragraph{Hydra operations}
-As the current API follows RESTful principles, the concepts of resources and HTTP methods exist. Resources and HTTP methods are directly mapped to Hydra resources and inline operations using the same HTTP method. This change requires careful design as it might break existing consumers. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as a stepping stone towards using all the power that Hydra operations offer.
+As the current API follows RESTful principles, the concepts of resources and HTTP methods exist. Resources and HTTP methods are directly mapped to Hydra resources and inline operations using the same HTTP method. This change requires careful design as it might break existing consumers. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as a stepping stone towards using the features of Hydra to its full extent.
 
 \paragraph{Summary}
 Due to choice of HATEOAS specification and \gls{linkeddata} format, it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5}.
@@ -95,10 +95,10 @@ This design goal is fulfilled which leads to a \textbf{score of 3}.
 We analyze the usage of the UI framework by a developer.
 
 \paragraph{Component API}
-Every React component that is invoked by the rendering infrastructure gets a Hydra resource and a \lstinline{renderer} JavaScript function as input.
+Every React component that is invoked by the rendering infrastructure gets a Hydra resource and a \lstinline{renderer} function as input.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption={React component API for the apartment renderer as shown in figure \ref{fig:apartmentrenderer}.}\label{lst:componentapi}]
+\begin{lstlisting}[caption={React component API for the apartment renderer as shown in figure \ref{fig:apartmentrenderer}.}, label={lst:componentapi}]
   const Apartment = ({resource, renderer}) => {
     const { "https://schema.org/containsPlace": rooms } = resource;
     return (
@@ -120,18 +120,18 @@ Every React component that is invoked by the rendering infrastructure gets a Hyd
   }
 \end{lstlisting}
 
-Listing \ref{lst:componentapi} shows the apartment renderer of the home automation use case. The \lstinline{resource} contains the data of the Hydra resource of \lstinline{@type} \lstinline{https://schema.org/Apartment}. It accesses the property \lstinline{https://schema.org/containsPlace} to fetch the rooms of the apartment. The \lstinline{renderer} function can be invoked with a Hydra resource. This returns the control of the rendering process to the rendering infrastructure.
+Listing \ref{lst:componentapi} shows the apartment renderer of the apartment use case. The \lstinline{resource} contains the data of the Hydra resource of \lstinline{@type} \lstinline{https://schema.org/Apartment}. It accesses the property \lstinline{https://schema.org/containsPlace} to fetch the rooms of the apartment. The \lstinline{renderer} function can be invoked with a Hydra resource. This returns the control of the rendering process to the rendering infrastructure.
 
 This allows UI developers to think in terms of data types and self-contained components. Developing isolated components without thinking about mapping data to children components reduces \gls{cognitive load}.
 
 \paragraph{Learning curve}
-The learning curve of the UI framework is the sum of the learning curves of JSON-LD, React and Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
-Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering non-interactive UIs, knowledge about the two the two special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
+The learning curve of the UI framework is equals roughly the sum of the learning curves of JSON-LD, React and Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
+Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering non-interactive UIs, knowledge about the two special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
 Although Alcaeus hides implementation details of Hydra, UI developers should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
-The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem covering these things that comes with a certain cognitive overhead. Using the UI framework, developers can focus on learning React without the usual tooling.
+The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem of tools covering these topics - their use comes with cognitive overhead. Using the UI framework, developers can focus on learning React without being concerned with those topics.
 
 \paragraph{Summary}
-The learning curve to implement non-interactive UIs is minimal. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementation of interactive UIs requires good understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2}.
+The learning curve to implement non-interactive UIs is minimal. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementing and debugging interactive UIs requires a high level of understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2}.
 
 \subsubsection{Summary}
 
@@ -154,8 +154,6 @@ The learning curve to implement non-interactive UIs is minimal. The component AP
     \label{tab:designgoalscomplexity}
   \end{center}
 \end{table}
-
-As shown in table \ref{tab:designgoalscomplexity}, we rate the design goal \textit{play nicely with other} with 3, \textit{straightforward upgrade path} with 2.5, \textit{customizability} with 3 and \textit{developer ergonomics} with 2 out of 3. \\ The design goals have been completely met with the exception of a straightforward upgrade path. The migration of RESTful HTTP methods to Hydra operations is not straightforward.
 
 \subsection{Reduction of complexity in software development}
 This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' \gls{linkeddata}-driven approach to the development workflow using the UI framework.
