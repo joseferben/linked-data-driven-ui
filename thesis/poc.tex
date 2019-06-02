@@ -181,35 +181,36 @@ Hydra has native support for collections by using the property \lstinline{http:/
   }
 \end{lstlisting}
 
-Each member of this collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the \gls{url}. Given every member of the collection is of the same type, we can implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
+Each member of that collection is of type \lstinline{https://schema.org/Room}. The properties can be looked up by following the \gls{url}. Given every member of the collection is of the same type, we implement a generic renderer that looks up the properties of the member type and renders the collection as a table.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
     {images/hydra-collections.png}}
-  \caption{Generic table renderer applied on root collections.}
+  \caption{Generic table renderer applied to root collections.}
 \end{figure}
 
 The \lstinline{@id}s are rendered as links so that the API can be traversed by looking up resources and collections of resources.
 
 \subsubsection{Plugin mechanism}\label{pluginmechanism}
-As shown in section \ref{proofofconcept} the UI framework supports custom renderers as main mechanism to override default renderers. UI developers start out with the default set of renderers that can render arbitrary JSON-LD data and Hydra resources. \\
-The fact that the API returns \gls{linkeddata} benefits this customization process. UI developers only care about rendering \textbf{certain data types}. In our use case they might be concerned with rendering the type \lstinline{Temperature}.
+As shown in section \ref{proofofconcept}, the UI framework supports custom renderers as main mechanism to override default renderers. UI developers start out with the default set of renderers that can render arbitrary JSON-LD data and Hydra resources. \\
+The API returning \gls{linkeddata} benefits this customization process. UI developers only care about rendering \textbf{certain data types}. In our use case they might be concerned with rendering the type \lstinline{Temperature}.
 
-We demonstrate data rendering using the room \lstinline{Entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
+We demonstrate data rendering using the room \lstinline{Entrance} as shown in figure \ref{fig:entrance}. The trivial JSON-LD renderer colors property keys red, properties that represent relationships blue and it renders \lstinline{@id}s as hyperlinks.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=400pt]
     {images/json-ld-renderer.png}}
-  \caption{JSON-LD renderer applied on the data of \lstinline{/rooms/4}.}
+  \caption{JSON-LD renderer applied to the data of \lstinline{/rooms/4}.}
+  \label{fig:entrance}
 \end{figure}
 
 This room contains a list of things of type \lstinline{Thermometer} and \lstinline{https://schema.org/Place}. The thermometer has a custom \lstinline{https://schema.org/additionalProperty} that has the name \lstinline{Temperature} and a numeric value. \\
-This is not straightforward to see as the JSON-LD is noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. The icon change is hard coded into the renderer.
+This is not straightforward to see as the JSON-LD is noisy. By applying a custom renderer to \lstinline{https://schema.org/additionalProperty} we render the temperature in one line with an icon indicating whether the temperature is hot or cold. The icon change is hard coded into the renderer as shown in figure \ref{fig:temperature}.
 
-We consider the workflow of UI developers. The UI framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI framework comprises of a unique id, a name, a React component and a type. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
+We consider the workflow of UI developers. The UI framework expects a React component that takes the data of the \lstinline{https://schema.org/additionalProperty} and returns markup. The renderer that can be registered in the UI framework comprises of a unique id, a name, a React component and a type. A renderer for the \lstinline{@type} \lstinline{Thermometer} is shown in listing \ref{lst:rendererconfig}. The type is used by the rendering infrastructure to determine which renderers to apply on what part of the server response.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Renderer configuration that the developer provides.]
+\begin{lstlisting}[caption=Renderer configuration that the developer provides., label=lst:rendererconfig]
   {
     id: "thermometer",
     name: "Thermometer",
@@ -221,34 +222,36 @@ We consider the workflow of UI developers. The UI framework expects a React comp
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
     {images/temperature-renderer.png}}
-  \caption{The temperature renderer is applied on \lstinline{additionalProperty} on top of the JSON-LD renderer.}
+  \caption{The temperature renderer is applied to \lstinline{additionalProperty} on top of the JSON-LD renderer.}
   \label{fig:temperature}
 \end{figure}
 
-It is noteworthy that renderers compose by stacking them on each other. As shown in figure \ref{fig:temperature} the temperature renderer works on top the JSON-LD renderer.
+It is noteworthy that renderers compose by stacking them on top of each other. In figure \ref{fig:temperature} we see the temperature renderer on top the JSON-LD renderer.
 
 By implementing similar renderers for rooms and thermometers we achieve a UI as show in figure \ref{fig:rooms}.
+
+\clearpage
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
     {images/room-renderer.png}}
-  \caption{Apartment data with active renderers: JSON-LD, Thermometer, Temperature, Room.}
+  \caption{Apartment data with JSON-LD, thermometer, temperature and room renderers.}
   \label{fig:rooms}
 \end{figure}
 
 \subsubsection{Domain rendering}
-Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is correct \footnote{Here we use the term correct in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation but the API has to conform to the the Hydra specification.
+Both default renderers are registered using the plugin mechanism. Activating both leads to a UI that is correct \footnote{To be understood in the sense of correct data rendering - the UI doesn't show wrong or non-existing data and it shows all of the response data.} and the user is able to navigate through the API using hyperlinks. This rendering setup is decoupled from the API implementation - it suffices to conform to the the Hydra specification.
 
 In order to leverage domain information for visualizing data, UI developers have to provide custom components that contain domain knowledge. We demonstrate domain rendering by looking at one apartment.
 
 The thermometer renderer removes some noise by compacting the thermometer data. The room renderer removes some properties that are not important in this context and it draws a box around the room so they are easier to distinguish. This list view provides all information to the landlord that he cares about. \\
-Places and containment relationships of places can be visualized in a more intuitive way.
+Places and containment relationships between places can be visualized in a more intuitive way.
 
 \paragraph{Floor plan}
-The apartment has a property called \lstinline{https://schema.org/hasMap}.
+The apartment has a property called \lstinline{https://schema.org/hasMap} which is shown in listing \ref{lst:hasmap}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=The \lstinline{hasMap} property of apartment /apartments/0.]
+\begin{lstlisting}[caption=The \lstinline{hasMap} property of apartment \lstinline{/apartments/0}., label={lst:hasmap}]
 ...
   "hasMap": {
   "@type": "https://schema.org/URL",
@@ -260,10 +263,10 @@ The apartment has a property called \lstinline{https://schema.org/hasMap}.
 This property has a link to an image representing the floor plan of the apartment.
 
 \paragraph{Geo coordinates}
-All things of type \lstinline{https://schema.org/Apartment} and \lstinline{https://schema.org/Room} can have a \lstinline{geo} property.
+All things of type \lstinline{https://schema.org/Apartment} and \lstinline{https://schema.org/Room} can have a \lstinline{https://schema.org/Room/geo} property as shown in listing \ref{lst:geo}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=The \lstinline{https://schema.org/geo} property of apartment /apartments/0.]
+\begin{lstlisting}[caption=The \lstinline{https://schema.org/geo} property of apartment \lstinline{/apartments/0}., label={lst:geo}]
 ...
   "geo": {
     "@type": "https://schema.org/GeoCoordinates",
@@ -275,21 +278,23 @@ All things of type \lstinline{https://schema.org/Apartment} and \lstinline{https
 
 This property contains the longitude and latitude coordinates of the center of the place.
 
-Both properties \lstinline{https://schema.org/hasMap} and \lstinline{https://schema.org/geo} are defined on the type \lstinline{https://schema.org/Place}. \lstinline{https://schema.org/Apartment} is a subtype of \lstinline{https://schema.org/Place} in the schema.org hierarchy, so our apartment renderer assumes the existence of those properties.
+Both properties \lstinline{https://schema.org/hasMap} and \lstinline{https://schema.org/geo} are defined on the type \lstinline{https://schema.org/Place}. \lstinline{https://schema.org/Apartment} is a subtype of \lstinline{https://schema.org/Place} in the Schema.org hierarchy. The apartment renderer may assume the existence of those properties.
 
 By leveraging coordinates of places and the floor plan of the apartment we use domain knowledge to implement a renderer that provides additional value to the landlord. By rendering the rooms on the floor plan the landlord can grasp the locations of thermometers in a more natural way.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=500pt]
     {images/apartment-renderer.png}}
-  \caption{Apartment data with active renderers: JSON-LD, Thermometer, Temperature, Room, Apartment, BoldFont.}
+  \caption{Apartment data with JSON-LD, thermometer, temperature, room and apartments renderers.}
   \label{fig:apartmentrenderer}
 \end{figure}
 
-It is noteworthy that a set of renderers can be active at the same time. Whenever the rendering infrastructure encounters a data type that has a registered renderer it will apply it. In this example Hydra collections are still rendered as tables if the landlord opens the collection of rooms or thermometers.
+It is noteworthy that a set of renderers can be active at the same time. Whenever the rendering infrastructure encounters a data type that has a registered renderer, it will apply it. In this example, Hydra collections are still rendered as tables if the landlord opens the collection of rooms or thermometers.
 
 \subsubsection{Verification of user stories}
 In this section we verify that the user stories listed in table \ref{tab:usecase1} are fulfilled by either accepting or rejecting them.
+
+\clearpage
 
 \begin{table}[!htb]
   \begin{center}
@@ -317,14 +322,15 @@ In this section we verify that the user stories listed in table \ref{tab:usecase
 \end{table}
 
 \subsection{Use Case 2: Kanban Board}
-The second use case describes a typical scenario in project management. We use this use case to explore the viability of Hydra for UIs with user interaction. A project has multiple issues which represent chunks of work. Issues can be in one of the following statuses:
+The second use case describes a typical scenario in project management. We use this use case to explore the viability of Hydra for UIs with user interaction. A project has multiple issues which represent chunks of work.
 
 \subsubsection{Requirements}
+Each issue has a status.
 
 \begin{enumerate}
   \item Backlog: Status of an issue that needs additional input before it can be worked on.
   \item Ready: Status of an issue that has well defined requirements - enough information is available to start implementation.
-  \item In process: Status of an issue that is being worked on.
+  \item In Process: Status of an issue that is being worked on.
   \item Done: Status of an issue that has been implemented.
 \end{enumerate}
 
@@ -340,7 +346,7 @@ Figure \ref{fig:statetransition} shows all possible statuses and status transiti
 \begin{figure}[!htb]
   \center{\includegraphics[width=150pt]
     {images/kanban.png}}
-  \caption{Simple data model of a scenario in project management.}
+  \caption{Data model of the project management use case.}
 \end{figure}
 
 \begin{table}[!htb]
@@ -368,32 +374,34 @@ Figure \ref{fig:statetransition} shows all possible statuses and status transiti
       S9 & As UI developer I want to have an interactive UI without spending time \\
       \hline
     \end{tabular}
-    \caption{User stories of a scenario in project management.}
+    \caption{User stories of the project management use case.}
     \label{tab:usecase2}
   \end{center}
 \end{table}
 
+\clearpage
+
 \subsubsection{User interaction}
-Hydra supports user interaction through operations. The server tells the client how to build an operation which the client then can invoke. Hydra supports three types of operations:
+Hydra supports user interaction through operations. The server tells the client how to build an operation. Hydra supports three types of operations:
 
 \paragraph{Inline operations}
-The actual data is augmented with a list of supported operations. The resource has a property \lstinline{supportedOperations} where the resource is the operation object \footnote{The subject invokes the operation on an object}.
+The actual data is augmented with a list of supported operations. The resource has a property \lstinline{supportedOperations} where the resource is the operation object \footnote{The subject invokes the operation on an object.}.
 
 \paragraph{Attached to supported properties}
-Hydra supports documentation of properties. The documentation can include information about which values are valid for a property. It is possible to attach operations to those properties.
+Hydra supports documentation of properties. The documentation can include information about the values that are valid for a property. It is possible to attach operations to those properties.
 
 \paragraph{Attached to supported classes}
 Similar to the concept of supported properties, it is possible to document classes. Classes are used to group things together that are used the same way in certain contexts. Classes can be assigned to things by using the \lstinline{@type} property.
 
-We attach supported operations to supported classes of issues that represent issue statuses.
+We attach supported operations to supported classes of issues that represent issue statuses using the third approach.
 
 \subsubsection{State transition as Hydra operations}
 This section discusses the HTTP API implementation of the issue status change actions. The goal is to implement the state transition shown in figure \ref{fig:statetransition}.
 
 \paragraph{Hydra classes}\label{par:classes}
-Each status that has outgoing state transitions maps to a Hydra class. We have the classes \lstinline{BacklogIssue}, \lstinline{ReadyIssue}, \lstinline{InProcessIssue}. Note that there is no class for an issue that is done because according to the status transitions there is no way to change the status of such an issue.
+Each \textbf{status} that has outgoing state transitions maps to a Hydra class. We have the classes \lstinline{BacklogIssue}, \lstinline{ReadyIssue}, \lstinline{InProcessIssue}. Note that there is no class for an issue that is done because according to the status transitions there is no way to change the status of such an issue.
 
-Each \textbf{out} going status transition is represented by a Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate} as additional classes. There is no \lstinline{IssueToBacklogUpdate}, because according to the state transitions, it is not possible to undo planned issues.
+Each outgoing \textbf{status transition} is represented by a Hydra class as well. Our API documentation contains \lstinline{IssueToReadyUpdate}, \lstinline{IssueToInProcessUpdate}, \lstinline{IssueToDoneUpdate}. There is no \lstinline{IssueToBacklogUpdate} because according to the state transitions, it is not possible to undo planned issues.
 
 \paragraph{Supported operations}
 Each issue class supports a list of operations.
@@ -411,7 +419,7 @@ Each issue class supports a list of operations.
       InProcessIssue & IssueToReadyUpdate, IssueToDoneUpdate \\
       \hline
     \end{tabular}
-    \caption{Status transition matrix.}
+    \caption{Issue Status transition matrix showing the current state and the possible status transitions as hydra classes.}
     \label{tab:statetransitionmatrix}
   \end{center}
 \end{table}
@@ -419,7 +427,7 @@ Each issue class supports a list of operations.
 Translation of the state transition diagram \ref{fig:statetransition} and mapping of the Hydra classes defined in \ref{par:classes} to the states and state transitions leads to the state transition matrix shown in \ref{tab:statetransitionmatrix}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Exempt of the Hydra documentation showing the list of supported operations for the issue status class ReadyIssue.]
+\begin{lstlisting}[caption=Exempt of the Hydra documentation showing the list of supported operations for the issue status class \lstinline{ReadyIssue}.]
   ...
   {
     "@id": "http://localhost:3000/kanban/issues/ReadyIssue",
@@ -440,9 +448,9 @@ Translation of the state transition diagram \ref{fig:statetransition} and mappin
 \end{lstlisting}
 
 \subsubsection{Generically rendering operations}
-Similar to the first use case in \ref{sec:usecase1} the list of issues is rendered using the \textit{Hydra renderer}. The properties of an issue \lstinline{description} and \lstinline{title} are columns in a table. The last column is used for Hydra operations in case any of the issues (table rows) has at least one supported operation.
+Similar to the first use case in \ref{sec:usecase1}, the list of issues is rendered using the Hydra renderer. The properties \lstinline{description} and \lstinline{title} are columns in a table. The last column is used for Hydra operations in case any of the issues (table rows) has at least one supported operation.
 
-Operations have an HTTP \lstinline{method} property so the client knows how to invoke that operation. We use this information to render buttons for issue removal and issue status change differently.
+Operations have an HTTP \lstinline{method} property so the client knows how to invoke that operation. We use this information to render buttons for issue removal and issue status change differently as shown in figure \ref{fig:issueshydra}.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]
@@ -451,10 +459,12 @@ Operations have an HTTP \lstinline{method} property so the client knows how to i
   \label{fig:issueshydra}
 \end{figure}
 
-A click on a start status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the \gls{url} of the issue in that row.
+A click on a the \textit{start} status change button, shown in \ref{fig:issueshydra}, causes the Hydra client to invoke the operation. The client fetches \lstinline{http://localhost:3000/kanban/issues/IssueToInProcessUpdate} and sends a POST request to the \gls{url} of the issue in that row.
 
 \subsubsection{Domain rendering}
-Using the plugin mechanism mentioned in section \ref{pluginmechanism} we implement a domain specific renderer that interprets this list of issues as a Kanban \footnote{Project scheduling methodology, issue cards that move through production/development stages.} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
+Using the plugin mechanism mentioned in section \ref{pluginmechanism}, we implement a domain specific renderer that interprets this list of issues as a Kanban \footnote{Project scheduling methodology, issue cards that move through production/development stages.} board. Figure \ref{fig:kanban} shows issues grouped by their statuses on a Kanban board.
+
+\clearpage
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=470pt]
@@ -464,15 +474,15 @@ Using the plugin mechanism mentioned in section \ref{pluginmechanism} we impleme
 \end{figure}
 
 \paragraph{Intuitive status change}
-The Kanban renderer consumes supported operations per issue and let's the project manager invoke them in an intuitive way. The look and feel of an issue implies that it can be dropped on the target status. The visual grouping by status helps the project manager to quickly see what the development team is working on.
+The Kanban renderer consumes supported operations per issue and let's the project manager invoke them in an intuitive way. The look and feel of an issue implies that it can be dropped on the target status. The visual grouping by status helps the project manager to quickly see what the team is working on.
 
 \paragraph{Optimistic rendering}
-Optimistic rendering tries to hide the latency of the request-response life cycle. Instead of awaiting the positive response of the server confirming operation success the client behaves as if the positive response was immediate. This approach only works for operations that are expected to succeed most of the time.
+Optimistic rendering tries to hide the latency of the request-response life cycle. Instead of awaiting the positive response of the server confirming operation success, the client behaves as if the positive response was immediate. This approach only works for operations that are expected to succeed most of the time.
 
-For idempotent \footnote{Idempotence is a property of an operation that can be applied multiple times without changing the result beyond the initial application, in HTTP PUT and DELETE are idempotent where POST is not.} HTTP methods like \lstinline{PUT} or \lstinline{DELETE} it is possible to generically implement optimistic rendering \textbf{that works most of the time}. When the project manager for instance removes an issue, the object of the operation is known. The client immediately removes the issue from the UI without waiting for confirmation. When implementing optimistic rendering, one has to make sure to handle operation failures in a sensible way. \\
-We consider the erroneous case where the project manager removes an issue and it reappears after a few hundred milliseconds. In the worst case, he doesn't pay attention after clicking the delete button and goes on thinking that the issue has been removed. This is the reason one has to carefully design optimistic rendering - especially the negative scenario. Often, it is not possible or feasible to implement optimistic rendering in a generic way.
+For idempotent \footnote{Idempotence is a property of an operation that can be applied multiple times without changing the result beyond the initial application, in HTTP PUT and DELETE are idempotent where POST is not.} HTTP methods like \lstinline{PUT} or \lstinline{DELETE} it is possible to generically implement optimistic rendering \textbf{that works most of the time}. When the project manager, for instance, removes an issue, the object of the operation is known. The client immediately removes the issue from the UI without waiting for confirmation. When implementing optimistic rendering, one has to make sure to handle operation failures. \\
+We consider the erroneous case where the removal of an issue fails causing it to reappear after a few hundred milliseconds. In the worst case, the project manager doesn't pay attention after clicking the delete button and goes on thinking that the issue has been removed. This is the reason one has to carefully design optimistic rendering - especially the negative scenario. Often, it is not possible or feasible to implement optimistic rendering in a generic way.
 
-The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible in going state transitions are communicated by not allowing issues to be dropped on the \lstinline{Backlog} column. Impossible out going state transitions are communicated by not allowing the project manager to pick up an issue that is \lstinline{Done}.
+The Kanban renderer can leverage domain knowledge to implement optimistic rendering. It simply appends the issue item to the list of issues in a column. It has knowledge of vertically aligned issue items where the Hydra renderer just knows about collections of issues. Impossible \textit{in going} state transitions are communicated by not allowing issues to be dropped on the \textit{Backlog} column. Impossible \textit{outgoing} state transitions are communicated by not allowing the project manager to pick up an issue that is \textit{Done}.
 
 \subsubsection{Verification of user stories}
 In this section we verify that the user stories listed in table \ref{tab:usecase2} are fulfilled by either accepting or rejecting them.
@@ -516,7 +526,7 @@ By implementing a simple dashboard for home automation and a simple Kanban board
   \label{fig:businesslogic}
 \end{figure}
 
-Neither the client nor the custom renderers contain business rules whatsoever. The custom renderers might contain knowledge on how to present business types, but the client is merely a \gls{console} to the Hydra API as shown in figure \ref{fig:businesslogic}.
+Neither the client nor the custom renderers contain business rules. The custom renderers might contain knowledge on how to present business types, but the client is merely a \gls{console} for the Hydra API as shown in figure \ref{fig:businesslogic}.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -534,6 +544,6 @@ This lose coupling between client and API implementation allows the same client 
   \label{fig:linkeddata}
 \end{figure}
 
-By using \gls{linkeddata}, custom renderers don't affect reusability of the client. A context is provided by \gls{linkeddata} so it can be understood by machines. That context is not hard coded into the client like it is often done in contemporary UI development. \\
+By using \gls{linkeddata}, the negative impact on reusability of the client by custom renderers is reduced. A context is provided by so the data can be understood by the client. That context is not hard coded into the client. \\
 To elaborate, we look at figure \ref{fig:linkeddata} and assume that a custom renderer for the type \lstinline{https://schema.org/Apartment} is implemented. If the responses of API A, API B and API C contain data with \lstinline{@type} \lstinline{https://schema.org/Apartment} the client can consume that data. \\
-Sometimes it is required to display data differently depending on the UI context. The apartment might be rendered differently in a back office application used by administrators than an end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data modeling level by using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.
+Sometimes it is required to display data differently depending on the UI context. The apartment might be rendered differently in a back office application used by administrators than an end-user facing website that lists apartments nearby. The underlying data is the same, the rendered apartment is different. This has to be resolved on the data model level by adding concrete view models using Hydra classes. Classes can be used to apply additional \lstinline{@type}s depending on the context of the UI.
