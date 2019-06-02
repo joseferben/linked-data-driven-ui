@@ -461,7 +461,7 @@ The advantage of using such a vocabulary becomes obvious when looking at an exam
 
 A machine receiving that data knows that this is a person and understands his name, but it can not understand his address. There is additional context needed that describes the schema used in the \lstinline{address} property.
 
-The data of the same person where the address is of type \lstinline{http://schema.org/PostalAddress} can be processed unambiguously by any machine that understands \gls{linkeddata}, which is shown in listing \ref{lst:persontyped}.
+The data of the same person is shown in listing \ref{lst:persontyped}, where the address is of type \lstinline{http://schema.org/PostalAddress}. It can be processed unambiguously by any machine that understands \gls{linkeddata}.
 
 \lstset{language=JSON}
 \begin{lstlisting}[caption=A person with an address of type PostalAddress., label=lst:persontyped]
@@ -482,20 +482,21 @@ The data of the same person where the address is of type \lstinline{http://schem
 The \lstinline{streetAddress} is just a string. A system running at a package distribution center could route packages correctly to some local distribution center or postal office by looking at \lstinline{addressRegion} and \lstinline{addressLocality}.
 
 \subsection{Contemporary solutions and tools}\label{sec:contemporarysolutions}
-In this section we discuss solutions and tools that provide value to UI development and generation.
+In this section we discuss solutions and tools for UI development and generation.
 
 \subsubsection{SOAP}\label{sec:soap}
-SOAP Version 1.2 (SOAP) is a lightweight protocol intended for exchanging structured information in a decentralized, distributed environment. It uses XML technologies to define an extensible messaging framework providing a message construct that can be exchanged over a variety of underlying protocols. The framework has been designed to be independent of any particular programming model and other implementation specific semantics \citep{soap}. \\
-It is popular in large enterprises because it works well in a distributed setting and it has certain security and safety mechanisms built in. In general web development REST with JSON has superseded SOAP because it brings less complexity and is more flexible.
+\textit{``SOAP Version 1.2 (SOAP) is a lightweight protocol intended for exchanging structured information in a decentralized, distributed environment. It uses XML technologies to define an extensible messaging framework providing a message construct that can be exchanged over a variety of underlying protocols. The framework has been designed to be independent of any particular programming model and other implementation specific semantics.''} \citep{soap}
+It is popular in large enterprises because it works well in a distributed setting and it has security and safety mechanisms built in. In main stream web development REST with JSON has superseded SOAP.
 
-In order to work with SOAP, one has to use XML  which is harder to parse, generate and read than JSON. In contrast to XML, JSON provides no means to attach meta data. \\
-Because REST is more of an architectural style than an architecture, there are multiple ways to implement APIs.
+In order to work with SOAP, one has to use XML which is harder to parse, generate and read than JSON. SOAP is stuck in the \textit{Swamp of POX} at Level 0 in the Richardson Maturity Model as mentioned in section \ref{richardsonmaturitymodel}.
 
 \subsubsection{GraphQL}\label{graphql}
-GraphQL is a query language for APIs and a set of tools to fulfill those queries \citep{graphql}. It provides a way to define the data model as graph that can be queried and mutated. The ecosystem of GraphQL servers and clients is growing.
+\textit{``GraphQL is a query language for APIs and a set of tools to fulfill those queries.''} \citep{graphql} It provides a way to define the data model as graph that can be queried and mutated. There is vast amount of GraphQL implementations both for the client and the server.
+
+Listing \ref{lst:graphqlmodel} shows a data model described in the GraphQL data description language, listing \ref{lst:graphqlquery} describes a query and listing \ref{lst:graphqlresponse} represents the response from the GraphQL server.
 
 \lstset{language=GraphQL}
-\begin{lstlisting}[caption=Simple data model in the GraphQL data description language.]
+\begin{lstlisting}[caption=Simple data model in the GraphQL data description language., label=lst:graphqlmodel]
 type Project {
   name: String
   tagline: String
@@ -503,7 +504,7 @@ type Project {
 }
 \end{lstlisting}
 \lstset{language=GraphQL}
-\begin{lstlisting}[caption=Example of a GraphQL query to fetch the tagline of a certain project.]
+\begin{lstlisting}[caption=Example of a GraphQL query to fetch the tagline of a certain project., label=lst:graphqlquery]
 {
   project(name: "GraphQL") {
     tagline
@@ -511,28 +512,27 @@ type Project {
 }
 \end{lstlisting}
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Response of the GraphQL server in JSON.]
+\begin{lstlisting}[caption=Response of the GraphQL server in JSON., label=lst:graphqlresponse]
 {
   "project": {
     "tagline": "A query language for APIs"
   }
 }\end{lstlisting}
 
-GraphQL mitigates the problem of over and under fetching. The client tells the server the structure of the data it expects. The server takes care of data denormalization and sends the client exactly the data it requested. \\ This makes GraphQL very popular in mobile app development where the bandwidth is often limited. The client doesn't have to do any processing or additional fetches, which is beneficial on mobile devices. \\\
-GraphQL provides a way of self-documentation through introspection. Developers are able to use the same query mechanisms for data and for documentation meta data, which makes exploration of GraphQL APIs trivial. This requires additional tooling that for instance queries the valid fields of an entity to suggest field names to a developer that is writing the query.
+GraphQL mitigates the problem of over and under fetching. The client tells the server the structure of the data it expects. The server takes care of data denormalization and sends the client exactly the data it requested. \\
+This makes GraphQL popular in mobile app development where the bandwidth is often limited. Compared to consuming RESTful APIs, the client doesn't have to do any processing to denormalize data and there is a single HTTP request, which is beneficial on mobile devices where the bandwidth is often limited. \\\
+GraphQL provides a way of self-documentation through introspection. Developers are able to use the same query mechanisms for meta data as for data, which makes exploration of GraphQL APIs trivial. It is possible to query the schema itself. This interactive development workflow requires additional tooling. To get suggestions for property names while developing a query, the tooling has to constantly query the GraphQL schema.
 
-However, GraphQL completely disregards existing HTTP and JSON tooling. As mentioned in section \ref{richardsonmaturitymodel}, Level 1 introduces HTTP resources. GraphQL ignores this step and builds on top of Level 0 by merely using HTTP as a transport system. This renders HTTP caching useless and tools that assume JSON as data exchange format don't work with GraphQL. The introduction of a new language requires syntax highlighting in editors. \\
+However, GraphQL completely disregards existing HTTP and JSON tooling. As mentioned in section \ref{richardsonmaturitymodel}, Level 1 introduces HTTP resources. GraphQL ignores this step and builds on top of Level 0 by merely using HTTP as a transport system, similar to SOAP. This renders HTTP caching useless and tools that assume JSON as data exchange format don't work with GraphQL. The introduction of a new language requires syntax highlighting in editors. \\
 The editor of the developer who is writing GraphQL queries relies on a schema that has to be provided and maintained by the server.
 
-The adoption of GraphQL is not a small commitment. Because it doesn't build on top of existing standards and tools, there is no upgrade path from an existing RESTful API. The adoption of GraphQL can speed up UI and client development and it can decrease maintenance cost. However GraphQL can only be used in that small world that understands GraphQL as it doesn't play well with others. This could lead to isolated GraphQL servers where the data exchange with non-GraphQL servers suffers from friction.
-
-Additionally, GraphQL provides no means to a generic client to build operations. This makes it unusable as hypermedia technology.
+The adoption of GraphQL is not a small commitment. Because it doesn't build on top of existing standards and tools, there is no upgrade path from an existing RESTful API. GraphQL can only be used in that small world that understands GraphQL as it doesn't play well with others. This could lead to isolated GraphQL servers where the data exchange with non-GraphQL servers suffers from friction.
 
 \subsubsection{Rails with ActiveAdmin}
-Ruby on Rails is a web framework that emerged in the 2000s and influenced the way web applications are built today \citep{rubyonrails}. Rails allows rapid application development by following the Convention over Configuration paradigm \footnote{Rails decreases the number of decisions a developer has to make by providing implicit default configurations}. This makes Rails a strongly opinionated framework that guides development by providing sane but overridable defaults.
+Ruby on Rails is a web framework that emerged in the 2000s and has a big impact on the way web applications are built today. \citep{rubyonrails} Rails allows rapid application development by following the \textit{Convention over Configuration} paradigm \footnote{Rails reduces the number of decisions a developer has to make by providing implicit default configurations}. This makes Rails a strongly opinionated framework that guides development by providing sane but overridable defaults.
 
-ActiveAdmin is an add-on for Rails that comprises a \gls{dsl} to define admin UIs. The main use case of ActiveAdmin is the creation of applications for administrators. These UIs don't have the strict esthetic requirements that UIs for end users and customers have. \\
-ActiveAdmin directly leverages the data model of a Rails application. The use of a UI specific DSL and the fact that ActiveAdmin knows the domain model allows UI developers to quickly bootstrap applications for administrators.
+ActiveAdmin is an add-on for Rails that comprises a \gls{dsl} to define UIs. The main use case of ActiveAdmin is the creation of applications for administrators and operators. These UIs don't have the strict aesthetic requirements that UIs targeting end users and customers have. \\
+ActiveAdmin directly leverages the data model of a Rails application. The use of a UI specific \gls{dsl} and the knowledge of ActiveAdmin about the data model allows UI developers to quickly bootstrap applications for administrators.
 
 The strong coupling to Rails is its major weakness. While ActiveAdmin reduces UI development costs immensely, it does so in the world of Rails. The assumptions it makes about the server prevents it to support data models in an idiomatic way. As soon as there are multiple Rails instances contributing to one data model, ActiveAdmin is no longer useful.
 
