@@ -121,11 +121,11 @@ This requires the UIs, supporting task-based computing, to be interactive. Furth
 The Richardson Maturity Model describes steps towards REST starting with HTTP. We go through the levels by looking at an example of a system that allows us to book appointments with our doctor.
 
 \subsubsection{Level 0: The Swamp of POX}
-Level 0 uses HTTP as a transport system for remote interactions. No other features of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL \footnote{Both are discussed in section \ref{sec:contemporarysolutions}}. work on this level. POX stands for \textit{plain old XML}. \\
-To book an appointment at our doctor we create the following request:
+Level 0 uses HTTP as a transport system for remote interactions. No other features of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL \footnote{Both are discussed in section \ref{sec:contemporarysolutions}} work on this level. POX stands for \textit{plain old XML}. \\
+To book an appointment at our doctor we create the following request which resembles a Remote Procedure Call (RPC). RPC is a concept of distributed systems, used by a computer program to execute a procedure on a different machine while hiding the fact that the interaction is remote.
 
 \lstset{language=XML}
-\begin{lstlisting}[caption=Level 0: \gls{remoteprocedurecall} on HTTP. \citep{richardsonmaturitymodel}]
+\begin{lstlisting}[caption=Level 0: Remote procedure call on HTTP. \citep{richardsonmaturitymodel}]
 POST /appointmentService HTTP/1.1
 [various other headers]
 
@@ -155,7 +155,7 @@ Host: royalhope.nhs.uk
 \end{lstlisting}
 
 \subsubsection{Level 3: Hypermedia Controls}
-``\textit{The final level introduces something that you often hear referred to under the ugly acronym of \gls{hateoas} (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list of open slots to knowing what to do to book an appointment.}'' \citep{richardsonmaturitymodel}
+``\textit{The final level introduces something that you often hear referred to under the ugly acronym of HATEOAS (Hypertext As The Engine Of Application State). It addresses the question of how to get from a list of open slots to knowing what to do to book an appointment.}'' \citep{richardsonmaturitymodel}
 
 We begin with the known request to get the list of open slots:
 
@@ -187,7 +187,7 @@ HTTP/1.1 200 OK
 There is still some ambiguity and the client needs prior knowledge about the API on how to book an appointment.
 
 \subsubsection{Level 4: Linked data-driven UI for task-based computing}
-This thesis aims to specify \gls{hateoas} in order to allow a generic UI to consume any API that conforms to this specification. A generic UI consumes that machine readable API and allows users to interact with it.
+This thesis aims to specify HATEOAS in order to allow a generic UI to consume any API that conforms to this specification. A generic UI consumes that machine readable API and allows users to interact with it.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]

@@ -213,9 +213,9 @@ The UI has to present information that the user \textbf{reads} and it has to pro
 
 These two fundamental properties of UIs are driving the definition and implementation of the two use cases.
 
-\subsection{Analysis of \gls{hateoas} API specifications}\label{sec:analysishateoas}
-The goal is to chose a specification among existing \gls{hateoas} API specifications. The real-world uses cases will implement HTTP APIs that conform to this specification \footnote{The actual implementation of those APIs is not the concern of this thesis. The focus is on the choice and evaluation of a HATEOAS specification.}. The client that consumes that API is merely a \gls{console}. This implies the client doesn't contain any knowledge about the API implementation. \\
-We enumerate the requirements for a \gls{hateoas} specification from the point of view of a consumer.
+\subsection{Analysis of HATEOAS API specifications}\label{sec:analysishateoas}
+The goal is to chose a specification among existing HATEOAS API specifications. The real-world uses cases will implement HTTP APIs that conform to this specification \footnote{The actual implementation of those APIs is not the concern of this thesis. The focus is on the choice and evaluation of a HATEOAS specification.}. The client that consumes that API is merely a \gls{console}. This implies the client doesn't contain any knowledge about the API implementation. \\
+We enumerate the requirements for a HATEOAS specification from the point of view of a consumer.
 
 \paragraph{Self documenting}
 The API should provide its own documentation so the consumer is not reliant on additional tools to consume documentation. The API should document itself which requires a mechanism to attach meta data to the response payload.
@@ -230,7 +230,7 @@ The API should provide a description on how to interact with it. It publishes th
 Based on the discussion in section \ref{linkeddata} about the benefits of \gls{linkeddata}, we explore \gls{linkeddata} as the key component to efficient UI development. The combination with web component based rendering discussed in section \ref{webcomponents} allows UI developers to think in terms of components and data.
 
 \subsubsection{Hydra}
-It is remarkable that at the time of writing this thesis, only one \gls{hateoas} specification exists that satisfies the requirements stated in section \ref{sec:analysishateoas}.
+It is remarkable that at the time of writing this thesis, only one HATEOAS specification exists that satisfies the requirements stated in section \ref{sec:analysishateoas}.
 
 \textit{``\href{http://www.hydra-cg.com/}{Hydra} is a lightweight specification to create hypermedia-driven Web APIs. By specifying a number of concepts commonly used in Web APIs, it enables the creation of generic API clients \citep{hydraspecs}.''} At the time of writing, the Hydra specification exists as an unofficial draft.
 
