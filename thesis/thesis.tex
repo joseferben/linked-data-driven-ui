@@ -10,6 +10,7 @@
 \usepackage{tocbibind}
 \usepackage{makecell}
 \usepackage{colortbl}
+\usepackage{pdfpages}
 
 % font
 \usepackage[utf8]{inputenc}
@@ -172,8 +173,7 @@
 
 \begin{document}
 \selectlanguage{english}
-
-\maketitle\thispagestyle{empty}\newpage
+\includepdf[fitpaper=true, pages=-]{cover.pdf}
 
 \begin{abstract}
   \input{abstract}
