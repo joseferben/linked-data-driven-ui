@@ -2,7 +2,7 @@
 This section discusses the problems with contemporary UI development. Furthermore, it provides the theoretical background by highlighting the main building blocks of the UI framework.
 
 \subsection{Accidental and Essential Complexity}
-According to Brooks, there is two types of complexity: Accidental Complexity and Essential Complexity. \citep{nosilverbullet}
+According to Brooks, there are two types of complexity: Accidental Complexity and Essential Complexity. \citep{nosilverbullet}
 In software engineering, Essential Complexity is complexity that comes from the domain problem that we want to solve. It is inherent to the problem that the customer cares about and its solution delivers business value. Accidental Complexity is complexity that is caused by everything else. Compilers, distributed systems and databases are all examples of Accidental Complexity. Even programming languages and computers are often Accidental Complexity since they are not essential to the customer's problem.
 
 This implies that Accidental Complexity could be eradicated in an ideal world. An example of such a scenario is the \textit{executable specification}. It comprises solely business rules that are essential to the problem of the business, it doesn't contain any Accidental Complexity.
@@ -13,20 +13,20 @@ Ben Moseley and Peter Marks explore a general infrastructure to run specificatio
 
 \paragraph{Static pages} Websites comprise mostly static files accessed using \gls{url}s. Those files are often created manually or generated using WYSIWYG \footnote{``What You See Is What You Get'' is a concept where the data is edited in a form that is close to its rendered form.} editors. The served files are mostly styles (CSS) \footnote{CSS is a language used to describe the presentation of markup documents and it plays an important role in the rendering process in browsers.}, static assets and markup that is rendered by the browser.
 
-\paragraph{Dynamic pages} Dynamically generated content becomes popular with the rise of PHP \footnote{Hypertext Preprocessor (PHP) is a general purpose programming language that is used to render dynamic web pages on the server.}. Websites show different content to each user based on previous interaction. The served files were still the same static files. The markup was not hard coded anymore but dynamically rendered on the server for each user request.
+\paragraph{Dynamic pages} Dynamically generated content becomes popular with the rise of PHP \footnote{PHP: Hypertext Preprocessor (PHP) is a general purpose programming language that is used to render dynamic web pages on the server.}. Websites show different content to each user based on previous interaction. The served files are still the same static files. The markup is not hard coded anymore but dynamically rendered on the server for each user request.
 \\ Developers use templating languages to implement UIs.
 
 \paragraph{AJAX} Websites become truly interactive with the introduction of AJAX \footnote{Asynchronous JavaScript and XML (AJAX) are used to add interactive elements to web sites since the early 2000s.}. AJAX allows the browser to asynchronously communicate with the server while the user is interacting with the website. Google gives search suggestions in real-time while the user is typing the search term. Websites are still rendered on the server but the served files additionally contain JavaScript \footnote{JavaScript is a language that is widely used in web development to run applications in browsers.} that is executed by the browser.
 \\ UI development involves using templating languages, styling and small amounts of programming.
 
-\paragraph{Web applications} The amount of interactive elements on websites and their complexity increased. What is once a text input field with real-time suggestions is now a full-text search interface with complex filtering and sorting options. The standardization of browser APIs is in the early stages and developers have to spend effort to create a consistent user experience across various browsers.
+\paragraph{Web applications} The amount of interactive elements on websites and their complexity increases. What was once a text input field with real-time suggestions is now a full-text search interface with complex filtering and sorting options. The standardization of browser APIs is in the early stages and developers have to spend effort to create a consistent user experience across various browsers.
 \\ Tools like jQuery \footnote{JQuery is a JavaScript library released in 2006 that is used to simplify interaction with browsers by providing a unified API. (\url{http://jquery.com/})} emerge and provide a single interface for multiple browsers. The websites are still dynamically rendered on the server but they are enriched in the browser by running JavaScript.
 
-\paragraph{Single-page applications} The first web applications appear, providing a user experience in the browser similar to the one of fat clients \footnote{Applications that provide rich functionality without a connection to the server.}. The response that the server sends to the browser is mostly JavaScript. The browser runs that JavaScript to render the website and to react on user input. The application communicates with the server using AJAX and the website is not rendered on the server anymore. Instead, a single page is served, on which the application lifecycle takes place. Single-page applications \footnote{Single-page applications (SPA) interact with the user by rewriting the current DOM instead of loading entirely new pages.} are born.
-\\ Development of UIs changes - the UI is part of an application that has its own lifecycle. Development of the server and the client often takes place separately. The HTTP API is informal contract between client and server.
+\paragraph{Single-page applications} The first web applications appear, providing a user experience in the browser similar to the one of fat clients \footnote{Applications that provide rich functionality without a connection to the server.}. The response the server sends to the browser is mostly JavaScript. The browser runs JavaScript to render the website and to react on user input. The application communicates with the server using AJAX and the website is not rendered on the server anymore. Instead, a single page is served, on which the application lifecycle takes place. Single-page applications \footnote{Single-page applications (SPA) interact with the user by rewriting the current DOM instead of loading entirely new pages.} are born.
+\\ Development of UIs changes - the UI is part of an application that has its own lifecycle. Development of the server and the client often takes place separately. The HTTP API is an informal contract between client and server.
 
 \subsection{Document Object Model}\label{documentobjectmodel}
-The Document Object Model (DOM) is a programming API for HTML and XML documents. It defines the logical structure of documents and the way a document is accessed and manipulated. \citep{domintro} \\ We consider the following HTML document:
+The Document Object Model (DOM) is a programming API for HTML and XML documents. It defines the logical structure of documents and the way a document is accessed and manipulated. \citep{domintro} \\ We consider the HTML document shown in listing \ref{htmloftable}:
 
 \lstset{language=XML}
 \begin{lstlisting}[caption=HTML document of a table, label=htmloftable]
@@ -60,9 +60,9 @@ We call the process of creating the DOM of a document ``rendering''. This is not
 \subsubsection{Lack of context}\label{datahumanmachine}
 We picture a scenario in everyday life where two good friends meet. One of them says: ``Have you heard about Frank? He recently got married.'' Chances are high the other one knows multiple people named Frank. Being a human, he is able to map the name Frank to the person the other one is referring to. He is able to do so, because that conversation has an implicit context. That context is the intersection of the sets of people both friends know who might get married.
 
-Similar things happen in software development, specifically in data exchange. A \gls{frontend} developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes, he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding the data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
+Similar things happen in software development, specifically in data exchange. A \gls{frontend} developer looks at either all HTTP routes of an API or glances over the documentation. Sometimes, he is able to \textbf{infer} the domain model because of his personal experiences as a human. If that developer is not familiar with the domain at all, maybe because the domain is niche, he has trouble understanding data coming from the server. He perceives development to be difficult and he is not able to put the data being exchanged into a \textbf{context}.
 
-What makes life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems as participants in the web. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In UI development, that context is often hard coded into the client and the UI itself \footnote{We refer to this approach of UI development as \textit{traditional} or \textit{contemporary} approach}. We think that some of the complexity in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
+What makes life of a human developer hard, poses an insurmountable obstacle to a machine. A machine doesn't have dozens of years of life experience to draw from when trying to understand data.\footnote{Here we talk about machines in the sense of contemporary information systems as participants in the web. Systems that are able to learn are deliberately ignored as they haven't been proven to be useful in this context.} The machine has to be fed a context together with the data it should understand. In UI development, that context is often hard coded into the client and the UI itself \footnote{We refer to this approach of UI development as \textit{traditional} or \textit{contemporary} approach.}. We think that some of the complexity in UI development could be eliminated by \textbf{exchanging data that has meaning attached to it}.
 
 \subsection{Web components}\label{webcomponents}
 In recent years, a concept in UI development became popular involving web components \footnote{We refer to the concept of web components and component-based rendering as opposed to template-based rendering, not the Web Component standard \url{https://www.webcomponents.org/specs}.}. This paragraph analyzes the concept of web components.
@@ -70,7 +70,7 @@ In recent years, a concept in UI development became popular involving web compon
 \subsubsection{React}\label{sec:react}
 In 2013, Facebook released a library called React, which is a popular tool for component-based UI development today \citep{reactmarketshare}. Its widespread adoption in web development caused a paradigm shift in UI development.
 
-React encourages the mental model of UIs as compositions of components. UI developers don't touch the DOM manually and merely provide data to React. This is a declarative approach where the developer states \textbf{what} the UI looks like as shown in figure \ref{fig:imperative} as opposed to \textbf{how} the UI should be rendered as illustrated in figure \ref{fig:declarative}. \\
+React encourages the mental model of UIs as compositions of components. UI developers don't touch the DOM manually and merely provide data to React. This is a declarative approach where the developer states \textbf{what} the UI looks like as shown in figure \ref{fig:declarative} as opposed to \textbf{how} the UI should be rendered as illustrated in figure \ref{fig:imperative}. \\
 React models the problem of UI rendering as function application. This leads to small re-usable components providing various benefits.
 
 \begin{figure}[!htb]
@@ -87,14 +87,14 @@ React models the problem of UI rendering as function application. This leads to 
   \label{fig:declarative}
 \end{figure}
 
-The output of a component depends only on its input. This allows developers to understand the change in the output depending on the change in the input, making the component easy to reason about. UIs using components are easy to test in isolation because the only dependency the data input. Analogous to function composition, such web components can be composed to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them easy to maintain and adjust. They can be used in multiple contexts and a good level of code re-use can be achieved.
+The output of a component depends only on its input. This allows developers to understand the change in the output depending on the change in the input, making the component easy to reason about. UIs using components are easy to test in isolation because the only dependency is the data input. Analogous to function composition, such web components can be composed to larger UIs. Because web components are designed to be self-contained, they have high cohesion which makes them easy to maintain and adjust. They can be used in multiple contexts and a good level of code re-use can be achieved.
 
 \subsubsection{Templates vs. Components}
-The benefits of web components become apparent with the analysis of UI development with templates. \\
+The benefits of web components become apparent with the analysis of UI development using templates. \\
 We consider web pages that are dynamically created on the server in a template rendering step. Templating languages resemble simple programming languages providing control structures, assignable variables and primitives to output markup. These templates are evaluated with input data during a template rendering step. The output of that templating step is markup. Compared to components, templates have some drawbacks.
 
 \paragraph{Additional complexity} Templating languages are a source of complexity. They often have powerful primitives to filter collections, sort sequences or format dates. This enlarges the technology stack and its learning curve. Questions like \textit{how exactly does the evaluation and rendering of a template happen?} or \textit{how can I debug the rendering process?} may arise at some point during development. \\
-They are often used together with models - abstractions that contain business logic and application state. There is a risk that business logic creeps into templates. Mixing business and view logic makes decreases maintainability.
+They are often used together with models - abstractions that contain business logic and application state. There is a risk that business logic creeps into templates. Mixing business and view logic decreases maintainability.
 
 \paragraph{Separation of concerns} Templates separate things that conceptually belong together. The developers of React have stated:
 \begin{quote}
@@ -102,12 +102,12 @@ They are often used together with models - abstractions that contain business lo
 \end{quote}
 We consider the UI of an issue tracking system where an issue has a status that can be changed. \\ A web component representing that issue contains the markup text, the styling and the business logic to change its status. That component is self-contained - it can be used in isolation and in various contexts. \\
 A template, on the other hand, only takes care of creating markup. It relies on a model to provide the data and behavior and on a style sheet providing the styling.
-Separation of markup, styling and business logic is done in the name of encapsulation. There is a technological and conceptual dichotomy. The main contribution of web components is the acknowledgment that the conceptual dichotomy is the important one. Things that are conceptually related belong together, not things that are using similar technologies. \\
+Separation of markup, styling and business logic is done in the name of encapsulation. There is a technological and conceptual dichotomy. The main contribution of web components is the acknowledgment that the conceptual dichotomy is the important one. Things that are conceptually related belong together as opposed to things that are using similar technologies. \\
 The technological dichotomy can be solved with improvements in tooling. Components provide a better level of encapsulation than templates.
 
 \subsection{Task-based computing}
 Donald A. Norman explores human centered design of technology in his book \textit{The Invisible Computer}. Task-based computing describes the way a user interacts with a system. The only goal of the user is to complete an activity by interacting with tasks using actions. \citep{invisiblecomputer} \\
-This requires the UIs, supporting task-based computing, to be interactive. Furthermore, we aim for an approach to not only develop UIs supporting \gls{crud} operations, but to create UIs with more complex interactions. In the scope of this thesis we consider UIs that provide value to the topic of task-based computing.
+This requires the UIs, supporting task-based computing, to be interactive. Furthermore, we aim for an approach to not only develop UIs supporting \gls{crud} operations, but to create UIs with more complex interactions. In the scope of this thesis, we consider UIs that provide value to the topic of task-based computing.
 
 \subsection{Richardson Maturity Model}\label{richardsonmaturitymodel}
 \textit{``The web is an existence proof of a massively scalable distributed system that works really well and we might be able to take ideas from that to build integrated systems more easily.''} \citep{richardsonmaturitymodel} This section summarizes the blog post by Martin Fowler about the Richardson Maturity Model.
@@ -121,11 +121,11 @@ This requires the UIs, supporting task-based computing, to be interactive. Furth
 The Richardson Maturity Model describes steps towards REST starting with HTTP. We go through the levels by looking at an example of a system that allows us to book appointments with our doctor.
 
 \subsubsection{Level 0: The Swamp of POX}
-Level 0 uses HTTP as a transport system for remote interactions. No other features of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL work on this level. POX stands for \textit{plain old XML}. \\
+Level 0 uses HTTP as a transport system for remote interactions. No other features of the web are used and HTTP is only used for tunneling requests. SOAP or GraphQL \footnote{Both are discussed in section \ref{sec:contemporarysolutions}}. work on this level. POX stands for \textit{plain old XML}. \\
 To book an appointment at our doctor we create the following request:
 
 \lstset{language=XML}
-\begin{lstlisting}[caption=Level 0: \gls{remoteprocedurecall} on HTTP]
+\begin{lstlisting}[caption=Level 0: \gls{remoteprocedurecall} on HTTP. \citep{richardsonmaturitymodel}]
 POST /appointmentService HTTP/1.1
 [various other headers]
 
@@ -136,7 +136,7 @@ POST /appointmentService HTTP/1.1
 Level 1 introduces the concept of resources. Instead of referring to the doctor within the request body, we encode the doctor in the \gls{url}. This is similar to the concept of an object identity, where an object instance can be identified by an id.
 
 \lstset{language=XML}
-\begin{lstlisting}[caption=Level 1: Referring to the doctor as a resource.]
+\begin{lstlisting}[caption=Level 1: Referring to the doctor as a resource. \citep{richardsonmaturitymodel}]
 POST /doctors/mjones HTTP/1.1
 [various other headers]
 
@@ -145,11 +145,11 @@ POST /doctors/mjones HTTP/1.1
 
 \subsubsection{Level 2: HTTP Verbs}
 Level 2 introduces HTTP verbs like \lstinline{GET}, \lstinline{POST} or \lstinline{DELETE}. Instead of using \lstinline{POST} everywhere, we choose the most specific verb that fits the use case.
-Fowler puts the emphasis here on \lstinline{safety} and says that it is not too important to make use of all the HTTP verbs. Proper use of the safe and idempotent verb \lstinline{GET} and the unsafe verb \lstinline{POST} suffices, according to Fowler. \citep{richardsonmaturitymodel} \\
+Fowler puts the emphasis here on \textit{safety} and says that it is not too important to make use of all the HTTP verbs. Proper use of the safe and idempotent verb \lstinline{GET} and the unsafe verb \lstinline{POST} suffices, according to Fowler. \citep{richardsonmaturitymodel} \\
 Level 2 additionally requires the proper use of HTTP status codes. The creation of a resource using \lstinline{POST} should return the HTTP status code \lstinline{201 Created}.
 
 \lstset{language=XML}
-\begin{lstlisting}[caption=Level 2: Safely fetching the list of open slots using \lstinline{GET}.]
+\begin{lstlisting}[caption=Level 2: Safely fetching the list of open slots using \lstinline{GET}. \citep{richardsonmaturitymodel}]
 GET /doctors/mjones/slots?date=20100104&status=open HTTP/1.1
 Host: royalhope.nhs.uk
 \end{lstlisting}
@@ -160,7 +160,7 @@ Host: royalhope.nhs.uk
 We begin with the known request to get the list of open slots:
 
 \lstset{language=XML}
-\begin{lstlisting}[caption=Fetching the list of open slots.]
+\begin{lstlisting}[caption=Fetching the list of open slots. \citep{richardsonmaturitymodel}]
 GET /doctors/mjones/slots?date=20100104&status=open HTTP/1.1
 Host: royalhope.nhs.uk
 \end{lstlisting}
@@ -168,7 +168,7 @@ Host: royalhope.nhs.uk
 The response contains the \gls{uri}s that help us understand how to book an appointment.
 
 \lstset{language=XML}
-\begin{lstlisting}[caption=Level 3: The response contains information that helps us book an appointment.]
+\begin{lstlisting}[caption=Level 3: The response contains information that helps us book an appointment. \citep{richardsonmaturitymodel}]
 HTTP/1.1 200 OK
 [various headers]
 
@@ -187,7 +187,7 @@ HTTP/1.1 200 OK
 There is still some ambiguity and the client needs prior knowledge about the API on how to book an appointment.
 
 \subsubsection{Level 4: Linked data-driven UI for task-based computing}
-This thesis aims to specify \gls{hateoas} in order to allow a generic UI to consume any API that conforms to that specification. A generic UI consumes that machine readable API and allows users to interact with it.
+This thesis aims to specify \gls{hateoas} in order to allow a generic UI to consume any API that conforms to this specification. A generic UI consumes that machine readable API and allows users to interact with it.
 
 \begin{figure}[!htb]
   \center{\includegraphics[width=380pt]
@@ -204,6 +204,7 @@ This thesis aims to specify \gls{hateoas} in order to allow a generic UI to cons
   \item When someone looks up a \gls{uri}, provide useful information, using the standards (\gls{rdf}, \gls{sparql}).
   \item Include links to other \gls{uri}s, so that they can discover more things.
 \end{enumerate}
+\citep{linkedatafourrules}
 
 A machine looking at a piece of \gls{linkeddata} follows the links and is able to unambiguously understand the data. This is equivalent to traversing a graph since \gls{linkeddata} is effectively a giant graph. There are multiple serialization formats in the family of specifications called Resource Description Framework (\gls{rdf}) \citep{rdfspecification}.
 
@@ -217,7 +218,7 @@ An \gls{rdf} file describing a Smith family lives at \lstinline{http://example.o
   </rdf:Description>
 \end{lstlisting}
 
-Information about the grandparent Albert can be obtained by loading the data at \lstinline{http://example.org/smith#albert}. Albert's child Brian can be accessed at \lstinline{http://example.org/smith#brian} and Brian's child Carol at \lstinline{http://example.org/smith#carol}.
+Information about the grandparent Albert can be obtained by loading the data at \\ \lstinline{http://example.org/smith#albert}. Albert's child Brian can be accessed at \lstinline{http://example.org/smith#brian} and Brian's child Carol at \lstinline{http://example.org/smith#carol}.
 
 \subsection{JSON-LD}\label{jsonld}
 In web development, a popular format for data exchange is JSON \citep{jsonformat}. It is easy to parse, to generate, arguably easier for humans to read than XML and many languages provide first-class support for it.
@@ -240,7 +241,7 @@ We consider following JSON snippet:
 JSON-LD is a serialization format for \gls{linkeddata} which is based on JSON. By using the popular \url{Schema.org} \footnote{\url{Schema.org} is explained in section \ref{schemaorg}} vocabulary the example shown in listing \ref{jsonexample} can be written as follows:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Data of a person in the JSON-LD format., label=jsonldexample]
+\begin{lstlisting}[caption=Data of a person in the JSON-LD format. \citep{jsonldbasicconcepts}, label=jsonldexample]
 {
   "http://schema.org/name": "Manu Sporny",
   "http://schema.org/url": {
@@ -257,7 +258,7 @@ This can be understood by any machine without providing additional information. 
 The context is meta data that has to be provided together with the data. This makes it possible for a machine to attach meaning to it. Thanks to the context, it is not required to have the keys as absolute \gls{uri}s anymore. The data can be compacted and written as follows:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Compacted JSON-LD data of a person., label=jsonldcompacted]
+\begin{lstlisting}[caption=Compacted JSON-LD data of a person. \citep{jsonldbasicconcepts}, label=jsonldcompacted]
 {
   "@context": "http://schema.org",
   "name": "Manu Sporny",
@@ -283,15 +284,15 @@ The main point of his criticism is the neglect of the human factor in software d
 The second point is criticism on the technological decisions mainly about \gls{rdf}. \gls{rdf} has no native support for lists and it didn't have support for graphs for a long time. One of the goals was to remain compatible to \gls{rdf} with JSON-LD, so that data can be serialized and deserialized from and to each other. \citep{semanticwebrevisited}
 
 \subsubsection{JSON-LD Operations}
-There are a few operations that can be executed on JSON-LD. Following are the three most important ones to understand how machines use the context to make sense of the payload \footnote{The data is referred to as payload in order to distinguish data from meta data}.
+There are a few operations that can be executed on JSON-LD. Following are the three most important ones to understand how machines use the context to make sense of the payload \footnote{The data is referred to as payload in order to distinguish data from meta data.}.
 
 \paragraph{Framing}
 Framing is an operation that re-shapes data. Input of the framing operation is data and a frame. The frame determines the new shape of the data.
 
-We consider following data describing books in a library. I is in the form of a normalized graph. The \lstinline{contains} relation represents edges between nodes, the items in the \lstinline{@graph} list are the graph nodes.
+We consider following data describing books in a library. It is in the form of a normalized graph. The \lstinline{contains} relation represents edges between nodes, the items in the \lstinline{@graph} list are the graph nodes.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Data of a library as normalized graph.]
+\begin{lstlisting}[caption=Data of a library as normalized graph. \citep{jsonldbasicconcepts}]
 {
   "@context": {
     "@vocab": "http://example.org/",
@@ -319,7 +320,7 @@ We consider following data describing books in a library. I is in the form of a 
 Following frame defines the shape:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Frame for the framing operation.]
+\begin{lstlisting}[caption=Frame for the framing operation. \citep{jsonldbasicconcepts}]
 {
   "@context": {
     "@version": 1.1,
@@ -338,7 +339,7 @@ Following frame defines the shape:
 While the input to the framing operation is a graph, the output is a tree or a normalized graph:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Framed data of a library.]
+\begin{lstlisting}[caption=Framed data of a library. \citep{jsonldbasicconcepts}]
 {
   "@context": {
     "@version": 1.1,
@@ -367,7 +368,7 @@ Compacting describes the operation of reducing verbosity. Compacted data is mean
 We consider following input:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Verbose data of a person]
+\begin{lstlisting}[caption=Verbose data of a person. \citep{jsonldbasicconcepts}]
 {
   "http://schema.org/name": "Manu Sporny",
   "http://schema.org/url": {
@@ -382,7 +383,7 @@ We consider following input:
 This data can be compacted by pulling out the \lstinline{@context}:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Compacted and easy-to-read data of a person]
+\begin{lstlisting}[caption=Compacted and easy-to-read data of a person. \citep{jsonldbasicconcepts}]
 {
   "@context": "http://schema.org",
   "name": "Manu Sporny",
@@ -397,7 +398,7 @@ Expanded data serves the opposite goal of compacting data as shown in section \r
 Expanding the following compacted data
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Compacted and easy-to-read data of a person.]
+\begin{lstlisting}[caption=Compacted and easy-to-read data of a person. \citep{jsonldbasicconcepts}]
 {
   "@context": "http://schema.org",
   "name": "Manu Sporny",
@@ -409,7 +410,7 @@ Expanding the following compacted data
 results in following expanded data:
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Expanded data of a person that is easy to process for machines.]
+\begin{lstlisting}[caption=Expanded data of a person that is easy to process for machines. \citep{jsonldbasicconcepts}]
 [
   {
     "http://schema.org/image": [
@@ -450,7 +451,7 @@ Their main goal is to provide a shared vocabulary that web developers can refer 
 The advantage of using such a vocabulary becomes obvious when looking at an example. As shown in listing \ref{lst:personuntyped}, the type \lstinline{Person} has a property \lstinline{address}. \lstinline{Address} can be of type \lstinline{http://schema.org/Text} or \lstinline{http://schema.org/PostalAddress}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=A person with an address of type Text., label=lst:personuntyped]
+\begin{lstlisting}[caption=A person with an address of type \lstinline{http://schema.org/Text}., label=lst:personuntyped]
 {
   "@context": "http://schema.org",
   "givenName": "Walter",
@@ -464,7 +465,7 @@ A machine receiving that data knows that this is a person and understands his na
 The data of the same person is shown in listing \ref{lst:persontyped}, where the address is of type \lstinline{http://schema.org/PostalAddress}. It can be processed unambiguously by any machine that understands \gls{linkeddata}.
 
 \lstset{language=JSON}
-\begin{lstlisting}[caption=A person with an address of type PostalAddress., label=lst:persontyped]
+\begin{lstlisting}[caption=A person with an address of type \lstinline{http://schema.org/PostalAddress}., label=lst:persontyped]
 {
   "@context": "http://schema.org",
   "givenName": "Walter",
@@ -486,7 +487,7 @@ In this section we discuss solutions and tools for UI development and generation
 
 \subsubsection{SOAP}\label{sec:soap}
 \textit{``SOAP Version 1.2 (SOAP) is a lightweight protocol intended for exchanging structured information in a decentralized, distributed environment. It uses XML technologies to define an extensible messaging framework providing a message construct that can be exchanged over a variety of underlying protocols. The framework has been designed to be independent of any particular programming model and other implementation specific semantics.''} \citep{soap}
-It is popular in large enterprises because it works well in a distributed setting and it has security and safety mechanisms built in. In main stream web development REST with JSON has superseded SOAP.
+It is popular in large enterprises because it works well in a distributed setting and it has security and safety mechanisms built in. In main stream web development, REST with JSON has superseded SOAP.
 
 In order to work with SOAP, one has to use XML which is harder to parse, generate and read than JSON. SOAP is stuck in the \textit{Swamp of POX} at Level 0 in the Richardson Maturity Model as mentioned in section \ref{richardsonmaturitymodel}.
 
@@ -496,7 +497,7 @@ In order to work with SOAP, one has to use XML which is harder to parse, generat
 Listing \ref{lst:graphqlmodel} shows a data model described in the GraphQL data description language, listing \ref{lst:graphqlquery} describes a query and listing \ref{lst:graphqlresponse} represents the response from the GraphQL server.
 
 \lstset{language=GraphQL}
-\begin{lstlisting}[caption=Simple data model in the GraphQL data description language., label=lst:graphqlmodel]
+\begin{lstlisting}[caption=Simple data model in the GraphQL data description language. \citep{graphql}, label=lst:graphqlmodel]
 type Project {
   name: String
   tagline: String
@@ -504,7 +505,7 @@ type Project {
 }
 \end{lstlisting}
 \lstset{language=GraphQL}
-\begin{lstlisting}[caption=Example of a GraphQL query to fetch the tagline of a certain project., label=lst:graphqlquery]
+\begin{lstlisting}[caption=Example of a GraphQL query to fetch the tagline of a certain project. \citep{graphql}, label=lst:graphqlquery]
 {
   project(name: "GraphQL") {
     tagline
@@ -512,7 +513,7 @@ type Project {
 }
 \end{lstlisting}
 \lstset{language=JSON}
-\begin{lstlisting}[caption=Response of the GraphQL server in JSON., label=lst:graphqlresponse]
+\begin{lstlisting}[caption=Response of the GraphQL server in JSON. \citep{graphql}, label=lst:graphqlresponse]
 {
   "project": {
     "tagline": "A query language for APIs"
@@ -536,4 +537,4 @@ ActiveAdmin directly leverages the data model of a Rails application. The use of
 
 The strong coupling to Rails is its major weakness. While ActiveAdmin reduces UI development costs immensely, it does so in the world of Rails. The assumptions it makes about the server prevents it to support data models in an idiomatic way. As soon as there are multiple Rails instances contributing to one data model, ActiveAdmin is no longer useful.
 
-Being an add-on to Rails ActiveAdmin doesn't work outside the Rails ecosystem.
+Being an add-on to Rails, ActiveAdmin doesn't work outside the Rails ecosystem.

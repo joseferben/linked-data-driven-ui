@@ -58,7 +58,7 @@ By looking at the implementations of both use cases, we evaluate whether the des
 Playing nicely with other technologies, existing consumers and existing tooling is the major design goal as described in section \ref{sec:playnice}. Choices on the technologies being used in the UI framework have the biggest impact on it.
 
 \paragraph{JSON-LD}
-JSON-LD is valid JSON which means that any tool that accepts JSON also accepts JSON-LD.
+JSON-LD is valid JSON - any tool that accepts JSON also accepts JSON-LD.
 
 \paragraph{Hydra operations}
 Hydra operations include an  HTTP verb which the client reads to invoke the operation. Given the developer respects the conventions regarding safe and idempotent HTTP verbs, their invocations are equal to regular HTTP requests. HTTP proxies and caches treat Hydra requests the same as other HTTP requests.
@@ -161,7 +161,7 @@ The learning curve to implement non-interactive UIs is minimal. The component AP
 \subsection{Reduction of complexity in software development}
 This section analyzes whether and how development with the UI framework affects various types of software complexity. This requires a comparison of a traditional ``non'' \gls{linkeddata}-driven approach to the development workflow using the UI framework.
 
-\paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a front-end using React. They use Swagger \footnote{Swagger is a tool for documentation and development of HTTP APIs. \url{https://swagger.io/}} to generate and serve API documentation.
+\paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a \gls{frontend} using React. They use Swagger \footnote{Swagger is a tool for documentation and development of HTTP APIs. \url{https://swagger.io/}} to generate and serve API documentation.
 
 We assess various types of software complexities in order to gauge the change in complexity from the baseline scenario to scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
 
@@ -256,5 +256,5 @@ In this section we discuss Hydra as \gls{hateoas} specification and the performa
 The specification is not complete at the time of writing. There is substantial amount of information missing regarding to operations and their usage. This risk was mitigated by using the Hydra client Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}}.
 
 \subsubsection{Performance of the UI (Risk R6)}
-The JSON-LD operations performed on the client have no noticeable impact on the perceived performance of the UI. The resolution of the context, before those JSON-LD operations are performed, add a slight overhead. This overhead includes additional requests to vocabularies like Schema.org to resolve the linked data. \\
+The JSON-LD operations performed on the client have no noticeable impact on the perceived performance of the UI. The resolution of the context, before those JSON-LD operations are performed, add a slight overhead. This overhead includes additional requests to vocabularies like \url{Schema.org} to resolve the linked data. \\
 The stability of linked data vocabularies allow for aggressive caching. Only the page load of the UI is noticeable slower, the context of the following requests is cached by the browser.
