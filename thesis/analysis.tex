@@ -37,7 +37,7 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       \hline
       high & 3 & \begin{tabular}[x]{@{}l@{}}It is possible to implement the UI framework and the use cases. \\ That approach to UI development is less efficient and more \\ costly than UI development without the UI framework.\end{tabular} \\
       \hline
-      fatal & 4 & \begin{tabular}[x]{@{}l@{}}It is not possible to implement the UI framework and the use cases. \\ The thesis is neither confirmed nor rejected and no value is generated.\end{tabular} \\
+      fatal & 4 & \begin{tabular}[x]{@{}l@{}}It is not possible to implement the UI framework and the use cases.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{The level of severity is mapped to a score which is used in the risk analysis.}
@@ -124,7 +124,7 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       \hline
       \textbf{Risk Factor} & 3 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}There are no tools that implement the JSON-LD operations \\ discussed in section \ref{jsonld}. The used languages and frameworks don't \\ support JSON as first class citizen \footnote{A language treats JSON as first class citizen if it supports it natively.}. All tools have to be written \\ from scratch.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}There are no tools that implement the JSON-LD operations \\ discussed in section \ref{jsonld}. The used languages and frameworks don't \\ support JSON as first-class citizen \footnote{A language treats JSON as first-class citizen if it supports it natively.}. All tools have to be written \\ from scratch.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R4.}
@@ -145,7 +145,7 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       \hline
       \textbf{Risk Factor} & 4 \\
       \hline
-      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The UI framework provides usable UIs out of the box. These  \\ are created by using a design language implementation which \\ takes care of portability across browsers. The implementation provides \\ the authors with best practices in UI design and layout. In case \\ there is a lack of design language implementations one has to \\ be written from scratch.\end{tabular} \\
+      \textbf{Description} & \begin{tabular}[x]{@{}l@{}}The UI framework provides usable UIs out of the box. These  \\ are created by using a design language implementation which \\ takes care of portability across browsers. The implementation provides \\ the authors with best practices in UI design and layout. In case \\ there is a lack of design language implementations, one has to \\ be written from scratch.\end{tabular} \\
       \hline
     \end{tabular}
     \caption{Source of risk R5.}
@@ -181,7 +181,6 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       \hline
       \textbf{ID} & \textbf{Risk Factor} & \textbf{Title} \\
       \hline
-      \hline
       \rowcolor{yellow}
       R1 & 8 & Incomplete HATEOAS specification \\
       \hline
@@ -196,7 +195,7 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       R4 & 3 & Lack of JSON-LD tooling \\
       \hline
     \end{tabular}
-    \caption{The result of the risk analysis shows the list of all risks sorted descending by their total risk factor. R1 have a large impact on on the success of the project.}
+    \caption{The result of the risk analysis shows the list of all risks sorted descending by their total risk factor. R1 has a large impact on the success of the project.}
     \label{tab:riskanalysis}
   \end{center}
 \end{table}
@@ -205,17 +204,17 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
 For a system to be useful, it has to interact with its environment. These interactions happen through multiple types of interfaces, which are used by either other systems or human users.
 Interfaces for human users share fundamental properties. By observing their usage we can analyze the main characteristics. A typical scenario of UI usage is browsing a website. At all times, while using the website, the user either reads or clicks.
 
-The UI has to present information that he user \textbf{read} and it has to provide means for \textbf{interaction}. In terms of operations on data, this is equivalent to \textbf{querying} and \textbf{mutating or commanding}.
+The UI has to present information that the user \textbf{reads} and it has to provide means for \textbf{interaction}. In terms of operations on data, this is equivalent to \textbf{querying} and \textbf{mutating or commanding}.
 
 \begin{enumerate}
-  \item Query: The user is able to retrieve information from the UI by looking at it
+  \item Query: The user is able to retrieve information by looking at the UI
   \item Interaction: The user is able to interact with the UI
 \end{enumerate}
 
 These two fundamental properties of UIs are driving the definition and implementation of the two use cases.
 
 \subsection{Analysis of \gls{hateoas} API specifications}\label{sec:analysishateoas}
-The goal is to chose a specification among existing \gls{hateoas} API specifications. The real world uses cases will implement HTTP APIs that conform to this specification \footnote{The actual implementation of those APIs is not the concern of this thesis. The focus is on the evaluation and choice of HATEOAS specification.}. The client that consumes that API is merely a \gls{console}. This implies the client doesn't contain any knowledge about the API implementation. \\
+The goal is to chose a specification among existing \gls{hateoas} API specifications. The real-world uses cases will implement HTTP APIs that conform to this specification \footnote{The actual implementation of those APIs is not the concern of this thesis. The focus is on the choice and evaluation of a HATEOAS specification.}. The client that consumes that API is merely a \gls{console}. This implies the client doesn't contain any knowledge about the API implementation. \\
 We enumerate the requirements for a \gls{hateoas} specification from the point of view of a consumer.
 
 \paragraph{Self documenting}
@@ -228,7 +227,7 @@ The consumer should be able to autonomously discover the data model of an API by
 The API should provide a description on how to interact with it. It publishes the information that is needed by the consumer to build and invoke requests.
 
 \paragraph{Uses linked data}
-Based on the discussion in section \ref{linkeddata} about the benefits of \gls{linkeddata}, we explore \gls{linkeddata} as key component to efficient UI development. The combination with web component based rendering discussed in section \ref{webcomponents} allows UI developers to think in terms of components and data.
+Based on the discussion in section \ref{linkeddata} about the benefits of \gls{linkeddata}, we explore \gls{linkeddata} as the key component to efficient UI development. The combination with web component based rendering discussed in section \ref{webcomponents} allows UI developers to think in terms of components and data.
 
 \subsubsection{Hydra}
 It is remarkable that at the time of writing this thesis, only one \gls{hateoas} specification exists that satisfies the requirements stated in section \ref{sec:analysishateoas}.
@@ -245,10 +244,10 @@ It can use the same data model for generating built-in documentation and serving
 
 \paragraph{Collections, partial views and pagination}
 In the world of Hydra, there are conceptually only \textit{things} and \textit{lists of things}. There is no list of list of things. \\
-Hydra calls a list of things collection, which can have things as members. There is the concept of a partial view. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \gls{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate \gls{pagination}.
+Hydra calls a list of things \textit{collection}, which can have things as members. There is the concept of a partial view. This gives the client the ability to fetch a subset of a collection. That partial view can be controlled by client initiated \gls{pagination}. The client provides a limit and an offset when requesting a collection in order to initiate \gls{pagination}.
 
 \paragraph{Operations}
-In order to interact with the server a client has to know which operations the server supports. Hydra exposes all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with it without any prior knowledge about the concrete API implementation. \\
+In order to interact with the server, a client has to know which operations the server supports. Hydra exposes all information necessary to build and invoke operations. This allows any client that understands Hydra to interact with it without any prior knowledge about the concrete API implementation. \\
 This part is not fully specified yet at the time of writing. \footnote{We had to directly communicate with Hydra core members and reverse engineer tools in the Hydra ecosystem in order to understand how Hydra operations are supposed to work.}
 
 \subsection{Analysis of design languages}

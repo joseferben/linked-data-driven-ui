@@ -1,8 +1,8 @@
 \section{Proof of concept}\label{sec:proofofconcept}
-This chapter defines two real world use cases, explains their implementations and shows the implementation of the UI framework.
+This chapter defines two real-world use cases, explains their implementations and shows the implementation of the UI framework.
 
 \subsection{Methodology}
-This sections describe the methodological approach to achieve the items listed in the paragraph \ref{sec:scope}.
+This section describes the methodological approach to achieve the items listed in section \ref{sec:scope}.
 
 \paragraph{Definition of major design goals}
 Major design goals of the UI framework are directly influenced by non-functional requirements. We consider the broader scope of UI development in order to obtain those requirements. This includes analysis of:
@@ -19,8 +19,8 @@ From contemporary solutions and tools for UI development as discussed in \ref{se
 \paragraph{Specification of the proof of concept}
 The section defines the architecture and design of the proof of concept.
 
-\paragraph{Definition of real world use cases}
-By defining real world applications for the UI framework we discover user roles and user stories.
+\paragraph{Definition of real-world use cases}
+By defining real-world applications for the UI framework we discover user roles and user stories.
 
 \paragraph{Implementation of the proof of concept driven by use cases}
 The UI framework is developed incrementally use case after use case. The major design goals are respected. We expect to gain theoretical insights while implementing both the UI framework and the HTTP APIs.
@@ -29,7 +29,7 @@ The UI framework is developed incrementally use case after use case. The major d
 The following design goals should be met by the UI framework. For each design goal we discuss the goal itself, the strategy to meet it and its evaluation.
 
 \subsubsection{Play nicely with others}\label{sec:playnice}
-As discussed in sections \ref{graphql} and \ref{sec:soap}, GraphQL and SOAP don't play nicely with others which is one of their major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
+As discussed in sections \ref{sec:soap} and \ref{graphql}, GraphQL and SOAP don't play nicely with others which is one of their major weaknesses. Playing nicely with others is the most important design goal of the UI framework because it allows to reuse and build on top of existing research and work.
 It is important to respect standards in order to build on top of the Richardson Maturity Model. This design goal drove the choice of JSON-LD as serialization format for \gls{linkeddata}.
 
 We acknowledge the widespread use of HTTP and JSON as data exchange format and achieve this design goal by conforming to web standards and \textbf{extending} existing tooling. JSON-LD allows us to stay compatible with all tools consuming and producing JSON.
@@ -58,6 +58,9 @@ A big market share of the platform increases the chances that UI developers are 
 
 An established and widely adopted web stack is Node, the NPM (Node Package Manager) ecosystem together with React. This platform is used to implement the UI framework.
 
+\subsubsection{Summary}
+Table \ref{tab:designgoals} summarizes the design goals.
+
 \begin{table}[!htb]
   \begin{center}
     \begin{tabular}{|l|l|}
@@ -85,7 +88,7 @@ We define two real-world use cases that cover the two main capabilities of \text
 The proof of concept for the UI framework consists of several components as shown in figure \ref{fig:pocarchitecture}.
 
 \paragraph{Hydra client}
-The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The most complete Hydra client is Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}} uses TypeScript \footnote{TypeScript is a statically typed language developed by Microsoft that compiles to JavaScript. \url{https://www.typescriptlang.org/}}. TypeScript supports JSON and JSON-LD as first class citizens.
+The Hydra client is a wrapper around the Hydra HTTP API. It takes care of serializing Hydra resources, fetching Hydra documentation and invoking operations. The most complete Hydra client is Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}} using TypeScript \footnote{TypeScript is a statically typed language developed by Microsoft that compiles to JavaScript. \url{https://www.typescriptlang.org/}}. TypeScript supports JSON and JSON-LD as first-class citizens.
 
 \paragraph{Infrastructure}
 The infrastructure allows UI developers to plug in their own components, it fetches data from the server using the Hydra client and it applies the components by providing them the data returned by the Hydra client. This component glues all other components together.
