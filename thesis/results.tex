@@ -2,7 +2,8 @@
 In the following paragraph we evaluate the proof of concept for the UI framework. We examine whether the design goals have been met and we analyze the change in complexity.
 
 \subsection{Methodology}
-In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are assigned. To gauge how complexity has been effected we use scores between -3 and 3.
+In order to evaluate the UI framework and its concepts we are using two scoring systems. To asses whether goals have been met, scores between 0 and 3 are assigned as described in table \ref{tab:designgoalsscore}. To gauge how complexity has been effected we use scores between -3 and 3 as shown in table \ref{tab:complexityscore}. \\
+Finally, we list remarkable findings that came up during development of the proof of concept, during the usage of it or during the usage of the resulting UI.
 
 \begin{table}[!htb]
   \begin{center}
@@ -20,6 +21,7 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
       \hline
     \end{tabular}
     \caption{Scale to asses whether a design goal was met.}
+    \label{tab:designgoalsscore}
   \end{center}
 \end{table}
 
@@ -45,6 +47,7 @@ In order to evaluate the UI framework and its concepts we are using two scoring 
       \hline
     \end{tabular}
     \caption{Scale of the effect on complexity by using the UI framework.}
+    \label{tab:complexityscore}
   \end{center}
 \end{table}
 
@@ -127,7 +130,7 @@ This allows UI developers to think in terms of data types and self-contained com
 \paragraph{Learning curve}
 The learning curve of the UI framework is equals roughly the sum of the learning curves of JSON-LD, React and Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
 Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering non-interactive UIs, knowledge about the two special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
-Although Alcaeus hides implementation details of Hydra, UI developers should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
+Although Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}} hides implementation details of Hydra, UI developers should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
 The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem of tools covering these topics - their use comes with cognitive overhead. Using the UI framework, developers can focus on learning React without being concerned with those topics.
 
 \paragraph{Summary}
@@ -245,3 +248,13 @@ Complexity caused by control is reduced slightly with \textbf{a score of 1}.
     \label{tab:complexitysummary}
   \end{center}
 \end{table}
+
+\subsection{Remarks}
+In this section we discuss Hydra as \gls{hateoas} specification and the performance of the resulting UI with regards to Risk R1 and Risk R6 shown in the risk analysis \ref{tab:riskanalysis}.
+
+\subsubsection{Completeness of the Hydra specification (Risk R1)}
+The specification is not complete at the time of writing. There is substantial amount of information missing regarding to operations and their usage. This risk was mitigated by using the Hydra client Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}}.
+
+\subsubsection{Performance of the UI (Risk R6)}
+The JSON-LD operations performed on the client have no noticeable impact on the perceived performance of the UI. The resolution of the context, before those JSON-LD operations are performed, add a slight overhead. This overhead includes additional requests to vocabularies like Schema.org to resolve the linked data. \\
+The stability of linked data vocabularies allow for aggressive caching. Only the page load of the UI is noticeable slower, the context of the following requests is cached by the browser.

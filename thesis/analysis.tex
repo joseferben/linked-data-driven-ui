@@ -164,9 +164,9 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       \hline
       \textbf{Probability of occurrence} & 3 \\
       \hline
-      \textbf{Severity} & 4 \\
+      \textbf{Severity} & 2 \\
       \hline
-      \textbf{Risk Factor} & 12 \\
+      \textbf{Risk Factor} & 6 \\
       \hline
       \textbf{Description} & \begin{tabular}[x]{@{}l@{}}JSON-LD operations as discussed in section \ref{jsonld} require multiple \\ requests per user request. This adds some overhead to \\ the client-server communication which can decrease performance. \\ If those additional requests can not be mitigated by caching, the \\ overhead might affect the \gls{ux}. \end{tabular} \\
       \hline
@@ -181,11 +181,11 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       \hline
       \textbf{ID} & \textbf{Risk Factor} & \textbf{Title} \\
       \hline
-      \rowcolor{red}
-      R6 & 12 & Linked data-driven UIs are slow \\
       \hline
       \rowcolor{yellow}
       R1 & 8 & Incomplete HATEOAS specification \\
+      \hline
+      R6 & 6 & Linked data-driven UIs are slow \\
       \hline
       R5 & 4 & Lack of design language implementations \\
       \hline
@@ -196,7 +196,7 @@ Furthermore, decisions that are made in section \ref{sec:proofofconcept} are bas
       R4 & 3 & Lack of JSON-LD tooling \\
       \hline
     \end{tabular}
-    \caption{The result of the risk analysis shows the list of all risks sorted descending by their total risk factor. R1 and R6 might have a large impact on design goals and decisions.}
+    \caption{The result of the risk analysis shows the list of all risks sorted descending by their total risk factor. R1 have a large impact on on the success of the project.}
     \label{tab:riskanalysis}
   \end{center}
 \end{table}
