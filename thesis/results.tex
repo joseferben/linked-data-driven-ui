@@ -83,7 +83,7 @@ Documentation is served using the meta data mechanism of Hydra. The response hea
 As the current API follows RESTful principles, the concepts of resources and HTTP methods exist. Resources and HTTP methods are directly mapped to Hydra resources and inline operations using the same HTTP method. This change requires careful design as it might break existing consumers. Migrating existing HTTP methods to Hydra in a non-breaking way might lead to a non-idiomatic use of Hydra operations. This approach could serve as a stepping stone towards using the features of Hydra to its full extent.
 
 \paragraph{Summary}
-Due to choice of HATEOAS specification and \gls{linkeddata} format, it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2.5}.
+Due to choice of HATEOAS specification and \gls{linkeddata} format, it is almost straightforward to upgrade existing RESTful APIs returning JSON. The \textbf{score is 2}.
 
 \subsubsection{Customizability}
 In order to assess the customizability of the UI framework, we compare the set of UIs that can be implemented using the UI framework with the set of UIs that can be implemented using tools like React.
@@ -128,15 +128,13 @@ Listing \ref{lst:componentapi} shows the apartment renderer of the apartment use
 This allows UI developers to think in terms of data types and self-contained components. Developing isolated components without thinking about mapping data to children components reduces \gls{cognitive load}.
 
 \paragraph{Learning curve}
-The learning curve of the UI framework is equals roughly the sum of the learning curves of JSON-LD, React and Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
+The learning curve of the UI framework equals roughly the sum of the learning curves of JSON-LD, React and Hydra. The knowledge required to create and register custom renderers is trivial and can be neglected in this discussion. \\
 Superficial knowledge about JSON-LD is sufficient to use the UI framework. If the developer is only concerned with rendering non-interactive UIs, knowledge about the two special JSON-LD properties like \lstinline{@type} and \lstinline{@id} is enough. \\
 Although Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}} hides implementation details of Hydra, UI developers should know about operations, classes, documentation and collections in order to create interactive UIs. Deep understanding of Hydra and the Hydra client Alcaeus are required for debugging. \\
 The learning curve of using React with the UI framework is flat compared to using React standalone. The developer doesn't have to care about topics like state management and client side routing. React has a mature ecosystem of tools covering these topics - their use comes with cognitive overhead. Using the UI framework, developers can focus on learning React without being concerned with those topics.
 
 \paragraph{Summary}
 The learning curve to implement non-interactive UIs is minimal. The component API and renderer registering are simple - the developer can focus on non-infrastructure topics. Implementing and debugging interactive UIs requires a high level of understanding of Hydra. We assess the score of developer ergonomics \textbf{to be 2}.
-
-\subsubsection{Summary}
 
 \begin{table}[!htb]
   \begin{center}
@@ -146,7 +144,7 @@ The learning curve to implement non-interactive UIs is minimal. The component AP
       \hline
       D1 & Play nicely with others & 3 \\
       \hline
-      D2 & Straightforward upgrade path & 2.5 \\
+      D2 & Straightforward upgrade path & 2 \\
       \hline
       D3 & Customizability & 3 \\
       \hline
@@ -163,7 +161,7 @@ This section analyzes whether and how development with the UI framework affects 
 
 \paragraph{Baseline scenario} We describe a baseline scenario where a development team is working on a RESTful HTTP API that returns JSON and on a \gls{frontend} using React. They use Swagger \footnote{Swagger is a tool for documentation and development of HTTP APIs. \url{https://swagger.io/}} to generate and serve API documentation.
 
-We assess various types of software complexities in order to gauge the change in complexity from the baseline scenario to scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
+We assess various types of software complexities in order to gauge the change in complexity from the baseline scenario to a scenario using the UI framework and Hydra. We assume that a change in software complexity is a similar change in software development cost.
 
 \subsubsection{Essential Complexity}
 Brooks gives \textit{Complexity}, \textit{Conformity}, \textit{Changeability} and \textit{Invisibility} as the four properties of software causing Essential Complexity \citep{nosilverbullet}.
@@ -171,7 +169,7 @@ Brooks gives \textit{Complexity}, \textit{Conformity}, \textit{Changeability} an
 \paragraph{Complexity caused by Invisibility}
 \textit{``Software is invisible and unvisualizable. Geometric abstractions are powerful tools. The floor plan of a building helps both architect and client evaluate spaces, traffic flows, views. Contradictions and omissions become obvious. Scale drawings of mechanical parts and stick-figure models of molecules, although abstractions, serve the same purpose. A geometric reality is captured in a geometric abstraction. \\ The reality of software is not inherently embedded in space. Hence, it has no ready geometric representation in the way that land has maps, silicon chips have diagrams, computers have connectivity schematics. As soon as we attempt to diagram software structure, we find it to constitute not one, but several, general directed graphs superimposed one upon another. The several graphs may represent the flow of control, the flow of data, patterns of dependency, time sequence, name-space relationships. These graphs are usually not even planar, much less hierarchical. Indeed, one of the ways of establishing conceptual control over such structure is to enforce link cutting until one or more of the graphs becomes hierarchical.''} \citep[p.~4]{nosilverbullet}
 
-The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as a tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility slightly} by providing these visualizations out of the box.
+The development team starting out with the Hydra API and the UI framework is able to render a fully functional UI without spending any development effort. JSON-LD is rendered as a tree and relationships between resources are apparent. The Hydra renderer displays collections of data as tables. In the baseline scenario, developers have to spend a considerable amount of effort on infrastructure before they can render tables. The UI framework \textbf{increases visibility slightly} by providing these visualizations out of the box.
 
 We asses the improvement in complexity caused by Invisibility with a \textbf{score of 1}.
 
@@ -192,7 +190,7 @@ The cost of change in the client and the UI is \textbf{drastically} reduced. \te
 \paragraph{Complexity caused by Complexity}
 \textit{``The complexity of software is an essential property, not an accidental one. Hence, descriptions of a software entity that abstract away its complexity often abstract away its essence. For three centuries, mathematics and the physical sciences made great strides by constructing simplified models of complex phenomena, deriving properties from the models, and verifying those properties by experiment. This paradigm worked because the complexities ignored in the models were not the essential properties of the phenomena. It does not work when the complexities are the essence.''} \citep[p.~3]{nosilverbullet}
 
-The gist of this property is that complexity breeds complexity. If a software system becomes complex, it becomes harder to add new components without code duplication. Due to the existing complexity it might be hard to understand the code. \\ Decreasing the complexity by reducing the impact of the other three properties improves this point by definition.
+The gist of this property is that complexity breeds complexity. If a software system becomes complex, it becomes harder to add new components without code duplication. Due to the existing complexity, it might be hard to understand the code. \\ Decreasing the complexity by reducing the impact of the other three properties improves this point by definition.
 
 This software property is not orthogonal to the other three. It is not possible to gauge the effect on complexity caused by complexity using the UI framework.
 
@@ -250,11 +248,11 @@ Complexity caused by control is reduced slightly with \textbf{a score of 1}.
 \end{table}
 
 \subsection{Remarks}
-In this section we discuss Hydra as HATEOAS specification and the performance of the resulting UI with regards to Risk R1 and Risk R6 shown in the risk analysis \ref{tab:riskanalysis}.
+In this section we discuss Hydra as the HATEOAS specification and the performance of the resulting UI with regards to Risk R1 and Risk R6 shown in the risk analysis \ref{tab:riskanalysis}.
 
 \subsubsection{Completeness of the Hydra specification (Risk R1)}
-The specification is not complete at the time of writing. There is substantial amount of information missing regarding to operations and their usage. This risk was mitigated by using the Hydra client Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}}.
+The specification is not complete at the time of writing. There is substantial amount of information missing regarding operations and their usage. This risk was mitigated by using the Hydra client Alcaeus \footnote{\url{https://github.com/wikibus/Alcaeus}}.
 
 \subsubsection{Performance of the UI (Risk R6)}
 The JSON-LD operations performed on the client have no noticeable impact on the perceived performance of the UI. The resolution of the context, before those JSON-LD operations are performed, add a slight overhead. This overhead includes additional requests to vocabularies like \url{Schema.org} to resolve the linked data. \\
-The stability of linked data vocabularies allow for aggressive caching. Only the page load of the UI is noticeable slower, the context of the following requests is cached by the browser.
+The stability of linked data vocabularies allows for aggressive caching. Only the page load of the UI is noticeably slower, the context of the following requests is cached by the browser.

@@ -1,7 +1,7 @@
 \section{Conclusion}\label{conclusion}
 
 \subsection{Conclusion of the UI framework}
-We conclude by analyzing the the results of chapter \ref{sec:results}.
+We conclude by analyzing the results of chapter \ref{sec:results}.
 
 \begin{table}[!htb]
   \begin{center}
@@ -11,7 +11,7 @@ We conclude by analyzing the the results of chapter \ref{sec:results}.
       \hline
       D1 & Play nicely with others & 3 \\
       \hline
-      D2 & Straightforward upgrade path & 2.5 \\
+      D2 & Straightforward upgrade path & 2 \\
       \hline
       D3 & Customizability & 3 \\
       \hline
@@ -47,7 +47,7 @@ We conclude by analyzing the the results of chapter \ref{sec:results}.
 \end{table}
 
 \subsection{Review}
-The design goals are mostly met. The UI framework plays nicely with existing HTTP and JSON tooling due to the use of JSON-LD. The upgrade path of an existing system with a JSON HTTP API and a client to Hydra and the UI framework is straightforward. The UI framework is highly customizable. It is possible to do traditional web UI development but the framework guides developers to create a \gls{console} rather than the usual app. The development workflow using the default renderers is ergonomic. \\
+The design goals are mostly met. The UI framework plays nicely with existing HTTP and JSON tooling due to the use of JSON-LD. The upgrade path of an existing system with a JSON HTTP API and a client to Hydra and the UI framework is straightforward. The UI framework is highly customizable. It is possible to do traditional web UI development but the framework guides developers to create a \gls{console} rather than a usual app. The development workflow using the default renderers is ergonomic. \\
 The migration of complex POST requests to Hydra might lead to non-idiomatic use of Hydra operations. There is also a non-trivial learning curve when it comes to Hydra - both on the consumer and producer side. This is especially the case if the UI is interactive.
 
 The complexity is reduced compared to contemporary UI development not making use of \gls{linkeddata} and HATEOAS as described in section \ref{problem}. This is mostly due to eradicating application state in the client and allowing the API to evolve with very little friction. In general, the \gls{cognitive load} is reduced by providing the developer with this framework of mapping \gls{linkeddata} types to components.
@@ -57,7 +57,7 @@ According to table \ref{tab:summarycomplexity} there is a positive net total of 
 According to the definition of Essential Complexity by Brooks it is not possible to get rid it. C0, C1, C2 and C3 are Essential Complexity and there is a reduction in total. \\
 Our analysis considered the point of view of UI developers - not of developers implementing the Hydra API. Complexity is reduced in the client while it increased on the server.
 
-Setup of Hydra on the server side brings nonnegligible overhead. Serialization of the data model and routing of operations have to be considered. In more complex use cases, it is not sufficient to just serialize the domain model to JSON-LD. Since the client should not contain business logic it is not able to denormalize data on its own. The server has to consider \textbf{how the data is consumed and it has to denormalize it accordingly}. The Hydra API implementation contains knowledge about how the end user interacts with the system because the client is merely a \gls{console} that holds no state. \\
+Setting up Hydra on the server side brings nonnegligible overhead. Serialization of the data model and routing of operations have to be considered. In more complex use cases, it is not sufficient to just serialize the domain model to JSON-LD. Since the client should not contain business logic, it is not able to denormalize data on its own. The server has to consider \textbf{how the data is consumed and it has to denormalize it accordingly}. The Hydra API implementation contains knowledge about how the end user interacts with the system because the client is merely a \gls{console} that holds no state. \\
 Not often are developers working on the \gls{backend} the same developers designing the \gls{ux}. \gls{ux} designers and \gls{ux} developers are required to contribute on HTTP API and data model level. In contemporary UI development the HTTP API often represents the boundary between the team that focuses on the user and how the user is interacting with the system and the team that focuses on data modeling. The approach using HATEOAS and a Hydra \gls{console} blurs this boundary.
 
 Nevertheless, complexity is contained on the server in a single place. It is not obvious why \gls{ux} knowledge can not exist in the server on a generic level. The clients that are developed using the UI framework implement the \gls{ux} by providing knowledge about graphics, design, styling and usability. The use of Hydra and the UI framework \textbf{allow the complexity to be managed on the server}.
